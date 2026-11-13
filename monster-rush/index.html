@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monster Rush</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b0957; --tileBg:#1c1a6e; --brand:#c8323c; --brand2:#a5242d;
+    --cream:#f3ead9; --paper:#faf6ee; --card:#ffffff; --yellow:#ffd257; --mint:#3ddc84;
+    --ink:#0b0957; --muted:#55537e; --ok:#14a35a;
+    --display:"Archivo","Arial Black",Impact,sans-serif; --mono:"Space Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
+  button{font:inherit;cursor:pointer;border:0;color:inherit}
+  a{color:var(--navy);text-decoration-color:var(--brand);text-underline-offset:3px}
+  .hidden{display:none!important}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 48px}
+  .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
+
+  /* ---------- monsters ---------- */
+  .mon svg{display:block;width:100%;height:auto;overflow:visible}
+  .mon .eye{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
+  .mon .arm.l{transform-box:fill-box;transform-origin:top right}
+  .mon .arm.r{transform-box:fill-box;transform-origin:top left}
+  .mon svg.joy .arm.l{animation:waveL .3s ease-in-out infinite alternate}
+  .mon svg.joy .arm.r{animation:waveR .3s ease-in-out infinite alternate}
+  @keyframes blink{0%,93%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
+  @keyframes waveL{to{transform:rotate(40deg)}}
+  @keyframes waveR{to{transform:rotate(-40deg)}}
+  .bob{animation:bob 2.4s ease-in-out infinite}
+  @keyframes bob{50%{transform:translateY(-8px)}}
+
+  /* ---------- Hero ---------- */
+  .hero{display:grid;grid-template-columns:1.25fr 1fr;border:2px solid var(--navy);border-radius:26px;overflow:hidden;margin-bottom:22px;box-shadow:6px 6px 0 var(--navy)}
+  .hero .l{background:var(--navy);color:#fff;padding:30px 30px 34px}
+  .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
+  .hero h1{margin:14px 0 6px;line-height:.86;font-family:var(--display);font-weight:900;font-size:clamp(58px,10vw,124px);letter-spacing:-.02em;text-transform:uppercase}
+  .hero h1 .w2{display:block;color:var(--brand);font-stretch:70%}
+  .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:32ch}
+  .hero .r{background:#7fd6a6;position:relative;display:flex;align-items:flex-end;justify-content:center;gap:2%;padding:60px 18px 20px;min-height:230px;overflow:hidden}
+  .hero .r::after{content:"";position:absolute;left:-10%;right:-10%;bottom:-40px;height:90px;border-radius:50%;background:#5cc58b}
+  .hero .r .mon{position:relative;z-index:1;width:23%;filter:drop-shadow(4px 4px 0 rgba(11,9,87,.85))}
+  .hero .r .mon:nth-child(2){animation-delay:-.6s} .hero .r .mon:nth-child(3){animation-delay:-1.2s} .hero .r .mon:nth-child(4){animation-delay:-1.8s}
+  .sticker{position:absolute;z-index:2;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
+  .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
+  .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
+  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--card);border:2px solid var(--navy);color:var(--navy);padding:10px 18px;border-radius:999px;font-weight:700;font-size:16px}
+  .chip:hover{background:var(--cream)}
+  .chip.on{background:var(--navy);color:#fff}
+  .chip.num{min-width:58px;font-size:22px;font-family:var(--mono)}
+  .chip.unit{font-size:14px;padding:8px 14px;background:var(--paper);color:var(--muted);border-color:#c9c6dd}
+  .chip.unit.on{background:var(--yellow);color:var(--navy);border-color:var(--navy)}
+  .chip.unit small{font-family:var(--mono);opacity:.7}
+  .row{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+  .mini{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .mini button{background:var(--card);border:2px solid var(--navy);border-radius:999px;padding:7px 16px;font-weight:700;font-size:14px}
+  .mini button:hover{background:var(--cream)}
+  .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
+  #unitCount{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+  .team-pick{display:flex;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--navy);border-radius:20px;padding:10px 14px;border-top:10px solid var(--c)}
+  .team-pick .mon{width:70px;flex:none;cursor:pointer;transition:transform .15s}
+  .team-pick .mon:hover{transform:scale(1.08) rotate(-4deg)}
+  .team-pick .side{flex:1;min-width:0}
+  .team-pick input{width:100%;background:#fff;border:2px solid var(--navy);border-radius:999px;padding:7px 12px;font:inherit;font-size:17px;font-weight:700;color:var(--navy);outline:none}
+  .team-pick input::placeholder{color:#8e8cae}
+  .team-pick .swap{margin-top:6px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;background:transparent;color:var(--muted);text-decoration:underline}
+  .opt{display:flex;align-items:center;gap:10px;font-weight:700}
+  .opt select{font:inherit;font-size:16px;padding:7px 12px;border-radius:999px;border:2px solid var(--navy);background:var(--paper);color:var(--navy)}
+  .switch{display:flex;align-items:center;gap:8px;font-weight:700;cursor:pointer}
+  .switch input{width:20px;height:20px;accent-color:var(--navy)}
+  .start-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .btn{padding:14px 26px;border-radius:999px;font-weight:800;font-size:17px;border:2px solid var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
+  .btn:active{transform:translate(3px,3px);box-shadow:none!important}
+  .btn-red{background:var(--brand);color:#fff;box-shadow:4px 4px 0 var(--navy)}
+  .btn-red:hover{background:var(--brand2)}
+  .btn-plain{background:var(--card);color:var(--navy)}
+  .btn-plain:hover{background:var(--cream)}
+  .btn-big{font-size:22px;padding:18px 40px}
+
+  /* ---------- Game ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .pill{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:2px solid var(--navy);border-radius:999px;padding:8px 16px;background:var(--card)}
+  .topbar .actions{display:flex;gap:8px}
+  .topbar .btn{font-size:14px;padding:8px 16px}
+
+  /* race track */
+  .track{background:var(--navy);border-radius:24px;padding:16px 18px 10px;box-shadow:6px 6px 0 var(--brand);margin-bottom:20px;position:relative}
+  .track::before{content:"MONSTER RACE";position:absolute;top:12px;left:20px;font-family:var(--mono);font-weight:700;letter-spacing:.3em;color:var(--yellow);font-size:12px}
+  .lane{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:end;padding-top:18px}
+  .lane + .lane{border-top:1px dashed #2f2c8f}
+  .lane .who{display:flex;align-items:center;gap:8px;color:#fff;padding-bottom:10px;min-width:0}
+  .lane .who .dot{width:14px;height:14px;border-radius:50%;background:var(--c);border:2px solid #fff;flex:none}
+  .lane .who .nm{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lane .who .sc{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--yellow);font-size:20px}
+  .lane.now .who .nm{color:var(--yellow)}
+  .road{position:relative;height:96px}
+  .squares{position:absolute;left:0;right:0;bottom:6px;height:22px;display:flex;gap:2px}
+  .squares span{flex:1;border-radius:5px;background:#24218a}
+  .squares span:nth-child(even){background:#2d2a9c}
+  .squares span.done{background:var(--c);opacity:.85}
+  .squares span:first-child{background:#4a47b5}
+  .squares span:last-child{background:repeating-conic-gradient(#fff 0 25%,#111 0 50%) 50%/10px 10px;opacity:1}
+  .runner{position:absolute;bottom:14px;width:66px;transform:translateX(-50%);transition:left .55s cubic-bezier(.4,1.4,.6,1);z-index:2}
+  .runner .mon{transform-origin:bottom center}
+  .runner.hop .mon{animation:hop .55s ease-out}
+  .runner.skip .mon{animation:skip .5s ease-out}
+  .runner.sad .mon{animation:droop 1s ease}
+  .runner.cheer .mon{animation:cheer .7s ease 3}
+  @keyframes hop{40%{transform:translateY(-38px) rotate(-8deg)}70%{transform:translateY(0) scale(1.1,.88)}100%{transform:none}}
+  @keyframes skip{30%{transform:translateY(-12px)}60%{transform:translateY(0) scale(1.06,.92)}80%{transform:translateY(-5px)}}
+  @keyframes droop{15%,45%,75%{transform:translateX(-5px) scale(1,.92)}30%,60%{transform:translateX(5px) scale(1,.92)}100%{transform:none}}
+  @keyframes cheer{50%{transform:translateY(-24px) rotate(6deg)}}
+
+  /* flashcard stage */
+  .stage{display:grid;grid-template-columns:1fr minmax(260px,330px);gap:20px;align-items:start}
+  .cardzone{background:var(--card);border:2px solid var(--navy);border-radius:26px;box-shadow:6px 6px 0 var(--navy);padding:20px;text-align:center;position:relative}
+  .turnline{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(22px,3vw,32px);margin:0 0 4px}
+  .turnline span{color:#fff;background:var(--c);padding:0 10px;border-radius:8px}
+  .counter{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .flash{position:relative;width:min(330px,72vw);aspect-ratio:4/3.2;margin:16px auto 12px;border-radius:24px;border:3px solid var(--navy);background:#fff;box-shadow:8px 8px 0 var(--c,var(--brand));display:grid;place-items:center;font-size:clamp(90px,13vw,150px);line-height:1;user-select:none}
+  .flash.back{background:var(--navy) repeating-linear-gradient(45deg,transparent 0 14px,rgba(255,255,255,.06) 14px 28px);color:var(--yellow);font-family:var(--display);font-weight:900}
+  .flash.flip{animation:cardflip .35s ease-out}
+  @keyframes cardflip{from{transform:rotateY(80deg) scale(.9)}}
+  .flash .word{position:absolute;bottom:10px;left:0;right:0;font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:.1em;color:var(--muted)}
+  .flash .peek{position:absolute;top:8px;right:10px;font-size:13px;font-family:var(--mono);font-weight:700;background:var(--paper);border:2px solid #c9c6dd;color:var(--muted);border-radius:999px;padding:3px 10px}
+  .flash.small{font-size:clamp(46px,7vw,76px)}
+  .fb{position:absolute;inset:0;display:grid;place-items:center;font-size:120px;pointer-events:none;opacity:0}
+  .fb.show{animation:fb .6s ease-out}
+  @keyframes fb{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.1)}100%{opacity:0;transform:scale(1)}}
+  .timer{height:14px;background:#e9e6f4;border:2px solid var(--navy);border-radius:999px;overflow:hidden;margin:4px auto 16px;max-width:420px}
+  .timer div{height:100%;width:100%;background:var(--mint);transition:width .25s linear}
+  .timer.low div{background:var(--brand)}
+  .timeleft{font-family:var(--mono);font-weight:700;font-size:14px;margin-top:-10px;margin-bottom:12px;color:var(--muted)}
+  .judge{display:flex;justify-content:center;flex-wrap:wrap;gap:14px}
+  .judge .btn{font-size:24px;padding:16px 30px;color:#fff;font-family:var(--display);font-weight:900;text-transform:uppercase;box-shadow:4px 4px 0 var(--navy)}
+  .judge .btn small{display:block;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.1em;opacity:.8}
+  .b-ok{background:var(--ok)} .b-bad{background:var(--brand)} .b-pass{background:var(--yellow);color:var(--navy)!important}
+  .ready h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(26px,4vw,40px);margin:6px 0 4px}
+  .ready p{margin:0 0 16px;color:var(--muted)}
+  .side-panel{background:var(--navy);color:#fff;border-radius:22px;padding:18px;box-shadow:6px 6px 0 var(--brand)}
+  .side-panel h3{margin:0 0 10px;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--yellow)}
+  .side-panel .big{display:flex;align-items:flex-end;gap:10px}
+  .side-panel .big .mon{width:110px}
+  .tally{display:flex;gap:8px;margin:12px 0;font-family:var(--mono);font-weight:700}
+  .tally span{flex:1;text-align:center;border-radius:12px;padding:8px 4px;font-size:20px}
+  .tally .t-ok{background:var(--ok)} .tally .t-bad{background:var(--brand)} .tally .t-pass{background:var(--yellow);color:var(--navy)}
+  .tally small{display:block;font-size:10px;letter-spacing:.12em;font-weight:400}
+  .log{display:flex;flex-wrap:wrap;gap:6px;max-height:210px;overflow:auto}
+  .log b{font-family:var(--mono);font-size:13px;font-weight:700;border-radius:999px;padding:4px 10px;background:#24218a}
+  .log b.ok{background:var(--ok)} .log b.bad{background:var(--brand)} .log b.pass{background:var(--yellow);color:var(--navy)}
+  .turnend h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,4vw,44px);margin:6px 0}
+  .turnend .why{font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--brand);font-weight:700}
+
+  /* ---------- End ---------- */
+  .end{text-align:center}
+  .end h1{font-family:var(--display);font-weight:900;font-size:clamp(46px,8vw,96px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;margin:10px 0}
+  .podium{display:flex;justify-content:center;align-items:flex-end;gap:16px;margin:26px auto;max-width:880px;flex-wrap:wrap}
+  .pod{flex:1;min-width:160px;max-width:220px;background:var(--card);border:2px solid var(--navy);border-top:12px solid var(--c);border-radius:20px 20px 10px 10px;padding:12px;box-shadow:6px 6px 0 var(--navy)}
+  .pod .mon{width:120px;margin:-70px auto 0}
+  .pod .medal{font-size:36px}
+  .pod .n{font-family:var(--display);font-size:22px;font-weight:900;text-transform:uppercase;word-break:break-word}
+  .pod .s{font-family:var(--mono);font-size:24px;font-weight:700}
+  .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr} .stage{grid-template-columns:1fr}
+    .lane{grid-template-columns:90px 1fr} .lane .who .nm{font-size:14px} .runner{width:50px}
+    .judge .btn{font-size:20px;padding:14px 20px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="wrap">
+  <div class="hero">
+    <div class="l">
+      <p class="eyebrow">Oxford Games <b>•</b> Super Minds · Vocabulary</p>
+      <h1>Monster<span class="w2">Rush</span></h1>
+      <p>Name the picture, fast! Every right answer moves your monster one step to the finish.</p>
+    </div>
+    <div class="r" id="heroMonsters"><span class="sticker">AGES 6–12</span></div>
+  </div>
+  <div class="marquee"><div><i>CORRECT <b>→</b> ¡BIEN!</i><i>PASS <b>→</b> PASA</i><i>FAST <b>→</b> RÁPIDO</i><i>WINNER <b>→</b> GANADOR</i><i>READY? <b>→</b> ¿LISTOS?</i><i>GO! <b>→</b> ¡YA!</i><i>CORRECT <b>→</b> ¡BIEN!</i><i>PASS <b>→</b> PASA</i><i>FAST <b>→</b> RÁPIDO</i><i>WINNER <b>→</b> GANADOR</i><i>READY? <b>→</b> ¿LISTOS?</i><i>GO! <b>→</b> ¡YA!</i></div></div>
+
+  <div class="panel">
+    <p class="eyebrow">01 · Book</p>
+    <div class="choices" id="bookChoices"></div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">02 · Units</p>
+    <div class="choices" id="unitChoices"></div>
+    <div class="mini">
+      <button id="allUnits">All</button>
+      <button id="noUnits">None</button>
+      <span class="hint" style="margin:0" id="unitCount"></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">03 · Teams &amp; monsters</p>
+    <div class="choices" id="teamCountChoices"></div>
+    <div class="teams-edit" id="teamNames"></div>
+    <div class="hint">Click a monster to change it. If you don't type a name, the team takes the monster's name.</div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">04 · Game options</p>
+    <div class="row">
+      <label class="opt">Rounds
+        <select id="rounds"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+      </label>
+      <label class="opt">Pictures per turn
+        <select id="perTurn"><option>5</option><option>6</option><option>8</option><option>10</option><option>12</option></select>
+      </label>
+      <label class="opt">⏱️ Time per turn
+        <select id="turnSecs"><option value="0">No limit</option><option value="20">20 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option></select>
+      </label>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <label class="switch"><input type="checkbox" id="showWord"> Show the English word on the card</label>
+      <label class="switch"><input type="checkbox" id="sayWord"> Say the word after each answer</label>
+    </div>
+    <div class="hint">In each round every team has one turn. A turn ends when the pictures run out or the time is up. Correct = the monster jumps forward one square · Wrong = the monster is sad · Pass = a little hop, no move.</div>
+  </div>
+
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="startBtn">Start the race! 🏁</button>
+  </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="wrap hidden">
+  <div class="topbar">
+    <span class="pill" id="gameTag"></span>
+    <div class="actions">
+      <button class="btn btn-plain" id="undoBtn" title="Undo the last answer">↩ Undo</button>
+      <button class="btn btn-plain" id="endBtn">Finish</button>
+    </div>
+  </div>
+
+  <div class="track" id="track"></div>
+
+  <div class="stage">
+    <div class="cardzone" id="cardzone">
+      <p class="turnline" id="turnline"></p>
+      <div class="counter" id="counter"></div>
+      <div class="flash" id="flash"></div>
+
+      <div id="readyBox" class="ready">
+        <h2 id="readyTitle">Ready?</h2>
+        <p>Press <b>Go!</b> (or the space bar) when the team is ready.</p>
+        <button class="btn btn-red btn-big" id="goBtn">Go! ▶</button>
+      </div>
+
+      <div id="playBox" class="hidden">
+        <div class="timer" id="timer"><div id="timerBar"></div></div>
+        <div class="timeleft" id="timeLeft"></div>
+        <div class="judge">
+          <button class="btn b-ok" id="okBtn">✔ Correct<small>key 1</small></button>
+          <button class="btn b-bad" id="badBtn">✘ Wrong<small>key 2</small></button>
+          <button class="btn b-pass" id="passBtn">⏭ Pass<small>key 3</small></button>
+        </div>
+      </div>
+
+      <div id="endTurnBox" class="turnend hidden">
+        <div class="why" id="endWhy"></div>
+        <h2 id="endTurnTitle"></h2>
+        <button class="btn btn-red btn-big" id="nextTurnBtn">Next team ➜</button>
+      </div>
+    </div>
+
+    <aside class="side-panel">
+      <h3 id="sideTitle">THIS TURN</h3>
+      <div class="big"><div class="mon" id="sideMon"></div><div id="sideName" style="font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase"></div></div>
+      <div class="tally"><span class="t-ok"><small>CORRECT</small><b id="tOk">0</b></span><span class="t-bad"><small>WRONG</small><b id="tBad">0</b></span><span class="t-pass"><small>PASS</small><b id="tPass">0</b></span></div>
+      <div class="log" id="log"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= END ================= -->
+<section id="end" class="wrap end hidden">
+  <p class="eyebrow">Monster Rush · Race over</p>
+  <h1 id="endTitle"></h1>
+  <div class="podium" id="podium"></div>
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="againBtn">Race again</button>
+    <button class="btn btn-plain" id="backBtn">Change teams or units</button>
+  </div>
+</section>
+
+<script src="../spelling-bee/words.js"></script>
+<script src="monsters.js"></script>
+<script>
+const STORE_KEY = "monster-rush-v1";
+const $ = id => document.getElementById(id);
+function loadStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
+function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){} }
+const store = loadStore();
+const cfg = Object.assign({ book: "sms", teamCount: 2, names: ["","","",""], mons: ["gobo","plum","blinky","tango"],
+  rounds: 3, perTurn: 8, secs: 30, showWord: false, say: true, off: {} }, store.cfg || {});
+cfg.off = cfg.off || {};
+
+// Words edited in Spelling Bee ("Edit words") are used here too
+function bookText(id){
+  try { const sb = JSON.parse(localStorage.getItem("spelling-bee-v1")) || {}; if (sb.custom && sb.custom[id] != null) return sb.custom[id]; } catch(e){}
+  return BOOKS[id].text.trim();
+}
+function parseWords(txt){
+  const units = []; let cur = null;
+  txt.split(/\r?\n/).forEach(raw => {
+    const line = raw.trim();
+    if (line.startsWith("##")) { cur = { name: line.replace(/^#+/, "").trim() || "Words", words: [] }; units.push(cur); return; }
+    if (!line || line.startsWith("#")) return;
+    const m = line.match(/^([A-Za-z][A-Za-z\- ]*[A-Za-z]|[A-Za-z])\s*(.*)$/);
+    if (!m || !m[2].trim()) return;                    // flashcards need a picture
+    if (!cur) { cur = { name: "Words", words: [] }; units.push(cur); }
+    cur.words.push({ w: m[1].trim(), pic: m[2].trim() });
+  });
+  return units.filter(u => u.words.length);
+}
+function unitOn(unit){ return !(cfg.off[cfg.book] || []).includes(unit); }
+const mon = (type, mood, cls = "") => `<div class="mon ${cls}">${monsterSVG(type, mood)}</div>`;
+
+/* ---------- setup ---------- */
+function renderSetup(){
+  $("heroMonsters").innerHTML = '<span class="sticker">AGES 6–12</span>' + MONSTER_ORDER.map(t => mon(t, "happy", "bob")).join("");
+  const bc = $("bookChoices"); bc.innerHTML = "";
+  Object.entries(BOOKS).forEach(([id, b]) => {
+    const el = document.createElement("button");
+    el.className = "chip" + (cfg.book === id ? " on" : ""); el.textContent = b.name;
+    el.onclick = () => { cfg.book = id; renderSetup(); };
+    bc.appendChild(el);
+  });
+  renderUnits();
+  const tc = $("teamCountChoices"); tc.innerHTML = "";
+  [1,2,3,4].forEach(n => {
+    const el = document.createElement("button");
+    el.className = "chip num" + (cfg.teamCount === n ? " on" : ""); el.textContent = n;
+    el.onclick = () => { cfg.teamCount = n; renderSetup(); };
+    tc.appendChild(el);
+  });
+  renderTeamPickers();
+  $("rounds").value = String(cfg.rounds); $("perTurn").value = String(cfg.perTurn); $("turnSecs").value = String(cfg.secs);
+  $("showWord").checked = cfg.showWord; $("sayWord").checked = cfg.say;
+}
+function renderTeamPickers(){
+  const tn = $("teamNames"); tn.innerHTML = "";
+  for (let i = 0; i < cfg.teamCount; i++) {
+    const type = cfg.mons[i], d = document.createElement("div");
+    d.className = "team-pick"; d.style.setProperty("--c", MONSTERS[type].color);
+    d.innerHTML = mon(type, "happy") + '<div class="side"><input maxlength="20"><button class="swap" type="button">change monster ↻</button></div>';
+    const inp = d.querySelector("input");
+    inp.placeholder = MONSTERS[type].name; inp.value = cfg.names[i] || "";
+    inp.oninput = () => { cfg.names[i] = inp.value; };
+    const swap = () => {
+      // next monster that no other team is using (or swap with the team that has it)
+      const used = cfg.mons.slice(0, cfg.teamCount);
+      let k = MONSTER_ORDER.indexOf(type);
+      for (let s = 1; s <= 4; s++) {
+        const cand = MONSTER_ORDER[(k + s) % 4], other = used.indexOf(cand);
+        if (other === -1 || s === 4) { cfg.mons[i] = cand; break; }
+        if (cfg.teamCount === 4) { cfg.mons[other] = type; cfg.mons[i] = cand; break; }
+      }
+      renderTeamPickers();
+    };
+    d.querySelector(".mon").onclick = swap; d.querySelector(".swap").onclick = swap;
+    tn.appendChild(d);
+  }
+}
+function renderUnits(){
+  const uc = $("unitChoices"); uc.innerHTML = "";
+  const units = parseWords(bookText(cfg.book));
+  units.forEach(u => {
+    const el = document.createElement("button");
+    el.className = "chip unit" + (unitOn(u.name) ? " on" : "");
+    el.innerHTML = '<span></span> <small></small>';
+    el.querySelector("span").textContent = u.name; el.querySelector("small").textContent = u.words.length;
+    el.onclick = () => {
+      const off = new Set(cfg.off[cfg.book] || []);
+      off.has(u.name) ? off.delete(u.name) : off.add(u.name);
+      cfg.off[cfg.book] = [...off]; renderUnits();
+    };
+    uc.appendChild(el);
+  });
+  const on = units.filter(u => unitOn(u.name));
+  $("unitCount").textContent = `${on.length} of ${units.length} units · ${on.reduce((s, u) => s + u.words.length, 0)} pictures`;
+}
+function setAllUnits(on){ cfg.off[cfg.book] = on ? [] : parseWords(bookText(cfg.book)).map(u => u.name); renderUnits(); }
+
+/* ---------- sound & voice ---------- */
+let actx = null;
+function tone(freqs, dur = .12, type = "sine", slide = 0){
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    freqs.forEach((f, i) => {
+      const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + i * dur;
+      o.type = type; o.frequency.setValueAtTime(f, t);
+      if (slide) o.frequency.exponentialRampToValueAtTime(f * slide, t + dur);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.22, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + dur + .02);
+    });
+  } catch(e){}
+}
+const sOk = () => tone([660, 880, 1320], .09, "triangle");
+const sBad = () => tone([260, 190], .2, "sawtooth");
+const sPass = () => tone([300], .25, "sine", 2.2);
+const sGo = () => tone([523, 523, 784], .14, "square");
+const sTime = () => tone([880, 660, 440, 330], .16, "square");
+
+let voice = null;
+function pickVoice(){
+  if (!("speechSynthesis" in window)) return;
+  const vs = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang));
+  const score = v => (/natural|neural/i.test(v.name) ? 100 : 0) + (/google/i.test(v.name) ? 60 : 0) + (/en-GB/i.test(v.lang) ? 30 : 0);
+  voice = vs.sort((a, b) => score(b) - score(a))[0] || null;
+}
+if ("speechSynthesis" in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+let player = null;
+function sayWord(word){
+  // real recordings from Spelling Bee; the browser voice is the fallback
+  const speak = () => { if (!("speechSynthesis" in window)) return; speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(word); if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = "en-GB"; u.rate = .9; speechSynthesis.speak(u); };
+  if (player) player.pause();
+  player = new Audio("../spelling-bee/audio/" + word.toLowerCase().replace(/[^a-z]+/g, "-") + ".mp3");
+  player.play().catch(speak);
+}
+
+/* ---------- game ---------- */
+let G = null, undoStack = [], timerId = null, endsAt = 0;
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const team = () => G.teams[G.turn];
+
+function startGame(){
+  cfg.rounds = +$("rounds").value; cfg.perTurn = +$("perTurn").value; cfg.secs = +$("turnSecs").value;
+  cfg.showWord = $("showWord").checked; cfg.say = $("sayWord").checked;
+  store.cfg = cfg; saveStore();
+  const pool = parseWords(bookText(cfg.book)).filter(u => unitOn(u.name)).flatMap(u => u.words);
+  if (!pool.length) { alert("Choose at least one unit with pictures."); return; }
+  G = {
+    teams: Array.from({ length: cfg.teamCount }, (_, i) => ({ name: (cfg.names[i] || "").trim() || MONSTERS[cfg.mons[i]].name, mon: cfg.mons[i], pos: 0, ok: 0, bad: 0, pass: 0 })),
+    deck: shuffle(pool.slice()), di: 0, pool,
+    round: 1, turn: 0, phase: "ready", card: null, shown: 0, log: [], squares: cfg.rounds * cfg.perTurn,
+  };
+  undoStack = [];
+  $("gameTag").textContent = BOOKS[cfg.book].name;
+  show("game"); buildTrack(); render();
+}
+function show(id){ ["setup","game","end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0, 0); }
+
+function buildTrack(){
+  const tr = $("track"); tr.innerHTML = "";
+  G.teams.forEach((t, i) => {
+    const lane = document.createElement("div");
+    lane.className = "lane"; lane.id = "lane" + i; lane.style.setProperty("--c", MONSTERS[t.mon].color);
+    lane.innerHTML = `<div class="who"><span class="dot"></span><span class="nm"></span><span class="sc"></span></div>
+      <div class="road"><div class="squares">${"<span></span>".repeat(G.squares + 1)}</div><div class="runner" id="run${i}">${mon(t.mon, "happy")}</div></div>`;
+    lane.querySelector(".nm").textContent = t.name;
+    tr.appendChild(lane);
+  });
+  updateTrack();
+}
+function updateTrack(){
+  G.teams.forEach((t, i) => {
+    const lane = $("lane" + i), n = G.squares + 1;
+    lane.classList.toggle("now", i === G.turn && G.phase !== "over");
+    lane.querySelector(".sc").textContent = t.pos;
+    lane.querySelectorAll(".squares span").forEach((s, k) => s.classList.toggle("done", k > 0 && k <= t.pos && k < n - 1));
+    $("run" + i).style.left = ((t.pos + .5) / n * 100) + "%";
+  });
+}
+// animate a monster: hop (correct), sad (wrong), skip (pass), cheer (winner)
+function act(i, kind){
+  const r = $("run" + i), t = G.teams[i];
+  r.classList.remove("hop", "sad", "skip", "cheer"); void r.offsetWidth; r.classList.add(kind);
+  const mood = kind === "sad" ? "sad" : kind === "skip" ? "happy" : "joy";
+  r.innerHTML = mon(t.mon, mood);
+  clearTimeout(r._t);
+  if (kind !== "cheer") r._t = setTimeout(() => { r.innerHTML = mon(t.mon, "happy"); r.classList.remove(kind); }, kind === "sad" ? 1200 : 800);
+}
+
+function render(){
+  const t = team(), color = MONSTERS[t.mon].color;
+  $("cardzone").style.setProperty("--c", color);
+  $("turnline").innerHTML = "<span></span>'s turn"; $("turnline").querySelector("span").textContent = t.name;
+  $("counter").textContent = `Round ${G.round} of ${cfg.rounds}` + (G.phase === "play" ? ` · picture ${G.shown} of ${cfg.perTurn}` : "");
+  $("readyBox").classList.toggle("hidden", G.phase !== "ready");
+  $("playBox").classList.toggle("hidden", G.phase !== "play");
+  $("endTurnBox").classList.toggle("hidden", G.phase !== "turnEnd");
+  renderFlash();
+  if (G.phase === "ready") $("readyTitle").textContent = `${t.name}, get ready!`;
+  // side panel
+  const turnLog = G.log.filter(l => l.team === G.turn && l.round === G.round);
+  $("sideMon").innerHTML = monsterSVG(t.mon, G.phase === "turnEnd" ? (turnLog.some(l => l.r === "ok") ? "joy" : "sad") : "happy");
+  $("sideName").textContent = t.name;
+  $("tOk").textContent = turnLog.filter(l => l.r === "ok").length;
+  $("tBad").textContent = turnLog.filter(l => l.r === "bad").length;
+  $("tPass").textContent = turnLog.filter(l => l.r === "pass").length;
+  const lg = $("log"); lg.innerHTML = "";
+  turnLog.forEach(l => { const b = document.createElement("b"); b.className = l.r; b.textContent = (l.r === "ok" ? "✔ " : l.r === "bad" ? "✘ " : "⏭ ") + l.w; lg.appendChild(b); });
+  updateTrack();
+}
+function renderFlash(){
+  const f = $("flash");
+  if (G.phase !== "play" || !G.card) {
+    f.className = "flash back"; f.innerHTML = G.phase === "turnEnd" ? "★" : "?"; return;
+  }
+  const c = G.card, n = typeof Intl !== "undefined" && Intl.Segmenter ? [...new Intl.Segmenter().segment(c.pic)].length : c.pic.length;
+  f.className = "flash" + (n > 1 ? " small" : "");
+  f.innerHTML = '<span class="pic"></span><span class="word hidden"></span><button class="peek" type="button" title="Show the word (for the teacher)">👁 word</button><div class="fb" id="fb"></div>';
+  f.querySelector(".pic").textContent = c.pic;
+  const w = f.querySelector(".word"); w.textContent = c.w;
+  w.classList.toggle("hidden", !cfg.showWord);
+  f.querySelector(".peek").classList.toggle("hidden", cfg.showWord);
+  f.querySelector(".peek").onclick = e => { e.stopPropagation(); w.classList.toggle("hidden"); };
+}
+function flipCard(){ const f = $("flash"); f.classList.remove("flip"); void f.offsetWidth; f.classList.add("flip"); }
+
+function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 80) undoStack.shift(); }
+function drawCard(){
+  if (G.di >= G.deck.length) { G.deck = shuffle(G.pool.slice()); G.di = 0; }
+  G.card = G.deck[G.di++]; G.shown++;
+}
+function go(){
+  if (G.phase !== "ready") return;
+  snapshot();
+  G.phase = "play"; G.shown = 0; drawCard();
+  sGo(); render(); flipCard(); startTimer(cfg.secs);
+}
+function answer(r){
+  if (G.phase !== "play" || !G.card) return;
+  snapshot();
+  const t = team(), w = G.card.w;
+  G.log.push({ team: G.turn, round: G.round, w, r });
+  if (r === "ok") { t.pos++; t.ok++; sOk(); }
+  else if (r === "bad") { t.bad++; sBad(); }
+  else { t.pass++; sPass(); }
+  const fb = $("fb"); if (fb) { fb.textContent = r === "ok" ? "✔" : r === "bad" ? "✘" : "⏭"; fb.style.color = r === "ok" ? "#14a35a" : r === "bad" ? "#c8323c" : "#e0a800"; fb.classList.add("show"); }
+  if (cfg.say) sayWord(w);
+  const i = G.turn;
+  setTimeout(() => {
+    if (G.shown >= cfg.perTurn) { endTurn("All pictures done!"); }
+    else { drawCard(); render(); flipCard(); }
+    act(i, r === "ok" ? "hop" : r === "bad" ? "sad" : "skip");
+  }, 380);
+  updateTrack();
+}
+function endTurn(why){
+  stopTimer();
+  G.phase = "turnEnd"; G.card = null; G.why = why;
+  const t = team(), turnLog = G.log.filter(l => l.team === G.turn && l.round === G.round), moved = turnLog.filter(l => l.r === "ok").length;
+  render();
+  $("endWhy").textContent = why;
+  $("endTurnTitle").textContent = moved ? `${t.name} moved ${moved} square${moved > 1 ? "s" : ""}!` : `Oh no! ${t.name} didn't move.`;
+  const last = G.turn === G.teams.length - 1;
+  $("nextTurnBtn").textContent = last && G.round >= cfg.rounds ? "See the winners 🏆" : last ? `Start round ${G.round + 1} ➜` : `Next team: ${G.teams[G.turn + 1].name} ➜`;
+}
+function nextTurn(){
+  if (G.phase !== "turnEnd") return;
+  const last = G.turn === G.teams.length - 1;
+  if (last && G.round >= cfg.rounds) { finish(); return; }
+  snapshot();
+  if (last) { G.round++; G.turn = 0; } else G.turn++;
+  G.phase = "ready"; G.card = null; G.shown = 0;
+  render();
+}
+function undo(){
+  if (!undoStack.length) return;
+  stopTimer();
+  G = JSON.parse(undoStack.pop());
+  if (G.phase === "play") startTimer(Math.max(5, Math.round(G.timeLeft || cfg.secs)));
+  render();
+  if (G.phase === "turnEnd") endTurn(G.why || "");
+}
+
+function startTimer(secs){
+  stopTimer();
+  const box = $("timer"), lab = $("timeLeft");
+  if (!secs) { box.classList.add("hidden"); lab.textContent = ""; return; }
+  box.classList.remove("hidden", "low");
+  endsAt = Date.now() + secs * 1000;
+  const tick = () => {
+    const left = Math.max(0, (endsAt - Date.now()) / 1000);
+    G.timeLeft = left;
+    $("timerBar").style.width = (left / cfg.secs * 100) + "%";
+    box.classList.toggle("low", left <= 5);
+    lab.textContent = Math.ceil(left) + " s";
+    if (left <= 0) { stopTimer(); sTime(); endTurn("⏰ Time's up!"); }
+  };
+  tick(); timerId = setInterval(tick, 250);
+}
+function stopTimer(){ if (timerId) clearInterval(timerId); timerId = null; }
+
+function finish(){
+  stopTimer(); G.phase = "over";
+  const ranked = G.teams.map((t, i) => ({ ...t, i })).sort((a, b) => b.pos - a.pos || b.ok - a.ok);
+  const top = ranked[0].pos, winners = ranked.filter(t => t.pos === top);
+  $("endTitle").textContent = G.teams.length === 1 ? `${ranked[0].name}: ${top} squares!` : winners.length > 1 ? "It's a tie!" : `${winners[0].name} wins!`;
+  const pod = $("podium"); pod.innerHTML = "";
+  const medals = ["🥇","🥈","🥉","🏅"]; let place = 0;
+  ranked.forEach((t, k) => {
+    if (k > 0 && t.pos < ranked[k - 1].pos) place = k;
+    const d = document.createElement("div");
+    d.className = "pod"; d.style.setProperty("--c", MONSTERS[t.mon].color);
+    d.style.marginTop = (70 + place * 22) + "px";
+    d.innerHTML = mon(t.mon, place === 0 ? "joy" : "happy", place === 0 ? "bob" : "") + `<div class="medal">${medals[Math.min(place, 3)]}</div><div class="n"></div><div class="s">${t.pos} <small style="font-size:13px;letter-spacing:.12em">SQUARES</small></div>`;
+    d.querySelector(".n").textContent = t.name;
+    pod.appendChild(d);
+  });
+  show("end"); confetti(60); sOk();
+}
+function confetti(n = 30){
+  const items = ["⭐","✨","🎉","💚","💜","💙","🧡"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti"; c.textContent = items[i % items.length];
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDuration = 2 + Math.random() * 2 + "s"; c.style.animationDelay = Math.random() * .5 + "s";
+    document.body.appendChild(c); setTimeout(() => c.remove(), 5000);
+  }
+}
+
+/* ---------- events ---------- */
+$("startBtn").onclick = startGame;
+$("allUnits").onclick = () => setAllUnits(true);
+$("noUnits").onclick = () => setAllUnits(false);
+$("goBtn").onclick = go;
+$("okBtn").onclick = () => answer("ok");
+$("badBtn").onclick = () => answer("bad");
+$("passBtn").onclick = () => answer("pass");
+$("nextTurnBtn").onclick = nextTurn;
+$("undoBtn").onclick = undo;
+$("endBtn").onclick = () => { if (confirm("Finish the race now?")) finish(); };
+$("againBtn").onclick = startGame;
+$("backBtn").onclick = () => { renderSetup(); show("setup"); };
+document.addEventListener("keydown", e => {
+  if (!G || $("game").classList.contains("hidden") || e.ctrlKey || e.metaKey || e.altKey) return;
+  const k = e.key;
+  if (G.phase === "ready" && (k === " " || k === "Enter")) go();
+  else if (G.phase === "play" && k === "1") answer("ok");
+  else if (G.phase === "play" && k === "2") answer("bad");
+  else if (G.phase === "play" && k === "3") answer("pass");
+  else if (G.phase === "turnEnd" && (k === " " || k === "Enter")) nextTurn();
+  else return;
+  e.preventDefault();
+});
+
+renderSetup();
+</script>
+</body>
+</html>

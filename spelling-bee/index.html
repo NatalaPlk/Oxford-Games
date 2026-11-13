@@ -33,9 +33,23 @@
   .hero h1{margin:14px 0 6px;line-height:.86;font-family:var(--display);font-weight:900;font-size:clamp(58px,10vw,128px);letter-spacing:-.02em;text-transform:uppercase}
   .hero h1 .w2{display:block;color:var(--brand);font-stretch:70%}
   .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:32ch}
-  .hero .r{background:var(--brand);position:relative;display:grid;place-items:center;padding:26px;min-height:220px;overflow:hidden}
-  .hero .r::after{content:"";position:absolute;left:-20%;right:-20%;bottom:-48%;height:80%;border-radius:50%;background:var(--brand2)}
-  .bee{position:relative;z-index:1;display:inline-block;font-size:clamp(90px,12vw,150px);filter:drop-shadow(6px 6px 0 var(--navy));animation:fly 3s ease-in-out infinite}
+  .hero .r{background:var(--yellow) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0l28 16v32L28 64 0 48V16zM28 64v33' fill='none' stroke='%23f2bd2c' stroke-width='3'/%3E%3C/svg%3E");position:relative;display:grid;place-items:center;padding:26px;min-height:220px;overflow:hidden}
+  .hero .r::after{content:"";position:absolute;left:-20%;right:-20%;bottom:-52%;height:80%;border-radius:50%;background:#ffc629}
+  .bee{position:relative;z-index:1;display:inline-block;filter:drop-shadow(6px 6px 0 rgba(11,9,87,.9));animation:fly 3s ease-in-out infinite}
+  .mascot svg{display:block;width:100%;height:auto;overflow:visible}
+  .hero .mascot{width:clamp(150px,19vw,230px)}
+  .mascot .eye{transform-box:fill-box;transform-origin:center;animation:blink 4.5s infinite}
+  .mascot .wing{transform-box:fill-box;transform-origin:bottom center;animation:flap .35s ease-in-out infinite alternate}
+  @keyframes blink{0%,94%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+  @keyframes flap{to{transform:rotate(var(--fl,-10deg))}}
+  .stage-bee{position:absolute;top:12px;right:16px;width:96px;z-index:2}
+  .stage-bee.happy{animation:hop .5s ease 3}
+  .stage-bee.sad{animation:shake .5s ease}
+  @keyframes hop{50%{transform:translateY(-22px) rotate(-8deg)}}
+  @keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+  .end-bee{display:flex;justify-content:center;align-items:flex-end;gap:4px}
+  .end-bee .mascot{width:150px}
+  .end-bee .trophy{font-size:70px;line-height:1;filter:drop-shadow(4px 4px 0 var(--navy))}
   @keyframes fly{0%,100%{transform:translate(0,0) rotate(-6deg)}50%{transform:translate(10px,-12px) rotate(6deg)}}
   .sticker{position:absolute;z-index:2;top:22px;left:22px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
   .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
@@ -110,7 +124,32 @@
   .tile::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:#08063f}
   .tile.show{animation:flip .45s ease-out both}
   .tile.hint{color:var(--yellow)}
-  .tile.hidden-count{width:auto;padding:0 22px;font-size:26px;letter-spacing:.2em}
+  .tile.typed{background:#fff;color:var(--navy);border-color:#fff}
+  .tile.typed::after{background:#dcd9ee}
+  .tile.typed.extra{background:#ffd9dc}
+  .tile.q{background:var(--brand);border-color:#ff8a92;color:#fff}
+  .tile.cursor{box-shadow:inset 0 -6px 0 var(--yellow);animation:cur 1s steps(2) infinite}
+  @keyframes cur{50%{box-shadow:inset 0 -6px 0 transparent}}
+  .tile.pop{animation:typepop .18s ease-out}
+  @keyframes typepop{from{transform:scale(1.25)}}
+  .keyboard{display:flex;flex-direction:column;align-items:center;gap:6px;margin:6px 0 10px}
+  .keyboard .krow{display:flex;gap:6px;justify-content:center}
+  .key{min-width:clamp(30px,4.6vw,48px);height:clamp(40px,5.4vw,52px);border-radius:10px;background:var(--tileBg);border:2px solid #3a37a0;color:#fff;font-family:var(--mono);font-weight:700;font-size:clamp(17px,2.2vw,22px);text-transform:uppercase;padding:0 6px}
+  .key:hover{background:#2c2a85}
+  .key:active{transform:translateY(2px)}
+  .key.wide{font-family:"Archivo",sans-serif;text-transform:none;font-size:16px;padding:0 16px}
+  .key-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+  .key-actions .check{font-size:20px;padding:10px 30px;color:#fff;border-color:#fff;font-family:var(--display);font-weight:900;text-transform:uppercase}
+  .key-actions .check:disabled{opacity:.4;cursor:not-allowed}
+  .type-help{margin:4px 0 14px;font-size:14px;color:#a9a7d6}
+  .type-help b{color:var(--yellow)}
+  .judge.manual{align-items:center;gap:10px;font-size:14px;color:#a9a7d6}
+  .judge.manual .btn{font-size:14px;padding:7px 16px;box-shadow:none;font-family:"Archivo",sans-serif;text-transform:none}
+  .attempt{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px;margin:-4px 0 16px;font-family:var(--mono);font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#a9a7d6}
+  .attempt .lab{margin-right:8px}
+  .attempt b{display:inline-grid;place-items:center;width:30px;height:36px;border-radius:6px;font-size:20px;color:#fff;letter-spacing:0}
+  .attempt b.ok{background:var(--ok)} .attempt b.no{background:var(--brand)}
+  .filters{margin-top:16px;padding-top:14px;border-top:2px dashed #d9d6ea}
   @keyframes flip{0%{transform:rotateX(90deg)}60%{transform:rotateX(-12deg)}100%{transform:rotateX(0)}}
   .tools{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
   .tool{background:transparent;border:2px solid #fff;color:#fff;border-radius:999px;padding:11px 20px;font-size:18px;font-weight:700}
@@ -155,6 +194,7 @@
   @media (max-width:760px){
     .hero{grid-template-columns:1fr} .hero .r{min-height:160px}
     .judge .btn{font-size:20px;padding:14px 22px} .tool{font-size:16px;padding:9px 14px}
+    .stage-bee{width:64px;top:40px;right:10px} .keyboard .krow{gap:4px} .key{min-width:26px;padding:0 2px}
     .stage::before{left:50%;transform:translateX(-50%)}
   }
 </style>
@@ -171,7 +211,7 @@
     </div>
     <div class="r">
       <span class="sticker">AGES 6–12</span>
-      <div class="bee">🐝</div>
+      <div class="bee mascot" data-mood="happy"></div>
     </div>
   </div>
   <div class="marquee"><div><i>LISTEN <b>→</b> ESCUCHA</i><i>SPELL <b>→</b> DELETREA</i><i>LETTER <b>→</b> LETRA</i><i>CORRECT <b>→</b> ¡BIEN!</i><i>STEAL <b>→</b> ¡ROBA!</i><i>WINNER <b>→</b> GANADOR</i><i>LISTEN <b>→</b> ESCUCHA</i><i>SPELL <b>→</b> DELETREA</i><i>LETTER <b>→</b> LETRA</i><i>CORRECT <b>→</b> ¡BIEN!</i><i>STEAL <b>→</b> ¡ROBA!</i><i>WINNER <b>→</b> GANADOR</i></div></div>
@@ -188,6 +228,19 @@
       <button id="allUnits">All</button>
       <button id="noUnits">None</button>
       <span class="hint" style="margin:0" id="unitCount"></span>
+    </div>
+    <div class="row filters">
+      <label class="opt">Word length
+        <select id="wordLen">
+          <option value="any">Any length</option>
+          <option value="le3">Short: 1–3 letters</option>
+          <option value="4">4 letters</option>
+          <option value="5">5 letters</option>
+          <option value="le5">Up to 5 letters</option>
+          <option value="ge6">Long: 6+ letters</option>
+        </select>
+      </label>
+      <label class="switch"><input type="checkbox" id="picOnly"> Only words with a picture</label>
     </div>
   </div>
 
@@ -239,11 +292,13 @@
   <div class="teams" id="teamsBoard"></div>
 
   <div class="stage" id="stage">
+    <div class="stage-bee mascot" id="stageBee" data-mood="happy"></div>
     <p class="whose" id="whose"></p>
     <div class="counter" id="counter"></div>
     <div class="picture" id="picture"></div>
     <div class="tiles" id="tiles"></div>
     <div class="message" id="message"></div>
+    <div class="attempt hidden" id="attempt"></div>
 
     <div id="askPhase">
       <div class="tools">
@@ -253,7 +308,15 @@
       </div>
       <div class="timer hidden" id="timer"><div id="timerBar"></div></div>
       <div class="worth" id="worth"></div>
-      <div class="judge">
+      <div class="keyboard" id="keyboard"></div>
+      <div class="key-actions">
+        <button class="key wide" id="qKey" title="A letter you didn't hear clearly (makes the word wrong)">❓ Didn't hear</button>
+        <button class="key wide" id="backKey">⌫ Delete</button>
+        <button class="btn b-ok check" id="checkBtn" disabled>✔ Check</button>
+      </div>
+      <p class="type-help">Type the letters the team says. <b>?</b> = a letter you didn't hear. <b>Enter</b> = check.</p>
+      <div class="judge manual">
+        <span>Or judge it yourself:</span>
         <button class="btn b-ok" id="okBtn">✔ Correct</button>
         <button class="btn b-bad" id="badBtn">✘ Wrong</button>
       </div>
@@ -275,7 +338,7 @@
 
 <!-- ================= END ================= -->
 <section id="end" class="wrap end hidden">
-  <div class="bee" style="font-size:80px">🏆</div>
+  <div class="end-bee"><div class="bee mascot" data-mood="wow"></div><span class="trophy">🏆</span></div>
   <h1 id="endTitle"></h1>
   <div class="podium" id="podium"></div>
   <div class="start-row">
@@ -1185,6 +1248,48 @@ function parseWords(txt){
   return units.filter(u => u.words.length);
 }
 function unitOn(unit){ return !(cfg.off[cfg.book] || []).includes(unit); }
+// word filters (length / picture)
+function wordFits(w){
+  const n = w.w.replace(/[^A-Za-z]/g, "").length;
+  const ok = { any: true, le3: n <= 3, "4": n === 4, "5": n === 5, le5: n <= 5, ge6: n >= 6 }[cfg.len || "any"];
+  return ok !== false && (!cfg.picOnly || !!w.pic);
+}
+
+/* ---------- the bee mascot ---------- */
+let beeN = 0;
+function beeSVG(mood = "happy"){
+  const id = "bc" + (++beeN), N = "#0b0957";
+  const mouth = mood === "sad"
+    ? `<path d="M88 138 Q100 126 112 138" fill="none" stroke="${N}" stroke-width="5" stroke-linecap="round"/>`
+    : mood === "wow"
+    ? `<path d="M84 124 Q100 152 116 124 Z" fill="#e8505b" stroke="${N}" stroke-width="4.5" stroke-linejoin="round"/><path d="M93 138 Q100 132 107 138" fill="#ff9eb5"/>`
+    : `<path d="M86 126 Q100 142 114 126" fill="none" stroke="${N}" stroke-width="5" stroke-linecap="round"/>`;
+  const brows = mood === "sad" ? `<path d="M70 86 L88 92 M130 86 L112 92" stroke="${N}" stroke-width="4" stroke-linecap="round"/>` : "";
+  return `<svg viewBox="0 0 200 200" role="img" aria-label="Bee">
+  <path d="M84 64 Q78 42 64 30 M116 64 Q122 42 136 30" fill="none" stroke="${N}" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="63" cy="28" r="9" fill="${N}"/><circle cx="137" cy="28" r="9" fill="${N}"/>
+  <ellipse class="wing" style="--fl:-14deg" cx="50" cy="84" rx="25" ry="36" transform="rotate(-38 50 84)" fill="#e6f6ff" stroke="${N}" stroke-width="5"/>
+  <ellipse class="wing" style="--fl:14deg" cx="150" cy="84" rx="25" ry="36" transform="rotate(38 150 84)" fill="#e6f6ff" stroke="${N}" stroke-width="5"/>
+  <path d="M93 172 L100 190 L107 172 Z" fill="${N}"/>
+  <clipPath id="${id}"><circle cx="100" cy="118" r="58"/></clipPath>
+  <circle cx="100" cy="118" r="58" fill="#ffd257"/>
+  <g clip-path="url(#${id})" fill="${N}"><rect x="30" y="148" width="140" height="11" rx="5"/><rect x="30" y="166" width="140" height="11"/></g>
+  <circle cx="100" cy="118" r="58" fill="none" stroke="${N}" stroke-width="5"/>
+  <ellipse cx="80" cy="64" rx="18" ry="7" fill="#fff" opacity=".55" transform="rotate(-20 80 64)"/>
+  <g class="eye"><ellipse cx="80" cy="106" rx="10" ry="12" fill="${N}"/><circle cx="83.5" cy="101" r="4" fill="#fff"/></g>
+  <g class="eye"><ellipse cx="120" cy="106" rx="10" ry="12" fill="${N}"/><circle cx="123.5" cy="101" r="4" fill="#fff"/></g>
+  ${brows}
+  <ellipse cx="64" cy="126" rx="10" ry="6.5" fill="#ff8fab" opacity=".85"/><ellipse cx="136" cy="126" rx="10" ry="6.5" fill="#ff8fab" opacity=".85"/>
+  ${mouth}
+</svg>`;
+}
+function drawBees(){ document.querySelectorAll(".mascot").forEach(el => { el.innerHTML = beeSVG(el.dataset.mood); }); }
+function setStageBee(mood){
+  const el = $("stageBee"); if (el.dataset.mood === mood && el.innerHTML) return;
+  el.dataset.mood = mood; el.innerHTML = beeSVG(mood === "sad" ? "sad" : mood === "happy" ? "wow" : "happy");
+  el.className = "stage-bee mascot"; void el.offsetWidth;
+  if (mood !== "idle") el.classList.add(mood);
+}
 
 /* ---------- setup ---------- */
 function renderSetup(){
@@ -1216,6 +1321,7 @@ function renderSetup(){
   $("wordsPerTeam").value = String(cfg.perTeam);
   $("timerSecs").value = String(cfg.timer);
   $("showPicture").checked = cfg.picture; $("showLetters").checked = cfg.letters; $("allowSteal").checked = cfg.steal;
+  $("wordLen").value = cfg.len || "any"; $("picOnly").checked = !!cfg.picOnly;
 }
 function renderUnits(){
   const uc = $("unitChoices"); uc.innerHTML = "";
@@ -1234,7 +1340,9 @@ function renderUnits(){
     uc.appendChild(el);
   });
   const on = units.filter(u => unitOn(u.name));
-  $("unitCount").textContent = `${on.length} of ${units.length} units · ${on.reduce((s, u) => s + u.words.length, 0)} words`;
+  const total = on.reduce((s, u) => s + u.words.length, 0);
+  const fit = on.reduce((s, u) => s + u.words.filter(wordFits).length, 0);
+  $("unitCount").textContent = `${on.length} of ${units.length} units · ` + (fit === total ? `${total} words` : `${fit} of ${total} words match`);
 }
 function setAllUnits(on){
   cfg.off[cfg.book] = on ? [] : parseWords(bookText(cfg.book)).map(u => u.name);
@@ -1333,14 +1441,14 @@ function startGame(){
   cfg.perTeam = parseInt($("wordsPerTeam").value); cfg.timer = parseInt($("timerSecs").value);
   cfg.picture = $("showPicture").checked; cfg.letters = $("showLetters").checked; cfg.steal = $("allowSteal").checked;
   store.cfg = cfg; saveStore();
-  const pool = parseWords(bookText(cfg.book)).filter(u => unitOn(u.name)).flatMap(u => u.words.map(w => ({ ...w, unit: u.name })));
-  if (!pool.length) { alert("Choose at least one unit with words."); return; }
+  const pool = parseWords(bookText(cfg.book)).filter(u => unitOn(u.name)).flatMap(u => u.words.filter(wordFits).map(w => ({ ...w, unit: u.name })));
+  if (!pool.length) { alert("No words match. Choose more units, another word length, or untick “Only words with a picture”."); return; }
   const need = cfg.perTeam * cfg.teamCount;
   let deck = shuffle(pool.slice());
   while (deck.length < need) deck = deck.concat(shuffle(pool.slice()));   // repeat only if there aren't enough words
   G = {
     teams: Array.from({ length: cfg.teamCount }, (_, i) => ({ name: (cfg.names[i] || "").trim() || TEAM_COLORS[i].name, color: TEAM_COLORS[i].css, score: 0 })),
-    deck: deck.slice(0, need), idx: 0, phase: "ask", hint: false, stealer: null, result: null
+    deck: deck.slice(0, need), idx: 0, phase: "ask", hint: false, stealer: null, result: null, typed: [], attempt: null
   };
   undoStack = [];
   $("gameTag").textContent = BOOKS[cfg.book].name + " · " + cfg.perTeam + " words per team";
@@ -1380,20 +1488,13 @@ function render(newWord = false){
   pic.textContent = cfg.picture || G.phase === "done" ? (w.pic || "🐝") : "🐝";
   if (newWord) { pic.classList.remove("pop"); void pic.offsetWidth; pic.classList.add("pop"); }
 
-  // tiles
-  const tiles = $("tiles"); tiles.innerHTML = "";
-  const ls = letters(w.w), reveal = G.phase === "done";
-  if (!cfg.letters && !reveal) {
-    const d = document.createElement("div"); d.className = "tile hidden-count";
-    d.textContent = G.hint ? ls[0].toUpperCase() + " …" : "? ? ?"; tiles.appendChild(d);
-  } else {
-    ls.forEach((c, i) => {
-      const d = document.createElement("div");
-      if (reveal) { d.className = "tile show"; d.textContent = c; d.style.animationDelay = (i * 0.12) + "s"; }
-      else if (G.hint && i === 0) { d.className = "tile hint"; d.textContent = c; }
-      else d.className = "tile";
-      tiles.appendChild(d);
-    });
+  renderTiles();
+  setStageBee(G.phase === "done" ? (G.result === "ok" ? "happy" : "sad") : G.phase === "steal" ? "sad" : "idle");
+  const at = $("attempt"), showAt = G.attempt && (G.phase === "steal" || (G.phase === "done" && G.result === "bad"));
+  at.classList.toggle("hidden", !showAt); at.innerHTML = "";
+  if (showAt) {
+    const lab = document.createElement("span"); lab.className = "lab"; lab.textContent = "They spelled:"; at.appendChild(lab);
+    G.attempt.forEach(a => { const b = document.createElement("b"); b.className = a.ok ? "ok" : "no"; b.textContent = a.c.toUpperCase(); at.appendChild(b); });
   }
 
   $("askPhase").classList.toggle("hidden", !(G.phase === "ask" || G.phase === "stealAsk"));
@@ -1408,11 +1509,58 @@ function render(newWord = false){
   if (G.phase === "ask" || G.phase === "stealAsk") startTimer(); else stopTimer();
 }
 
+function renderTiles(popLast = false){
+  const w = cur(), tiles = $("tiles"); tiles.innerHTML = "";
+  const ls = letters(w.w), reveal = G.phase === "done", typed = G.typed || [];
+  if (reveal) {
+    ls.forEach((c, i) => { const d = document.createElement("div"); d.className = "tile show"; d.textContent = c; d.style.animationDelay = (i * 0.12) + "s"; tiles.appendChild(d); });
+  } else {
+    // typing: with "show number of letters" there is one box per letter, otherwise boxes appear as you type
+    const n = cfg.letters ? Math.max(ls.length, typed.length) : typed.length + 1;
+    for (let i = 0; i < n; i++) {
+      const d = document.createElement("div"); d.className = "tile";
+      if (i < typed.length) {
+        d.textContent = typed[i];
+        d.classList.add(typed[i] === "?" ? "q" : "typed");
+        if (cfg.letters && i >= ls.length) d.classList.add("extra");
+        if (popLast && i === typed.length - 1) d.classList.add("pop");
+      } else {
+        if (i === typed.length) d.classList.add("cursor");
+        if (G.hint && i === 0) { d.classList.add("hint"); d.textContent = ls[0]; }
+      }
+      tiles.appendChild(d);
+    }
+  }
+  $("checkBtn").disabled = !typed.length;
+}
+function typeKey(k){
+  if (!G || !(G.phase === "ask" || G.phase === "stealAsk")) return;
+  G.typed = G.typed || [];
+  if (k === "back") { if (!G.typed.length) return; G.typed.pop(); renderTiles(); return; }
+  if (G.typed.length >= letters(cur().w).length + 4) return;
+  G.typed.push(k); renderTiles(true); beep([k === "?" ? 330 : 700], .05, "triangle");
+}
+function checkSpelling(){
+  if (!G || !(G.phase === "ask" || G.phase === "stealAsk") || !(G.typed || []).length) return;
+  const target = letters(cur().w).map(c => c.toLowerCase());
+  const attempt = G.typed.map((c, i) => ({ c, ok: c === target[i] }));
+  const right = G.typed.length === target.length && attempt.every(a => a.ok);
+  right ? markOk(attempt) : markBad(attempt);
+}
+function buildKeyboard(){
+  const kb = $("keyboard"); kb.innerHTML = "";
+  ["qwertyuiop", "asdfghjkl", "zxcvbnm"].forEach(row => {
+    const r = document.createElement("div"); r.className = "krow";
+    row.split("").forEach(c => { const b = document.createElement("button"); b.className = "key"; b.textContent = c; b.onclick = () => typeKey(c); r.appendChild(b); });
+    kb.appendChild(r);
+  });
+}
+
 function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 60) undoStack.shift(); }
 function useHint(){ if (G.hint) return; snapshot(); G.hint = true; render(); }
 
-function markOk(){
-  snapshot();
+function markOk(attempt){
+  snapshot(); G.attempt = Array.isArray(attempt) ? attempt : null;
   const stealing = G.phase === "stealAsk";
   const i = stealing ? G.stealer : turnTeam();
   const pts = stealing ? 1 : (G.hint ? 1 : 2);
@@ -1420,17 +1568,17 @@ function markOk(){
   G.result = "ok"; G.resultText = (stealing ? "🐝 Stolen! " : "🎉 Correct! ") + G.teams[i].name + " gets " + "🍯".repeat(pts);
   G.phase = "done"; render(); sndOk(); confetti(); setTimeout(() => spellOut(cur().w), 500);
 }
-function markBad(){
-  snapshot();
+function markBad(attempt){
+  snapshot(); G.attempt = Array.isArray(attempt) ? attempt : null; G.typed = [];
   if (G.phase === "ask" && cfg.steal && G.teams.length > 1) { G.phase = "steal"; render(); sndBad(); return; }
   G.result = "bad"; G.resultText = "The correct spelling is…"; G.phase = "done"; render(); sndBad(); setTimeout(() => spellOut(cur().w), 500);
 }
-function startSteal(i){ snapshot(); G.stealer = i; G.phase = "stealAsk"; render(); sayWord(cur().w); }
+function startSteal(i){ snapshot(); G.stealer = i; G.phase = "stealAsk"; G.typed = []; render(); sayWord(cur().w); }
 function noSteal(){ snapshot(); G.result = "bad"; G.resultText = "Nobody stole it. The correct spelling is…"; G.phase = "done"; render(); setTimeout(() => spellOut(cur().w), 300); }
 function nextWord(){
   if (G.idx + 1 >= G.deck.length) { finish(); return; }
   snapshot();
-  G.idx++; G.phase = "ask"; G.hint = false; G.stealer = null; G.result = null; G.resultText = "";
+  G.idx++; G.phase = "ask"; G.hint = false; G.stealer = null; G.result = null; G.resultText = ""; G.typed = []; G.attempt = null;
   render(true); setTimeout(() => sayWord(cur().w), 400);
 }
 function undo(){ if (!undoStack.length) return; G = JSON.parse(undoStack.pop()); G.lastDeltas = null; if (!$("game").classList.contains("hidden")) render(); }
@@ -1507,8 +1655,26 @@ $("slowBtn").onclick = () => sayWord(cur().w, true);
 $("voiceSel").onchange = () => { voice = englishVoices.find(v => v.name === $("voiceSel").value) || voice; cfg.voice = voice ? voice.name : ""; store.cfg = cfg; saveStore(); speak("Hello! Let's spell. Elephant."); };
 $("testVoice").onclick = () => speak("Hello! Let's spell. Elephant.");
 $("hintBtn").onclick = useHint;
-$("okBtn").onclick = markOk;
-$("badBtn").onclick = markBad;
+$("okBtn").onclick = () => markOk();
+$("badBtn").onclick = () => markBad();
+$("checkBtn").onclick = checkSpelling;
+$("qKey").onclick = () => typeKey("?");
+$("backKey").onclick = () => typeKey("back");
+$("wordLen").onchange = () => { cfg.len = $("wordLen").value; renderUnits(); };
+$("picOnly").onchange = () => { cfg.picOnly = $("picOnly").checked; renderUnits(); };
+// physical keyboard: letters, ? (or * .) for a letter you didn't hear, Backspace, Enter = check / next word
+document.addEventListener("keydown", e => {
+  if (!G || $("game").classList.contains("hidden") || !$("editorOverlay").classList.contains("hidden")) return;
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
+  const typing = G.phase === "ask" || G.phase === "stealAsk";
+  if (typing && /^[a-z]$/i.test(e.key)) typeKey(e.key.toLowerCase());
+  else if (typing && (e.key === "?" || e.key === "*" || e.key === "." || e.key === "¿")) typeKey("?");
+  else if (typing && e.key === "Backspace") typeKey("back");
+  else if (typing && e.key === "Enter") checkSpelling();
+  else if (G.phase === "done" && e.key === "Enter") nextWord();
+  else return;
+  e.preventDefault();
+});
 $("noStealBtn").onclick = noSteal;
 $("nextBtn").onclick = nextWord;
 $("spellBtn").onclick = () => spellOut(cur().w);
@@ -1525,7 +1691,7 @@ window.addEventListener("resize", () => { if (G && !$("game").classList.contains
 // Say the first word when the game starts (needs a click first in most browsers)
 $("startBtn").addEventListener("click", () => setTimeout(() => { if (G && G.idx === 0 && G.phase === "ask") sayWord(cur().w); }, 500));
 
-renderSetup();
+renderSetup(); buildKeyboard(); drawBees();
 </script>
 </body>
 </html>

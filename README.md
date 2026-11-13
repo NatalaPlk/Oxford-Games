@@ -23,6 +23,7 @@ A team spelling game for children aged 6–12 using vocabulary from **Super Mind
 - The app says the word aloud (🔊 Listen / 🐢 Slowly) and shows a picture and one tile per letter.
 - The team spells it out loud while the teacher types the letters (❓ = a letter you didn't hear); the app checks it. Or the teacher clicks ✔ Correct / ✘ Wrong.
 - Correct = 🍯🍯 2 points (🍯 1 if the team used the first-letter hint). If a team gets it wrong, another team can steal it for 🍯 1.
+- Pictures are real photos (shared with Monster Rush) and each word shows its type (noun, verb, adjective…).
 - Options: words per team, timer, show picture, show number of letters, stealing on/off, word length (e.g. only 3-letter words) and only words with a picture. Words can be edited in the app.
 
 Play: https://natalaplk.github.io/Oxford-Games/spelling-bee/
@@ -31,7 +32,7 @@ Play: https://natalaplk.github.io/Oxford-Games/spelling-bee/
 
 A flashcard race for children aged 6–12 with the **Super Minds** Starter–6 vocabulary.
 
-- Flashcards use real photos (free licences from Wikimedia Commons / Wikipedia, see `monster-rush/photos/credits.json`); words without a clear photo use a drawing.
+- Flashcards use real photos (free licences from Wikimedia Commons / Wikipedia, see `shared/photos/credits.json`); words without a clear photo use a drawing.
 - 1–4 teams, each with its own monster (Gobo, Plum, Blinky or Tango).
 - Choose the number of rounds, pictures per turn and the time per turn (e.g. 20–30 s).
 - On each turn the team names the pictures; the teacher presses ✔ Correct, ✘ Wrong or ⏭ Pass (keys 1 / 2 / 3).

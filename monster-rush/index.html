@@ -136,6 +136,9 @@
   .flash .word{position:absolute;bottom:10px;left:0;right:0;font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:.1em;color:var(--muted)}
   .flash .peek{position:absolute;top:8px;right:10px;font-size:13px;font-family:var(--mono);font-weight:700;background:var(--paper);border:2px solid #c9c6dd;color:var(--muted);border-radius:999px;padding:3px 10px}
   .flash.small{font-size:clamp(46px,7vw,76px)}
+  .wtype{display:inline-block;margin:0 0 14px;padding:6px 16px;border-radius:999px;background:var(--navy);color:#fff;font-weight:800;font-size:18px;letter-spacing:.02em}
+  .wtype:empty{display:none}
+  .wtype.verb{background:#14a35a} .wtype.adj{background:#9b51e0} .wtype.noun{background:var(--navy)}
   .flash.photo{width:min(440px,80vw);aspect-ratio:4/3;overflow:hidden;background:#fff}
   .flash.photo .pic{position:absolute;inset:0}
   .flash.photo img{width:100%;height:100%;object-fit:cover;display:block}
@@ -251,7 +254,7 @@
   <div class="start-row">
     <button class="btn btn-red btn-big" id="startBtn">Start the race! 🏁</button>
   </div>
-  <p class="credits">📷 Photos: <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> / Wikipedia (free licences – <a href="photos/credits.json" target="_blank" rel="noopener">credits</a>)</p>
+  <p class="credits">📷 Photos: <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> / Wikipedia (free licences – <a href="../shared/photos/credits.json" target="_blank" rel="noopener">credits</a>)</p>
 </section>
 
 <!-- ================= GAME ================= -->
@@ -272,6 +275,7 @@
       <p class="turnline" id="turnline"></p>
       <div class="counter" id="counter"></div>
       <div class="flash" id="flash"></div>
+      <div class="wtype" id="wtype"></div>
 
       <div id="readyBox" class="ready">
         <h2 id="readyTitle">Ready?</h2>
@@ -317,9 +321,9 @@
   </div>
 </section>
 
-<script src="../spelling-bee/words.js"></script>
+<script src="../shared/words.js"></script>
 <script src="monsters.js"></script>
-<script src="photos/photos.js"></script>
+<script src="../shared/photos/photos.js"></script>
 <script>
 const STORE_KEY = "monster-rush-v1";
 const $ = id => document.getElementById(id);
@@ -331,9 +335,10 @@ const cfg = Object.assign({ book: "sms", teamCount: 2, names: ["","","",""], mon
 // real photos (photos/photos.js lists the downloaded files); words without one keep their drawing
 const PHOTO_FILES = typeof PHOTOS !== "undefined" ? PHOTOS : {};
 const slugOf = w => w.toLowerCase().replace(/[^a-z]+/g, "-");
-const photoOf = w => cfg.photos && PHOTO_FILES[slugOf(w)] ? "photos/" + PHOTO_FILES[slugOf(w)] : null;
+// c = { w, pic }; colours keep their coloured drawing (the "orange" photo is the fruit)
+const photoOf = c => cfg.photos && wordType(c.w, c.pic) !== "colour" && PHOTO_FILES[slugOf(c.w)] ? "../shared/photos/" + PHOTO_FILES[slugOf(c.w)] : null;
 const preloaded = {};
-function preload(w){ const src = w && photoOf(w.w); if (src && !preloaded[src]) { const im = new Image(); im.src = src; preloaded[src] = im; } }
+function preload(w){ const src = w && photoOf(w); if (src && !preloaded[src]) { const im = new Image(); im.src = src; preloaded[src] = im; } }
 cfg.off = cfg.off || {};
 
 // Words edited in Spelling Bee ("Edit words") are used here too
@@ -537,10 +542,11 @@ function render(){
 function renderFlash(){
   const f = $("flash");
   if (G.phase !== "play" || !G.card) {
-    f.className = "flash back"; f.innerHTML = G.phase === "turnEnd" ? "★" : "?"; return;
+    f.className = "flash back"; f.innerHTML = G.phase === "turnEnd" ? "★" : "?"; $("wtype").textContent = ""; return;
   }
   const c = G.card, n = typeof Intl !== "undefined" && Intl.Segmenter ? [...new Intl.Segmenter().segment(c.pic)].length : c.pic.length;
-  const src = photoOf(c.w);
+  const src = photoOf(c);
+  $("wtype").textContent = wordTypeLabel(c.w, c.pic); $("wtype").className = "wtype " + wordType(c.w, c.pic);
   f.className = "flash" + (src ? " photo" : n > 1 ? " small" : "");
   f.innerHTML = '<span class="pic"></span><span class="word hidden"></span><button class="peek" type="button" title="Show the word (for the teacher)">👁 word</button><div class="fb" id="fb"></div>';
   if (src) { const im = document.createElement("img"); im.src = src; im.alt = ""; im.onerror = () => { f.classList.remove("photo"); f.querySelector(".pic").textContent = c.pic; }; f.querySelector(".pic").appendChild(im); }

@@ -118,6 +118,11 @@
   .counter{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a9a7d6}
   .picture{display:inline-grid;place-items:center;width:clamp(130px,18vw,190px);height:clamp(130px,18vw,190px);margin:16px 0 6px;border-radius:50%;background:var(--paper);border:3px solid #fff;box-shadow:6px 6px 0 var(--brand);font-size:clamp(70px,10vw,110px);line-height:1;position:relative}
   .picture.bee-pic svg{width:68%;height:auto}
+  .picture.photo{width:clamp(220px,30vw,330px);height:auto;aspect-ratio:4/3;border-radius:22px;overflow:hidden;background:#fff}
+  .picture.photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .wtype{display:inline-block;margin:4px 0 2px;padding:5px 14px;border-radius:999px;background:#fff;color:var(--navy);font-weight:800;font-size:16px}
+  .wtype:empty{display:none}
+  .wtype.verb{background:var(--mint)} .wtype.adj{background:#d9b8ff}
   .pic-tag{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--yellow);color:var(--navy);border:2px solid var(--navy);border-radius:999px;padding:3px 12px;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.06em}
   .picture.pop{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
   @keyframes pop{from{transform:scale(.3);opacity:0}}
@@ -267,6 +272,8 @@
         <select id="timerSecs"><option value="0">Off</option><option value="20">20 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option></select>
       </label>
       <label class="switch"><input type="checkbox" id="showPicture"> Show picture <small style="font-weight:400;color:var(--muted)">(untick = harder)</small></label>
+      <label class="switch"><input type="checkbox" id="usePhotos"> Real photos <small style="font-weight:400;color:var(--muted)">(untick = drawings)</small></label>
+      <label class="switch"><input type="checkbox" id="showType"> Show word type <small style="font-weight:400;color:var(--muted)">(noun, verb…)</small></label>
       <label class="switch"><input type="checkbox" id="showLetters"> Show number of letters</label>
       <label class="switch"><input type="checkbox" id="allowSteal"> Other teams can steal</label>
     </div>
@@ -282,7 +289,7 @@
     <button class="btn btn-plain" id="openEditor">✏️ Edit words</button>
     <button class="btn btn-honey btn-big" id="startBtn">Start! 🐝</button>
   </div>
-  <p class="credits">🎙️ Word recordings: real speakers from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> (free licences – <a href="audio/credits.json" target="_blank" rel="noopener">credits</a>)</p>
+  <p class="credits">🎙️ Word recordings: real speakers from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> (free licences – <a href="audio/credits.json" target="_blank" rel="noopener">credits</a>) · 📷 Photos: Wikimedia Commons / Wikipedia (<a href="../shared/photos/credits.json" target="_blank" rel="noopener">credits</a>)</p>
 </section>
 
 <!-- ================= GAME ================= -->
@@ -303,6 +310,7 @@
     <p class="whose" id="whose"></p>
     <div class="counter" id="counter"></div>
     <div class="picture" id="picture"></div>
+    <div><span class="wtype" id="wtype"></span></div>
     <div class="tiles" id="tiles"></div>
     <div class="message" id="message"></div>
     <div class="attempt hidden" id="attempt"></div>
@@ -376,7 +384,8 @@
   </div>
 </div>
 
-<script src="words.js"></script>
+<script src="../shared/words.js"></script>
+<script src="../shared/photos/photos.js"></script>
 <script>
 const TEAM_COLORS = [
   { name: "Red", css: "var(--red)" }, { name: "Blue", css: "var(--blue)" },
@@ -480,6 +489,7 @@ function renderSetup(){
   }
   $("wordsPerTeam").value = String(cfg.perTeam);
   $("timerSecs").value = String(cfg.timer);
+  $("usePhotos").checked = cfg.photos !== false; $("showType").checked = cfg.showType !== false;
   $("showPicture").checked = cfg.picture; $("showLetters").checked = cfg.letters; $("allowSteal").checked = cfg.steal;
   $("wordLen").value = cfg.len || "any"; $("picOnly").checked = !!cfg.picOnly;
 }
@@ -599,6 +609,7 @@ function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.flo
 
 function startGame(){
   cfg.perTeam = parseInt($("wordsPerTeam").value); cfg.timer = parseInt($("timerSecs").value);
+  cfg.photos = $("usePhotos").checked; cfg.showType = $("showType").checked;
   cfg.picture = $("showPicture").checked; cfg.letters = $("showLetters").checked; cfg.steal = $("allowSteal").checked;
   store.cfg = cfg; saveStore();
   const pool = parseWords(bookText(cfg.book)).filter(u => unitOn(u.name)).flatMap(u => u.words.filter(wordFits).map(w => ({ ...w, unit: u.name })));
@@ -646,7 +657,14 @@ function render(newWord = false){
   $("counter").textContent = `Word ${G.idx + 1} of ${G.deck.length} · ${w.unit}`;
   const pic = $("picture");
   const picHidden = !cfg.picture && G.phase !== "done";
-  if (w.pic && !picHidden) {
+  const photo = cfg.photos !== false && typeof PHOTOS !== "undefined" && wordType(w.w, w.pic) !== "colour" && PHOTOS[slug(w.w)];
+  $("wtype").textContent = cfg.showType !== false ? wordTypeLabel(w.w, w.pic) : ""; $("wtype").className = "wtype " + wordType(w.w, w.pic);
+  if (photo && !picHidden) {
+    pic.className = "picture photo"; pic.style.fontSize = ""; pic.innerHTML = "";
+    const im = document.createElement("img"); im.alt = ""; im.src = "../shared/photos/" + photo;
+    im.onerror = () => { pic.className = "picture"; pic.textContent = w.pic || "🐝"; };
+    pic.appendChild(im);
+  } else if (w.pic && !picHidden) {
     pic.className = "picture"; pic.textContent = w.pic;
     // two-emoji pictures (e.g. 1️⃣1️⃣) need a smaller size to fit in the circle
     const n = typeof Intl !== "undefined" && Intl.Segmenter ? [...new Intl.Segmenter().segment(w.pic)].length : w.pic.length;

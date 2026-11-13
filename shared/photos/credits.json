@@ -3814,5 +3814,104 @@
   "source": "https://commons.wikimedia.org/wiki/File:Festa_del_Tricolore,_07-01-2004.jpg",
   "license": "Attribution",
   "author": "Presidenza della Repubblica Italiana"
+ },
+ "table": {
+  "word": "table",
+  "img": "table.jpg",
+  "file": "Heiligengrabe,_Kloster_Stift_zum_Heiligengrabe,_Abtei,_Speiseraum_--_2017_--_7082-8.jpg",
+  "article": "Dining room",
+  "source": "https://commons.wikimedia.org/wiki/File:Heiligengrabe,_Kloster_Stift_zum_Heiligengrabe,_Abtei,_Speiseraum_--_2017_--_7082-8.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Dietmar Rabich"
+ },
+ "nose": {
+  "word": "nose",
+  "img": "nose.png",
+  "file": "Canine_Nose_Macro_Photo.png",
+  "article": "Nose",
+  "source": "https://commons.wikimedia.org/wiki/File:Canine_Nose_Macro_Photo.png",
+  "license": "CC BY-SA 4.0",
+  "author": "Metography"
+ },
+ "mouth": {
+  "word": "mouth",
+  "img": "mouth.jpg",
+  "file": "Lips_2023.jpg",
+  "article": "Lip",
+  "source": "https://commons.wikimedia.org/wiki/File:Lips_2023.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "PumpkinMan1943"
+ },
+ "hair": {
+  "word": "hair",
+  "img": "hair.jpg",
+  "file": "Pierre_Auguste_Renoir_-_Portrait_de_Julie_Manet.jpg",
+  "article": "Long hair",
+  "source": "https://commons.wikimedia.org/wiki/File:Pierre_Auguste_Renoir_-_Portrait_de_Julie_Manet.jpg",
+  "license": "Public domain",
+  "author": "Pierre-Auguste Renoir"
+ },
+ "family": {
+  "word": "family",
+  "img": "family.jpg",
+  "file": "W.H._Shumard_family,_circa_1955.jpg",
+  "article": "Nuclear family",
+  "source": "https://commons.wikimedia.org/wiki/File:W.H._Shumard_family,_circa_1955.jpg",
+  "license": "CC BY 2.0",
+  "author": "Seattle Municipal Archives from Seattle, WA"
+ },
+ "skirt": {
+  "word": "skirt",
+  "img": "skirt.jpg",
+  "file": "PattiKensit23_(cropped)_(cropped).JPG",
+  "article": "Miniskirt",
+  "source": "https://commons.wikimedia.org/wiki/File:PattiKensit23_(cropped)_(cropped).JPG",
+  "license": "CC BY-SA 3.0",
+  "author": "Roland Godefroy"
+ },
+ "shorts": {
+  "word": "shorts",
+  "img": "shorts.jpg",
+  "file": "Freeballer_board_shorts_01.jpg",
+  "article": "Boardshorts",
+  "source": "https://commons.wikimedia.org/wiki/File:Freeballer_board_shorts_01.jpg",
+  "license": "Public domain",
+  "author": "VF6745"
+ },
+ "picnic": {
+  "word": "picnic",
+  "img": "picnic.jpg",
+  "file": "Picnic_table.jpg",
+  "article": "Picnic table",
+  "source": "https://commons.wikimedia.org/wiki/File:Picnic_table.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Benjamin D. Esham (bdesham)"
+ },
+ "theatre": {
+  "word": "theatre",
+  "img": "theatre.jpg",
+  "file": "Palais_Garnier._December_5,_2010.jpg",
+  "article": "Theater (structure)",
+  "source": "https://commons.wikimedia.org/wiki/File:Palais_Garnier._December_5,_2010.jpg",
+  "license": "CC BY-SA 2.0",
+  "author": "FHKE"
+ },
+ "telescope": {
+  "word": "telescope",
+  "img": "telescope.jpg",
+  "file": "Zeiss2.jpg",
+  "article": "Refracting telescope",
+  "source": "https://commons.wikimedia.org/wiki/File:Zeiss2.jpg",
+  "license": "CC BY-SA 3.0",
+  "author": "Bori64"
+ },
+ "magnet": {
+  "word": "magnet",
+  "img": "magnet.jpg",
+  "file": "Big_neodymium_magnet.jpg",
+  "article": "Neodymium magnet",
+  "source": "https://commons.wikimedia.org/wiki/File:Big_neodymium_magnet.jpg",
+  "license": "CC BY-SA 4.0",
+  "author": "Saimon (Researcher)"
  }
 }

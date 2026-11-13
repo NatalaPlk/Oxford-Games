@@ -848,3 +848,25 @@ footprint 🐾
 prehistoric 🦖
 `}
 };
+
+// What kind of word each one is, so children know what to say (e.g. "paint": the action, not the thing).
+// Anything not listed here is a noun.
+const WORD_TYPE_LISTS = {
+  verb: "dance sing swim run paint read jump wash clean tidy sweep measure survive ironing shopping camping swimming skating climbing fishing cycling rowing sailing boxing fencing",
+  adj: "big small new old curly straight blond bald sunny cloudy rainy windy snowy foggy stormy delicious poisonous extinct prehistoric electric",
+  colour: "red blue green yellow orange purple black white brown",
+  number: "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty hundred thousand million first second third",
+  day: "Monday Tuesday Wednesday Thursday Friday Saturday Sunday",
+  month: "January February March April May June July August September October November December",
+  greeting: "hello goodbye",
+  country: "Spain France Italy Germany Brazil China Japan Mexico Australia Egypt",
+};
+const WORD_TYPE_LABELS = {
+  noun: "🧸 Noun · thing, person or place", verb: "🏃 Verb · action", adj: "🎨 Adjective · describing word",
+  colour: "🌈 Colour", number: "🔢 Number", day: "📅 Day of the week", month: "🗓️ Month", greeting: "👋 Greeting", country: "🌍 Country",
+};
+const WORD_TYPES = {};
+Object.entries(WORD_TYPE_LISTS).forEach(([t, s]) => s.split(" ").forEach(w => { WORD_TYPES[w] = t; }));
+// "orange" is a colour in Starter (🟠) but the fruit in the food unit (🍊)
+function wordType(word, pic){ if (word === "orange" && pic && pic.includes("🍊")) return "noun"; return WORD_TYPES[word] || "noun"; }
+function wordTypeLabel(word, pic){ return WORD_TYPE_LABELS[wordType(word, pic)]; }

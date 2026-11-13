@@ -24,6 +24,7 @@ A team spelling game for children aged 6–12 using vocabulary from **Super Mind
 - The team spells it out loud while the teacher types the letters (❓ = a letter you didn't hear); the app checks it. Or the teacher clicks ✔ Correct / ✘ Wrong.
 - Correct = 🍯🍯 2 points (🍯 1 if the team used the first-letter hint). If a team gets it wrong, another team can steal it for 🍯 1.
 - Pictures are real photos (shared with Monster Rush) and each word shows its type (noun, verb, adjective…).
+- Each team plays as a Monster Rush monster (click it to change); it jumps for joy when the team gets a word right and gets sad when they get it wrong.
 - Options: words per team, timer, show picture, show number of letters, stealing on/off, word length (e.g. only 3-letter words) and only words with a picture. Words can be edited in the app.
 
 Play: https://natalaplk.github.io/Oxford-Games/spelling-bee/

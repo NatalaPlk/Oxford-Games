@@ -183,6 +183,19 @@
   .podium{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:26px auto;max-width:760px;flex-wrap:wrap}
   .pod{flex:1;min-width:150px;background:var(--card);border:2px solid var(--navy);border-top:12px solid var(--c);border-radius:20px 20px 10px 10px;padding:14px;box-shadow:6px 6px 0 var(--navy)}
   .pod .medal{font-size:44px}
+  .pod .pmon{width:110px;margin:0 auto 4px}
+  .pick-mon{position:relative;width:46px;flex:none;background:none;border:0;padding:0;cursor:pointer;transition:transform .15s}
+  .pick-mon:hover{transform:scale(1.1) rotate(-5deg)}
+  .pick-mon small{position:absolute;right:-6px;bottom:-2px;background:var(--navy);color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;display:grid;place-items:center}
+  .team-input{padding:6px 16px 6px 10px}
+  .trow{display:flex;align-items:flex-end;gap:12px}
+  .tinfo{min-width:0;flex:1}
+  .tmon{width:66px;flex:none;transform-origin:bottom center}
+  .tmon.joy{animation:monHop .9s ease-out}
+  .tmon.sad{animation:monDroop 1.2s ease}
+  @keyframes monHop{25%{transform:translateY(-26px) rotate(-8deg)}50%{transform:translateY(0) scale(1.12,.86)}70%{transform:translateY(-10px) rotate(5deg)}100%{transform:none}}
+  @keyframes monDroop{15%,45%,75%{transform:translateX(-5px) scale(1,.92)}30%,60%{transform:translateX(5px) scale(1,.92)}100%{transform:none}}
+  @media (max-width:640px){.tmon{width:48px}}
   .pod .n{font-family:var(--display);font-size:24px;font-weight:900;text-transform:uppercase;word-break:break-word}
   .pod .s{font-family:var(--mono);font-size:28px;font-weight:700}
   .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
@@ -259,7 +272,7 @@
     <p class="eyebrow">03 · Teams</p>
     <div class="choices" id="teamCountChoices"></div>
     <div class="teams-edit" id="teamNames"></div>
-    <div class="hint">If you don't type a name, the team is named after its colour.</div>
+    <div class="hint">Click a monster to change it. If you don't type a name, the team takes the monster's name.</div>
   </div>
 
   <div class="panel">
@@ -386,6 +399,7 @@
 
 <script src="../shared/words.js"></script>
 <script src="../shared/photos/photos.js"></script>
+<script src="../monster-rush/monsters.js"></script>
 <script>
 const TEAM_COLORS = [
   { name: "Red", css: "var(--red)" }, { name: "Blue", css: "var(--blue)" },
@@ -401,6 +415,9 @@ const store = loadStore(); store.custom = store.custom || {};
 const cfg = Object.assign({ book: "sms", teamCount: 2, names: ["","","",""], perTeam: 5, timer: 0,
   picture: true, letters: true, steal: true, off: {} }, store.cfg || {});
 cfg.off = cfg.off || {};
+// each team plays as one of the Monster Rush monsters
+cfg.mons = (cfg.mons || []).filter((t, i, a) => MONSTERS[t] && a.indexOf(t) === i);
+for (const t of MONSTER_ORDER) if (cfg.mons.length < 4 && !cfg.mons.includes(t)) cfg.mons.push(t);
 
 function bookText(id){ return store.custom[id] != null ? store.custom[id] : BOOKS[id].text.trim(); }
 function parseWords(txt){
@@ -480,10 +497,20 @@ function renderSetup(){
   const tn = $("teamNames"); tn.innerHTML = "";
   for (let i = 0; i < cfg.teamCount; i++) {
     const d = document.createElement("div");
-    d.className = "team-input"; d.style.setProperty("--c", TEAM_COLORS[i].css);
-    d.innerHTML = '<span class="dot"></span>';
+    const mt = cfg.mons[i];
+    d.className = "team-input"; d.style.setProperty("--c", MONSTERS[mt].color);
+    d.innerHTML = '<button type="button" class="pick-mon" title="Change monster">' + monsterSVG(mt) + '<small>↻</small></button>';
+    d.querySelector(".pick-mon").onclick = () => {
+      // next monster that no other team is using
+      const used = cfg.mons.slice(0, cfg.teamCount), k = MONSTER_ORDER.indexOf(mt);
+      for (let s = 1; s < MONSTER_ORDER.length; s++) {
+        const cand = MONSTER_ORDER[(k + s) % MONSTER_ORDER.length];
+        if (!used.includes(cand)) { cfg.mons[i] = cand; break; }
+      }
+      renderSetup();
+    };
     const inp = document.createElement("input");
-    inp.placeholder = TEAM_COLORS[i].name; inp.value = cfg.names[i] || ""; inp.maxLength = 20;
+    inp.placeholder = MONSTERS[mt].name; inp.value = cfg.names[i] || ""; inp.maxLength = 20;
     inp.oninput = () => { cfg.names[i] = inp.value; };
     d.appendChild(inp); tn.appendChild(d);
   }
@@ -618,7 +645,7 @@ function startGame(){
   let deck = shuffle(pool.slice());
   while (deck.length < need) deck = deck.concat(shuffle(pool.slice()));   // repeat only if there aren't enough words
   G = {
-    teams: Array.from({ length: cfg.teamCount }, (_, i) => ({ name: (cfg.names[i] || "").trim() || TEAM_COLORS[i].name, color: TEAM_COLORS[i].css, score: 0 })),
+    teams: Array.from({ length: cfg.teamCount }, (_, i) => ({ name: (cfg.names[i] || "").trim() || MONSTERS[cfg.mons[i]].name, mon: cfg.mons[i], color: MONSTERS[cfg.mons[i]].color, score: 0 })),
     deck: deck.slice(0, need), idx: 0, phase: "ask", hint: false, stealer: null, result: null, typed: [], attempt: null
   };
   undoStack = [];
@@ -640,7 +667,8 @@ function renderTeams(deltas = {}){
     const pickable = G.phase === "steal" && i !== turnTeam();
     el.className = "team" + (i === turnTeam() && G.phase === "ask" ? " turn" : "") + (pickable ? " pickable" : "") + (G.stealer === i && G.phase === "stealAsk" ? " turn" : "");
     el.style.setProperty("--c", t.color);
-    el.innerHTML = `<span class="turnflag">${G.phase === "stealAsk" ? "STEALING" : "YOUR TURN"}</span><div class="tname"><span class="dot"></span><span class="n"></span></div><div class="score">${t.score} <small style="font-size:14px;letter-spacing:.14em">PTS</small></div>`;
+    const feel = G.feel && G.feel.team === i ? G.feel.kind : "";
+    el.innerHTML = `<span class="turnflag">${G.phase === "stealAsk" ? "STEALING" : "YOUR TURN"}</span><div class="trow"><div class="tmon ${feel}">${monsterSVG(t.mon || MONSTER_ORDER[i], feel === "joy" ? "joy" : feel === "sad" ? "sad" : "happy")}</div><div class="tinfo"><div class="tname"><span class="dot"></span><span class="n"></span></div><div class="score">${t.score} <small style="font-size:14px;letter-spacing:.14em">PTS</small></div></div></div>`;
     el.querySelector(".n").textContent = t.name;
     if (deltas[i]) { const d = document.createElement("span"); d.className = "delta"; d.textContent = "+" + deltas[i]; el.appendChild(d); }
     if (pickable) el.onclick = () => startSteal(i);
@@ -752,21 +780,22 @@ function markOk(attempt){
   const stealing = G.phase === "stealAsk";
   const i = stealing ? G.stealer : turnTeam();
   const pts = stealing ? 1 : (G.hint ? 1 : 2);
-  G.teams[i].score += pts; G.lastDeltas = { [i]: pts };
+  G.teams[i].score += pts; G.lastDeltas = { [i]: pts }; G.feel = { team: i, kind: "joy" };
   G.result = "ok"; G.resultText = (stealing ? "🐝 Stolen! " : "🎉 Correct! ") + G.teams[i].name + " gets " + "🍯".repeat(pts);
   G.phase = "done"; render(); sndOk(); confetti(); setTimeout(() => spellOut(cur().w), 500);
 }
 function markBad(attempt){
   snapshot(); G.attempt = Array.isArray(attempt) ? attempt : null; G.typed = [];
+  G.feel = { team: G.phase === "stealAsk" ? G.stealer : turnTeam(), kind: "sad" };
   if (G.phase === "ask" && cfg.steal && G.teams.length > 1) { G.phase = "steal"; render(); sndBad(); return; }
   G.result = "bad"; G.resultText = "The correct spelling is…"; G.phase = "done"; render(); sndBad(); setTimeout(() => spellOut(cur().w), 500);
 }
-function startSteal(i){ snapshot(); G.stealer = i; G.phase = "stealAsk"; G.typed = []; render(); sayWord(cur().w); }
+function startSteal(i){ snapshot(); G.feel = null; G.stealer = i; G.phase = "stealAsk"; G.typed = []; render(); sayWord(cur().w); }
 function noSteal(){ snapshot(); G.result = "bad"; G.resultText = "Nobody stole it. The correct spelling is…"; G.phase = "done"; render(); setTimeout(() => spellOut(cur().w), 300); }
 function nextWord(){
   if (G.idx + 1 >= G.deck.length) { finish(); return; }
   snapshot();
-  G.idx++; G.phase = "ask"; G.hint = false; G.stealer = null; G.result = null; G.resultText = ""; G.typed = []; G.attempt = null;
+  G.idx++; G.phase = "ask"; G.feel = null; G.hint = false; G.stealer = null; G.result = null; G.resultText = ""; G.typed = []; G.attempt = null;
   render(true); setTimeout(() => sayWord(cur().w), 400);
 }
 function undo(){ if (!undoStack.length) return; G = JSON.parse(undoStack.pop()); G.lastDeltas = null; if (!$("game").classList.contains("hidden")) render(); }
@@ -799,7 +828,7 @@ function finish(){
     const d = document.createElement("div");
     d.className = "pod"; d.style.setProperty("--c", t.color);
     d.style.paddingTop = (40 - place * 12) + "px";
-    d.innerHTML = `<div class="medal">${medals[Math.min(place, 3)]}</div><div class="n"></div><div class="s">${t.score} <small style="font-size:14px;letter-spacing:.14em">PTS</small></div>`;
+    d.innerHTML = `<div class="pmon">${monsterSVG(t.mon || "gobo", place === 0 ? "joy" : "happy")}</div><div class="medal">${medals[Math.min(place, 3)]}</div><div class="n"></div><div class="s">${t.score} <small style="font-size:14px;letter-spacing:.14em">PTS</small></div>`;
     d.querySelector(".n").textContent = t.name;
     pod.appendChild(d);
   });
@@ -886,7 +915,7 @@ renderSetup(); buildKeyboard(); drawBees();
   title: "Spelling Bee",
   intro: "Teams take turns to spell words out loud, letter by letter.",
   steps: [
-    ["⚙️", "<b>Set up:</b> choose the book, the units, the teams and the options (timer, word length, pictures…). Press <b>Start!</b>"],
+    ["⚙️", "<b>Set up:</b> choose the book, the units, the teams (click a monster to change it) and the options (timer, word length, pictures…). Press <b>Start!</b>"],
     ["🔊", "Press <b>Listen</b> (or <b>🐢 Slowly</b>) to hear the word. The picture and its word type help."],
     ["🗣️", "The team spells the word out loud, letter by letter."],
     ["⌨️", "The teacher types each letter they say. If you can't hear a letter, press <b>❓ Didn't hear</b> (that makes the word wrong). Then press <b>✔ Check</b>."],

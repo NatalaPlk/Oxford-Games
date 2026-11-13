@@ -1,0 +1,4216 @@
+{
+ "book": {
+  "word": "book",
+  "file": "En-uk-book.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-book.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "brown": {
+  "word": "brown",
+  "file": "En-uk-brown.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-brown.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "orange": {
+  "word": "orange",
+  "file": "LL-Q1860 (eng)-Aquild-orange.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Aquild-orange.wav",
+  "license": "CC BY 4.0",
+  "author": "Speaker: Aquild\nRecorder: Aquild"
+ },
+ "seven": {
+  "word": "seven",
+  "file": "LL-Q1860 (eng)-Back ache-seven.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-seven.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "one": {
+  "word": "one",
+  "file": "En-au-one.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-one.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "two": {
+  "word": "two",
+  "file": "LL-Q1860 (eng)-Back ache-two.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-two.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "blue": {
+  "word": "blue",
+  "file": "En-uk-blue.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-blue.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "green": {
+  "word": "green",
+  "file": "En-uk-green.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-green.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "red": {
+  "word": "red",
+  "file": "En-uk-red.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-red.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "hand": {
+  "word": "hand",
+  "file": "En-uk-hand.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-hand.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "arm": {
+  "word": "arm",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-arm.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-arm.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "chair": {
+  "word": "chair",
+  "file": "En-uk-chair.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-chair.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "hair": {
+  "word": "hair",
+  "file": "En-uk-hair.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-hair.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "ear": {
+  "word": "ear",
+  "file": "En-uk-ear.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-ear.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Chris Melville assumed (based on copyright claims)."
+ },
+ "nose": {
+  "word": "nose",
+  "file": "En-uk-nose.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-nose.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "mouth": {
+  "word": "mouth",
+  "file": "En-uk-mouth.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-mouth.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "leg": {
+  "word": "leg",
+  "file": "En-uk-leg.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-leg.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "bag": {
+  "word": "bag",
+  "file": "LL-Q1860 (eng)-Justinrleung-bag.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Justinrleung-bag.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Justinrleung\nRecorder: Justinrleung"
+ },
+ "door": {
+  "word": "door",
+  "file": "En-uk-door.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-door.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "window": {
+  "word": "window",
+  "file": "En-uk-window.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-window.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "table": {
+  "word": "table",
+  "file": "En-uk-table.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-table.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "crayon": {
+  "word": "crayon",
+  "file": "LL-Q1860 (eng)-Vealhurl-crayon.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-crayon.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "elephant": {
+  "word": "elephant",
+  "file": "En-us-elephant.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-elephant.ogg",
+  "license": "Public domain",
+  "author": ""
+ },
+ "apple": {
+  "word": "apple",
+  "file": "En-uk-apple.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-apple.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "baby": {
+  "word": "baby",
+  "file": "En-uk-baby.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-baby.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "snake": {
+  "word": "snake",
+  "file": "En-au-snake.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-snake.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "brother": {
+  "word": "brother",
+  "file": "En-uk-brother.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-brother.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Baryonic Being~commonswiki assumed (based on copyright claims)."
+ },
+ "sister": {
+  "word": "sister",
+  "file": "En-uk-sister.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-sister.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "egg": {
+  "word": "egg",
+  "file": "En-uk-egg.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-egg.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "cheese": {
+  "word": "cheese",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-cheese.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-cheese.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "bread": {
+  "word": "bread",
+  "file": "En-uk-bread.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-bread.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "cake": {
+  "word": "cake",
+  "file": "En-uk-cake.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-cake.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "house": {
+  "word": "house",
+  "file": "En-uk-house.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-house.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "hospital": {
+  "word": "hospital",
+  "file": "En-uk-hospital.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-hospital.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "doctor": {
+  "word": "doctor",
+  "file": "En-uk-doctor.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-doctor.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "giraffe": {
+  "word": "giraffe",
+  "file": "LL-Q1860 (eng)-Vealhurl-giraffe.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-giraffe.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "milk": {
+  "word": "milk",
+  "file": "En-uk-milk.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-milk.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "school": {
+  "word": "school",
+  "file": "En-uk-school.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-school.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "shop": {
+  "word": "shop",
+  "file": "En-us-shop.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-shop.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "farmer": {
+  "word": "farmer",
+  "file": "En-uk-farmer.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-farmer.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "cafe": {
+  "word": "cafe",
+  "file": "En-us-cafe.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-cafe.ogg",
+  "license": "CC0",
+  "author": "0x0077BE"
+ },
+ "monkey": {
+  "word": "monkey",
+  "file": "En-us-monkey.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-monkey.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "crocodile": {
+  "word": "crocodile",
+  "file": "LL-Q1860 (eng)-Vealhurl-crocodile.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-crocodile.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "hippo": {
+  "word": "hippo",
+  "file": "LL-Q1860 (eng)-Vealhurl-hippo.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-hippo.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "teacher": {
+  "word": "teacher",
+  "file": "En-uk-teacher.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-teacher.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "grandma": {
+  "word": "grandma",
+  "file": "LL-Q1860 (eng)-Vealhurl-grandma.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-grandma.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "grandpa": {
+  "word": "grandpa",
+  "file": "LL-Q1860 (eng)-Vininn126-grandpa.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vininn126-grandpa.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vininn126\nRecorder: Vininn126"
+ },
+ "computer": {
+  "word": "computer",
+  "file": "En-uk-computer.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-computer.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "eleven": {
+  "word": "eleven",
+  "file": "En-au-eleven.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-eleven.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "football": {
+  "word": "football",
+  "file": "En-au-football.oga",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-football.oga",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "nineteen": {
+  "word": "nineteen",
+  "file": "En-us-nineteen.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-nineteen.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "twenty": {
+  "word": "twenty",
+  "file": "En-uk-twenty.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-twenty.ogg",
+  "license": "Public domain",
+  "author": ""
+ },
+ "jump": {
+  "word": "jump",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-jump.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-jump.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "hello": {
+  "word": "hello",
+  "file": "En-uk-hello.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-hello.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "goodbye": {
+  "word": "goodbye",
+  "file": "LL-Q1860 (eng)-Pvanp7-goodbye.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Pvanp7-goodbye.wav",
+  "license": "CC0",
+  "author": "Speaker: Pvanp7\nRecorder: Pvanp7"
+ },
+ "friend": {
+  "word": "friend",
+  "file": "En-uk-friend.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-friend.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "nurse": {
+  "word": "nurse",
+  "file": "LL-Q1860 (eng)-Vealhurl-nurse.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-nurse.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "trousers": {
+  "word": "trousers",
+  "file": "En-uk-trousers.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-trousers.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "paint": {
+  "word": "paint",
+  "file": "LL-Q1860 (eng)-Vealhurl-paint.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-paint.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "shirt": {
+  "word": "shirt",
+  "file": "En-uk-shirt.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-shirt.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "skirt": {
+  "word": "skirt",
+  "file": "En-uk-skirt.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-skirt.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "coat": {
+  "word": "coat",
+  "file": "En-uk-coat.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-coat.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "ball": {
+  "word": "ball",
+  "file": "En-au-ball.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-ball.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "firefighter": {
+  "word": "firefighter",
+  "file": "LL-Q1860 (eng)-Vealhurl-firefighter.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-firefighter.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "dress": {
+  "word": "dress",
+  "file": "En-uk-dress.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-dress.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "vet": {
+  "word": "vet",
+  "file": "LL-Q1860 (eng)-Vealhurl-vet.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-vet.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "dance": {
+  "word": "dance",
+  "file": "En-uk-dance.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-dance.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "desk": {
+  "word": "desk",
+  "file": "En-us-desk.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-desk.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "socks": {
+  "word": "socks",
+  "file": "En-uk-socks.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-socks.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "monday": {
+  "word": "Monday",
+  "file": "En-uk-Monday.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-Monday.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "tuesday": {
+  "word": "Tuesday",
+  "file": "En-uk-Tuesday.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-Tuesday.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "wednesday": {
+  "word": "Wednesday",
+  "file": "En-uk-Wednesday.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-Wednesday.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "thursday": {
+  "word": "Thursday",
+  "file": "En-uk-Thursday.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-Thursday.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "friday": {
+  "word": "Friday",
+  "file": "En-uk-Friday.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-Friday.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "saturday": {
+  "word": "Saturday",
+  "file": "En-uk-Saturday.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-Saturday.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "sunday": {
+  "word": "Sunday",
+  "file": "En-uk-Sunday.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-Sunday.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "big": {
+  "word": "big",
+  "file": "En-uk-big.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-big.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "new": {
+  "word": "new",
+  "file": "En-uk-new.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-new.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Chris Melville assumed (based on copyright claims)."
+ },
+ "sausage": {
+  "word": "sausage",
+  "file": "En-us-sausage.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-sausage.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "fish": {
+  "word": "fish",
+  "file": "En-uk-fish.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-fish.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "bathroom": {
+  "word": "bathroom",
+  "file": "En-uk-bathroom.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-bathroom.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "chocolate": {
+  "word": "chocolate",
+  "file": "En-uk-chocolate.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-chocolate.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Celestianpower assumed (based on copyright claims)."
+ },
+ "old": {
+  "word": "old",
+  "file": "En-uk-old.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-old.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "potato": {
+  "word": "potato",
+  "file": "En-uk-potato.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-potato.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "kitchen": {
+  "word": "kitchen",
+  "file": "En-uk-kitchen.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-kitchen.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "teddy": {
+  "word": "teddy",
+  "file": "LL-Q1860 (eng)-Vealhurl-teddy.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-teddy.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "dog": {
+  "word": "dog",
+  "file": "En-uk-dog.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-dog.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "water": {
+  "word": "water",
+  "file": "En-uk-water.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-water.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "dictionary": {
+  "word": "dictionary",
+  "file": "En-uk-dictionary.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-dictionary.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Celestianpower assumed (based on copyright claims)."
+ },
+ "sun": {
+  "word": "sun",
+  "file": "En-uk-sun.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-sun.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "bed": {
+  "word": "bed",
+  "file": "En-uk-bed.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-bed.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "neck": {
+  "word": "neck",
+  "file": "LL-Q1860 (eng)-Back ache-neck.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-neck.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "scissors": {
+  "word": "scissors",
+  "file": "En-uk-scissors.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-scissors.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "boat": {
+  "word": "boat",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-boat.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-boat.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "breakfast": {
+  "word": "breakfast",
+  "file": "En-uk-breakfast.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-breakfast.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "garden": {
+  "word": "garden",
+  "file": "En-uk-garden.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-garden.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "sea": {
+  "word": "sea",
+  "file": "En-uk-sea.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-sea.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "lunch": {
+  "word": "lunch",
+  "file": "En-uk-lunch.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-lunch.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "beach": {
+  "word": "beach",
+  "file": "En-uk-beach.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-beach.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "holiday": {
+  "word": "holiday",
+  "file": "En-us-holiday.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-holiday.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "cap": {
+  "word": "cap",
+  "file": "En-us-cap.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-cap.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "scarf": {
+  "word": "scarf",
+  "file": "En-au-scarf.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-scarf.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "sandcastle": {
+  "word": "sandcastle",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-sandcastle.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-sandcastle.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "notebook": {
+  "word": "notebook",
+  "file": "LL-Q1860 (eng)-Vealhurl-notebook.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-notebook.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "shell": {
+  "word": "shell",
+  "file": "En-us-shell.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-shell.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "towel": {
+  "word": "towel",
+  "file": "En-uk-towel.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-towel.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "jeans": {
+  "word": "jeans",
+  "file": "LL-Q1860 (eng)-Vealhurl-jeans.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-jeans.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "lamp": {
+  "word": "lamp",
+  "file": "En-uk-lamp.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-lamp.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "gloves": {
+  "word": "gloves",
+  "file": "LL-Q1860 (eng)-Persent101-gloves.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Persent101-gloves.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Persent101\nRecorder: Persent101"
+ },
+ "classroom": {
+  "word": "classroom",
+  "file": "En-uk-classroom.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-classroom.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "toes": {
+  "word": "toes",
+  "file": "LL-Q1860 (eng)-Vealhurl-toes.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-toes.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "quarter": {
+  "word": "quarter",
+  "file": "LL-Q1860 (eng)-I learned some phrases-quarter.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-I_learned_some_phrases-quarter.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: I learned some phrases\nRecorder: I learned some phrases"
+ },
+ "clock": {
+  "word": "clock",
+  "file": "En-uk-clock.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-clock.ogg",
+  "license": "CC BY 4.0",
+  "author": "ATMarsden"
+ },
+ "morning": {
+  "word": "morning",
+  "file": "En-uk-morning.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-morning.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "strawberry": {
+  "word": "strawberry",
+  "file": "LL-Q1860 (eng)-Xavier hillier-strawberry.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Xavier_hillier-strawberry.wav",
+  "license": "CC0",
+  "author": "Speaker: Xavier hillier\nRecorder: Xavier hillier"
+ },
+ "lemon": {
+  "word": "lemon",
+  "file": "En-uk-lemon.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-lemon.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "camel": {
+  "word": "camel",
+  "file": "En-au-camel.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-camel.ogg",
+  "license": "Public domain",
+  "author": "Tooironic"
+ },
+ "pear": {
+  "word": "pear",
+  "file": "En-uk-pear.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-pear.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "dinner": {
+  "word": "dinner",
+  "file": "En-uk-dinner.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-dinner.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "grapes": {
+  "word": "grapes",
+  "file": "LL-Q1860 (eng)-Persent101-grapes.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Persent101-grapes.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Persent101\nRecorder: Persent101"
+ },
+ "onion": {
+  "word": "onion",
+  "file": "En-uk-onion.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-onion.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "parrot": {
+  "word": "parrot",
+  "file": "En-us-parrot.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-parrot.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "shelf": {
+  "word": "shelf",
+  "file": "LL-Q1860 (eng)-Vealhurl-shelf.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-shelf.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "pool": {
+  "word": "pool",
+  "file": "LL-Q1860 (eng)-Vealhurl-pool.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-pool.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "library": {
+  "word": "library",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-library.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-library.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "pepper": {
+  "word": "pepper",
+  "file": "En-uk-pepper.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-pepper.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "afternoon": {
+  "word": "afternoon",
+  "file": "En-uk-afternoon.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-afternoon.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "shark": {
+  "word": "shark",
+  "file": "En-us-shark.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-shark.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "cupboard": {
+  "word": "cupboard",
+  "file": "En-uk-cupboard.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-cupboard.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "wardrobe": {
+  "word": "wardrobe",
+  "file": "En-uk-wardrobe.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-wardrobe.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "mirror": {
+  "word": "mirror",
+  "file": "En-uk-mirror.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-mirror.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Chris Melville assumed (based on copyright claims)."
+ },
+ "evening": {
+  "word": "evening",
+  "file": "En-uk-evening.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-evening.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "cinema": {
+  "word": "cinema",
+  "file": "En-uk-cinema.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-cinema.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "beans": {
+  "word": "beans",
+  "file": "En-au-beans.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-beans.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "tennis": {
+  "word": "tennis",
+  "file": "LL-Q1860 (eng)-Vealhurl-tennis.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-tennis.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "island": {
+  "word": "island",
+  "file": "En-uk-island.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-island.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "helicopter": {
+  "word": "helicopter",
+  "file": "En-au-helicopter.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-helicopter.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "mountain": {
+  "word": "mountain",
+  "file": "En-uk-mountain.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-mountain.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "river": {
+  "word": "river",
+  "file": "En-uk-river.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-river.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "forest": {
+  "word": "forest",
+  "file": "En-uk-forest.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-forest.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "hockey": {
+  "word": "hockey",
+  "file": "LL-Q1860 (eng)-Vealhurl-hockey.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-hockey.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "basketball": {
+  "word": "basketball",
+  "file": "En-us-basketball.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-basketball.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "glasses": {
+  "word": "glasses",
+  "file": "En-uk-glasses.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-glasses.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "baseball": {
+  "word": "baseball",
+  "file": "En-us-baseball.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-baseball.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "volleyball": {
+  "word": "volleyball",
+  "file": "En-us-volleyball.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-volleyball.ogg",
+  "license": "Public domain",
+  "author": "Spacecat2"
+ },
+ "ears": {
+  "word": "ears",
+  "file": "En-uk-ears.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-ears.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "eyes": {
+  "word": "eyes",
+  "file": "En-uk-eyes.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-eyes.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "camping": {
+  "word": "camping",
+  "file": "LL-Q1860 (eng)-Vealhurl-camping.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-camping.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "skating": {
+  "word": "skating",
+  "file": "LL-Q1860 (eng)-Vealhurl-skating.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-skating.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "english": {
+  "word": "English",
+  "file": "En-uk-English.oga",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-English.oga",
+  "license": "Public domain",
+  "author": "yuumei"
+ },
+ "music": {
+  "word": "music",
+  "file": "En-uk-music.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-music.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "after": {
+  "word": "after",
+  "file": "LL-Q1860 (eng)-Vealhurl-after.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-after.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "church": {
+  "word": "church",
+  "file": "En-uk-church.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-church.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "square": {
+  "word": "square",
+  "file": "En-au-square.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-square.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "art": {
+  "word": "art",
+  "file": "En-uk-art.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-art.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "clean": {
+  "word": "clean",
+  "file": "En-uk-clean.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-clean.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "blanket": {
+  "word": "blanket",
+  "file": "En-uk-blanket.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-blanket.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "castle": {
+  "word": "castle",
+  "file": "En-au-castle.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-castle.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "factory": {
+  "word": "factory",
+  "file": "En-uk-factory.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-factory.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "passport": {
+  "word": "passport",
+  "file": "LL-Q1860 (eng)-Vealhurl-passport.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-passport.wav",
+  "license": "CC BY 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "cucumber": {
+  "word": "cucumber",
+  "file": "En-us-cucumber.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-cucumber.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "ironing": {
+  "word": "ironing",
+  "file": "LL-Q1860 (eng)-Wodencafe-ironing.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Wodencafe-ironing.wav",
+  "license": "CC0",
+  "author": "Speaker: Wodencafe\nRecorder: Wodencafe"
+ },
+ "maths": {
+  "word": "maths",
+  "file": "En-uk-maths.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-maths.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Andrew Marsden"
+ },
+ "homework": {
+  "word": "homework",
+  "file": "LL-Q1860 (eng)-Flame, not lame-homework.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Flame,_not_lame-homework.wav",
+  "license": "CC0",
+  "author": "Speaker: Flame, not lame\nRecorder: Flame, not lame"
+ },
+ "tidy": {
+  "word": "tidy",
+  "file": "LL-Q1860 (eng)-Vealhurl-tidy.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-tidy.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "picnic": {
+  "word": "picnic",
+  "file": "LL-Q1860 (eng)-Vealhurl-picnic.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-picnic.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "shopping": {
+  "word": "shopping",
+  "file": "LL-Q1860 (eng)-Persent101-shopping.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Persent101-shopping.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Persent101\nRecorder: Persent101"
+ },
+ "timetable": {
+  "word": "timetable",
+  "file": "En-us-timetable.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-timetable.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "strawberries": {
+  "word": "strawberries",
+  "file": "LL-Q1860 (eng)-Wodencafe-strawberries.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Wodencafe-strawberries.wav",
+  "license": "CC0",
+  "author": "Speaker: Wodencafe\nRecorder: Wodencafe"
+ },
+ "yoghurt": {
+  "word": "yoghurt",
+  "file": "En-gb-yoghurt.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-gb-yoghurt.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Knowledgeisking1"
+ },
+ "sausages": {
+  "word": "sausages",
+  "file": "LL-Q1860 (eng)-Wodencafe-sausages.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Wodencafe-sausages.wav",
+  "license": "CC0",
+  "author": "Speaker: Wodencafe\nRecorder: Wodencafe"
+ },
+ "mexico": {
+  "word": "Mexico",
+  "file": "LL-Q1860 (eng)-Soundguys-Mexico.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Soundguys-Mexico.wav",
+  "license": "CC0",
+  "author": "Speaker: Soundguys\nRecorder: Soundguys"
+ },
+ "medicine": {
+  "word": "medicine",
+  "file": "En-uk-medicine.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-medicine.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "japan": {
+  "word": "Japan",
+  "file": "LL-Q1860 (eng)-Soundguys-Japan.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Soundguys-Japan.wav",
+  "license": "CC0",
+  "author": "Speaker: Soundguys\nRecorder: Soundguys"
+ },
+ "germany": {
+  "word": "Germany",
+  "file": "En-uk-Germany.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-Germany.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Tomhannen assumed (based on copyright claims)."
+ },
+ "france": {
+  "word": "France",
+  "file": "LL-Q1860 (eng)-Soundguys-France.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Soundguys-France.wav",
+  "license": "CC0",
+  "author": "Speaker: Soundguys\nRecorder: Soundguys"
+ },
+ "egypt": {
+  "word": "Egypt",
+  "file": "LL-Q1860 (eng)-Soundguys-Egypt.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Soundguys-Egypt.wav",
+  "license": "CC0",
+  "author": "Speaker: Soundguys\nRecorder: Soundguys"
+ },
+ "market": {
+  "word": "market",
+  "file": "En-uk-market.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-market.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "brazil": {
+  "word": "Brazil",
+  "file": "LL-Q1860 (eng)-Soundguys-Brazil.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Soundguys-Brazil.wav",
+  "license": "CC0",
+  "author": "Speaker: Soundguys\nRecorder: Soundguys"
+ },
+ "china": {
+  "word": "China",
+  "file": "En-gb-china.oga",
+  "source": "https://commons.wikimedia.org/wiki/File:En-gb-china.oga",
+  "license": "CC0",
+  "author": "Harry Bond"
+ },
+ "spain": {
+  "word": "Spain",
+  "file": "LL-Q1860 (eng)-Soundguys-Spain.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Soundguys-Spain.wav",
+  "license": "CC0",
+  "author": "Speaker: Soundguys\nRecorder: Soundguys"
+ },
+ "italy": {
+  "word": "Italy",
+  "file": "LL-Q1860 (eng)-Soundguys-Italy.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Soundguys-Italy.wav",
+  "license": "CC0",
+  "author": "Speaker: Soundguys\nRecorder: Soundguys"
+ },
+ "keyboard": {
+  "word": "keyboard",
+  "file": "En-us-keyboard.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-keyboard.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "cold": {
+  "word": "cold",
+  "file": "En-uk-cold.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-cold.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "cough": {
+  "word": "cough",
+  "file": "LL-Q1860 (eng)-Vealhurl-cough.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-cough.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "camera": {
+  "word": "camera",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-camera.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-camera.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "television": {
+  "word": "television",
+  "file": "En-uk-television.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-television.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "battery": {
+  "word": "battery",
+  "file": "En-uk-battery.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-battery.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Tomhannen assumed (based on copyright claims)."
+ },
+ "headphones": {
+  "word": "headphones",
+  "file": "LL-Q1860 (eng)-Aadenboy-headphones.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Aadenboy-headphones.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Aadenboy\nRecorder: Aadenboy"
+ },
+ "tablet": {
+  "word": "tablet",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-tablet.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-tablet.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "earache": {
+  "word": "earache",
+  "file": "LL-Q1860 (eng)-Flame, not lame-earache.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Flame,_not_lame-earache.wav",
+  "license": "CC0",
+  "author": "Speaker: Flame, not lame\nRecorder: Flame, not lame"
+ },
+ "laptop": {
+  "word": "laptop",
+  "file": "En-us-laptop.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-laptop.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "G. Allen Morris III"
+ },
+ "seahorse": {
+  "word": "seahorse",
+  "file": "En-us-seahorse.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-seahorse.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Logical123"
+ },
+ "accident": {
+  "word": "accident",
+  "file": "En-us-accident.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-accident.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "fire": {
+  "word": "fire",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-fire.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-fire.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "princess": {
+  "word": "princess",
+  "file": "En-us-princess.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-princess.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "village": {
+  "word": "village",
+  "file": "En-uk-village.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-village.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "flag": {
+  "word": "flag",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-flag.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-flag.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "valley": {
+  "word": "valley",
+  "file": "LL-Q1860 (eng)-Back ache-Valley.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-Valley.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "festival": {
+  "word": "festival",
+  "file": "En-us-festival.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-festival.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "stage": {
+  "word": "stage",
+  "file": "LL-Q1860 (eng)-Back ache-stage.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-stage.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "helmet": {
+  "word": "helmet",
+  "file": "LL-Q1860 (eng)-Vealhurl-helmet.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-helmet.wav",
+  "license": "CC BY 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "balloon": {
+  "word": "balloon",
+  "file": "En-us-balloon.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-balloon.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "rainy": {
+  "word": "rainy",
+  "file": "LL-Q1860 (eng)-Vealhurl-rainy.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-rainy.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "police": {
+  "word": "police",
+  "file": "En-uk-police.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-police.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "foggy": {
+  "word": "foggy",
+  "file": "LL-Q1860 (eng)-Vealhurl-foggy.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-foggy.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "windy": {
+  "word": "windy",
+  "file": "En-au-windy.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-windy.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "countryside": {
+  "word": "countryside",
+  "file": "En-uk-countryside.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-countryside.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "stormy": {
+  "word": "stormy",
+  "file": "En-us-stormy.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-stormy.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "planet": {
+  "word": "planet",
+  "file": "LL-Q1860 (eng)-Vealhurl-planet.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-planet.wav",
+  "license": "CC BY 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "star": {
+  "word": "star",
+  "file": "En-uk-star.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-star.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "trumpet": {
+  "word": "trumpet",
+  "file": "En-us-trumpet.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-trumpet.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "blond": {
+  "word": "blond",
+  "file": "LL-Q1860 (eng)-Vealhurl-blond.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-blond.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "piano": {
+  "word": "piano",
+  "file": "LL-Q1860 (eng)-Vealhurl-piano.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-piano.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "danger": {
+  "word": "danger",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-danger.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-danger.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "saxophone": {
+  "word": "saxophone",
+  "file": "En-us-saxophone.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-saxophone.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "luggage": {
+  "word": "luggage",
+  "file": "LL-Q1860 (eng)-Vealhurl-luggage.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-luggage.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "unicorn": {
+  "word": "unicorn",
+  "file": "En-au-unicorn.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-unicorn.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "ticket": {
+  "word": "ticket",
+  "file": "En-uk-ticket.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-ticket.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "moustache": {
+  "word": "moustache",
+  "file": "En-us-moustache.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-moustache.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "single": {
+  "word": "single",
+  "file": "En-au-single.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-single.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "ponytail": {
+  "word": "ponytail",
+  "file": "LL-Q1860 (eng)-Vealhurl-ponytail.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-ponytail.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "curly": {
+  "word": "curly",
+  "file": "LL-Q1860 (eng)-Vealhurl-curly.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-curly.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "gas": {
+  "word": "gas",
+  "file": "En-us-gas.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-gas.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": ""
+ },
+ "compass": {
+  "word": "compass",
+  "file": "En-us-compass.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-compass.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "moon": {
+  "word": "moon",
+  "file": "En-uk-moon.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-moon.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "astronaut": {
+  "word": "astronaut",
+  "file": "LL-Q1860 (eng)-Wodencafe-astronaut.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Wodencafe-astronaut.wav",
+  "license": "CC0",
+  "author": "Speaker: Wodencafe\nRecorder: Wodencafe"
+ },
+ "earthquake": {
+  "word": "earthquake",
+  "file": "En-us-earthquake.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-earthquake.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "solid": {
+  "word": "solid",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-solid.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-solid.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "canoe": {
+  "word": "canoe",
+  "file": "En-us-canoe.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-canoe.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "flood": {
+  "word": "flood",
+  "file": "En-us-flood.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-flood.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "torch": {
+  "word": "torch",
+  "file": "En-au-torch.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-torch.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "tsunami": {
+  "word": "tsunami",
+  "file": "LL-Q1860 (eng)-Vealhurl-tsunami.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-tsunami.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "campfire": {
+  "word": "campfire",
+  "file": "LL-Q1860 (eng)-Vealhurl-campfire.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-campfire.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "scientist": {
+  "word": "scientist",
+  "file": "LL-Q1860 (eng)-Vealhurl-scientist.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-scientist.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "measure": {
+  "word": "measure",
+  "file": "LL-Q1860 (eng)-I learned some phrases-measure.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-I_learned_some_phrases-measure.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: I learned some phrases\nRecorder: I learned some phrases"
+ },
+ "magnet": {
+  "word": "magnet",
+  "file": "LL-Q1860 (eng)-Vealhurl-magnet.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-magnet.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "fishing": {
+  "word": "fishing",
+  "file": "En-us-fishing.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-fishing.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "rucksack": {
+  "word": "rucksack",
+  "file": "En-uk-rucksack.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-rucksack.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "climbing": {
+  "word": "climbing",
+  "file": "LL-Q1860 (eng)-Vealhurl-climbing.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-climbing.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "eruption": {
+  "word": "eruption",
+  "file": "LL-Q1860 (eng)-Vealhurl-eruption.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-eruption.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "microscope": {
+  "word": "microscope",
+  "file": "LL-Q1860 (eng)-Vealhurl-microscope.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-microscope.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "rainforest": {
+  "word": "rainforest",
+  "file": "LL-Q1860 (eng)-Vealhurl-rainforest.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-rainforest.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "gold": {
+  "word": "gold",
+  "file": "En-uk-gold.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-gold.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "hundred": {
+  "word": "hundred",
+  "file": "En-au-hundred.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-hundred.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "leaves": {
+  "word": "leaves",
+  "file": "LL-Q1860 (eng)-Back ache-leaves.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-leaves.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "insect": {
+  "word": "insect",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-insect.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-insect.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "guitarist": {
+  "word": "guitarist",
+  "file": "LL-Q1860 (eng)-Vealhurl-guitarist.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-guitarist.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "poisonous": {
+  "word": "poisonous",
+  "file": "LL-Q1860 (eng)-Back ache-poisonous.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-poisonous.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "souvenir": {
+  "word": "souvenir",
+  "file": "LL-Q1860 (eng)-Vealhurl-souvenir.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-souvenir.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "carpet": {
+  "word": "carpet",
+  "file": "En-uk-carpet.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-carpet.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "cowboy": {
+  "word": "cowboy",
+  "file": "En-au-cowboy.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-cowboy.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "singer": {
+  "word": "singer",
+  "file": "LL-Q1860 (eng)-Back ache-singer.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-singer.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "concert": {
+  "word": "concert",
+  "file": "LL-Q1860 (eng)-Vealhurl-concert.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-concert.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "necklace": {
+  "word": "necklace",
+  "file": "LL-Q1860 (eng)-Vealhurl-necklace.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-necklace.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "keyring": {
+  "word": "keyring",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-keyring.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-keyring.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "sheriff": {
+  "word": "sheriff",
+  "file": "LL-Q1860 (eng)-Vealhurl-sheriff.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-sheriff.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "microphone": {
+  "word": "microphone",
+  "file": "LL-Q1860 (eng)-Vealhurl-microphone.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-microphone.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "bracelet": {
+  "word": "bracelet",
+  "file": "LL-Q1860 (eng)-Vealhurl-bracelet.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-bracelet.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "jewellery": {
+  "word": "jewellery",
+  "file": "LL-Q1860 (eng)-Aadenboy-jewellery.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Aadenboy-jewellery.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Aadenboy\nRecorder: Aadenboy"
+ },
+ "drummer": {
+  "word": "drummer",
+  "file": "LL-Q1860 (eng)-Vealhurl-drummer.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-drummer.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "storm": {
+  "word": "storm",
+  "file": "En-us-storm.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-storm.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "silver": {
+  "word": "silver",
+  "file": "LL-Q1860 (eng)-Tesco250-silver.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Tesco250-silver.wav",
+  "license": "CC BY 4.0",
+  "author": "Speaker: Tesco250\nRecorder: Tesco250"
+ },
+ "tree": {
+  "word": "tree",
+  "file": "En-uk-tree.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-tree.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "future": {
+  "word": "future",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-future.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-future.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "actor": {
+  "word": "actor",
+  "file": "LL-Q1860 (eng)-Back ache-actor.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-actor.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "curtain": {
+  "word": "curtain",
+  "file": "En-uk-curtain.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-curtain.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "pirate": {
+  "word": "pirate",
+  "file": "En-us-pirate.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-pirate.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "chest": {
+  "word": "chest",
+  "file": "LL-Q1860 (eng)-Back ache-chest.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-chest.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "playwright": {
+  "word": "playwright",
+  "file": "En-us-playwright.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-playwright.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "captain": {
+  "word": "captain",
+  "file": "LL-Q1860 (eng)-Back ache-captain.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Back_ache-captain.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Back ache\nRecorder: Back ache"
+ },
+ "applause": {
+  "word": "applause",
+  "file": "En-us-applause.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-applause.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "programmer": {
+  "word": "programmer",
+  "file": "LL-Q1860 (eng)-Vealhurl-programmer.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-programmer.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "treasure": {
+  "word": "treasure",
+  "file": "En-us-treasure.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-treasure.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "wave": {
+  "word": "wave",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-wave.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-wave.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "photographer": {
+  "word": "photographer",
+  "file": "LL-Q1860 (eng)-Vealhurl-photographer.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-photographer.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "pottery": {
+  "word": "pottery",
+  "file": "LL-Q1860 (eng)-Vealhurl-pottery.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-pottery.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "sailor": {
+  "word": "sailor",
+  "file": "En-uk-sailor.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-sailor.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "inventor": {
+  "word": "inventor",
+  "file": "LL-Q1860 (eng)-Vealhurl-inventor.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-inventor.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "engineer": {
+  "word": "engineer",
+  "file": "En-uk-engineer.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-engineer.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "journalist": {
+  "word": "journalist",
+  "file": "En-uk-journalist.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-journalist.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "designer": {
+  "word": "designer",
+  "file": "LL-Q1860 (eng)-Vealhurl-designer.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-designer.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "lighthouse": {
+  "word": "lighthouse",
+  "file": "En-us-lighthouse.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-lighthouse.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "motorway": {
+  "word": "motorway",
+  "file": "LL-Q1860 (eng)-Vealhurl-motorway.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-motorway.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "machine": {
+  "word": "machine",
+  "file": "En-uk-machine.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-machine.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "saw": {
+  "word": "saw",
+  "file": "LL-Q1860 (eng)-Knabrupt-saw.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Knabrupt-saw.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Knabrupt\nRecorder: Knabrupt"
+ },
+ "spaceship": {
+  "word": "spaceship",
+  "file": "LL-Q1860 (eng)-Flame, not lame-spaceship.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Flame,_not_lame-spaceship.wav",
+  "license": "CC0",
+  "author": "Speaker: Flame, not lame\nRecorder: Flame, not lame"
+ },
+ "electric": {
+  "word": "electric",
+  "file": "LL-Q1860 (eng)-Vealhurl-electric.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-electric.wav",
+  "license": "CC BY 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "engine": {
+  "word": "engine",
+  "file": "LL-Q1860 (eng)-Wodencafe-engine.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Wodencafe-engine.wav",
+  "license": "CC0",
+  "author": "Speaker: Wodencafe\nRecorder: Wodencafe"
+ },
+ "fencing": {
+  "word": "fencing",
+  "file": "LL-Q1860 (eng)-Vealhurl-fencing.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-fencing.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "champion": {
+  "word": "champion",
+  "file": "En-uk-champion.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-champion.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Chris Melville assumed (based on copyright claims)."
+ },
+ "temple": {
+  "word": "temple",
+  "file": "En-uk-temple.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-temple.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "drone": {
+  "word": "drone",
+  "file": "LL-Q1860 (eng)-Vealhurl-drone.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-drone.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "pharaoh": {
+  "word": "pharaoh",
+  "file": "LL-Q1860 (eng)-Vealhurl-pharaoh.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-pharaoh.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "submarine": {
+  "word": "submarine",
+  "file": "LL-Q1860 (eng)-Vealhurl-submarine.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-submarine.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "archery": {
+  "word": "archery",
+  "file": "LL-Q1860 (eng)-Vealhurl-archery.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-archery.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "boxing": {
+  "word": "boxing",
+  "file": "LL-Q1860 (eng)-Vealhurl-boxing.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-boxing.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "athletics": {
+  "word": "athletics",
+  "file": "LL-Q1860 (eng)-Vealhurl-athletics.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-athletics.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "hovercraft": {
+  "word": "hovercraft",
+  "file": "LL-Q1860 (eng)-Vealhurl-hovercraft.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-hovercraft.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "greengrocer": {
+  "word": "greengrocer",
+  "file": "LL-Q1860 (eng)-Vealhurl-greengrocer.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-greengrocer.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "chemist": {
+  "word": "chemist",
+  "file": "En-uk-chemist.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-chemist.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "customer": {
+  "word": "customer",
+  "file": "LL-Q1860 (eng)-Vealhurl-customer.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-customer.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "jewels": {
+  "word": "jewels",
+  "file": "En-au-jewels.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-jewels.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "florist": {
+  "word": "florist",
+  "file": "LL-Q1860 (eng)-Vealhurl-florist.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-florist.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "bookshop": {
+  "word": "bookshop",
+  "file": "LL-Q1860 (eng)-Wodencafe-bookshop.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Wodencafe-bookshop.wav",
+  "license": "CC0",
+  "author": "Speaker: Wodencafe\nRecorder: Wodencafe"
+ },
+ "newsagent": {
+  "word": "newsagent",
+  "file": "LL-Q1860 (eng)-Vealhurl-newsagent.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-newsagent.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "iceberg": {
+  "word": "iceberg",
+  "file": "En-au-iceberg.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-iceberg.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "gravity": {
+  "word": "gravity",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-gravity.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-gravity.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "button": {
+  "word": "button",
+  "file": "En-us-button.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-button.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "igloo": {
+  "word": "igloo",
+  "file": "LL-Q1860 (eng)-Vealhurl-igloo.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-igloo.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "mission": {
+  "word": "mission",
+  "file": "En-us-mission.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-mission.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "blizzard": {
+  "word": "blizzard",
+  "file": "En-us-blizzard.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-blizzard.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "BirdHopper"
+ },
+ "wheel": {
+  "word": "wheel",
+  "file": "En-us-wheel.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-wheel.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "cliff": {
+  "word": "cliff",
+  "file": "En-us-cliff.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-cliff.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "skeleton": {
+  "word": "skeleton",
+  "file": "En-us-skeleton.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-skeleton.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "dinosaur": {
+  "word": "dinosaur",
+  "file": "LL-Q1860 (eng)-Vealhurl-dinosaur.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-dinosaur.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "crater": {
+  "word": "crater",
+  "file": "LL-Q1860 (eng)-Vealhurl-crater.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-crater.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "footprint": {
+  "word": "footprint",
+  "file": "LL-Q1860 (eng)-Vealhurl-footprint.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-footprint.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "jungle": {
+  "word": "jungle",
+  "file": "En-us-jungle.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-jungle.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "satellite": {
+  "word": "satellite",
+  "file": "LL-Q1860 (eng)-Vealhurl-satellite.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-satellite.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "extinct": {
+  "word": "extinct",
+  "file": "LL-Q1860 (eng)-Vealhurl-extinct.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Vealhurl-extinct.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Vealhurl\nRecorder: Vealhurl"
+ },
+ "prehistoric": {
+  "word": "prehistoric",
+  "file": "LL-Q1860 (eng)-Flame, not lame-prehistoric.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Flame,_not_lame-prehistoric.wav",
+  "license": "CC0",
+  "author": "Speaker: Flame, not lame\nRecorder: Flame, not lame"
+ },
+ "spacesuit": {
+  "word": "spacesuit",
+  "file": "LL-Q1860 (eng)-Flame, not lame-spacesuit.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Flame,_not_lame-spacesuit.wav",
+  "license": "CC0",
+  "author": "Speaker: Flame, not lame\nRecorder: Flame, not lame"
+ },
+ "street": {
+  "word": "street",
+  "file": "LL-Q1860 (eng)-Xavier hillier-street.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Xavier_hillier-street.wav",
+  "license": "CC0",
+  "author": "Speaker: Xavier hillier\nRecorder: Xavier hillier"
+ },
+ "cat": {
+  "word": "cat",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-cat.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-cat.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "week": {
+  "word": "week",
+  "file": "LL-Q1860 (eng)-Naomi Persephone Amethyst (NaomiAmethyst)-week.wav",
+  "source": "https://commons.wikimedia.org/wiki/File:LL-Q1860_(eng)-Naomi_Persephone_Amethyst_(NaomiAmethyst)-week.wav",
+  "license": "CC BY-SA 4.0",
+  "author": "Speaker: Naomi Persephone Amethyst\nRecorder: NaomiAmethyst"
+ },
+ "car": {
+  "word": "car",
+  "file": "En-us-car.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-car.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "head": {
+  "word": "head",
+  "file": "En-uk-head.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-head.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "three": {
+  "word": "three",
+  "file": "En-us-three.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-three.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "four": {
+  "word": "four",
+  "file": "En-au-four.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-four.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "five": {
+  "word": "five",
+  "file": "En-us-five.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-five.ogg",
+  "license": "Public domain",
+  "author": "Dvortygirl"
+ },
+ "six": {
+  "word": "six",
+  "file": "En-au-six.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-six.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "eight": {
+  "word": "eight",
+  "file": "En-us-eight.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-eight.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "recorded by TheDaveRoss"
+ },
+ "nine": {
+  "word": "nine",
+  "file": "En-us-nine.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-nine.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "ten": {
+  "word": "ten",
+  "file": "En-us-ten.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-ten.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "pencil": {
+  "word": "pencil",
+  "file": "En-us-pencil.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-pencil.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "banana": {
+  "word": "banana",
+  "file": "En-uk-banana.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-banana.ogg",
+  "license": "Public domain",
+  "author": "D3VIL"
+ },
+ "tiger": {
+  "word": "tiger",
+  "file": "En-us-tiger.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-tiger.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "twelve": {
+  "word": "twelve",
+  "file": "En-us-twelve.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-twelve.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "black": {
+  "word": "black",
+  "file": "En-uk-black.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-black.ogg",
+  "license": "Public domain",
+  "author": ""
+ },
+ "purple": {
+  "word": "purple",
+  "file": "En-us-purple.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-purple.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "white": {
+  "word": "white",
+  "file": "En-uk-white.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-white.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "yellow": {
+  "word": "yellow",
+  "file": "En-uk-yellow.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-yellow.ogg",
+  "license": "Public domain",
+  "author": ""
+ },
+ "thirteen": {
+  "word": "thirteen",
+  "file": "En-us-thirteen.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-thirteen.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "fourteen": {
+  "word": "fourteen",
+  "file": "En-us-fourteen.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-fourteen.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "fifteen": {
+  "word": "fifteen",
+  "file": "En-us-fifteen.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-fifteen.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "sixteen": {
+  "word": "sixteen",
+  "file": "En-us-sixteen.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-sixteen.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "zebra": {
+  "word": "zebra",
+  "file": "En-uk-zebra.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-zebra.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Celestianpower assumed (based on copyright claims)."
+ },
+ "sing": {
+  "word": "sing",
+  "file": "En-uk-sing.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-sing.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Celestianpower assumed (based on copyright claims)."
+ },
+ "read": {
+  "word": "read",
+  "file": "En-us-read.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-read.ogg",
+  "license": "Public domain",
+  "author": "Dvortygirl"
+ },
+ "foot": {
+  "word": "foot",
+  "file": "En-uk-foot.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-foot.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "pizza": {
+  "word": "pizza",
+  "file": "En-us-pizza.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-pizza.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "bear": {
+  "word": "bear",
+  "file": "En-us-bear.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bear.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "family": {
+  "word": "family",
+  "file": "En-uk-family.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-family.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "run": {
+  "word": "run",
+  "file": "En-au-run.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-run.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "swim": {
+  "word": "swim",
+  "file": "En-us-swim.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-swim.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "cook": {
+  "word": "cook",
+  "file": "En-au-cook.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-cook.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "bus": {
+  "word": "bus",
+  "file": "En-us-bus.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bus.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "pilot": {
+  "word": "pilot",
+  "file": "En-au-pilot.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-pilot.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "lion": {
+  "word": "lion",
+  "file": "En-us-lion.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-lion.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "juice": {
+  "word": "juice",
+  "file": "En-us-juice.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-juice.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Dominic assumed (based on copyright claims)."
+ },
+ "carrot": {
+  "word": "carrot",
+  "file": "En-us-carrot.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-carrot.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. Dvortygirl assumed (based on copyright claims)."
+ },
+ "hat": {
+  "word": "hat",
+  "file": "En-uk-hat.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-hat.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "dad": {
+  "word": "dad",
+  "file": "En-us-dad.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-dad.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. Dvortygirl assumed (based on copyright claims)."
+ },
+ "park": {
+  "word": "park",
+  "file": "En-au-park.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-park.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "mum": {
+  "word": "mum",
+  "file": "En-au-mum.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-mum.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "shoes": {
+  "word": "shoes",
+  "file": "En-uk-shoes.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-shoes.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "robot": {
+  "word": "robot",
+  "file": "En-au-robot.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-robot.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "board": {
+  "word": "board",
+  "file": "En-us-board.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-board.ogg",
+  "license": "Public domain",
+  "author": "Dvortygirl"
+ },
+ "small": {
+  "word": "small",
+  "file": "En-uk-small.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-small.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "tomato": {
+  "word": "tomato",
+  "file": "En-uk-tomato.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-tomato.ogg",
+  "license": "Public domain",
+  "author": ""
+ },
+ "mouse": {
+  "word": "mouse",
+  "file": "En-us-mouse.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-mouse.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "seventeen": {
+  "word": "seventeen",
+  "file": "En-us-seventeen.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-seventeen.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "eighteen": {
+  "word": "eighteen",
+  "file": "En-us-eighteen.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-eighteen.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. TheDaveRoss assumed (based on copyright claims)."
+ },
+ "feet": {
+  "word": "feet",
+  "file": "En-us-feet.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-feet.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "bird": {
+  "word": "bird",
+  "file": "En-us-bird.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bird.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "tortoise": {
+  "word": "tortoise",
+  "file": "En-us-tortoise.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-tortoise.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "calculator": {
+  "word": "calculator",
+  "file": "En-us-calculator.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-calculator.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "rice": {
+  "word": "rice",
+  "file": "En-uk-rice.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-rice.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "train": {
+  "word": "train",
+  "file": "En-us-train.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-train.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "body": {
+  "word": "body",
+  "file": "En-uk-body.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-body.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "chicken": {
+  "word": "chicken",
+  "file": "En-uk-chicken.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-chicken.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "rabbit": {
+  "word": "rabbit",
+  "file": "En-au-rabbit.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-rabbit.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "sand": {
+  "word": "sand",
+  "file": "En-us-sand.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-sand.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "sofa": {
+  "word": "sofa",
+  "file": "En-us-sofa.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-sofa.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "spider": {
+  "word": "spider",
+  "file": "En-au-spider.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-spider.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "bike": {
+  "word": "bike",
+  "file": "En-us-bike.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bike.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "plane": {
+  "word": "plane",
+  "file": "En-us-plane.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-plane.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "sandwich": {
+  "word": "sandwich",
+  "file": "En-us-sandwich.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-sandwich.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. Rappo assumed (based on copyright claims)."
+ },
+ "salad": {
+  "word": "salad",
+  "file": "En-us-salad.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-salad.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "frog": {
+  "word": "frog",
+  "file": "En-us-frog.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-frog.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "rubber": {
+  "word": "rubber",
+  "file": "En-au-rubber.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-rubber.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "crab": {
+  "word": "crab",
+  "file": "En-us-crab.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-crab.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "doll": {
+  "word": "doll",
+  "file": "En-us-doll.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-doll.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "boots": {
+  "word": "boots",
+  "file": "En-au-boots.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-boots.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "glue": {
+  "word": "glue",
+  "file": "En-us-glue.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-glue.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "bedroom": {
+  "word": "bedroom",
+  "file": "En-us-bedroom.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bedroom.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "legs": {
+  "word": "legs",
+  "file": "En-us-legs.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-legs.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "poster": {
+  "word": "poster",
+  "file": "En-us-poster.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-poster.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "jumper": {
+  "word": "jumper",
+  "file": "En-au-jumper.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-jumper.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "shorts": {
+  "word": "shorts",
+  "file": "En-us-shorts.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-shorts.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Persent101"
+ },
+ "fingers": {
+  "word": "fingers",
+  "file": "En-us-fingers.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-fingers.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "shoulders": {
+  "word": "shoulders",
+  "file": "En-us-shoulders.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-shoulders.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "knees": {
+  "word": "knees",
+  "file": "En-us-knees.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-knees.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "stairs": {
+  "word": "stairs",
+  "file": "En-us-stairs.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-stairs.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "arms": {
+  "word": "arms",
+  "file": "En-us-arms.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-arms.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "horse": {
+  "word": "horse",
+  "file": "En-us-horse.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-horse.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. Dvortygirl assumed (based on copyright claims)."
+ },
+ "december": {
+  "word": "December",
+  "file": "En-us-December.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-December.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "january": {
+  "word": "January",
+  "file": "En-us-January.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-January.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "february": {
+  "word": "February",
+  "file": "En-uk-february.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-february.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "TaxRebate"
+ },
+ "april": {
+  "word": "April",
+  "file": "En-us-April.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-April.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "june": {
+  "word": "June",
+  "file": "En-us-June.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-June.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "july": {
+  "word": "July",
+  "file": "En-us-July.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-July.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "september": {
+  "word": "September",
+  "file": "En-us-September.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-September.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. Dvortygirl assumed (based on copyright claims)."
+ },
+ "october": {
+  "word": "October",
+  "file": "En-us-October.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-October.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "november": {
+  "word": "November",
+  "file": "En-us-November.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-November.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "bank": {
+  "word": "bank",
+  "file": "En-us-bank.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bank.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "kangaroo": {
+  "word": "kangaroo",
+  "file": "En-us-kangaroo.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-kangaroo.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "No machine-readable author provided. Dean14~commonswiki assumed (based on copyright claims)."
+ },
+ "bat": {
+  "word": "bat",
+  "file": "En-au-bat.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-bat.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "face": {
+  "word": "face",
+  "file": "En-au-face.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-face.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "beard": {
+  "word": "beard",
+  "file": "En-us-beard.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-beard.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "penguin": {
+  "word": "penguin",
+  "file": "En-us-penguin.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-penguin.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "half": {
+  "word": "half",
+  "file": "En-us-half.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-half.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "lizard": {
+  "word": "lizard",
+  "file": "En-us-lizard.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-lizard.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "pineapple": {
+  "word": "pineapple",
+  "file": "En-us-pineapple.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-pineapple.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "mango": {
+  "word": "mango",
+  "file": "En-au-mango.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-mango.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "tram": {
+  "word": "tram",
+  "file": "En-au-tram.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-tram.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "teeth": {
+  "word": "teeth",
+  "file": "En-us-teeth.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-teeth.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "swimming": {
+  "word": "swimming",
+  "file": "En-us-swimming.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-swimming.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "whale": {
+  "word": "whale",
+  "file": "En-us-whale.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-whale.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "taxi": {
+  "word": "taxi",
+  "file": "En-us-taxi.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-taxi.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "golf": {
+  "word": "golf",
+  "file": "En-us-golf.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-golf.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "dolphin": {
+  "word": "dolphin",
+  "file": "En-us-dolphin.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-dolphin.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "watermelon": {
+  "word": "watermelon",
+  "file": "En-us-watermelon.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-watermelon.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "station": {
+  "word": "station",
+  "file": "En-au-station.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-station.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "shower": {
+  "word": "shower",
+  "file": "En-au-shower.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-shower.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "gorilla": {
+  "word": "gorilla",
+  "file": "En-us-gorilla.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-gorilla.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "lorry": {
+  "word": "lorry",
+  "file": "En-au-lorry.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-lorry.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "museum": {
+  "word": "museum",
+  "file": "En-us-museum.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-museum.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "supermarket": {
+  "word": "supermarket",
+  "file": "En-uk-supermarket.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-supermarket.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "TaxRebate"
+ },
+ "august": {
+  "word": "August",
+  "file": "En-au-august.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-august.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "march": {
+  "word": "March",
+  "file": "En-us-March.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-March.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "may": {
+  "word": "May",
+  "file": "En-us-May.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-May.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "badminton": {
+  "word": "badminton",
+  "file": "En-us-badminton.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-badminton.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "rug": {
+  "word": "rug",
+  "file": "En-au-rug.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-rug.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "curtains": {
+  "word": "curtains",
+  "file": "En-us-curtains.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-curtains.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "umbrella": {
+  "word": "umbrella",
+  "file": "En-us-umbrella.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-umbrella.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "australia": {
+  "word": "Australia",
+  "file": "En-au-Australia.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-Australia.ogg",
+  "license": "Public domain",
+  "author": "Tooironic"
+ },
+ "temperature": {
+  "word": "temperature",
+  "file": "En-us-temperature.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-temperature.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "remote": {
+  "word": "remote",
+  "file": "En-us-remote.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-remote.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "turtle": {
+  "word": "turtle",
+  "file": "En-au-turtle.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-turtle.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "squid": {
+  "word": "squid",
+  "file": "En-us-squid.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-squid.ogg",
+  "license": "Public domain",
+  "author": "Dvortygirl"
+ },
+ "jellyfish": {
+  "word": "jellyfish",
+  "file": "En-us-jellyfish.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-jellyfish.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "science": {
+  "word": "science",
+  "file": "En-ca-science.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-ca-science.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": ""
+ },
+ "before": {
+  "word": "before",
+  "file": "En-us-before.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-before.ogg",
+  "license": "Public domain",
+  "author": "Dvortygirl"
+ },
+ "bridge": {
+  "word": "bridge",
+  "file": "En-us-bridge.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bridge.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "sweep": {
+  "word": "sweep",
+  "file": "En-au-sweep.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-sweep.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "lake": {
+  "word": "lake",
+  "file": "En-uk-lake.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-lake.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "octopus": {
+  "word": "octopus",
+  "file": "En-us-octopus.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-octopus.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "wash": {
+  "word": "wash",
+  "file": "En-us-wash.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-wash.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "phone": {
+  "word": "phone",
+  "file": "En-uk-phone.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-phone.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "lemonade": {
+  "word": "lemonade",
+  "file": "En-au-lemonade.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-lemonade.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "history": {
+  "word": "history",
+  "file": "En-uk-history.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-history.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "suitcase": {
+  "word": "suitcase",
+  "file": "En-us-suitcase.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-suitcase.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "geography": {
+  "word": "geography",
+  "file": "En-us-geography.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-geography.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "headache": {
+  "word": "headache",
+  "file": "En-us-headache.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-headache.ogg",
+  "license": "Public domain",
+  "author": "Dvortygirl"
+ },
+ "ambulance": {
+  "word": "ambulance",
+  "file": "En-us-ambulance.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-ambulance.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "hotel": {
+  "word": "hotel",
+  "file": "En-us-hotel.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-hotel.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "printer": {
+  "word": "printer",
+  "file": "En-au-printer.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-printer.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "rubbish": {
+  "word": "rubbish",
+  "file": "En-au-rubbish.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-rubbish.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "statue": {
+  "word": "statue",
+  "file": "En-us-statue.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-statue.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "EncycloPetey"
+ },
+ "starfish": {
+  "word": "starfish",
+  "file": "En-us-starfish.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-starfish.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "tent": {
+  "word": "tent",
+  "file": "En-us-tent.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-tent.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "sunny": {
+  "word": "sunny",
+  "file": "En-us-sunny.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-sunny.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "plaster": {
+  "word": "plaster",
+  "file": "En-us-plaster.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-plaster.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "minutes": {
+  "word": "minutes",
+  "file": "En-us-minutes.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-minutes.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "dishes": {
+  "word": "dishes",
+  "file": "En-us-dishes.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-dishes.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "cloudy": {
+  "word": "cloudy",
+  "file": "En-us-cloudy.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-cloudy.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "toothache": {
+  "word": "toothache",
+  "file": "En-us-toothache.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-toothache.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": ""
+ },
+ "snowy": {
+  "word": "snowy",
+  "file": "En-us-snowy.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-snowy.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "king": {
+  "word": "king",
+  "file": "En-us-king.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-king.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "queen": {
+  "word": "queen",
+  "file": "En-us-queen.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-queen.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "knight": {
+  "word": "knight",
+  "file": "En-us-knight.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-knight.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "weather": {
+  "word": "weather",
+  "file": "En-us-weather.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-weather.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. Dvortygirl assumed (based on copyright claims)."
+ },
+ "straight": {
+  "word": "straight",
+  "file": "En-au-straight.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-straight.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "journey": {
+  "word": "journey",
+  "file": "En-us-journey.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-journey.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "tail": {
+  "word": "tail",
+  "file": "En-au-tail.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-tail.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "sword": {
+  "word": "sword",
+  "file": "En-us-sword.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-sword.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "field": {
+  "word": "field",
+  "file": "En-au-field.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-field.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "crown": {
+  "word": "crown",
+  "file": "En-ca-crown.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-ca-crown.ogg",
+  "license": "CC BY 2.5",
+  "author": "No machine-readable author provided. Tawker assumed (based on copyright claims)."
+ },
+ "crowd": {
+  "word": "crowd",
+  "file": "En-us-crowd.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-crowd.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "platform": {
+  "word": "platform",
+  "file": "En-GB-platform.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-GB-platform.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "ArtyUK"
+ },
+ "band": {
+  "word": "band",
+  "file": "En-us-band.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-band.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "bald": {
+  "word": "bald",
+  "file": "En-us-bald.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bald.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "dragon": {
+  "word": "dragon",
+  "file": "En-au-dragon.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-dragon.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "rescue": {
+  "word": "rescue",
+  "file": "En-us-rescue.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-rescue.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "No machine-readable author provided. Dvortygirl assumed (based on copyright claims)."
+ },
+ "alarm": {
+  "word": "alarm",
+  "file": "En-us-alarm.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-alarm.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "fur": {
+  "word": "fur",
+  "file": "En-us-fur.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-fur.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "hill": {
+  "word": "hill",
+  "file": "En-us-hill.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-hill.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "cave": {
+  "word": "cave",
+  "file": "En-us-cave.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-cave.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "beak": {
+  "word": "beak",
+  "file": "En-us-beak.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-beak.ogg",
+  "license": "Public domain",
+  "author": "Dvortygirl"
+ },
+ "sunglasses": {
+  "word": "sunglasses",
+  "file": "En-us-sunglasses.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-sunglasses.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "waterfall": {
+  "word": "waterfall",
+  "file": "En-us-waterfall.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-waterfall.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "shield": {
+  "word": "shield",
+  "file": "En-us-shield.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-shield.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "return": {
+  "word": "return",
+  "file": "En-au-return.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-return.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "passenger": {
+  "word": "passenger",
+  "file": "En-us-passenger.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-passenger.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "prize": {
+  "word": "prize",
+  "file": "En-us-prize.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-prize.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "fringe": {
+  "word": "fringe",
+  "file": "En-us-fringe.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-fringe.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "costume": {
+  "word": "costume",
+  "file": "En-us-costume.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-costume.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "emergency": {
+  "word": "emergency",
+  "file": "En-us-emergency.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-emergency.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "parade": {
+  "word": "parade",
+  "file": "En-us-parade.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-parade.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "scales": {
+  "word": "scales",
+  "file": "En-us-scales.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-scales.ogg",
+  "license": "Public domain",
+  "author": "Dvortygirl"
+ },
+ "horns": {
+  "word": "horns",
+  "file": "En-us-horns.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-horns.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "fireworks": {
+  "word": "fireworks",
+  "file": "En-au-fireworks.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-fireworks.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "wings": {
+  "word": "wings",
+  "file": "En-us-wings.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-wings.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "flute": {
+  "word": "flute",
+  "file": "En-us-flute.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-flute.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "first": {
+  "word": "first",
+  "file": "En-us-first.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-first.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "map": {
+  "word": "map",
+  "file": "En-us-map.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-map.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "million": {
+  "word": "million",
+  "file": "En-uk-million.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-million.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Chris Melville assumed (based on copyright claims)."
+ },
+ "triangle": {
+  "word": "triangle",
+  "file": "En-us-triangle.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-triangle.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "experiment": {
+  "word": "experiment",
+  "file": "En-us-experiment.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-experiment.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "comet": {
+  "word": "comet",
+  "file": "En-us-comet.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-comet.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "galaxy": {
+  "word": "galaxy",
+  "file": "En-us-galaxy.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-galaxy.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "violin": {
+  "word": "violin",
+  "file": "En-us-violin.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-violin.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "guitar": {
+  "word": "guitar",
+  "file": "En-uk-guitar.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-guitar.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Celestianpower assumed (based on copyright claims)."
+ },
+ "butterfly": {
+  "word": "butterfly",
+  "file": "En-au-butterfly.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-butterfly.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "liquid": {
+  "word": "liquid",
+  "file": "En-us-liquid.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-liquid.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "ash": {
+  "word": "ash",
+  "file": "En-us-ash.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-ash.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "space": {
+  "word": "space",
+  "file": "En-us-space.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-space.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "menu": {
+  "word": "menu",
+  "file": "En-us-menu.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-menu.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "order": {
+  "word": "order",
+  "file": "En-au-order.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-order.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "jaguar": {
+  "word": "jaguar",
+  "file": "En-uk-jaguar.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-jaguar.ogg",
+  "license": "Public domain",
+  "author": "Celestianpower"
+ },
+ "bill": {
+  "word": "bill",
+  "file": "En-us-bill.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bill.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "lava": {
+  "word": "lava",
+  "file": "En-us-lava.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-lava.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "damage": {
+  "word": "damage",
+  "file": "En-us-damage.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-damage.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "telescope": {
+  "word": "telescope",
+  "file": "En-us-telescope.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-telescope.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Neskaya"
+ },
+ "dessert": {
+  "word": "dessert",
+  "file": "En-us-dessert.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-dessert.ogg",
+  "license": "Public domain",
+  "author": "Dvortygirl"
+ },
+ "waiter": {
+  "word": "waiter",
+  "file": "En-us-waiter.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-waiter.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "starter": {
+  "word": "starter",
+  "file": "En-us-starter.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-starter.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "delicious": {
+  "word": "delicious",
+  "file": "En-us-delicious.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-delicious.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "disaster": {
+  "word": "disaster",
+  "file": "En-us-disaster.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-disaster.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "result": {
+  "word": "result",
+  "file": "En-us-result.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-result.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "survive": {
+  "word": "survive",
+  "file": "En-us-survive.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-survive.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "TreeMama"
+ },
+ "volcano": {
+  "word": "volcano",
+  "file": "En-us-volcano.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-volcano.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "sloth": {
+  "word": "sloth",
+  "file": "En-uk-sloth.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-sloth.ogg",
+  "license": "Public domain",
+  "author": "yuumei"
+ },
+ "audience": {
+  "word": "audience",
+  "file": "En-us-audience.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-audience.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "orchestra": {
+  "word": "orchestra",
+  "file": "En-uk-orchestra.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-orchestra.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Celestianpower assumed (based on copyright claims)."
+ },
+ "rocket": {
+  "word": "rocket",
+  "file": "En-us-rocket.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-rocket.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "earth": {
+  "word": "Earth",
+  "file": "En-uk-earth.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-earth.ogg",
+  "license": "CC BY 3.0 us",
+  "author": "Association Shtooka, Judith Franck"
+ },
+ "campsite": {
+  "word": "campsite",
+  "file": "En-us-campsite.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-campsite.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "recorder": {
+  "word": "recorder",
+  "file": "En-us-recorder.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-recorder.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "second": {
+  "word": "second",
+  "file": "En-us-second.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-second.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "bench": {
+  "word": "bench",
+  "file": "En-us-bench.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bench.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Dvortygirl assumed (based on copyright claims)."
+ },
+ "third": {
+  "word": "third",
+  "file": "En-us-third.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-third.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "slide": {
+  "word": "slide",
+  "file": "En-us-slide.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-slide.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "anchor": {
+  "word": "anchor",
+  "file": "En-us-anchor.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-anchor.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "pyramid": {
+  "word": "pyramid",
+  "file": "En-us-pyramid.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-pyramid.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "rowing": {
+  "word": "rowing",
+  "file": "En-us-rowing.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-rowing.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "diamond": {
+  "word": "diamond",
+  "file": "En-us-diamond.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-diamond.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "saloon": {
+  "word": "saloon",
+  "file": "En-us-saloon.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-saloon.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "medal": {
+  "word": "medal",
+  "file": "En-uk-medal.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-medal.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Tomhannen assumed (based on copyright claims)."
+ },
+ "mummy": {
+  "word": "mummy",
+  "file": "En-uk-mummy.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-mummy.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Andrew Marsden"
+ },
+ "gate": {
+  "word": "gate",
+  "file": "En-au-gate.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-gate.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "story": {
+  "word": "story",
+  "file": "En-uk-story.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-story.ogg",
+  "license": "Public domain",
+  "author": "No machine-readable author provided. Celestianpower assumed (based on copyright claims)."
+ },
+ "architect": {
+  "word": "architect",
+  "file": "En-us-architect.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-architect.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "mechanic": {
+  "word": "mechanic",
+  "file": "En-us-mechanic.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-mechanic.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "bakery": {
+  "word": "bakery",
+  "file": "En-us-bakery.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bakery.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "bin": {
+  "word": "bin",
+  "file": "En-us-bin.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-bin.ogg",
+  "license": "Public domain",
+  "author": ""
+ },
+ "postcard": {
+  "word": "postcard",
+  "file": "En-us-postcard.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-postcard.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "deck": {
+  "word": "deck",
+  "file": "En-us-deck.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-deck.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "scene": {
+  "word": "scene",
+  "file": "En-us-scene.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-scene.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "playground": {
+  "word": "playground",
+  "file": "En-us-playground.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-playground.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "fence": {
+  "word": "fence",
+  "file": "En-us-fence.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-fence.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "nile": {
+  "word": "Nile",
+  "file": "En-us-Nile.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-Nile.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": ""
+ },
+ "sailing": {
+  "word": "sailing",
+  "file": "En-us-sailing.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-sailing.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "TreeMama"
+ },
+ "wagon": {
+  "word": "wagon",
+  "file": "En-au-wagon.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-wagon.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "butcher": {
+  "word": "butcher",
+  "file": "En-us-butcher.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-butcher.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "gymnastics": {
+  "word": "gymnastics",
+  "file": "En-us-gymnastics.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-gymnastics.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "lasso": {
+  "word": "lasso",
+  "file": "En-us-lasso.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-lasso.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "cactus": {
+  "word": "cactus",
+  "file": "En-us-cactus.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-cactus.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "tomb": {
+  "word": "tomb",
+  "file": "En-us-tomb.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-tomb.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "ranch": {
+  "word": "ranch",
+  "file": "En-us-ranch.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-ranch.ogg",
+  "license": "Public domain",
+  "author": "Dclaguna"
+ },
+ "script": {
+  "word": "script",
+  "file": "En-us-script.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-script.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "lifeboat": {
+  "word": "lifeboat",
+  "file": "En-us-lifeboat.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-lifeboat.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": ""
+ },
+ "cabin": {
+  "word": "cabin",
+  "file": "En-us-cabin.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-cabin.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "cycling": {
+  "word": "cycling",
+  "file": "En-us-cycling.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-cycling.ogg",
+  "license": "Public domain",
+  "author": "DroEsperanto"
+ },
+ "reindeer": {
+  "word": "reindeer",
+  "file": "En-us-reindeer.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-reindeer.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "orbit": {
+  "word": "orbit",
+  "file": "En-us-orbit.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-orbit.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "screwdriver": {
+  "word": "screwdriver",
+  "file": "En-us-screwdriver.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-screwdriver.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "drill": {
+  "word": "drill",
+  "file": "En-us-drill.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-drill.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "hammer": {
+  "word": "hammer",
+  "file": "En-uk-hammer.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-uk-hammer.ogg",
+  "license": "Public domain",
+  "author": "Kevin Steinhardt"
+ },
+ "launch": {
+  "word": "launch",
+  "file": "En-us-launch.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-launch.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "glacier": {
+  "word": "glacier",
+  "file": "En-us-glacier.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-glacier.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Sylvanmoon"
+ },
+ "seal": {
+  "word": "seal",
+  "file": "En-us-seal.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-seal.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "invention": {
+  "word": "invention",
+  "file": "En-us-invention.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-invention.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "ladder": {
+  "word": "ladder",
+  "file": "En-au-ladder.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-ladder.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "swamp": {
+  "word": "swamp",
+  "file": "En-us-swamp.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-swamp.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "landing": {
+  "word": "landing",
+  "file": "En-us-landing.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-landing.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "walrus": {
+  "word": "walrus",
+  "file": "En-au-walrus.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-walrus.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "sledge": {
+  "word": "sledge",
+  "file": "En-au-sledge.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-au-sledge.ogg",
+  "license": "CC BY-SA 4.0",
+  "author": "Commander Keane"
+ },
+ "fossil": {
+  "word": "fossil",
+  "file": "En-us-fossil.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-fossil.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ },
+ "arctic": {
+  "word": "Arctic",
+  "file": "En-us-Arctic.ogg",
+  "source": "https://commons.wikimedia.org/wiki/File:En-us-Arctic.ogg",
+  "license": "CC BY-SA 3.0",
+  "author": "Dvortygirl"
+ }
+}

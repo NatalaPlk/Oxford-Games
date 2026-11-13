@@ -1,10 +1,10 @@
 // Four cartoon monsters for Monster Rush, drawn as SVG so they can change mood.
 // monsterSVG(type, mood) — type: gobo | plum | blinky | tango; mood: happy | joy | sad
 const MONSTERS = {
-  gobo:   { name: "Gobo",   c: "#8fd164", c2: "#6cb441", belly: "#bde895", o: "#0d4d2c", color: "#4caf2f" },
-  plum:   { name: "Plum",   c: "#cf92ea", c2: "#a666cf", belly: "#ecc9f7", o: "#4a1f6e", color: "#9b51e0" },
-  blinky: { name: "Blinky", c: "#72caf3", c2: "#3f9fd6", belly: "#bde6fb", o: "#18507f", color: "#2f8fd8" },
-  tango:  { name: "Tango",  c: "#ffad57", c2: "#f08a24", belly: "#ffd6a8", o: "#7a3300", color: "#ef7d1a" },
+  gobo:   { name: "Olly",   c: "#8fd164", c2: "#6cb441", belly: "#bde895", o: "#0d4d2c", color: "#4caf2f" },
+  plum:   { name: "Xia",    c: "#cf92ea", c2: "#a666cf", belly: "#ecc9f7", o: "#4a1f6e", color: "#9b51e0" },
+  blinky: { name: "Fran",   c: "#72caf3", c2: "#3f9fd6", belly: "#bde6fb", o: "#18507f", color: "#2f8fd8" },
+  tango:  { name: "Orla",   c: "#ffad57", c2: "#f08a24", belly: "#ffd6a8", o: "#7a3300", color: "#ef7d1a" },
 };
 const MONSTER_ORDER = ["gobo", "plum", "blinky", "tango"];
 

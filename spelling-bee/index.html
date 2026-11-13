@@ -1,0 +1,1441 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spelling Bee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --honey:#ffc531; --honey2:#f59e0b; --amber:#b45309; --ink:#3b2405; --cream:#fff8e6;
+    --bg:#fff4d1; --card:#ffffff; --muted:#8a6a3a; --ok:#16a34a; --bad:#e11d48; --line:#f3d78a;
+    --red:#ef4444; --blue:#3b82f6; --green:#22c55e; --purple:#a855f7;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{
+    font-family:"Fredoka","Segoe UI Rounded","Segoe UI",system-ui,sans-serif;color:var(--ink);
+    background-color:var(--bg);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='98' viewBox='0 0 56 98'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 32L0 82V66l28 16 28-16v16L28 98z' fill='none' stroke='%23f6d77a' stroke-width='2'/%3E%3C/svg%3E");
+    min-height:100vh;
+  }
+  button{font:inherit;cursor:pointer;border:0;color:inherit}
+  .hidden{display:none!important}
+  .wrap{max-width:1150px;margin:0 auto;padding:20px 16px 40px}
+
+  /* ---------- Setup ---------- */
+  .logo{text-align:center;margin:6px 0 20px}
+  .bee{display:inline-block;font-size:70px;animation:fly 3s ease-in-out infinite}
+  @keyframes fly{0%,100%{transform:translate(0,0) rotate(-6deg)}50%{transform:translate(10px,-10px) rotate(6deg)}}
+  .logo h1{margin:0;font-size:clamp(40px,7vw,68px);font-weight:700;color:var(--ink);letter-spacing:1px;text-shadow:0 4px 0 var(--honey)}
+  .logo p{margin:4px 0 0;font-size:20px;color:var(--muted)}
+  .panel{background:var(--card);border:3px solid var(--line);border-radius:24px;padding:20px;margin:0 auto 16px;max-width:900px;box-shadow:0 6px 0 var(--line)}
+  .panel h2{margin:0 0 12px;font-size:20px;font-weight:600}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--cream);border:3px solid var(--line);padding:10px 16px;border-radius:16px;font-weight:600;font-size:17px;transition:.15s}
+  .chip:hover{border-color:var(--honey)}
+  .chip.on{background:var(--honey);border-color:var(--honey2);box-shadow:0 4px 0 var(--honey2)}
+  .chip.num{min-width:60px;font-size:24px}
+  .chip.unit{font-size:15px;padding:8px 13px;opacity:.55}
+  .chip.unit.on{opacity:1}
+  .chip.unit small{opacity:.6;font-weight:700}
+  .row{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+  .mini{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+  .mini button{background:var(--cream);border:2px solid var(--line);border-radius:12px;padding:6px 12px;font-weight:600}
+  .hint{color:var(--muted);font-size:15px;margin-top:10px}
+  .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px}
+  .team-input{display:flex;align-items:center;gap:8px;border-radius:16px;padding:10px 12px;background:var(--cream);border:3px solid var(--c)}
+  .team-input .dot{width:22px;height:22px;border-radius:50%;background:var(--c);flex:none}
+  .team-input input{flex:1;min-width:0;background:transparent;border:0;font:inherit;font-size:19px;font-weight:600;color:var(--ink);outline:none}
+  .team-input input::placeholder{color:#b9975a}
+  .opt{display:flex;align-items:center;gap:10px;font-weight:600}
+  .opt select{font:inherit;font-size:17px;padding:6px 10px;border-radius:12px;border:3px solid var(--line);background:var(--cream);color:var(--ink)}
+  .switch{display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer}
+  .switch input{width:22px;height:22px;accent-color:var(--honey2)}
+  .start-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:6px}
+  .btn{padding:14px 24px;border-radius:18px;font-weight:700;font-size:19px;transition:transform .1s,filter .15s}
+  .btn:active{transform:translateY(3px)}
+  .btn-honey{background:var(--honey);box-shadow:0 6px 0 var(--honey2)}
+  .btn-honey:hover{filter:brightness(1.05)}
+  .btn-plain{background:var(--card);border:3px solid var(--line);box-shadow:0 5px 0 var(--line)}
+  .btn-big{font-size:26px;padding:18px 40px}
+
+  /* ---------- Game ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .pill{background:var(--card);border:3px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600}
+  .topbar .actions{display:flex;gap:8px}
+  .topbar .btn{font-size:15px;padding:8px 14px;border-radius:14px}
+  .teams{display:grid;gap:12px;margin-bottom:16px}
+  .team{position:relative;background:var(--card);border:4px solid var(--line);border-radius:22px;padding:12px 14px;text-align:left;transition:.2s}
+  .team.turn{border-color:var(--c);box-shadow:0 6px 0 var(--c);transform:translateY(-4px)}
+  .team.pickable{animation:wiggle .8s ease-in-out infinite;border-color:var(--c);cursor:pointer}
+  @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-1.5deg)}75%{transform:rotate(1.5deg)}}
+  .team .tname{display:flex;align-items:center;gap:8px;font-size:21px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .team .tname .dot{width:18px;height:18px;border-radius:50%;background:var(--c);flex:none}
+  .team .score{font-size:34px;font-weight:700;margin-top:4px}
+  .team .turnflag{position:absolute;top:-14px;right:14px;background:var(--c);color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;opacity:0}
+  .team.turn .turnflag{opacity:1}
+  .delta{position:absolute;right:16px;bottom:10px;font-size:28px;font-weight:700;color:var(--ok);animation:up 1.5s ease-out forwards;pointer-events:none}
+  @keyframes up{0%{opacity:0;transform:translateY(10px)}20%{opacity:1}100%{opacity:0;transform:translateY(-36px)}}
+
+  .stage{background:var(--card);border:4px solid var(--line);border-radius:30px;padding:22px 18px 24px;text-align:center;box-shadow:0 8px 0 var(--line);position:relative}
+  .whose{font-size:clamp(22px,3.4vw,32px);font-weight:700;margin:0 0 4px}
+  .whose span{color:var(--c)}
+  .counter{color:var(--muted);font-weight:600}
+  .picture{font-size:clamp(90px,15vw,150px);line-height:1.1;margin:10px 0 4px;min-height:1.1em}
+  .picture.pop{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
+  @keyframes pop{from{transform:scale(.3);opacity:0}}
+  .tiles{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:10px 0 16px;perspective:600px}
+  .tile{width:clamp(40px,6.4vw,64px);height:clamp(48px,7.6vw,76px);border-radius:14px;background:var(--honey);box-shadow:0 5px 0 var(--honey2);display:grid;place-items:center;font-size:clamp(26px,4.4vw,46px);font-weight:700;text-transform:uppercase;transition:transform .4s, background .4s}
+  .tile.show{background:#fff;border:3px solid var(--honey);box-shadow:0 5px 0 var(--line);animation:flip .45s ease-out both}
+  .tile.hint{background:#fff3c4}
+  .tile.hidden-count{width:auto;padding:0 18px;font-size:24px}
+  @keyframes flip{from{transform:rotateY(90deg)}to{transform:rotateY(0)}}
+  .tools{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+  .tool{background:var(--cream);border:3px solid var(--line);border-radius:18px;padding:12px 18px;font-size:20px;font-weight:600;box-shadow:0 4px 0 var(--line)}
+  .tool:hover{border-color:var(--honey)}
+  .tool:disabled{opacity:.4;cursor:not-allowed}
+  .tool.say{background:var(--honey);border-color:var(--honey2);box-shadow:0 4px 0 var(--honey2);font-size:24px}
+  .timer{height:14px;background:var(--cream);border-radius:999px;overflow:hidden;margin:0 auto 16px;max-width:520px;border:2px solid var(--line)}
+  .timer div{height:100%;width:100%;background:linear-gradient(90deg,var(--ok),var(--honey));transition:width 1s linear}
+  .timer.low div{background:var(--bad)}
+  .judge{display:flex;justify-content:center;flex-wrap:wrap;gap:14px}
+  .judge .btn{font-size:26px;padding:16px 34px;color:#fff}
+  .b-ok{background:var(--ok);box-shadow:0 6px 0 #0f7a36}
+  .b-bad{background:var(--bad);box-shadow:0 6px 0 #9f1239}
+  .message{font-size:clamp(22px,3.2vw,30px);font-weight:700;margin:4px 0 14px;min-height:1.3em}
+  .message.ok{color:var(--ok)} .message.bad{color:var(--bad)}
+  .worth{color:var(--muted);font-weight:600;margin-bottom:12px}
+
+  /* ---------- End ---------- */
+  .end{text-align:center}
+  .end h1{font-size:clamp(38px,7vw,64px);margin:6px 0}
+  .podium{display:flex;justify-content:center;align-items:flex-end;gap:12px;margin:24px auto;max-width:720px;flex-wrap:wrap}
+  .pod{flex:1;min-width:140px;background:var(--card);border:4px solid var(--c);border-radius:22px 22px 10px 10px;padding:14px;box-shadow:0 6px 0 var(--c)}
+  .pod .medal{font-size:46px}
+  .pod .n{font-size:22px;font-weight:700;word-break:break-word}
+  .pod .s{font-size:30px;font-weight:700}
+  .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
+
+  /* ---------- Editor ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(59,36,5,.55);display:grid;place-items:center;padding:16px;z-index:50}
+  .editor{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:24px;padding:22px}
+  .editor h2{margin:0 0 8px}
+  .editor .help{background:var(--cream);border-radius:14px;padding:12px 14px;font-size:15px;line-height:1.55}
+  .editor code{background:#ffe9a8;padding:1px 6px;border-radius:6px}
+  .editor textarea{width:100%;height:46vh;margin-top:12px;font:15px/1.5 Consolas,"Courier New",monospace;border:3px solid var(--line);border-radius:14px;padding:12px;color:var(--ink)}
+  .editor .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+  .editor .count{color:var(--muted);font-weight:600}
+
+  @media (max-width:640px){ .judge .btn{font-size:22px;padding:14px 22px} .tool{font-size:17px;padding:10px 14px} }
+</style>
+</head>
+<body>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="wrap">
+  <div class="logo">
+    <div class="bee">🐝</div>
+    <h1>Spelling Bee</h1>
+    <p>Listen, think… and spell it out loud!</p>
+  </div>
+
+  <div class="panel">
+    <h2>📘 Book</h2>
+    <div class="choices" id="bookChoices"></div>
+  </div>
+
+  <div class="panel">
+    <h2>📚 Units</h2>
+    <div class="choices" id="unitChoices"></div>
+    <div class="mini">
+      <button id="allUnits">All</button>
+      <button id="noUnits">None</button>
+      <span class="hint" style="margin:0" id="unitCount"></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>👥 Teams</h2>
+    <div class="choices" id="teamCountChoices"></div>
+    <div class="teams-edit" id="teamNames"></div>
+    <div class="hint">If you don't type a name, the team is named after its colour.</div>
+  </div>
+
+  <div class="panel">
+    <h2>⚙️ Game options</h2>
+    <div class="row">
+      <label class="opt">Words per team
+        <select id="wordsPerTeam"><option>3</option><option>5</option><option>8</option><option>10</option><option>15</option></select>
+      </label>
+      <label class="opt">⏱️ Timer
+        <select id="timerSecs"><option value="0">Off</option><option value="20">20 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option></select>
+      </label>
+      <label class="switch"><input type="checkbox" id="showPicture"> Show picture</label>
+      <label class="switch"><input type="checkbox" id="showLetters"> Show number of letters</label>
+      <label class="switch"><input type="checkbox" id="allowSteal"> Other teams can steal</label>
+    </div>
+    <div class="hint">A correct word is worth 🍯🍯 2 points, or 🍯 1 point if the team uses the first-letter hint. A stolen word is worth 🍯 1 point.</div>
+  </div>
+
+  <div class="start-row">
+    <button class="btn btn-plain" id="openEditor">✏️ Edit words</button>
+    <button class="btn btn-honey btn-big" id="startBtn">Start! 🐝</button>
+  </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="wrap hidden">
+  <div class="topbar">
+    <span class="pill" id="gameTag"></span>
+    <div class="actions">
+      <button class="btn btn-plain" id="undoBtn" title="Undo the last action">↩️ Undo</button>
+      <button class="btn btn-plain" id="endBtn">🏁 Finish</button>
+    </div>
+  </div>
+
+  <div class="teams" id="teamsBoard"></div>
+
+  <div class="stage" id="stage">
+    <p class="whose" id="whose"></p>
+    <div class="counter" id="counter"></div>
+    <div class="picture" id="picture"></div>
+    <div class="tiles" id="tiles"></div>
+    <div class="message" id="message"></div>
+
+    <div id="askPhase">
+      <div class="tools">
+        <button class="tool say" id="sayBtn">🔊 Listen</button>
+        <button class="tool" id="slowBtn">🐢 Slowly</button>
+        <button class="tool" id="hintBtn">💡 First letter</button>
+      </div>
+      <div class="timer hidden" id="timer"><div id="timerBar"></div></div>
+      <div class="worth" id="worth"></div>
+      <div class="judge">
+        <button class="btn b-ok" id="okBtn">✔ Correct</button>
+        <button class="btn b-bad" id="badBtn">✘ Wrong</button>
+      </div>
+    </div>
+
+    <div id="stealPhase" class="hidden">
+      <div class="worth">Click the team that wants to steal it, or skip.</div>
+      <div class="judge"><button class="btn btn-plain" id="noStealBtn" style="color:var(--ink)">No steal – show the word</button></div>
+    </div>
+
+    <div id="donePhase" class="hidden">
+      <div class="tools">
+        <button class="tool" id="spellBtn">🔤 Spell it again</button>
+      </div>
+      <button class="btn btn-honey btn-big" id="nextBtn">Next word ➜</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= END ================= -->
+<section id="end" class="wrap end hidden">
+  <div class="bee" style="font-size:80px">🏆</div>
+  <h1 id="endTitle"></h1>
+  <div class="podium" id="podium"></div>
+  <div class="start-row">
+    <button class="btn btn-honey btn-big" id="againBtn">Play again</button>
+    <button class="btn btn-plain" id="backBtn">Change teams or units</button>
+  </div>
+</section>
+
+<!-- ================= EDITOR ================= -->
+<div class="overlay hidden" id="editorOverlay">
+  <div class="editor">
+    <h2>✏️ Words for <span id="edBook"></span></h2>
+    <div class="help">
+      One word per line. You can add an emoji after the word for the picture: <code>apple 🍎</code>.<br>
+      Write <code>## Unit name</code> on its own line to start a new unit. Lines starting with a single <code>#</code> are ignored.<br>
+      Changes are saved in this browser only.
+    </div>
+    <textarea id="edText" spellcheck="false"></textarea>
+    <div class="foot">
+      <span class="count" id="edCount"></span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-plain" id="edReset">Restore originals</button>
+        <button class="btn btn-plain" id="edCancel">Cancel</button>
+        <button class="btn btn-honey" id="edSave">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const BOOKS = {
+  sms: { name: "Super Minds Starter", text: `
+## Welcome: Say Hello
+red 🔴
+blue 🔵
+green 🟢
+yellow 🟡
+orange 🟠
+purple 🟣
+black ⚫
+white ⚪
+brown 🟤
+one 1️⃣
+two 2️⃣
+three 3️⃣
+four 4️⃣
+five 5️⃣
+six 6️⃣
+seven 7️⃣
+eight 8️⃣
+nine 9️⃣
+ten 🔟
+
+## Unit 1: My Classroom
+pen 🖊️
+pencil ✏️
+book 📕
+bag 🎒
+ruler 📏
+crayon 🖍️
+chair 🪑
+table
+door 🚪
+window 🪟
+
+## Unit 2: My Body
+head
+arm 💪
+leg 🦵
+foot 🦶
+hand ✋
+eye 👁️
+ear 👂
+nose 👃
+mouth 👄
+hair 💇
+
+## Unit 3: My Family
+mum 👩
+dad 👨
+brother 👦
+sister 👧
+grandma 👵
+grandpa 👴
+baby 👶
+family 👪
+
+## Unit 4: At The Zoo
+lion 🦁
+tiger 🐯
+monkey 🐒
+elephant 🐘
+giraffe 🦒
+snake 🐍
+bear 🐻
+zebra 🦓
+crocodile 🐊
+hippo 🦛
+
+## Unit 5: My Food
+apple 🍎
+banana 🍌
+bread 🍞
+cheese 🧀
+milk 🥛
+egg 🥚
+cake 🍰
+pizza 🍕
+carrot 🥕
+juice 🧃
+
+## Unit 6: My Town
+shop 🏪
+park 🌳
+school 🏫
+house 🏠
+hospital 🏥
+cafe ☕
+street 🛣️
+bus 🚌
+
+## Unit 7: Jobs
+doctor 🧑‍⚕️
+teacher 🧑‍🏫
+farmer 🧑‍🌾
+cook 🧑‍🍳
+pilot 🧑‍✈️
+nurse
+vet
+firefighter 🧑‍🚒
+
+## Unit 8: My Clothes
+hat 👒
+dress 👗
+socks 🧦
+shoes 👟
+coat 🧥
+skirt
+trousers 👖
+shirt 👔
+
+## Unit 9: My Hobbies
+dance 💃
+sing 🎤
+swim 🏊
+run 🏃
+paint 🎨
+read 📖
+jump
+football ⚽
+`},
+  sm1: { name: "Super Minds 1", text: `
+## Welcome: Friends
+hello 👋
+goodbye 👋
+friend
+eleven
+twelve
+thirteen
+fourteen
+fifteen
+sixteen
+seventeen
+eighteen
+nineteen
+twenty
+
+## Unit 1: At School
+pencil ✏️
+rubber
+ruler 📏
+book 📕
+bag 🎒
+crayon 🖍️
+desk
+board
+chair 🪑
+computer 💻
+
+## Unit 2: Let's Play
+ball ⚽
+doll 🪆
+kite 🪁
+train 🚂
+bike 🚲
+robot 🤖
+teddy 🧸
+plane ✈️
+car 🚗
+big
+small
+new
+old
+
+## Unit 3: Pet Show
+dog 🐶
+cat 🐱
+rabbit 🐰
+mouse 🐭
+fish 🐟
+bird 🐦
+horse 🐴
+frog 🐸
+spider 🕷️
+tortoise 🐢
+
+## Unit 4: Lunchtime
+sandwich 🥪
+rice 🍚
+chicken 🍗
+salad 🥗
+water 💧
+orange 🍊
+tomato 🍅
+potato 🥔
+chocolate 🍫
+sausage 🌭
+
+## Unit 5: Free Time
+Monday 📅
+Tuesday 📅
+Wednesday 📅
+Thursday 📅
+Friday 📅
+Saturday 📅
+Sunday 📅
+week
+
+## Unit 6: The Old House
+kitchen 🍳
+bedroom 🛏️
+bathroom 🛁
+garden 🌻
+stairs
+sofa 🛋️
+bed 🛏️
+lamp 💡
+house 🏠
+
+## Unit 7: Get Dressed
+shirt 👔
+jeans 👖
+jumper
+shorts 🩳
+boots 🥾
+scarf 🧣
+gloves 🧤
+cap 🧢
+trousers 👖
+socks 🧦
+
+## Unit 8: The Robot
+head
+shoulders
+knees
+toes
+fingers
+arms 💪
+legs 🦵
+feet 🦶
+neck
+body
+
+## Unit 9: At The Beach
+sea 🌊
+sand
+shell 🐚
+sun ☀️
+boat ⛵
+beach 🏖️
+holiday 🧳
+sandcastle 🏰
+crab 🦀
+towel
+`},
+  sm2: { name: "Super Minds 2", text: `
+## Welcome: Back To School
+classroom
+scissors ✂️
+glue
+notebook 📓
+calculator 🧮
+dictionary 📖
+poster
+pencil ✏️
+
+## Unit 1: My Day
+breakfast 🥣
+lunch 🍽️
+dinner 🍝
+shower 🚿
+teeth 🦷
+morning 🌅
+afternoon
+evening 🌆
+clock ⏰
+quarter
+half
+
+## Unit 2: The Zoo
+kangaroo 🦘
+penguin 🐧
+parrot 🦜
+camel 🐫
+gorilla 🦍
+dolphin 🐬
+shark 🦈
+lizard 🦎
+whale 🐳
+bat 🦇
+
+## Unit 3: Where We Live
+library 📚
+cinema 🎬
+supermarket 🛒
+park 🌳
+bank 🏦
+hospital 🏥
+station 🚉
+museum 🏛️
+pool 🏊
+cafe ☕
+
+## Unit 4: The Market
+lemon 🍋
+pear 🍐
+grapes 🍇
+watermelon 🍉
+onion 🧅
+mango 🥭
+pineapple 🍍
+strawberry 🍓
+beans 🫘
+pepper 🫑
+
+## Unit 5: My Bedroom
+wardrobe
+shelf
+cupboard
+mirror 🪞
+rug
+curtains
+clock ⏰
+lamp 💡
+bed 🛏️
+desk
+
+## Unit 6: People
+face
+eyes 👀
+nose 👃
+mouth 👄
+ears 👂
+beard 🧔
+glasses 👓
+January 📅
+February 📅
+March 📅
+April 📅
+May 📅
+June 📅
+July 📅
+August 📅
+September 📅
+October 📅
+November 📅
+December 📅
+
+## Unit 7: Off We Go!
+bus 🚌
+train 🚆
+plane ✈️
+bike 🚲
+boat ⛵
+helicopter 🚁
+motorbike 🏍️
+taxi 🚕
+lorry 🚚
+tram 🚊
+
+## Unit 8: Sports Club
+football ⚽
+basketball 🏀
+tennis 🎾
+volleyball 🏐
+baseball ⚾
+hockey 🏒
+swimming 🏊
+skating ⛸️
+badminton 🏸
+golf ⛳
+
+## Unit 9: Holiday Plans
+mountain ⛰️
+lake
+river
+forest 🌲
+island 🏝️
+camping ⛺
+tent ⛺
+suitcase 🧳
+passport 🛂
+beach 🏖️
+`},
+  sm3: { name: "Super Minds 3", text: `
+## Unit 1: Our School
+English
+maths ➗
+science 🔬
+history
+geography 🌍
+art 🎨
+music 🎵
+subject
+timetable
+before
+after
+
+## Unit 2: The Picnic
+picnic 🧺
+biscuits 🍪
+crisps
+lemonade 🍋
+blanket
+strawberries 🍓
+sausages 🌭
+yoghurt
+cucumber 🥒
+sandwiches 🥪
+
+## Unit 3: Daily Tasks
+wash
+clean
+tidy
+sweep 🧹
+dishes 🍽️
+rubbish 🗑️
+shopping 🛒
+ironing
+homework 📝
+minutes 🕒
+
+## Unit 4: Around Town
+bridge 🌉
+square
+statue 🗽
+castle 🏰
+church ⛪
+theatre 🎭
+factory 🏭
+restaurant 🍽️
+hotel 🏨
+market
+
+## Unit 5: Under The Sea
+octopus 🐙
+shark 🦈
+whale 🐳
+dolphin 🐬
+jellyfish 🪼
+crab 🦀
+starfish ⭐
+seahorse
+turtle 🐢
+squid 🦑
+
+## Unit 6: Gadgets
+camera 📷
+laptop 💻
+phone 📱
+tablet
+headphones 🎧
+keyboard ⌨️
+printer 🖨️
+battery 🔋
+television 📺
+remote
+
+## Unit 7: In The Hospital
+headache 🤕
+cough
+cold 🤧
+temperature 🌡️
+toothache 🦷
+earache 👂
+nurse
+medicine 💊
+ambulance 🚑
+plaster 🩹
+
+## Unit 8: Around The World
+Spain 🌍
+France 🌍
+Italy 🌍
+Germany 🌍
+Brazil 🌍
+China 🌍
+Japan 🌍
+Mexico 🌍
+Australia 🌍
+Egypt 🌍
+
+## Unit 9: Holiday Plans
+sunny ☀️
+cloudy ☁️
+rainy 🌧️
+windy 💨
+snowy ❄️
+foggy 🌫️
+stormy ⛈️
+umbrella ☂️
+sunglasses 🕶️
+weather
+`},
+  sm4: { name: "Super Minds 4", text: `
+## Welcome: At Town Events
+parade 🎉
+fireworks 🎆
+festival
+band 🎺
+balloon 🎈
+costume
+crowd
+stage
+flag 🚩
+prize 🏆
+
+## Unit 1: In The Museum
+knight 🛡️
+queen 👸
+king 🤴
+castle 🏰
+sword 🗡️
+shield 🛡️
+crown 👑
+armour
+princess 👸
+museum 🏛️
+
+## Unit 2: The World Around Us
+hill ⛰️
+valley
+field
+waterfall
+cave
+path
+village 🏘️
+countryside
+river
+forest 🌲
+
+## Unit 3: Danger
+fire 🔥
+ambulance 🚑
+police 🚓
+emergency 🚨
+accident
+helmet ⛑️
+rescue
+danger ⚠️
+alarm 🚨
+firefighter 🧑‍🚒
+
+## Unit 4: Two Return Tickets
+ticket 🎫
+platform
+timetable
+luggage 🧳
+journey
+passenger
+carriage 🚃
+station 🚉
+single
+return
+
+## Unit 5: Police
+curly
+straight
+blond
+moustache 🥸
+beard 🧔
+freckles
+fringe
+ponytail
+bald
+glasses 👓
+
+## Unit 6: Mythical Beasts
+wings 🪽
+tail
+claws
+horns
+beak
+scales
+feathers 🪶
+fur
+dragon 🐉
+unicorn 🦄
+
+## Unit 7: Orchestra Practice
+violin 🎻
+trumpet 🎺
+drums 🥁
+guitar 🎸
+piano 🎹
+flute
+saxophone 🎷
+recorder
+orchestra
+triangle 🔺
+
+## Unit 8: In The Planetarium
+planet 🪐
+star ⭐
+moon 🌙
+rocket 🚀
+astronaut 🧑‍🚀
+Earth 🌍
+comet ☄️
+telescope 🔭
+galaxy 🌌
+space
+
+## Unit 9: At The Campsite
+tent ⛺
+torch 🔦
+campfire 🔥
+canoe 🛶
+fishing 🎣
+compass 🧭
+map 🗺️
+rucksack 🎒
+climbing 🧗
+campsite
+`},
+  sm5: { name: "Super Minds 5", text: `
+## Welcome: The Science Lesson
+experiment 🧪
+scientist 🧑‍🔬
+magnet 🧲
+microscope 🔬
+liquid
+solid
+gas
+temperature 🌡️
+result
+measure 📏
+
+## Unit 1: Disaster
+volcano 🌋
+earthquake
+flood 🌊
+ash
+lava
+eruption
+disaster
+tsunami 🌊
+damage
+survive
+
+## Unit 2: In The Rainforest
+rainforest 🌳
+jaguar 🐆
+sloth 🦥
+butterfly 🦋
+leaves 🍃
+insect 🐜
+poisonous
+hundred 💯
+thousand
+million
+
+## Unit 3: The Rock And Roll Show
+concert 🎤
+singer 🎤
+audience 👏
+guitarist 🎸
+drummer 🥁
+microphone 🎤
+stage
+speakers 🔊
+fans
+ticket 🎫
+
+## Unit 4: Space Restaurant
+menu 📋
+waiter
+starter
+dessert 🍨
+bill 🧾
+order
+delicious 😋
+first 🥇
+second 🥈
+third 🥉
+
+## Unit 5: The Wild West
+cowboy 🤠
+horse 🐴
+sheriff ⭐
+saloon
+desert 🏜️
+cactus 🌵
+gold 🪙
+ranch
+wagon
+lasso
+
+## Unit 6: In Istanbul
+souvenir 🎁
+carpet
+bracelet
+necklace 📿
+postcard
+keyring 🔑
+jewellery 💍
+pottery 🏺
+scarf 🧣
+spices 🌶️
+
+## Unit 7: The Story Teller
+theatre 🎭
+actor
+audience 👏
+costume
+script 📜
+scene
+curtain
+playwright ✍️
+applause 👏
+story 📖
+
+## Unit 8: Museum Of The Future
+engineer 👷
+architect
+scientist 🧑‍🔬
+journalist 📰
+designer
+photographer 📸
+programmer 💻
+mechanic 🔧
+inventor 💡
+future
+
+## Unit 9: Mystery At Sea
+captain
+deck
+cabin
+anchor ⚓
+sailor
+island 🏝️
+lighthouse
+storm ⛈️
+wave 🌊
+lifeboat 🛟
+`},
+  sm6: { name: "Super Minds 6", text: `
+## Welcome: Outside At School
+playground 🛝
+bench
+fence
+gate
+slide 🛝
+swings
+path
+field
+bin 🗑️
+tree 🌳
+
+## Unit 1: The Treasure
+pirate 🏴‍☠️
+treasure 💰
+chest
+parrot 🦜
+island 🏝️
+map 🗺️
+diamond 💎
+silver
+gold 🪙
+jewels 💍
+
+## Unit 2: Future Transport
+hovercraft
+spaceship 🚀
+submarine
+electric ⚡
+engine
+passenger
+journey
+drone
+helicopter 🚁
+motorway
+
+## Unit 3: Ancient Egypt
+pyramid 🔺
+pharaoh
+mummy
+tomb
+desert 🏜️
+camel 🐫
+temple
+Nile
+statue
+hieroglyphs 📜
+
+## Unit 4: Olympic Sports
+athletics 🏃
+gymnastics 🤸
+cycling 🚴
+rowing 🚣
+sailing ⛵
+boxing 🥊
+fencing 🤺
+archery 🏹
+medal 🏅
+champion 🏆
+
+## Unit 5: In London
+bakery 🥐
+butcher 🥩
+chemist 💊
+newsagent 📰
+greengrocer 🥦
+florist 💐
+jeweller 💍
+bookshop 📚
+customer 🛍️
+souvenir 🎁
+
+## Unit 6: Crazy Inventions
+hammer 🔨
+screwdriver 🪛
+saw 🪚
+drill
+scissors ✂️
+ladder 🪜
+machine ⚙️
+invention 💡
+button 🔘
+wheel 🛞
+
+## Unit 7: This Is Houston
+astronaut 🧑‍🚀
+rocket 🚀
+spacesuit
+launch
+orbit
+gravity
+satellite 🛰️
+crater
+mission
+landing
+
+## Unit 8: A Cold Place
+iceberg 🧊
+glacier
+walrus 🦭
+seal 🦭
+penguin 🐧
+igloo
+sledge 🛷
+Arctic
+blizzard 🌨️
+reindeer 🦌
+
+## Unit 9: The Jurassic Age
+dinosaur 🦕
+fossil 🦴
+skeleton 💀
+volcano 🌋
+swamp
+cliff
+jungle 🌴
+extinct
+footprint 🐾
+prehistoric
+`}
+};
+
+const TEAM_COLORS = [
+  { name: "Red", css: "var(--red)" }, { name: "Blue", css: "var(--blue)" },
+  { name: "Green", css: "var(--green)" }, { name: "Purple", css: "var(--purple)" },
+];
+const STORE_KEY = "spelling-bee-v1";
+const $ = id => document.getElementById(id);
+
+/* ---------- storage ---------- */
+function loadStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
+function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){} }
+const store = loadStore(); store.custom = store.custom || {};
+const cfg = Object.assign({ book: "sms", teamCount: 2, names: ["","","",""], perTeam: 5, timer: 0,
+  picture: true, letters: true, steal: true, off: {} }, store.cfg || {});
+cfg.off = cfg.off || {};
+
+function bookText(id){ return store.custom[id] != null ? store.custom[id] : BOOKS[id].text.trim(); }
+function parseWords(txt){
+  const units = []; let cur = null;
+  txt.split(/\r?\n/).forEach(raw => {
+    const line = raw.trim();
+    if (line.startsWith("##")) { cur = { name: line.replace(/^#+/, "").trim() || "Words", words: [] }; units.push(cur); return; }
+    if (!line || line.startsWith("#")) return;
+    const m = line.match(/^([A-Za-z][A-Za-z\- ]*[A-Za-z]|[A-Za-z])\s*(.*)$/);
+    if (!m) return;
+    if (!cur) { cur = { name: "Words", words: [] }; units.push(cur); }
+    cur.words.push({ w: m[1].trim(), pic: m[2].trim() });
+  });
+  return units.filter(u => u.words.length);
+}
+function unitOn(unit){ return !(cfg.off[cfg.book] || []).includes(unit); }
+
+/* ---------- setup ---------- */
+function renderSetup(){
+  const bc = $("bookChoices"); bc.innerHTML = "";
+  Object.entries(BOOKS).forEach(([id, b]) => {
+    const el = document.createElement("button");
+    el.className = "chip" + (cfg.book === id ? " on" : ""); el.textContent = b.name;
+    el.onclick = () => { cfg.book = id; renderSetup(); };
+    bc.appendChild(el);
+  });
+  renderUnits();
+  const tc = $("teamCountChoices"); tc.innerHTML = "";
+  [1,2,3,4].forEach(n => {
+    const el = document.createElement("button");
+    el.className = "chip num" + (cfg.teamCount === n ? " on" : ""); el.textContent = n;
+    el.onclick = () => { cfg.teamCount = n; renderSetup(); };
+    tc.appendChild(el);
+  });
+  const tn = $("teamNames"); tn.innerHTML = "";
+  for (let i = 0; i < cfg.teamCount; i++) {
+    const d = document.createElement("div");
+    d.className = "team-input"; d.style.setProperty("--c", TEAM_COLORS[i].css);
+    d.innerHTML = '<span class="dot"></span>';
+    const inp = document.createElement("input");
+    inp.placeholder = TEAM_COLORS[i].name; inp.value = cfg.names[i] || ""; inp.maxLength = 20;
+    inp.oninput = () => { cfg.names[i] = inp.value; };
+    d.appendChild(inp); tn.appendChild(d);
+  }
+  $("wordsPerTeam").value = String(cfg.perTeam);
+  $("timerSecs").value = String(cfg.timer);
+  $("showPicture").checked = cfg.picture; $("showLetters").checked = cfg.letters; $("allowSteal").checked = cfg.steal;
+}
+function renderUnits(){
+  const uc = $("unitChoices"); uc.innerHTML = "";
+  const units = parseWords(bookText(cfg.book));
+  units.forEach(u => {
+    const el = document.createElement("button");
+    el.className = "chip unit" + (unitOn(u.name) ? " on" : "");
+    el.innerHTML = '<span></span> <small></small>';
+    el.querySelector("span").textContent = u.name;
+    el.querySelector("small").textContent = u.words.length;
+    el.onclick = () => {
+      const off = new Set(cfg.off[cfg.book] || []);
+      off.has(u.name) ? off.delete(u.name) : off.add(u.name);
+      cfg.off[cfg.book] = [...off]; renderUnits();
+    };
+    uc.appendChild(el);
+  });
+  const on = units.filter(u => unitOn(u.name));
+  $("unitCount").textContent = `${on.length} of ${units.length} units · ${on.reduce((s, u) => s + u.words.length, 0)} words`;
+}
+function setAllUnits(on){
+  cfg.off[cfg.book] = on ? [] : parseWords(bookText(cfg.book)).map(u => u.name);
+  renderUnits();
+}
+
+/* ---------- speech & sound ---------- */
+let voice = null;
+function pickVoice(){
+  if (!("speechSynthesis" in window)) return;
+  const vs = speechSynthesis.getVoices();
+  voice = vs.find(v => /en-GB/i.test(v.lang) && /female|libby|sonia|hazel|serena|kate/i.test(v.name))
+       || vs.find(v => /en-GB/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null;
+}
+if ("speechSynthesis" in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(text, rate = 0.85){
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  if (voice) u.voice = voice;
+  u.lang = voice ? voice.lang : "en-GB"; u.rate = rate; u.pitch = 1.05;
+  speechSynthesis.speak(u);
+}
+function spellOut(word){ speak(word.toUpperCase().split("").filter(c => /[A-Z]/.test(c)).join(", ") + ". " + word, 0.8); }
+
+let actx = null;
+function beep(freqs, dur = .14, type = "sine"){
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    freqs.forEach((f, i) => {
+      const o = actx.createOscillator(), g = actx.createGain();
+      o.type = type; o.frequency.value = f;
+      const t = actx.currentTime + i * dur;
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.25, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + dur + .02);
+    });
+  } catch(e){}
+}
+const sndOk = () => beep([523, 659, 784, 1047], .12, "triangle");
+const sndBad = () => beep([311, 233], .25, "sawtooth");
+const sndTime = () => beep([880, 880, 880], .15, "square");
+
+/* ---------- game ---------- */
+let G = null, undoStack = [], timerId = null;
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+function startGame(){
+  cfg.perTeam = parseInt($("wordsPerTeam").value); cfg.timer = parseInt($("timerSecs").value);
+  cfg.picture = $("showPicture").checked; cfg.letters = $("showLetters").checked; cfg.steal = $("allowSteal").checked;
+  store.cfg = cfg; saveStore();
+  const pool = parseWords(bookText(cfg.book)).filter(u => unitOn(u.name)).flatMap(u => u.words.map(w => ({ ...w, unit: u.name })));
+  if (!pool.length) { alert("Choose at least one unit with words."); return; }
+  const need = cfg.perTeam * cfg.teamCount;
+  let deck = shuffle(pool.slice());
+  while (deck.length < need) deck = deck.concat(shuffle(pool.slice()));   // repeat only if there aren't enough words
+  G = {
+    teams: Array.from({ length: cfg.teamCount }, (_, i) => ({ name: (cfg.names[i] || "").trim() || TEAM_COLORS[i].name, color: TEAM_COLORS[i].css, score: 0 })),
+    deck: deck.slice(0, need), idx: 0, phase: "ask", hint: false, stealer: null, result: null
+  };
+  undoStack = [];
+  $("gameTag").textContent = BOOKS[cfg.book].name + " · " + cfg.perTeam + " words per team";
+  show("game"); render(true);
+}
+function show(id){ ["setup","game","end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0, 0); }
+const turnTeam = () => G.idx % G.teams.length;
+const cur = () => G.deck[G.idx];
+const letters = w => w.split("").filter(c => /[A-Za-z]/.test(c));
+
+function renderTeams(deltas = {}){
+  const b = $("teamsBoard");
+  b.style.gridTemplateColumns = `repeat(${G.teams.length}, minmax(0,1fr))`;
+  if (window.innerWidth < 640 && G.teams.length > 2) b.style.gridTemplateColumns = "repeat(2, minmax(0,1fr))";
+  b.innerHTML = "";
+  G.teams.forEach((t, i) => {
+    const el = document.createElement("div");
+    const pickable = G.phase === "steal" && i !== turnTeam();
+    el.className = "team" + (i === turnTeam() && G.phase === "ask" ? " turn" : "") + (pickable ? " pickable" : "") + (G.stealer === i && G.phase === "stealAsk" ? " turn" : "");
+    el.style.setProperty("--c", t.color);
+    el.innerHTML = `<span class="turnflag">${G.phase === "stealAsk" ? "STEALING" : "YOUR TURN"}</span><div class="tname"><span class="dot"></span><span class="n"></span></div><div class="score">🍯 ${t.score}</div>`;
+    el.querySelector(".n").textContent = t.name;
+    if (deltas[i]) { const d = document.createElement("span"); d.className = "delta"; d.textContent = "+" + deltas[i]; el.appendChild(d); }
+    if (pickable) el.onclick = () => startSteal(i);
+    b.appendChild(el);
+  });
+}
+
+function render(newWord = false){
+  const w = cur(), t = G.teams[turnTeam()];
+  renderTeams(G.lastDeltas || {}); G.lastDeltas = null;
+  const whose = $("whose");
+  if (G.phase === "stealAsk") { whose.innerHTML = '<span></span> is stealing! 🐝'; whose.style.setProperty("--c", G.teams[G.stealer].color); whose.querySelector("span").textContent = G.teams[G.stealer].name; }
+  else { whose.innerHTML = '<span></span>, spell this word!'; whose.style.setProperty("--c", t.color); whose.querySelector("span").textContent = t.name; }
+  $("counter").textContent = `Word ${G.idx + 1} of ${G.deck.length} · ${w.unit}`;
+  const pic = $("picture");
+  pic.textContent = cfg.picture || G.phase === "done" ? (w.pic || "🐝") : "🐝";
+  if (newWord) { pic.classList.remove("pop"); void pic.offsetWidth; pic.classList.add("pop"); }
+
+  // tiles
+  const tiles = $("tiles"); tiles.innerHTML = "";
+  const ls = letters(w.w), reveal = G.phase === "done";
+  if (!cfg.letters && !reveal) {
+    const d = document.createElement("div"); d.className = "tile hidden-count";
+    d.textContent = G.hint ? ls[0].toUpperCase() + " …" : "? ? ?"; tiles.appendChild(d);
+  } else {
+    ls.forEach((c, i) => {
+      const d = document.createElement("div");
+      if (reveal) { d.className = "tile show"; d.textContent = c; d.style.animationDelay = (i * 0.12) + "s"; }
+      else if (G.hint && i === 0) { d.className = "tile hint"; d.textContent = c; }
+      else d.className = "tile";
+      tiles.appendChild(d);
+    });
+  }
+
+  $("askPhase").classList.toggle("hidden", !(G.phase === "ask" || G.phase === "stealAsk"));
+  $("stealPhase").classList.toggle("hidden", G.phase !== "steal");
+  $("donePhase").classList.toggle("hidden", G.phase !== "done");
+  $("hintBtn").disabled = G.hint || G.phase === "stealAsk";
+  $("worth").textContent = G.phase === "stealAsk" ? "A stolen word is worth 🍯 1 point" : (G.hint ? "Now worth 🍯 1 point" : "Worth 🍯🍯 2 points");
+  const msg = $("message");
+  msg.className = "message" + (G.result === "ok" ? " ok" : G.result === "bad" ? " bad" : "");
+  msg.textContent = G.phase === "done" ? (G.resultText || "") : G.phase === "steal" ? "✘ Not quite! Can another team spell it?" : "";
+  $("nextBtn").textContent = G.idx + 1 >= G.deck.length ? "See the winners 🏆" : "Next word ➜";
+  if (G.phase === "ask" || G.phase === "stealAsk") startTimer(); else stopTimer();
+}
+
+function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 60) undoStack.shift(); }
+function useHint(){ if (G.hint) return; snapshot(); G.hint = true; render(); }
+
+function markOk(){
+  snapshot();
+  const stealing = G.phase === "stealAsk";
+  const i = stealing ? G.stealer : turnTeam();
+  const pts = stealing ? 1 : (G.hint ? 1 : 2);
+  G.teams[i].score += pts; G.lastDeltas = { [i]: pts };
+  G.result = "ok"; G.resultText = (stealing ? "🐝 Stolen! " : "🎉 Correct! ") + G.teams[i].name + " gets " + "🍯".repeat(pts);
+  G.phase = "done"; render(); sndOk(); confetti(); setTimeout(() => spellOut(cur().w), 500);
+}
+function markBad(){
+  snapshot();
+  if (G.phase === "ask" && cfg.steal && G.teams.length > 1) { G.phase = "steal"; render(); sndBad(); return; }
+  G.result = "bad"; G.resultText = "The correct spelling is…"; G.phase = "done"; render(); sndBad(); setTimeout(() => spellOut(cur().w), 500);
+}
+function startSteal(i){ snapshot(); G.stealer = i; G.phase = "stealAsk"; render(); speak(cur().w); }
+function noSteal(){ snapshot(); G.result = "bad"; G.resultText = "Nobody stole it. The correct spelling is…"; G.phase = "done"; render(); setTimeout(() => spellOut(cur().w), 300); }
+function nextWord(){
+  if (G.idx + 1 >= G.deck.length) { finish(); return; }
+  snapshot();
+  G.idx++; G.phase = "ask"; G.hint = false; G.stealer = null; G.result = null; G.resultText = "";
+  render(true); setTimeout(() => speak(cur().w), 400);
+}
+function undo(){ if (!undoStack.length) return; G = JSON.parse(undoStack.pop()); G.lastDeltas = null; if (!$("game").classList.contains("hidden")) render(); }
+
+function startTimer(){
+  stopTimer();
+  const box = $("timer");
+  if (!cfg.timer) { box.classList.add("hidden"); return; }
+  box.classList.remove("hidden", "low");
+  let left = cfg.timer; const bar = $("timerBar");
+  bar.style.transition = "none"; bar.style.width = "100%"; void bar.offsetWidth; bar.style.transition = "width 1s linear";
+  timerId = setInterval(() => {
+    left--; bar.style.width = Math.max(0, left / cfg.timer * 100) + "%";
+    if (left <= 5) box.classList.add("low");
+    if (left <= 0) { stopTimer(); sndTime(); $("message").className = "message bad"; $("message").textContent = "⏰ Time's up!"; }
+  }, 1000);
+}
+function stopTimer(){ if (timerId) clearInterval(timerId); timerId = null; }
+
+function finish(){
+  stopTimer();
+  const ranked = G.teams.slice().sort((a, b) => b.score - a.score);
+  const top = ranked[0].score, winners = ranked.filter(t => t.score === top);
+  $("endTitle").textContent = G.teams.length === 1 ? `${ranked[0].name}: 🍯 ${top}` : winners.length > 1 ? "It's a tie! 🐝" : `${winners[0].name} wins! 🎉`;
+  const pod = $("podium"); pod.innerHTML = "";
+  const medals = ["🥇","🥈","🥉","🏅"];
+  let place = 0;
+  ranked.forEach((t, k) => {
+    if (k > 0 && t.score < ranked[k - 1].score) place = k;
+    const d = document.createElement("div");
+    d.className = "pod"; d.style.setProperty("--c", t.color);
+    d.style.paddingTop = (40 - place * 12) + "px";
+    d.innerHTML = `<div class="medal">${medals[Math.min(place, 3)]}</div><div class="n"></div><div class="s">🍯 ${t.score}</div>`;
+    d.querySelector(".n").textContent = t.name;
+    pod.appendChild(d);
+  });
+  show("end"); confetti(60); sndOk();
+}
+
+function confetti(n = 24){
+  const items = ["🐝","🍯","⭐","🌼","✨"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti"; c.textContent = items[i % items.length];
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDuration = 2 + Math.random() * 2 + "s";
+    c.style.animationDelay = Math.random() * .5 + "s";
+    document.body.appendChild(c); setTimeout(() => c.remove(), 5000);
+  }
+}
+
+/* ---------- editor ---------- */
+function openEditor(){
+  $("edBook").textContent = BOOKS[cfg.book].name;
+  $("edText").value = bookText(cfg.book); countEditor();
+  $("editorOverlay").classList.remove("hidden");
+}
+function countEditor(){
+  const u = parseWords($("edText").value);
+  $("edCount").textContent = `${u.length} units · ${u.reduce((s, x) => s + x.words.length, 0)} words`;
+}
+function saveEditor(){
+  const txt = $("edText").value;
+  if (txt.trim() === BOOKS[cfg.book].text.trim()) delete store.custom[cfg.book]; else store.custom[cfg.book] = txt;
+  saveStore(); $("editorOverlay").classList.add("hidden"); renderUnits();
+}
+
+/* ---------- events ---------- */
+$("startBtn").onclick = startGame;
+$("allUnits").onclick = () => setAllUnits(true);
+$("noUnits").onclick = () => setAllUnits(false);
+$("sayBtn").onclick = () => speak(cur().w);
+$("slowBtn").onclick = () => speak(cur().w, 0.45);
+$("hintBtn").onclick = useHint;
+$("okBtn").onclick = markOk;
+$("badBtn").onclick = markBad;
+$("noStealBtn").onclick = noSteal;
+$("nextBtn").onclick = nextWord;
+$("spellBtn").onclick = () => spellOut(cur().w);
+$("undoBtn").onclick = undo;
+$("endBtn").onclick = () => { if (confirm("Finish the game now?")) finish(); };
+$("againBtn").onclick = startGame;
+$("backBtn").onclick = () => { renderSetup(); show("setup"); };
+$("openEditor").onclick = openEditor;
+$("edCancel").onclick = () => $("editorOverlay").classList.add("hidden");
+$("edSave").onclick = saveEditor;
+$("edReset").onclick = () => { if (confirm("Restore the original words for this book?")) { $("edText").value = BOOKS[cfg.book].text.trim(); countEditor(); } };
+$("edText").oninput = countEditor;
+window.addEventListener("resize", () => { if (G && !$("game").classList.contains("hidden")) renderTeams(); });
+// Say the first word when the game starts (needs a click first in most browsers)
+$("startBtn").addEventListener("click", () => setTimeout(() => { if (G && G.idx === 0 && G.phase === "ask") speak(cur().w); }, 500));
+
+renderSetup();
+</script>
+</body>
+</html>

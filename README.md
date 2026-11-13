@@ -15,3 +15,14 @@ Teams start with coins and bid on sentences they think are correct:
 Features: 1–4 teams (renameable, default colour names), choose the Prepare level and grammar topics, 3 correct : 4 incorrect sentences in random order, undo, and an editor to add your own sentences (saved in the browser).
 
 Play: open `sentence-auction/index.html` in any browser, or use the GitHub Pages link: https://natalaplk.github.io/Oxford-Games/sentence-auction/
+
+## Spelling Bee
+
+A team spelling game for children aged 6–12 using vocabulary from **Super Minds** Starter to 6 (by unit).
+
+- The app says the word aloud (🔊 Listen / 🐢 Slowly) and shows a picture and one tile per letter.
+- The team spells it out loud; the teacher clicks ✔ Correct or ✘ Wrong.
+- Correct = 🍯🍯 2 points (🍯 1 if the team used the first-letter hint). If a team gets it wrong, another team can steal it for 🍯 1.
+- Options: words per team, timer, show picture, show number of letters, stealing on/off. Words can be edited in the app.
+
+Play: https://natalaplk.github.io/Oxford-Games/spelling-bee/

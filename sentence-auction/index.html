@@ -1,0 +1,1650 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sentence Auction</title>
+<style>
+  :root{
+    --bg:#14122b; --bg2:#1f1c45; --card:#ffffff; --ink:#1b1838; --muted:#8c88b5;
+    --gold:#ffc83d; --gold2:#f5a400; --ok:#1fbf6a; --bad:#ef4b5b; --line:rgba(255,255,255,.12);
+    --red:#ef4b5b; --blue:#3b82f6; --green:#1fbf6a; --yellow:#f5b301;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+    background:radial-gradient(1200px 700px at 50% -10%, #3a2f8f 0%, var(--bg2) 40%, var(--bg) 100%);
+    color:#fff; min-height:100vh;
+  }
+  button{font:inherit;cursor:pointer;border:0}
+  .hidden{display:none!important}
+  .wrap{max-width:1200px;margin:0 auto;padding:20px 16px 40px}
+
+  /* ---------- Setup ---------- */
+  .logo{text-align:center;margin:10px 0 24px}
+  .logo .hammer{font-size:64px;display:inline-block;animation:bang 2.4s ease-in-out infinite;transform-origin:80% 80%}
+  @keyframes bang{0%,70%,100%{transform:rotate(0)}78%{transform:rotate(-35deg)}86%{transform:rotate(8deg)}}
+  .logo h1{margin:6px 0 2px;font-size:clamp(34px,6vw,60px);letter-spacing:1px;
+    background:linear-gradient(180deg,#fff3c4,var(--gold) 55%,var(--gold2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .logo p{margin:0;color:#c9c5f0;font-size:18px}
+  .panel{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:20px;padding:22px;margin:0 auto 18px;max-width:860px}
+  .panel h2{margin:0 0 14px;font-size:18px;color:#d9d5ff;text-transform:uppercase;letter-spacing:1.5px}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:rgba(255,255,255,.1);color:#fff;padding:12px 18px;border-radius:14px;font-weight:700;font-size:17px;border:2px solid transparent;transition:.15s}
+  .chip:hover{background:rgba(255,255,255,.18)}
+  .chip.on{background:var(--gold);color:#3a2600;border-color:#fff3c4}
+  .chip.num{min-width:64px;font-size:24px}
+  .chip.topic{font-size:15px;padding:9px 14px;opacity:.6}
+  .chip.topic.on{opacity:1}
+  .chip.topic small{opacity:.65;font-weight:800;margin-left:2px}
+  .topic-tag{margin-bottom:10px;color:#6e6a99;font-weight:800;font-size:15px;text-transform:uppercase;letter-spacing:1px}
+  .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+  .team-input{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.25);border-radius:14px;padding:10px 12px;border-left:8px solid}
+  .team-input input{flex:1;min-width:0;background:transparent;border:0;border-bottom:2px solid rgba(255,255,255,.25);color:#fff;font:inherit;font-size:18px;font-weight:700;padding:4px 2px;outline:none}
+  .team-input input:focus{border-color:var(--gold)}
+  .team-input input::placeholder{color:rgba(255,255,255,.55)}
+  .row{display:flex;flex-wrap:wrap;gap:22px;align-items:center}
+  .field{display:flex;align-items:center;gap:10px;font-weight:600;color:#d9d5ff}
+  .field input{width:90px;background:rgba(0,0,0,.3);border:2px solid var(--line);border-radius:10px;color:#fff;font:inherit;font-size:20px;font-weight:800;padding:6px 10px;text-align:center}
+  .start-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:8px}
+  .btn{padding:14px 26px;border-radius:16px;font-weight:800;font-size:18px;transition:transform .1s, filter .15s}
+  .btn:active{transform:scale(.97)}
+  .btn-gold{background:linear-gradient(180deg,#ffe07a,var(--gold) 50%,var(--gold2));color:#3a2600;box-shadow:0 6px 0 #a86f00,0 10px 24px rgba(0,0,0,.35)}
+  .btn-gold:hover{filter:brightness(1.06)}
+  .btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:2px solid var(--line)}
+  .btn-ghost:hover{background:rgba(255,255,255,.18)}
+  .btn-big{font-size:24px;padding:18px 40px}
+  .hint{color:#a9a4d8;font-size:14px;margin-top:10px}
+
+  /* ---------- Game ---------- */
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .topbar .tag{background:rgba(255,255,255,.1);padding:8px 14px;border-radius:999px;font-weight:700;color:#e2deff}
+  .topbar .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .topbar .btn{padding:8px 14px;font-size:15px;border-radius:12px}
+  .teams{display:grid;gap:14px;margin-bottom:20px}
+  .team{position:relative;border-radius:20px;padding:14px 16px 16px;background:rgba(255,255,255,.07);border:3px solid transparent;color:#fff;text-align:left;transition:.15s;overflow:hidden}
+  .team::before{content:"";position:absolute;inset:0 0 auto 0;height:8px;background:var(--c)}
+  .team:hover{background:rgba(255,255,255,.12)}
+  .team.sel{border-color:var(--c);background:color-mix(in srgb, var(--c) 28%, transparent);transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,.35)}
+  .team.broke{opacity:.45}
+  .team .tname{font-size:22px;font-weight:800;margin:6px 0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .team .coins{display:flex;align-items:center;gap:8px;font-size:30px;font-weight:900;color:var(--gold)}
+  .coin{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff1a8,var(--gold) 45%,var(--gold2));color:#7a4d00;font-size:16px;font-weight:900;box-shadow:inset 0 -2px 0 rgba(0,0,0,.2)}
+  .stars{display:flex;gap:4px;margin-top:8px;flex-wrap:wrap}
+  .star{font-size:24px;filter:grayscale(1) opacity(.3);transition:.3s}
+  .star.on{filter:none;animation:pop .5s}
+  @keyframes pop{0%{transform:scale(.3)}60%{transform:scale(1.4)}100%{transform:scale(1)}}
+  .team .pick{position:absolute;top:14px;right:14px;font-size:12px;font-weight:800;background:var(--c);padding:3px 8px;border-radius:999px;opacity:0;transition:.15s}
+  .team.sel .pick{opacity:1}
+  .delta{position:absolute;right:16px;bottom:14px;font-weight:900;font-size:26px;animation:floatUp 1.6s ease-out forwards;pointer-events:none}
+  @keyframes floatUp{0%{opacity:0;transform:translateY(10px)}15%{opacity:1}100%{opacity:0;transform:translateY(-40px)}}
+
+  .stage{display:grid;grid-template-columns:1fr;gap:18px}
+  .sentence-card{position:relative;background:var(--card);color:var(--ink);border-radius:26px;padding:42px 36px 34px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.4)}
+  .sentence-card .lot{position:absolute;top:-16px;left:50%;transform:translateX(-50%);background:linear-gradient(180deg,#ffe07a,var(--gold2));color:#3a2600;font-weight:900;padding:6px 18px;border-radius:999px;letter-spacing:1px;white-space:nowrap;box-shadow:0 4px 0 #a86f00}
+  .sentence{font-size:clamp(28px,4.4vw,54px);font-weight:800;line-height:1.2;margin:0}
+  .sentence-card.enter{animation:slideIn .45s cubic-bezier(.2,1.4,.4,1)}
+  @keyframes slideIn{from{transform:translateY(30px) scale(.95);opacity:0}}
+  .q{margin-top:14px;color:#6e6a99;font-weight:700;font-size:18px}
+
+  .auction{background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center}
+  .auction .who{font-size:20px;font-weight:700;color:#d9d5ff}
+  .auction .who b{color:#fff}
+  .bidder{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .bidbtn{background:rgba(255,255,255,.12);color:#fff;font-weight:900;font-size:20px;padding:12px 14px;border-radius:14px;min-width:64px}
+  .bidbtn:hover{background:rgba(255,255,255,.22)}
+  .bidbtn.allin{background:rgba(255,200,61,.18);color:var(--gold)}
+  .bidval{display:flex;align-items:center;gap:8px;background:#0d0b22;border:3px solid var(--gold);border-radius:16px;padding:6px 14px}
+  .bidval input{width:110px;background:transparent;border:0;color:var(--gold);font:inherit;font-size:40px;font-weight:900;text-align:center;outline:none}
+  .bidval input::-webkit-inner-spin-button{display:none}
+  .sell-col{display:flex;flex-direction:column;gap:10px;min-width:220px}
+  .btn-sell{font-size:28px;padding:18px 26px}
+  .btn-sell:disabled{filter:grayscale(1);opacity:.5;cursor:not-allowed}
+  .nobody{font-size:15px;padding:10px 14px}
+  .warn{color:#ffb4bc;font-weight:700;min-height:22px;margin-top:8px;font-size:15px}
+
+  /* ---------- Overlay ---------- */
+  .overlay{position:fixed;inset:0;background:rgba(10,8,30,.78);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px;z-index:50}
+  .result{width:min(760px,100%);background:#fff;color:var(--ink);border-radius:28px;padding:30px 28px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:zoom .35s cubic-bezier(.2,1.5,.4,1)}
+  @keyframes zoom{from{transform:scale(.6);opacity:0}}
+  .verdict{font-size:clamp(34px,6vw,60px);font-weight:900;margin:0 0 8px}
+  .verdict.ok{color:var(--ok)} .verdict.bad{color:var(--bad)}
+  .r-sent{font-size:clamp(20px,3vw,30px);font-weight:700;margin:10px 0}
+  .r-sent.strike{text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:3px;color:#7d7a9c}
+  .r-fix{font-size:clamp(22px,3.4vw,34px);font-weight:800;color:var(--ok);margin:6px 0 12px}
+  .r-fix small{display:block;font-size:14px;color:#6e6a99;font-weight:700;text-transform:uppercase;letter-spacing:1px}
+  .r-effect{font-size:20px;font-weight:700;background:#f3f1ff;border-radius:16px;padding:14px;margin:16px 0 20px}
+  .confetti{position:fixed;top:-20px;width:12px;height:18px;z-index:60;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+
+  /* ---------- End ---------- */
+  .end{text-align:center}
+  .end h1{font-size:clamp(36px,6vw,64px);margin:10px 0 4px;color:var(--gold)}
+  .end .reason{color:#c9c5f0;font-size:20px;margin-bottom:24px}
+  .ranking{max-width:640px;margin:0 auto 26px;display:grid;gap:10px}
+  .rank{display:grid;grid-template-columns:56px 1fr auto auto;gap:14px;align-items:center;background:rgba(255,255,255,.08);border-left:10px solid var(--c);border-radius:16px;padding:14px 18px;font-size:22px;font-weight:800;text-align:left}
+  .rank.first{background:rgba(255,200,61,.2);transform:scale(1.04)}
+  .rank .pos{font-size:32px}
+
+  /* ---------- Editor ---------- */
+  .editor{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff;color:var(--ink);border-radius:24px;padding:24px}
+  .editor h2{margin:0 0 6px}
+  .editor .help{background:#f3f1ff;border-radius:12px;padding:12px 14px;font-size:14px;line-height:1.55;color:#3e3a66}
+  .editor code{background:#e4e0ff;padding:1px 6px;border-radius:6px}
+  .editor textarea{width:100%;height:46vh;margin-top:12px;font:15px/1.5 Consolas,"Courier New",monospace;border:2px solid #dcd8f5;border-radius:12px;padding:12px;resize:vertical;color:var(--ink)}
+  .editor .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0}
+  .editor .tabs .chip{background:#efedff;color:var(--ink)}
+  .editor .tabs .chip.on{background:var(--ink);color:#fff}
+  .editor .foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .editor .count{color:#6e6a99;font-weight:700}
+  .editor .btn-ghost{color:var(--ink);border-color:#dcd8f5;background:#f7f6ff}
+
+  @media (max-width:760px){
+    .auction{grid-template-columns:1fr}
+    .sell-col{min-width:0}
+    .sentence-card{padding:36px 18px 26px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="wrap">
+  <div class="logo">
+    <div class="hammer">🔨</div>
+    <h1>Sentence Auction</h1>
+    <p>Buy your sentence… if you think it's correct!</p>
+  </div>
+
+  <div class="panel">
+    <h2>📘 Book</h2>
+    <div class="choices" id="levelChoices"></div>
+  </div>
+
+  <div class="panel" id="topicPanel">
+    <h2>📚 Grammar topics</h2>
+    <div class="choices" id="topicChoices"></div>
+    <div class="row" style="margin-top:12px;gap:10px">
+      <button class="btn btn-ghost" style="padding:8px 14px;font-size:14px" id="allTopics">All</button>
+      <button class="btn btn-ghost" style="padding:8px 14px;font-size:14px" id="noTopics">None</button>
+      <span class="hint" style="margin:0" id="topicCount"></span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>👥 Teams</h2>
+    <div class="choices" id="teamCountChoices"></div>
+    <div class="teams-edit" id="teamNames"></div>
+    <div class="hint">If you don't type a name, the team is named after its colour.</div>
+  </div>
+
+  <div class="panel">
+    <h2>⚙️ Rules</h2>
+    <div class="row">
+      <label class="field"><span class="coin">$</span> Coins per team <input id="startCoins" type="number" min="10" max="9999" value="100"></label>
+      <label class="field">⭐ Points to win <input id="winPoints" type="number" min="1" max="20" value="5"></label>
+    </div>
+    <div class="hint">The game ends when a team reaches the winning points or when a team runs out of money.</div>
+  </div>
+
+  <div class="start-row">
+    <button class="btn btn-ghost" id="openEditor">✏️ Edit sentences</button>
+    <button class="btn btn-gold btn-big" id="startBtn">Start the auction!</button>
+  </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="wrap hidden">
+  <div class="topbar">
+    <span class="tag" id="gameTag"></span>
+    <div class="actions">
+      <button class="btn btn-ghost" id="undoBtn" title="Undo the last sale">↩️ Undo</button>
+      <button class="btn btn-ghost" id="endBtn">🏁 Finish</button>
+    </div>
+  </div>
+
+  <div class="teams" id="teamsBoard"></div>
+
+  <div class="stage">
+    <div class="sentence-card" id="sentenceCard">
+      <div class="lot" id="lotLabel">LOT 1</div>
+      <div class="topic-tag" id="topicTag"></div>
+      <p class="sentence" id="sentenceText"></p>
+      <div class="q">Correct or incorrect? How much would you pay for it?</div>
+    </div>
+
+    <div class="auction">
+      <div>
+        <div class="who" id="whoLabel">Click the team that wins the bid</div>
+        <div class="bidder">
+          <button class="bidbtn" data-d="-10">−10</button>
+          <button class="bidbtn" data-d="-1">−1</button>
+          <div class="bidval"><span class="coin">$</span><input id="bidInput" type="number" min="1" value="10" inputmode="numeric"></div>
+          <button class="bidbtn" data-d="1">+1</button>
+          <button class="bidbtn" data-d="10">+10</button>
+          <button class="bidbtn allin" id="allInBtn">ALL IN</button>
+        </div>
+        <div class="warn" id="bidWarn"></div>
+      </div>
+      <div class="sell-col">
+        <button class="btn btn-gold btn-sell" id="sellBtn" disabled>🔨 Sold!</button>
+        <button class="btn btn-ghost nobody" id="nobodyBtn">Nobody buys it</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= END ================= -->
+<section id="end" class="wrap end hidden">
+  <div class="logo"><div class="hammer">🏆</div></div>
+  <h1 id="endTitle"></h1>
+  <div class="reason" id="endReason"></div>
+  <div class="ranking" id="ranking"></div>
+  <div class="start-row">
+    <button class="btn btn-gold btn-big" id="againBtn">Play again</button>
+    <button class="btn btn-ghost" id="backBtn">Change teams or book</button>
+  </div>
+</section>
+
+<!-- ================= RESULT OVERLAY ================= -->
+<div class="overlay hidden" id="resultOverlay">
+  <div class="result">
+    <p class="verdict" id="rVerdict"></p>
+    <p class="r-sent" id="rSent"></p>
+    <div class="r-fix" id="rFix"></div>
+    <div class="r-effect" id="rEffect"></div>
+    <button class="btn btn-gold btn-big" id="nextBtn">Next sentence ➜</button>
+  </div>
+</div>
+
+<!-- ================= EDITOR OVERLAY ================= -->
+<div class="overlay hidden" id="editorOverlay">
+  <div class="editor">
+    <h2>✏️ Auction sentences</h2>
+    <div class="help">
+      One sentence per line. Start with <code>+</code> if it is <b>correct</b> or <code>-</code> if it is <b>incorrect</b>.
+      For incorrect sentences, you can add the correction after <code>=</code>.<br>
+      Example: <code>+ She plays tennis on Saturdays.</code> &nbsp; <code>- He play football. = He plays football.</code><br>
+      To group sentences into a topic, write a line with <code>## Topic name</code> before them (for example <code>## Unit 3</code>).<br>
+      Lines starting with <code>#</code> are ignored. Changes are saved in this browser.
+    </div>
+    <div class="tabs" id="editorTabs"></div>
+    <textarea id="editorText" spellcheck="false"></textarea>
+    <div class="foot">
+      <span class="count" id="editorCount"></span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn btn-ghost" id="resetLevel">Restore originals</button>
+        <button class="btn btn-ghost" id="closeEditor">Cancel</button>
+        <button class="btn btn-gold" id="saveEditor">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===================== Banco de frases ===================== */
+const LEVELS = {
+  p1: { name: "Prepare 1 (A1)", text: `
+## To be
++ My best friend is eleven years old.
+- My best friend and I am in the same class. = My best friend and I are in the same class.
++ Are you from Spain?
+- The people in my town is very friendly. = The people in my town are very friendly.
++ We aren't in the same class.
+- Is your cousins from London? = Are your cousins from London?
++ It's cold in the classroom today.
+- My sister is twelve years. = My sister is twelve years old.
+
+## Have got
++ I've got two brothers and a sister.
+- Everyone in my family have got blue eyes. = Everyone in my family has got blue eyes.
++ Has your dog got a name?
+- My friend Sam and his brother has got a dog. = My friend Sam and his brother have got a dog.
++ We haven't got any homework today.
+- Have you got any brother or sister? = Have you got any brothers or sisters?
++ My grandad has got a big beard.
+- I haven't got a lot of homeworks today. = I haven't got a lot of homework today.
+
+## Possessives
++ This is my sister's bedroom.
+- This is the car of my dad. = This is my dad's car.
++ Their house is next to the park.
+- Is this you're jacket? = Is this your jacket?
++ My cousins' names are Ana and Leo.
+- Sara loves her cat and it's toys. = Sara loves her cat and its toys.
++ Whose pencil case is this?
+- Who's book is this? = Whose book is this?
+
+## There is / there are
++ There's a big supermarket near my house.
+- There are a cinema and two parks in my town. = There's a cinema and two parks in my town.
++ Are there any shops in your street?
+- There isn't some juice in the fridge. = There isn't any juice in the fridge.
++ There are some posters on my bedroom wall.
+- Is there any apples in the kitchen? = Are there any apples in the kitchen?
++ There aren't any trees in our school playground.
+- There is a lot of people in the park today. = There are a lot of people in the park today.
+
+## Present simple
++ My mum works in a hospital.
+- My brother usually watch TV after dinner. = My brother usually watches TV after dinner.
++ We don't go to school on Saturdays.
+- She don't like cheese. = She doesn't like cheese.
++ Does your brother play the guitar?
+- Does your sister speaks French? = Does your sister speak French?
++ What time do you get up?
+- My mum goes to work by car and my dad walk. = My mum goes to work by car and my dad walks.
+
+## Adverbs of frequency
++ I usually walk to school.
+- He goes never to the gym. = He never goes to the gym.
++ We sometimes have pizza on Fridays.
++ I am always hungry after school.
+- They play usually tennis on Sundays. = They usually play tennis on Sundays.
++ How often do you visit your grandparents?
+- My dad drinks never coffee. = My dad never drinks coffee.
+- I hardly ever am tired. = I am hardly ever tired.
+
+## Can / can't
++ I can ride a horse.
+- My sister can plays the piano very well. = My sister can play the piano very well.
++ Can you speak Chinese?
+- She can speak English very good. = She can speak English very well.
++ My little brother can count to a hundred.
+- We can go to the cinema on Saturday? = Can we go to the cinema on Saturday?
++ We can't use our phones in class.
+- My sister can't read yet, but she can writes her name. = My sister can't read yet, but she can write her name.
+
+## Present continuous
++ I'm wearing my new trainers today.
+- She reading a book at the moment. = She's reading a book at the moment.
++ What are you doing now?
+- Look! The boys are play football in the park. = Look! The boys are playing football in the park.
++ It isn't raining today.
+- What is doing your brother now? = What is your brother doing now?
++ The children are playing in the garden.
+- Listen! The baby cries. = Listen! The baby is crying.
+
+## Present simple vs present continuous
++ I usually take the bus, but today I'm walking.
+- She is going to school by bike every day. = She goes to school by bike every day.
++ Look! Dad is making pancakes.
+- I'm not understanding this exercise. = I don't understand this exercise.
++ He plays football on Mondays.
+- Right now we watch a film. = Right now we're watching a film.
++ What do you usually do at the weekend?
+- Do you wear a coat now? = Are you wearing a coat now?
+
+## Countable & uncountable nouns
++ Can I have some water, please?
+- I'd like an ham sandwich, please. = I'd like a ham sandwich, please.
++ How many eggs do we need?
+- How much sandwiches do you want? = How many sandwiches do you want?
++ There isn't much bread left.
+- I'd like a milk, please. = I'd like some milk, please.
++ We haven't got any rice.
+- Can I have an information about the trip? = Can I have some information about the trip?
+
+## Was / were
++ I was at the beach last weekend.
+- My friends and I was at the park yesterday. = My friends and I were at the park yesterday.
++ Were you at school on Monday?
+- She weren't at home last night. = She wasn't at home last night.
++ The film was really funny.
+- Where you were yesterday? = Where were you yesterday?
++ We weren't tired after the match.
+- There was lots of people at the party. = There were lots of people at the party.
+
+## Past simple
++ We visited my aunt last Sunday.
+- I buy a new T-shirt yesterday. = I bought a new T-shirt yesterday.
++ Did you have a good holiday?
+- She didn't went to the party. = She didn't go to the party.
++ Last summer we stayed at a campsite.
+- Last weekend we stay at home and watched films. = Last weekend we stayed at home and watched films.
++ I saw a great film on Saturday.
+- Did you watched the match? = Did you watch the match?
+
+## Prepositions of time & place
++ My birthday is in July.
+- The party is in Saturday. = The party is on Saturday.
++ I get up at seven o'clock.
+- We have English on the morning. = We have English in the morning.
++ The cat is under the table.
+- My keys are in the table. = My keys are on the table.
++ I live in a small town near the sea.
+- See you at Monday! = See you on Monday!
+
+## Comparatives & superlatives
++ My sister is older than me.
+- A cheetah is more fast than a lion. = A cheetah is faster than a lion.
++ This is the biggest room in the house.
+- Maths is more easy than History. = Maths is easier than History.
++ Who is the tallest person in your class?
+- She's the more intelligent girl in the school. = She's the most intelligent girl in the school.
++ Spain is bigger than Portugal.
+- Today is more hot than yesterday. = Today is hotter than yesterday.
+
+## Question words
++ Where do you live?
+- How many years has your brother got? = How old is your brother?
++ Who is your favourite singer?
+- When you go to bed? = When do you go to bed?
++ Why are you laughing?
+- How much brothers have you got? = How many brothers have you got?
++ Which colour do you prefer, red or blue?
+- How is your teacher like? = What is your teacher like?
+`},
+  p2: { name: "Prepare 2 (A2)", text: `
+## Present simple & continuous
++ My brother is studying for his exams this week.
+- I'm usually having lunch at school. = I usually have lunch at school.
++ Water boils at 100 degrees.
+- What do you do now? = What are you doing now?
++ She doesn't often eat fast food.
+- This soup is tasting delicious. = This soup tastes delicious.
++ Are you enjoying the course?
+- He's knowing all the answers. = He knows all the answers.
+
+## Past simple
++ We caught the train to London last summer.
+- I wrote an email, but my teacher didn't answered. = I wrote an email, but my teacher didn't answer.
++ What did you do at the weekend?
+- She didn't liked the film. = She didn't like the film.
++ They arrived at the hotel very late.
+- Where did you went on holiday? = Where did you go on holiday?
++ I lost my keys yesterday.
+- We swam in the sea two days before. = We swam in the sea two days ago.
+
+## Past continuous
++ At eight o'clock I was having dinner.
+- They was watching TV when I called. = They were watching TV when I called.
++ What were you doing at midnight?
+- She was sleeping when the alarm ring. = She was sleeping when the alarm rang.
++ It was snowing all morning.
+- What did you doing at eight o'clock? = What were you doing at eight o'clock?
++ We weren't listening to the teacher.
+- I was knowing the answer. = I knew the answer.
+
+## Past simple vs past continuous
++ I was walking home when I saw an accident.
+- While I cooked dinner, the phone was ringing. = While I was cooking dinner, the phone rang.
++ She fell over while she was skating.
+- When the teacher came in, we talked. = When the teacher came in, we were talking.
++ What were you doing when the lights went out?
+- He was breaking his leg while he was skiing. = He broke his leg while he was skiing.
++ They were waiting for the bus when it started to rain.
+- I was see my friend while I was shopping. = I saw my friend while I was shopping.
+
+## Comparatives & superlatives
++ Travelling by train is more comfortable than travelling by bus.
+- This is the more expensive phone in the shop. = This is the most expensive phone in the shop.
++ My new school is bigger than my old one.
+- Her bag is heavier than my. = Her bag is heavier than mine.
++ It was the worst day of my life!
+- He's taller that his brother. = He's taller than his brother.
++ Football is as popular as basketball in my town.
+- The book is not as good than the film. = The book is not as good as the film.
+
+## Too / enough
++ This T-shirt is too big for me.
+- I'm not enough tall to play basketball. = I'm not tall enough to play basketball.
++ We haven't got enough chairs for everyone.
+- It's too much cold to go outside. = It's too cold to go outside.
++ Is the water warm enough for swimming?
+- There isn't milk enough for the cake. = There isn't enough milk for the cake.
++ He was too tired to finish his homework.
+- She's too young for drive. = She's too young to drive.
+
+## Future: going to, will, present continuous
++ I'm going to learn to play the drums.
+- Look at those clouds! It will rain. = Look at those clouds! It's going to rain.
++ I think Spain will win the match.
+- We going to visit Rome next summer. = We're going to visit Rome next summer.
++ I'm meeting my friends at six o'clock.
+- Don't worry, I help you with your homework. = Don't worry, I'll help you with your homework.
++ What are you doing tomorrow evening?
+- Do you come to my party on Saturday? = Are you coming to my party on Saturday?
+
+## Must / have to
++ You must listen carefully in class.
+- Does she has to wear a uniform? = Does she have to wear a uniform?
++ We don't have to go to school on Sunday.
+- You don't have to shout in the library – people are studying. = You mustn't shout in the library – people are studying.
++ Do you have to help at home?
+- My brother has to get up early, but I doesn't have to. = My brother has to get up early, but I don't have to.
++ You mustn't touch the paintings in the museum.
+- Yesterday I must stay at home because I was ill. = Yesterday I had to stay at home because I was ill.
+
+## Should / shouldn't
++ You should wear a coat, it's cold.
+- You should to see a doctor. = You should see a doctor.
++ We shouldn't eat too many sweets.
+- What do you think I should do it? = What do you think I should do?
++ What should I buy for my mum's birthday?
+- Do you think should I call her? = Do you think I should call her?
++ You shouldn't use your phone while you're walking.
+- She doesn't should worry. = She shouldn't worry.
+
+## Present perfect
++ Have you ever been to France?
+- I have never eat sushi. = I have never eaten sushi.
++ She has just finished her homework.
+- They haven't arrived already. = They haven't arrived yet.
++ We've already seen this film.
+- Has you ever met a famous person? = Have you ever met a famous person?
++ I've lost my phone! Can you help me find it?
+- He has went to the shop. = He has gone to the shop.
+
+## Verb + -ing / to-infinitive
++ I enjoy reading adventure stories.
+- She wants buying a new bike. = She wants to buy a new bike.
++ We decided to go to the beach.
+- I don't mind to wait. = I don't mind waiting.
++ He hopes to become a vet.
+- They love play volleyball. = They love playing volleyball.
++ Would you like to come with us?
+- I'm thinking about to join a club. = I'm thinking about joining a club.
+
+## -ed / -ing adjectives
++ I was very bored in the lesson.
+- The museum was really interested. = The museum was really interesting.
++ That roller coaster was terrifying!
+- I'm so exciting about the trip! = I'm so excited about the trip!
++ She was surprised by the news.
+- The match was very tired. = The match was very tiring.
++ Are you interested in science?
+- He felt embarrassing when he fell over. = He felt embarrassed when he fell over.
+
+## Quantifiers
++ There were a lot of people at the concert.
+- We've got a few milk left. = We've got a little milk left.
++ I don't have much free time.
+- How many money did it cost? = How much money did it cost?
++ A few of my friends play in a band.
+- There aren't much tourists in winter. = There aren't many tourists in winter.
++ Can I have a little sugar in my tea?
+- I have lots friends at school. = I have lots of friends at school.
+
+## Adverbs of manner
++ She sings beautifully.
+- He drives very careful. = He drives very carefully.
++ Please speak more slowly.
+- They played good in the final. = They played well in the final.
++ The children waited quietly outside.
+- She arrived lately to class again. = She arrived late to class again.
++ He works hard every day.
+- Walk quick, we're late! = Walk quickly, we're late!
+`},
+  p3: { name: "Prepare 3 (A2)", text: `
+## Present perfect vs past simple
++ I've been to Italy three times.
+- I've visited my cousins last weekend. = I visited my cousins last weekend.
++ When did you start learning English?
+- When have you arrived? = When did you arrive?
++ She lived in Paris when she was a child.
+- I have bought this jacket two years ago. = I bought this jacket two years ago.
++ Have you seen my keys? I can't find them.
+- Yesterday I have played tennis with my dad. = Yesterday I played tennis with my dad.
+
+## For / since / How long...?
++ I've had this phone for two years.
+- She's been my friend for 2019. = She's been my friend since 2019.
++ How long have you known your best friend?
+- I've lived here since six years. = I've lived here for six years.
++ They've been married since last summer.
+- How long do you have this bike? = How long have you had this bike?
++ We haven't seen each other for ages.
+- I know him since primary school. = I've known him since primary school.
+
+## Present perfect continuous
++ I've been waiting for the bus for twenty minutes.
+- I've been waiting you for an hour! = I've been waiting for you for an hour!
++ How long have you been learning English?
+- It's raining since this morning. = It's been raining since this morning.
++ They've been working on their project all afternoon.
+- I've been knowing her for years. = I've known her for years.
++ You look tired. Have you been running?
+- My eyes are tired because I've been read all day. = My eyes are tired because I've been reading all day.
+
+## Zero & first conditional
++ If you mix blue and yellow, you get green.
+- If it will be sunny, we'll go to the beach. = If it's sunny, we'll go to the beach.
++ I'll call you if I have time.
+- If you don't hurry, you miss the bus. = If you don't hurry, you'll miss the bus.
++ Unless you study, you won't pass the exam.
+- If she'll come, I'll be happy. = If she comes, I'll be happy.
++ What will you do if it rains tomorrow?
+- If you don't water plants, they died. = If you don't water plants, they die.
+
+## Relative clauses
++ She's the girl who won the singing competition.
+- This is the book who I told you about. = This is the book which I told you about.
++ That's the café where we met.
+- The man which lives next door is a pilot. = The man who lives next door is a pilot.
++ The film that we saw last night was amazing.
+- This is the town which I was born. = This is the town where I was born.
++ Do you know anyone who speaks Japanese?
+- I've got a friend who he plays the violin. = I've got a friend who plays the violin.
+
+## The passive
++ Spanish is spoken in many countries.
+- This bridge was build in 1900. = This bridge was built in 1900.
++ The house was destroyed in a fire.
+- Smartphones are make in factories. = Smartphones are made in factories.
++ The winners will be announced tomorrow.
+- The Mona Lisa painted by Leonardo da Vinci. = The Mona Lisa was painted by Leonardo da Vinci.
++ Our classroom is cleaned every evening.
+- The letters was delivered this morning. = The letters were delivered this morning.
+
+## Used to
++ I used to be afraid of the dark.
+- She use to live in London. = She used to live in London.
++ Did you use to play with dolls?
+- We didn't used to have a car. = We didn't use to have a car.
++ There used to be a cinema in this street.
+- My grandad used to working on a farm. = My grandad used to work on a farm.
++ He didn't use to like vegetables.
+- Do you used to wear glasses? = Did you use to wear glasses?
+
+## Modals of possibility
++ It might rain later, so take an umbrella.
+- She might comes to the party later. = She might come to the party later.
++ That can't be Tom – he's on holiday.
+- It can be Tom – he's in Paris this week. = It can't be Tom – he's in Paris this week.
++ We may go camping next weekend.
+- Take an umbrella; it may raining later. = Take an umbrella; it may rain later.
++ You must be tired after such a long journey.
+- That mustn't be Anna's bag – hers is red. = That can't be Anna's bag – hers is red.
+
+## Gerunds & infinitives
++ Swimming is good for your health.
+- I'm looking forward to see you. = I'm looking forward to seeing you.
++ She promised to call me later.
+- He's good at play chess. = He's good at playing chess.
++ I went to the shop to buy some bread.
+- Do you fancy to go to the cinema? = Do you fancy going to the cinema?
++ They suggested meeting at the station.
+- I'd like visiting New York one day. = I'd like to visit New York one day.
+
+## Indefinite pronouns
++ Is there anything to eat?
+- I didn't see nobody at the park. = I didn't see anybody at the park.
++ Someone has taken my pen.
+- Everybody are here, so let's start. = Everybody is here, so let's start.
++ There's nothing on TV tonight.
+- Does anybody knows the answer? = Does anybody know the answer?
++ I've looked everywhere for my glasses.
+- I haven't got nothing to do. = I haven't got anything to do.
+
+## Reflexive pronouns
++ Be careful! You'll hurt yourself.
+- They enjoyed a lot at the party. = They enjoyed themselves a lot at the party.
++ We really enjoyed ourselves at the party.
+- We met ourselves at the station at ten. = We met at the station at ten.
++ I cut myself while I was cooking.
+- Be careful with the knife! Did you hurt you? = Be careful with the knife! Did you hurt yourself?
++ The children made the decorations themselves.
+- I can't concentrate myself with this noise. = I can't concentrate with this noise.
+
+## Future forms
++ The train leaves at 9.15 tomorrow morning.
+- I promise I'm calling you tonight. = I promise I'll call you tonight.
++ We're having a party on Saturday – do you want to come?
+- I'm going see my grandparents tomorrow. = I'm going to see my grandparents tomorrow.
++ I think robots will do most jobs in the future.
+- Wait, I help you with those bags. = Wait, I'll help you with those bags.
++ She's going to study medicine at university.
+- Do you will come with us? = Will you come with us?
+`},
+  p4: { name: "Prepare 4 (B1)", text: `
+## Present tenses & state verbs
++ I'm staying with my aunt until my parents get back.
+- I'm wanting a new laptop for my birthday. = I want a new laptop for my birthday.
++ The sun rises in the east.
+- How often are you going to the gym? = How often do you go to the gym?
++ She's always borrowing my clothes without asking!
+- This bag is belonging to my sister. = This bag belongs to my sister.
++ What are you thinking about?
+- I'm not believing a word he says. = I don't believe a word he says.
+
+## Narrative tenses
++ When I got to the station, the train had already left.
+- I had went to bed when the phone rang. = I had gone to bed when the phone rang.
++ She was cycling to school when she saw the accident.
+- After we have finished dinner, we watched a film. = After we had finished dinner, we watched a film.
++ They had never seen snow before that trip.
+- While I walked home, it started to rain. = While I was walking home, it started to rain.
++ By the time we arrived, everyone had eaten.
+- He was knowing the answer, but he didn't say anything. = He knew the answer, but he didn't say anything.
+
+## Present perfect simple & continuous
++ I've been revising all morning, so I need a break.
+- She's been writing three emails today. = She's written three emails today.
++ We've known each other since primary school.
+- How long are you living in this city? = How long have you been living in this city?
++ Have you ever tried Indian food?
+- I've seen him yesterday at the shopping centre. = I saw him yesterday at the shopping centre.
++ It's the best book I've ever read.
+- They've been owning that house for years. = They've owned that house for years.
+
+## Future forms
++ The concert starts at eight, so let's meet at seven.
+- Look out! You will fall! = Look out! You're going to fall!
++ Don't worry, I'll lend you my umbrella.
+- This time next week I'll lie on a beach. = This time next week I'll be lying on a beach.
++ We're flying to Dublin on Friday.
+- I'll tell you when I will arrive. = I'll tell you when I arrive.
++ By the end of the year, I'll have saved enough money.
+- Shall you help me carry these boxes? = Will you help me carry these boxes?
+
+## Comparatives & superlatives
++ The more you practise, the more confident you'll feel.
+- The weather today is worse as yesterday. = The weather today is worse than yesterday.
++ It's by far the most beautiful city I've visited.
+- He isn't as clever than he thinks. = He isn't as clever as he thinks.
++ The traffic is getting worse and worse.
+- She's the faster runner in the team. = She's the fastest runner in the team.
++ My new phone is slightly cheaper than my old one.
+- The more it rains, the most I want to stay in. = The more it rains, the more I want to stay in.
+
+## Modals: obligation, permission & advice
++ You don't have to come if you don't want to.
+- We mustn't wear a uniform at my school, it's optional. = We don't have to wear a uniform at my school, it's optional.
++ Are we allowed to use dictionaries in the exam?
+- You ought see a doctor about that cough. = You ought to see a doctor about that cough.
++ You'd better leave now or you'll miss the bus.
+- I must finish this essay yesterday, so I couldn't go out. = I had to finish this essay yesterday, so I couldn't go out.
++ We had to wait for over an hour.
+- You don't need bring anything to the party. = You don't need to bring anything to the party.
+
+## Zero, first & second conditional
++ If I had more free time, I'd learn to play the guitar.
+- If I would win the lottery, I'd travel the world. = If I won the lottery, I'd travel the world.
++ If you press this button, the machine stops.
+- What would you do if you see a ghost? = What would you do if you saw a ghost?
++ I'll lend you the money as long as you pay me back.
+- Unless you don't hurry, you'll be late. = Unless you hurry, you'll be late.
++ If I were you, I'd take the job.
+- She'd be happier if she has more friends. = She'd be happier if she had more friends.
+
+## Relative clauses
++ The woman who lives next door is a doctor.
+- My brother, that lives in Madrid, is a teacher. = My brother, who lives in Madrid, is a teacher.
++ That's the restaurant where we had my birthday dinner.
+- The boy whose his bike was stolen called the police. = The boy whose bike was stolen called the police.
++ This is the song that I was telling you about.
+- The book what I'm reading is fascinating. = The book that I'm reading is fascinating.
++ Paris, which is the capital of France, is very expensive.
+- Do you remember the day when we have met? = Do you remember the day when we met?
+
+## The passive
++ The new sports centre is being built near the river.
+- The thief has been caught by the police yesterday. = The thief was caught by the police yesterday.
++ The results will be published next week.
+- My phone has been stole! = My phone has been stolen!
++ Our homework must be handed in by Friday.
+- The film was directing by a famous director. = The film was directed by a famous director.
++ English is taught in most schools around the world.
+- The windows are clean every week. = The windows are cleaned every week.
+
+## Reported speech
++ She told me she was feeling tired.
+- He said me that he was hungry. = He told me that he was hungry.
++ They asked us where we were going.
+- She asked me where did I live. = She asked me where I lived.
++ Tom said he would call me later.
+- My mum told me don't be late. = My mum told me not to be late.
++ The teacher asked if we had finished.
+- He asked me what time was it. = He asked me what time it was.
+
+## Gerunds & infinitives
++ I'm considering applying for a summer job.
+- She refused helping us. = She refused to help us.
++ It's no use complaining about it now.
+- I avoid to eat sugar. = I avoid eating sugar.
++ He managed to finish the race despite his injury.
+- I'm used to wake up early. = I'm used to waking up early.
++ Remember to lock the door when you leave.
+- Would you mind to open the window? = Would you mind opening the window?
+
+## Articles & quantifiers
++ I've got a few close friends I can trust.
+- I need an advice about my career. = I need some advice about my career.
++ The Amazon is the longest river in South America.
+- She plays the tennis every weekend. = She plays tennis every weekend.
++ There's hardly any milk left.
+- Each of the students have a laptop. = Each of the students has a laptop.
++ Both of my parents work from home.
+- There were less people than we expected. = There were fewer people than we expected.
+`},
+  p5: { name: "Prepare 5 (B1)", text: `
+## Used to, would & be/get used to
++ When I was little, I would spend every summer at my grandma's.
+- I'm not used to live in a big city. = I'm not used to living in a big city.
++ She used to have really long hair.
+- I would have a dog when I was a child. = I used to have a dog when I was a child.
++ You'll soon get used to the cold weather.
+- Did she used to play the violin? = Did she use to play the violin?
++ He's always forgetting his keys!
+- My dad is used to work at night, so he isn't tired. = My dad is used to working at night, so he isn't tired.
+
+## Past perfect simple & continuous
++ She was exhausted because she'd been running.
+- When I arrived, the film already started. = When I arrived, the film had already started.
++ I realised I had left my phone at home.
+- They had been knowing each other for years. = They had known each other for years.
++ He had been waiting for an hour before the bus came.
+- Before I moved here, I have never lived abroad. = Before I moved here, I had never lived abroad.
++ We had just sat down when the fire alarm went off.
+- She had broke her arm, so she couldn't write. = She had broken her arm, so she couldn't write.
+
+## Future continuous & future perfect
++ This time tomorrow, I'll be flying to New York.
+- By next June, I'll finish my exams. = By next June, I'll have finished my exams.
++ Will you be using the car this evening?
+- Don't call at 10 o'clock tonight – I'll sleep. = Don't call at 10 o'clock tonight – I'll be sleeping.
++ By the time you get here, we'll have eaten.
+- By the time you arrive, I'll finish cooking. = By the time you arrive, I'll have finished cooking.
++ Don't call at eight – we'll be having dinner.
+- I'll have finished the report until Monday. = I'll have finished the report by Monday.
+
+## Modals of deduction
++ She must be at home – her car's outside.
+- He can't have went out; his coat is here. = He can't have gone out; his coat is here.
++ They might have missed the train.
+- You must be tired yesterday after the trip. = You must have been tired yesterday after the trip.
++ It can't be true – I saw him this morning!
+- She mustn't be Spanish; her accent is Italian. = She can't be Spanish; her accent is Italian.
++ I could have left my wallet in the taxi.
+- The door was open, so someone must forget to lock it. = The door was open, so someone must have forgotten to lock it.
+
+## First, second & third conditional
++ If I had known about the party, I would have come.
+- If she would have studied, she would have passed. = If she had studied, she would have passed.
++ If you heat water to 100°C, it boils.
+- If I would have more money, I'd buy a car. = If I had more money, I'd buy a car.
++ I wouldn't have got lost if I had taken a map.
+- If we had left earlier, we wouldn't miss the plane. = If we had left earlier, we wouldn't have missed the plane.
++ Provided that you finish your homework, you can go out.
+- If it will rain tomorrow, the match will be cancelled. = If it rains tomorrow, the match will be cancelled.
+
+## Wishes & regrets
++ I wish I could speak Japanese.
+- I wish I have more free time. = I wish I had more free time.
++ She wishes she hadn't said that.
+- I wish I didn't eat so much last night. = I wish I hadn't eaten so much last night.
++ If only it would stop raining!
+- I wish you will come to my party. = I hope you will come to my party.
++ He regrets not studying harder at school.
+- If only I knew about this yesterday! = If only I had known about this yesterday!
+
+## Passive & have something done
++ I'm having my hair cut tomorrow.
+- She had her car repair last week. = She had her car repaired last week.
++ The road has been closed because of the snow.
+- The castle is believed being haunted. = The castle is believed to be haunted.
++ The report should be finished by Friday.
+- My bike got stole while I was in the shop. = My bike got stolen while I was in the shop.
++ It is said that the island was once a volcano.
+- We're going to have painted our house. = We're going to have our house painted.
+
+## Reported speech
++ She told me she had seen the film before.
+- He asked me where was the station. = He asked me where the station was.
++ The teacher told us to be quiet.
+- My friend suggested me to take the bus. = My friend suggested that I take the bus.
++ They asked whether we wanted to join them.
+- She said me she was busy. = She told me she was busy.
++ He promised he would help me with my project.
+- The doctor advised me not eat so much sugar. = The doctor advised me not to eat so much sugar.
+
+## Defining & non-defining relative clauses
++ My grandmother, who is 90, still goes swimming.
+- The hotel, that we stayed in, was lovely. = The hotel, which we stayed in, was lovely.
++ That's the man whose dog bit me.
+- The town where I grew up in is very small. = The town where I grew up is very small.
++ I failed the exam, which was really disappointing.
+- The people which I met on holiday were friendly. = The people who I met on holiday were friendly.
++ The reason why I called is to invite you.
+- This is the girl who her mother is a famous singer. = This is the girl whose mother is a famous singer.
+
+## Linking words: contrast & purpose
++ Although it was raining, we went for a walk.
+- Despite of the bad weather, we enjoyed the trip. = Despite the bad weather, we enjoyed the trip.
++ In spite of being tired, she finished the race.
+- However the film was long, I liked it. = Although the film was long, I liked it.
++ I took a jacket in case it got cold.
+- Even the exam was hard, I passed. = Even though the exam was hard, I passed.
++ He studied hard; however, he didn't pass.
+- I went to the shop for buying some milk. = I went to the shop to buy some milk.
+
+## So / such, too / enough
++ It was such a boring film that I fell asleep.
+- It was so a beautiful day that we went to the beach. = It was such a beautiful day that we went to the beach.
++ The coffee was too hot to drink.
+- She's enough old to make her own decisions. = She's old enough to make her own decisions.
++ There were so many people that we couldn't move.
+- He speaks so quick that I can't understand him. = He speaks so quickly that I can't understand him.
++ They're such nice people!
+- The box was too much heavy for me to lift. = The box was too heavy for me to lift.
+
+## Phrasal verbs
++ Can you look after my cat while I'm away?
+- I need to give up eat junk food. = I need to give up eating junk food.
++ We've run out of milk.
+- Please turn off it before you leave. = Please turn it off before you leave.
++ I'm looking forward to the holidays.
+- She looks after her mother – they have the same eyes. = She takes after her mother – they have the same eyes.
++ The meeting has been put off until next week.
+- Can you pick up me at the station? = Can you pick me up at the station?
+`},
+  p6: { name: "Prepare 6 (B1+)", text: `
+## Narrative tenses (review)
++ By the time the police arrived, the thieves had escaped.
+- I was walking home when I was seeing a shooting star. = I was walking home when I saw a shooting star.
++ She had been working there for ten years before she was promoted.
+- When I got home, my brother already ate all the pizza. = When I got home, my brother had already eaten all the pizza.
++ The sun was shining and the birds were singing.
+- He had broke his leg twice before the accident. = He had broken his leg twice before the accident.
++ We hadn't been waiting long when the doors opened.
+- As soon as I had heard the news, I was calling my mum. = As soon as I heard the news, I called my mum.
+
+## Present perfect simple & continuous (review)
++ I've been trying to call you all afternoon!
+- She's been visiting twelve countries so far. = She's visited twelve countries so far.
++ This is the third time I've lost my keys this month.
+- How long do you know your best friend? = How long have you known your best friend?
++ Prices have risen sharply over the last year.
+- I've been finishing my homework, so I can go out now. = I've finished my homework, so I can go out now.
++ Your eyes are red. Have you been crying?
+- I haven't seen her since we have left school. = I haven't seen her since we left school.
+
+## Future forms & future in the past
++ I was going to call you, but I forgot.
+- By the time you read this, I'll leave. = By the time you read this, I'll have left.
++ The film is about to start – switch off your phone.
+- I promise I'm not telling anyone. = I promise I won't tell anyone.
++ She'll be working late all next week.
+- We're on the point to buy a new house. = We're on the point of buying a new house.
++ The plane is due to land at 6.30.
+- I knew she will win the competition. = I knew she would win the competition.
+
+## Mixed conditionals
++ If I had studied medicine, I would be a doctor now.
+- If I didn't miss the bus, I wouldn't be late now. = If I hadn't missed the bus, I wouldn't be late now.
++ If she weren't so shy, she would have gone to the party.
+- If I would be taller, I'd have joined the basketball team. = If I were taller, I'd have joined the basketball team.
++ Had I known, I would have helped you.
+- If you would have told me, I could help you now. = If you had told me, I could help you now.
++ Were it not for your help, I would have failed.
+- Should you will need anything, just call me. = Should you need anything, just call me.
+
+## Wish, if only, it's time & would rather
++ It's time we went home.
+- It's time you start taking things seriously. = It's time you started taking things seriously.
++ I wish my neighbours would stop making so much noise.
+- I wish I would be taller. = I wish I were taller.
++ If only I hadn't sent that message!
+- She wishes she can go to the concert. = She wishes she could go to the concert.
++ I'd rather you didn't smoke in here.
+- I'd rather you don't tell anyone. = I'd rather you didn't tell anyone.
+
+## Past modals: deduction & criticism
++ He might have forgotten about the meeting.
+- She can't have being at the party; she was ill. = She can't have been at the party; she was ill.
++ You should have told me you were coming.
+- They must had left early; the lights were off. = They must have left early; the lights were off.
++ You needn't have bought a present, but thank you!
+- He couldn't have stole the money; he was with me. = He couldn't have stolen the money; he was with me.
++ The letter may have been lost in the post.
+- You shouldn't have to shout at him like that. = You shouldn't have shouted at him like that.
+
+## Passive & causative
++ The suspect is thought to have left the country.
+- She got her phone repair at the shop. = She got her phone repaired at the shop.
++ The building is being renovated at the moment.
+- The decision will be announcing tomorrow. = The decision will be announced tomorrow.
++ I need to get my eyes tested.
+- It is believed that the painting worth millions. = It is believed that the painting is worth millions.
++ Students are expected to arrive on time.
+- He was made apologise to the teacher. = He was made to apologise to the teacher.
+
+## Reporting verbs
++ She admitted breaking the window.
+- He denied to take the money. = He denied taking the money.
++ They accused him of cheating in the exam.
+- She suggested us to go to the beach. = She suggested that we go to the beach.
++ My teacher encouraged me to enter the competition.
+- He apologised for be late. = He apologised for being late.
++ The manager refused to give us a refund.
+- They warned us to not swim in the river. = They warned us not to swim in the river.
+
+## Relative & participle clauses
++ The woman sitting next to me was very friendly.
+- The man who he called me was very polite. = The man who called me was very polite.
++ Built in 1890, the bridge is still in use today.
+- The students taken the exam must turn off their phones. = The students taking the exam must turn off their phones.
++ There are lots of things which I'd like to do.
+- She lent me a book, the title of who I've forgotten. = She lent me a book, the title of which I've forgotten.
++ Anyone wanting to join the trip should sign up today.
+- I have two brothers, both of them are doctors. = I have two brothers, both of whom are doctors.
+
+## Gerunds & infinitives: changes in meaning
++ I stopped to buy a coffee on the way to work.
+- I remember to lock the door, but now it's open! = I remember locking the door, but now it's open!
++ Try turning it off and on again.
+- She regrets to tell him the secret. = She regrets telling him the secret.
++ Don't forget to send me the photos.
+- He's not used to drive on the left. = He's not used to driving on the left.
++ We regret to inform you that the flight has been cancelled.
+- It's worth to visit the old town. = It's worth visiting the old town.
+
+## Comparison & intensifiers
++ The film was nowhere near as good as the book.
+- This is the more interesting museum I've ever been to. = This is the most interesting museum I've ever been to.
++ It's getting more and more expensive to live in the city.
+- She's a lot more taller than her sister. = She's a lot taller than her sister.
++ The test was far easier than I expected.
+- He's not so clever than he thinks. = He's not as clever as he thinks.
++ The sooner we leave, the sooner we'll arrive.
+- The film was absolutely good. = The film was absolutely brilliant.
+`},
+  p7: { name: "Prepare 7 (B2)", text: `
+## Present & past tenses (advanced)
++ I've been meaning to call you for ages.
+- She's living in Rome since 2018. = She's been living in Rome since 2018.
++ No sooner had we sat down than the phone rang.
+- Hardly I had arrived when it started to rain. = Hardly had I arrived when it started to rain.
++ By the time she was twenty, she had already written two novels.
+- He's always been loving music. = He's always loved music.
++ It was the first time I had ever flown.
+- I used to living in a flat, but now I live in a house. = I used to live in a flat, but now I live in a house.
+
+## Future perfect & future continuous
++ By the end of this course, we'll have covered all the grammar.
+- This time next year I'll travel around Asia. = This time next year I'll be travelling around Asia.
++ Will you be going past the post office later?
+- By 2050, the population will have reach 10 billion. = By 2050, the population will have reached 10 billion.
++ In June, I'll have been working here for five years.
+- She'll have been finished by the time we arrive. = She'll have finished by the time we arrive.
++ The match will be starting any minute now.
+- By the time we get there, the film will start. = By the time we get there, the film will have started.
+
+## Conditionals & alternatives to if
++ Supposing you won the lottery, what would you do?
+- Unless you won't apologise, she won't speak to you. = Unless you apologise, she won't speak to you.
++ But for your help, I would never have finished.
+- Had I knew, I would have told you. = Had I known, I would have told you.
++ You can borrow my car on condition that you drive carefully.
+- If I would have seen him, I'd have said hello. = If I had seen him, I'd have said hello.
++ Were I in your position, I would accept the offer.
+- Even if you will apologise, I won't forgive you. = Even if you apologise, I won't forgive you.
+
+## Inversion & emphasis
++ Never have I seen such a beautiful sunset.
+- Not only she sings, but she also plays the piano. = Not only does she sing, but she also plays the piano.
++ Only later did I realise my mistake.
+- Rarely we go to the cinema these days. = Rarely do we go to the cinema these days.
++ What I need is a long holiday.
+- It was him who he broke the window. = It was him who broke the window.
++ Under no circumstances should you open this door.
+- Little he knew what was about to happen. = Little did he know what was about to happen.
+
+## Passive & impersonal structures
++ The suspect is said to have fled the country.
+- It is reported that the minister to resign. = It is reported that the minister will resign.
++ The project is expected to be completed next year.
+- She is known being very generous. = She is known to be very generous.
++ The new law has been widely criticised.
+- The meeting was being hold when the fire alarm went off. = The meeting was being held when the fire alarm went off.
++ Nobody likes being told what to do.
+- I don't like to be laughed. = I don't like being laughed at.
+
+## Modals in the past
++ You needn't have come so early – the shop doesn't open until ten.
+- You didn't need to bring food, but thanks for bringing it! = You needn't have brought food, but thanks for bringing it!
++ She must have been really upset when she heard the news.
+- He can't have saw the message; he'd have replied. = He can't have seen the message; he'd have replied.
++ We could have gone by train, but we decided to drive.
+- You should have came to the party – it was great! = You should have come to the party – it was great!
++ They may well have been delayed by the traffic.
+- I must had dropped my keys somewhere. = I must have dropped my keys somewhere.
+
+## Reporting verbs & patterns
++ She insisted on paying for dinner.
+- He threatened calling the police. = He threatened to call the police.
++ The coach congratulated the team on winning the cup.
+- They recommended us to book in advance. = They recommended booking in advance.
++ He admitted that he had made a mistake.
+- She blamed me of losing the keys. = She blamed me for losing the keys.
++ The teacher reminded us to bring our books.
+- He objected to be treated like a child. = He objected to being treated like a child.
+
+## Relative & participle clauses
++ Having finished her homework, she went out with her friends.
+- Walking down the street, a dog bit me. = Walking down the street, I was bitten by a dog.
++ The person to whom I spoke was very helpful.
+- There's the woman who's car was stolen. = There's the woman whose car was stolen.
++ Not knowing what to do, he called his father.
+- Having ate the cake, the children went to bed. = Having eaten the cake, the children went to bed.
++ He failed his driving test, which surprised everyone.
+- That's the reason because I left. = That's the reason why I left.
+
+## Wishes, regrets & preferences
++ I wish I had listened to your advice.
+- I'd rather to stay at home tonight. = I'd rather stay at home tonight.
++ She'd prefer to walk rather than take the bus.
+- If only you would have told me earlier! = If only you had told me earlier!
++ It's high time we did something about pollution.
+- I'd sooner you don't mention it to anyone. = I'd sooner you didn't mention it to anyone.
++ I wish you wouldn't interrupt me all the time.
+- I wish I can come with you. = I wish I could come with you.
+
+## Articles & determiners
++ The rich should pay more taxes.
+- She's studying the biology at university. = She's studying biology at university.
++ Neither of the answers is correct.
+- I've got little friends in this town. = I've got few friends in this town.
++ Every single student passed the exam.
+- He gave me a useful advice. = He gave me some useful advice.
++ Quite a few people complained about the noise.
+- All the students has finished. = All the students have finished.
+
+## Dependent prepositions & collocations
++ She's very good at making decisions.
+- He's very interested about photography. = He's very interested in photography.
++ The success of the project depends on everyone.
+- I'm not capable to do this alone. = I'm not capable of doing this alone.
++ We need to take the cost into account.
+- She made a big effort for passing the exam. = She made a big effort to pass the exam.
++ They were accused of breaking the rules.
+- I'm looking forward to hear from you. = I'm looking forward to hearing from you.
+
+## Phrasal verbs
++ We need to come up with a better idea.
+- I can't put up this noise any longer. = I can't put up with this noise any longer.
++ The plane took off two hours late.
+- She turned down it because the pay was too low. = She turned it down because the pay was too low.
++ I came across an old photo while I was tidying up.
+- He fell out his best friend last week. = He fell out with his best friend last week.
++ They've called off the match because of the rain.
+- I'm trying to give up of sugar. = I'm trying to give up sugar.
+`},
+  p8: { name: "Prepare 8 (B2+)", text: `
+## Tense contrasts (advanced)
++ I'd been living abroad for years before I finally came home.
+- Since I am here, I've made lots of friends. = Since I've been here, I've made lots of friends.
++ This is the first time she has performed on stage.
+- By the time we'll arrive, the show will have started. = By the time we arrive, the show will have started.
++ He's been working on that novel for as long as I've known him.
+- I'm knowing her since we were children. = I've known her since we were children.
++ She was about to leave when the phone rang.
+- I was going to have called you, but I forgot. = I was going to call you, but I forgot.
+
+## Inversion & cleft sentences
++ Not until I got home did I realise I'd lost my wallet.
+- Seldom we have seen such talent in a young player. = Seldom have we seen such talent in a young player.
++ It was only when I read the letter that I understood.
+- Only after the meeting I understood the problem. = Only after the meeting did I understand the problem.
++ What surprised me most was how calm she was.
+- On no account you should leave the building. = On no account should you leave the building.
++ So difficult was the exam that only three people passed.
+- Such was the noise that we can't hear ourselves think. = Such was the noise that we couldn't hear ourselves think.
+
+## Advanced conditionals
++ If it hadn't been for the rain, we would have won.
+- Should you would require assistance, please contact reception. = Should you require assistance, please contact reception.
++ Assuming the train is on time, we'll arrive by noon.
+- If I knew you were coming, I would have baked a cake. = If I'd known you were coming, I would have baked a cake.
++ Had it not been for the doctor, he might have died.
+- Without your support, I won't have succeeded. = Without your support, I wouldn't have succeeded.
++ Were she to resign, the company would be in trouble.
+- If he were to apologise, I'd have forgiven him. = If he were to apologise, I'd forgive him.
+
+## Modal verbs & semi-modals
++ You might as well go home – there's nothing more to do.
+- She can't help to laugh when she sees him. = She can't help laughing when she sees him.
++ He's bound to be late; he always is.
+- You'd better to tell her the truth. = You'd better tell her the truth.
++ There's no way he could have known about it.
+- They are likely be delayed. = They are likely to be delayed.
++ I needn't have worried – everything went well.
+- She must have to be exhausted after that marathon. = She must be exhausted after that marathon.
+
+## Passive & causative (advanced)
++ The documents are thought to have been destroyed.
+- He is rumoured being the new manager. = He is rumoured to be the new manager.
++ I had my wallet stolen on the train.
+- We're getting the kitchen to paint next week. = We're getting the kitchen painted next week.
++ The problem needs solving as soon as possible.
+- It is supposed that she to be living in Paris. = She is supposed to be living in Paris.
++ The winner is to be announced at midnight.
+- The children were let to stay up late. = The children were allowed to stay up late.
+
+## Participle & reduced clauses
++ Having lived in Japan, she speaks fluent Japanese.
+- Finishing the work, we went home. = Having finished the work, we went home.
++ Asked about his plans, he refused to comment.
+- Arriving at the hotel, our room wasn't ready. = Arriving at the hotel, we found our room wasn't ready.
++ Not wanting to disturb her, I left quietly.
+- The money stealing from the bank was never found. = The money stolen from the bank was never found.
++ When cooked properly, this fish is delicious.
+- Not knowing the answer, the question was skipped. = Not knowing the answer, I skipped the question.
+
+## Gerunds & infinitives (advanced)
++ I resent being treated like a child.
+- She's thinking to change jobs. = She's thinking of changing jobs.
++ He seems to have forgotten all about it.
+- There's no point to argue about it. = There's no point in arguing about it.
++ She pretended not to have seen me.
+- It's no good to cry over spilt milk. = It's no good crying over spilt milk.
++ The house appears to have been empty for years.
+- I object to pay so much for so little. = I object to paying so much for so little.
+
+## Unreal past: wishes & hypotheses
++ It's about time you got a job.
+- I wish I didn't say that yesterday. = I wish I hadn't said that yesterday.
++ I'd rather you hadn't told her.
+- If only he will listen to me! = If only he would listen to me!
++ He talks as though he knew everything.
+- I'd rather go out than staying in. = I'd rather go out than stay in.
++ Imagine you were invisible – what would you do?
+- Suppose you lose your job tomorrow, what would you do? = Suppose you lost your job tomorrow, what would you do?
+
+## Linking & discourse markers
++ Whereas my brother loves sport, I prefer reading.
+- Despite she was tired, she kept working. = Although she was tired, she kept working.
++ The plan was risky; nevertheless, it worked.
+- In spite of it rained, the match went ahead. = In spite of the rain, the match went ahead.
++ Owing to the strike, all flights were cancelled.
+- I'll take an umbrella in case of it rains. = I'll take an umbrella in case it rains.
++ No matter how hard I try, I can't remember her name.
+- Whatever hard I work, it's never enough. = However hard I work, it's never enough.
+
+## Word formation & collocations
++ The government took immediate action.
+- She made a lot of progresses this year. = She made a lot of progress this year.
++ It's highly unlikely that he'll come.
+- He did a mistake in the exam. = He made a mistake in the exam.
++ The film received widespread criticism.
+- The weather was very unpredicted yesterday. = The weather was very unpredictable yesterday.
++ We had a heated discussion about politics.
+- There's a strong possibility for rain later. = There's a strong possibility of rain later.
+
+## Phrasal verbs & idioms
++ We'll have to make do with what we've got.
+- I can't figure it this problem out. = I can't figure this problem out.
++ The news took me by surprise.
+- He finally owned up his mistake. = He finally owned up to his mistake.
++ It's raining cats and dogs outside.
+- Let's call the day off and go home. = Let's call it a day and go home.
++ I'm going to sleep on it and decide tomorrow.
+- They carried out with the plan despite the risks. = They carried on with the plan despite the risks.
+`}
+};
+const MIX_ID = "mix";
+const TEAM_COLORS = [
+  { name: "Red",    css: "var(--red)" },
+  { name: "Blue",   css: "var(--blue)" },
+  { name: "Green",  css: "var(--green)" },
+  { name: "Yellow", css: "var(--yellow)" },
+];
+const STORE_KEY = "subasta-frases-v2";
+
+/* ===================== Almacenamiento ===================== */
+function loadStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
+function saveStore(s){ try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); } catch(e){} }
+let store = loadStore();
+store.custom = store.custom || {};
+
+function levelText(id){ return store.custom[id] != null ? store.custom[id] : LEVELS[id].text.trim(); }
+function parseText(txt){
+  const items = [], bad = [];
+  let topic = "General";
+  txt.split(/\r?\n/).forEach(raw => {
+    const line = raw.trim();
+    if (line.startsWith("##")) { topic = line.replace(/^#+/, "").trim() || "General"; return; }
+    if (!line || line.startsWith("#")) return;
+    const m = line.match(/^([+\-✔✘xX✓✗])\s*(.+)$/);
+    if (!m) { bad.push(line); return; }
+    const ok = "+✔✓".includes(m[1]);
+    let body = m[2], fix = "";
+    const eq = body.indexOf(" = ");
+    if (eq >= 0) { fix = body.slice(eq + 3).trim(); body = body.slice(0, eq).trim(); }
+    if (body) items.push({ t: body, ok, fix: ok ? "" : fix, topic });
+  });
+  return { items, bad };
+}
+
+/* ===================== Configuración ===================== */
+const cfg = Object.assign({ level: "p1", teamCount: 2, names: ["", "", "", ""], coins: 100, win: 5, off: {} }, store.cfg || {});
+cfg.off = cfg.off || {};   // temas desactivados por libro: { p1: ["To be", ...] }
+const $ = id => document.getElementById(id);
+
+function levelTopics(id){
+  const seen = new Map();
+  parseText(levelText(id)).items.forEach(i => seen.set(i.topic, (seen.get(i.topic) || 0) + 1));
+  return [...seen.entries()];
+}
+function topicOn(id, topic){ return !(cfg.off[id] || []).includes(topic); }
+function renderTopics(){
+  const box = $("topicChoices"), panel = $("topicPanel");
+  if (cfg.level === MIX_ID) { panel.classList.add("hidden"); return; }
+  panel.classList.remove("hidden");
+  const id = cfg.level, topics = levelTopics(id);
+  box.innerHTML = "";
+  topics.forEach(([topic, n]) => {
+    const b = document.createElement("button");
+    b.className = "chip topic" + (topicOn(id, topic) ? " on" : "");
+    b.innerHTML = `<span></span> <small>${n}</small>`;
+    b.querySelector("span").textContent = topic;
+    b.onclick = () => {
+      const off = new Set(cfg.off[id] || []);
+      off.has(topic) ? off.delete(topic) : off.add(topic);
+      cfg.off[id] = [...off]; renderTopics();
+    };
+    box.appendChild(b);
+  });
+  const active = topics.filter(([t]) => topicOn(id, t));
+  $("topicCount").textContent = `${active.length} of ${topics.length} topics · ${active.reduce((s, [, n]) => s + n, 0)} sentences`;
+}
+function setAllTopics(on){
+  if (cfg.level === MIX_ID) return;
+  cfg.off[cfg.level] = on ? [] : levelTopics(cfg.level).map(([t]) => t);
+  renderTopics();
+}
+
+function renderSetup(){
+  const lc = $("levelChoices"); lc.innerHTML = "";
+  [...Object.keys(LEVELS), MIX_ID].forEach(id => {
+    const b = document.createElement("button");
+    b.className = "chip" + (cfg.level === id ? " on" : "");
+    b.textContent = id === MIX_ID ? "🔀 Mix all levels" : LEVELS[id].name;
+    b.onclick = () => { cfg.level = id; renderSetup(); };
+    lc.appendChild(b);
+  });
+  const tc = $("teamCountChoices"); tc.innerHTML = "";
+  [1,2,3,4].forEach(n => {
+    const b = document.createElement("button");
+    b.className = "chip num" + (cfg.teamCount === n ? " on" : "");
+    b.textContent = n;
+    b.onclick = () => { cfg.teamCount = n; renderSetup(); };
+    tc.appendChild(b);
+  });
+  const tn = $("teamNames"); tn.innerHTML = "";
+  for (let i = 0; i < cfg.teamCount; i++) {
+    const d = document.createElement("div");
+    d.className = "team-input"; d.style.borderLeftColor = TEAM_COLORS[i].css;
+    const inp = document.createElement("input");
+    inp.placeholder = TEAM_COLORS[i].name; inp.value = cfg.names[i] || ""; inp.maxLength = 24;
+    inp.oninput = () => { cfg.names[i] = inp.value; };
+    d.appendChild(inp); tn.appendChild(d);
+  }
+  $("startCoins").value = cfg.coins; $("winPoints").value = cfg.win;
+  renderTopics();
+}
+
+/* ===================== Juego ===================== */
+let G = null;       // estado de la partida
+let undoStack = [];   // para deshacer
+
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+function buildDeck(level){
+  const ids = level === MIX_ID ? Object.keys(LEVELS) : [level];
+  const pool = ids.flatMap(id => parseText(levelText(id)).items
+    .filter(i => level === MIX_ID || topicOn(id, i.topic)));
+  // Mezcla 3 correctas : 4 incorrectas, en orden totalmente aleatorio.
+  const good = shuffle(pool.filter(i => i.ok)), bad = shuffle(pool.filter(i => !i.ok));
+  if (!good.length || !bad.length) return shuffle(pool);
+  const sets = Math.min(Math.floor(good.length / 3), Math.floor(bad.length / 4));
+  if (!sets) return shuffle(pool);
+  return shuffle([...good.slice(0, sets * 3), ...bad.slice(0, sets * 4)]);
+}
+
+function startGame(){
+  cfg.coins = Math.max(1, parseInt($("startCoins").value) || 100);
+  cfg.win = Math.max(1, parseInt($("winPoints").value) || 5);
+  store.cfg = cfg; saveStore(store);
+  const deck = buildDeck(cfg.level);
+  if (!deck.length) { alert("There are no sentences to play. Choose at least one topic or add sentences in \"Edit sentences\"."); return; }
+  G = {
+    teams: Array.from({ length: cfg.teamCount }, (_, i) => ({
+      name: (cfg.names[i] || "").trim() || TEAM_COLORS[i].name, color: TEAM_COLORS[i].css, coins: cfg.coins, points: 0
+    })),
+    deck, idx: 0, sel: null, lot: 1, over: false
+  };
+  undoStack = [];
+  show("game");
+  $("gameTag").textContent = (cfg.level === MIX_ID ? "Prepare · all levels" : LEVELS[cfg.level].name) + " · " + cfg.win + " ⭐ to win";
+  renderBoard(); renderSentence();
+}
+
+function show(id){ ["setup","game","end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0,0); }
+
+function renderBoard(deltas = {}){
+  const b = $("teamsBoard");
+  b.style.gridTemplateColumns = `repeat(${Math.min(G.teams.length, 4)}, minmax(0,1fr))`;
+  if (window.innerWidth < 640 && G.teams.length > 2) b.style.gridTemplateColumns = "repeat(2, minmax(0,1fr))";
+  b.innerHTML = "";
+  G.teams.forEach((t, i) => {
+    const el = document.createElement("button");
+    el.className = "team" + (G.sel === i ? " sel" : "") + (t.coins <= 0 ? " broke" : "");
+    el.style.setProperty("--c", t.color);
+    let stars = "";
+    for (let s = 0; s < cfg.win; s++) stars += `<span class="star${s < t.points ? " on" : ""}">⭐</span>`;
+    el.innerHTML = `<span class="pick">BUYER</span>
+      <div class="tname"></div>
+      <div class="coins"><span class="coin">$</span><span>${t.coins}</span></div>
+      <div class="stars">${stars}</div>`;
+    el.querySelector(".tname").textContent = t.name;
+    if (deltas[i]) {
+      const d = document.createElement("span");
+      d.className = "delta"; d.textContent = deltas[i].txt; d.style.color = deltas[i].color;
+      el.appendChild(d);
+    }
+    el.onclick = () => { if (t.coins > 0) { G.sel = i; renderBoard(); updateAuction(); } };
+    b.appendChild(el);
+  });
+  updateAuction();
+}
+
+function renderSentence(){
+  const card = $("sentenceCard");
+  card.classList.remove("enter"); void card.offsetWidth; card.classList.add("enter");
+  $("lotLabel").textContent = "LOT " + G.lot;
+  $("sentenceText").textContent = G.deck[G.idx].t;
+  $("topicTag").textContent = G.deck[G.idx].topic || "";
+  G.sel = null; $("bidInput").value = 10;
+  renderBoard();
+}
+
+function currentBid(){ return parseInt($("bidInput").value) || 0; }
+function updateAuction(){
+  const bid = currentBid(), warn = $("bidWarn"), sell = $("sellBtn");
+  warn.textContent = "";
+  if (G.sel == null) {
+    $("whoLabel").innerHTML = "Click the team that wins the bid";
+    sell.disabled = true; return;
+  }
+  const t = G.teams[G.sel];
+  $("whoLabel").innerHTML = "Buyer: <b></b> · has " + t.coins + " coins";
+  $("whoLabel").querySelector("b").textContent = t.name;
+  if (bid < 1) { warn.textContent = "The minimum bid is 1 coin."; sell.disabled = true; return; }
+  if (bid > t.coins) { warn.textContent = `${t.name} only has ${t.coins} coins.`; sell.disabled = true; return; }
+  sell.disabled = false;
+}
+function changeBid(d){
+  let v = currentBid() + d;
+  const max = G.sel != null ? G.teams[G.sel].coins : 9999;
+  v = Math.max(1, Math.min(max, v));
+  $("bidInput").value = v; updateAuction();
+}
+
+function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 50) undoStack.shift(); }
+
+function sell(){
+  if (G.sel == null) return;
+  const bid = currentBid(), t = G.teams[G.sel], s = G.deck[G.idx];
+  if (bid < 1 || bid > t.coins) return;
+  snapshot();
+  t.coins -= bid;
+  const deltas = {};
+  if (s.ok) { t.points += 1; deltas[G.sel] = { txt: `+1 ⭐  −${bid}`, color: "#7dffb2" }; }
+  else      { deltas[G.sel] = { txt: `−${bid}`, color: "#ff9aa5" }; }
+  renderBoard(deltas);
+  showResult(s, t, bid);
+}
+
+function nobody(){
+  snapshot();
+  showResult(G.deck[G.idx], null, 0);
+}
+
+function showResult(s, team, bid){
+  const v = $("rVerdict");
+  v.className = "verdict " + (s.ok ? "ok" : "bad");
+  v.textContent = s.ok ? "✔ CORRECT!" : "✘ INCORRECT";
+  const rs = $("rSent"); rs.textContent = s.t; rs.className = "r-sent" + (s.ok ? "" : " strike");
+  const fx = $("rFix");
+  if (!s.ok && s.fix) { fx.innerHTML = "<small>The correct sentence is</small>"; fx.appendChild(document.createTextNode(s.fix)); fx.classList.remove("hidden"); }
+  else fx.classList.add("hidden");
+  const ef = $("rEffect");
+  if (!team) ef.textContent = s.ok ? "Nobody bought it… but it was correct! Point lost." : "Nobody bought it. Well spotted!";
+  else if (s.ok) ef.textContent = `🎉 ${team.name} wins 1 point and pays ${bid} coins.`;
+  else ef.textContent = `💸 ${team.name} loses ${bid} coins and doesn't win the point.`;
+  $("resultOverlay").classList.remove("hidden");
+  if (team && s.ok) confetti(team.color);
+  $("nextBtn").textContent = checkEnd(true) ? "See results 🏆" : "Next sentence ➜";
+  $("nextBtn").focus();
+}
+
+function checkEnd(dry){
+  const winner = G.teams.find(t => t.points >= cfg.win);
+  const broke = G.teams.filter(t => t.coins <= 0);
+  const noMore = G.idx + 1 >= G.deck.length;
+  if (!winner && !broke.length && !noMore) return null;
+  let reason;
+  if (winner) reason = `${winner.name} reached ${cfg.win} points.`;
+  else if (broke.length) reason = broke.map(t => t.name).join(" and ") + (broke.length > 1 ? " have run out of money." : " has run out of money.");
+  else reason = "There are no more sentences.";
+  return { reason };
+}
+
+function next(){
+  $("resultOverlay").classList.add("hidden");
+  const end = checkEnd();
+  if (end) { finish(end.reason); return; }
+  G.idx++; G.lot++;
+  renderSentence();
+}
+
+function finish(reason){
+  G.over = true;
+  const ranked = G.teams.map((t, i) => ({ ...t, i })).sort((a, b) => b.points - a.points || b.coins - a.coins);
+  const top = ranked[0];
+  const tie = ranked.length > 1 && ranked[1].points === top.points && ranked[1].coins === top.coins;
+  if (G.teams.length === 1) $("endTitle").textContent = top.points >= cfg.win ? `${top.name} did it!` : `${top.name}: ${top.points} ⭐`;
+  else $("endTitle").textContent = tie ? "It's a tie!" : `${top.name} wins!`;
+  $("endReason").textContent = reason;
+  const r = $("ranking"); r.innerHTML = "";
+  const medals = ["🥇","🥈","🥉","4th"];
+  ranked.forEach((t, k) => {
+    const d = document.createElement("div");
+    d.className = "rank" + (k === 0 ? " first" : ""); d.style.setProperty("--c", t.color);
+    d.innerHTML = `<span class="pos">${medals[k]}</span><span class="n"></span><span>${t.points} ⭐</span><span style="color:var(--gold)">${t.coins} <span class="coin">$</span></span>`;
+    d.querySelector(".n").textContent = t.name;
+    r.appendChild(d);
+  });
+  show("end");
+  confetti(top.color, 140);
+}
+
+function undo(){
+  if (!undoStack.length) return;
+  G = JSON.parse(undoStack.pop());
+  $("resultOverlay").classList.add("hidden");
+  renderBoard();
+  $("lotLabel").textContent = "LOT " + G.lot;
+  $("sentenceText").textContent = G.deck[G.idx].t;
+  $("topicTag").textContent = G.deck[G.idx].topic || "";
+}
+
+function confetti(color, n = 60){
+  const colors = [color, "#ffc83d", "#ffffff", "#7dffb2", "#9db7ff"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.background = colors[i % colors.length];
+    c.style.animationDuration = 1.8 + Math.random() * 2 + "s";
+    c.style.animationDelay = Math.random() * .4 + "s";
+    c.style.borderRadius = Math.random() > .5 ? "50%" : "2px";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4500);
+  }
+}
+
+/* ===================== Editor de frases ===================== */
+let edLevel = "p1";
+function openEditor(){
+  edLevel = cfg.level === MIX_ID ? "p1" : cfg.level;
+  renderEditor(); $("editorOverlay").classList.remove("hidden");
+}
+let edDraft = {};
+function renderEditor(){
+  const tabs = $("editorTabs"); tabs.innerHTML = "";
+  Object.keys(LEVELS).forEach(id => {
+    const b = document.createElement("button");
+    b.className = "chip" + (id === edLevel ? " on" : "");
+    b.textContent = LEVELS[id].name;
+    b.onclick = () => { edDraft[edLevel] = $("editorText").value; edLevel = id; renderEditor(); };
+    tabs.appendChild(b);
+  });
+  $("editorText").value = edDraft[edLevel] != null ? edDraft[edLevel] : levelText(edLevel);
+  countEditor();
+}
+function countEditor(){
+  const { items, bad } = parseText($("editorText").value);
+  const ok = items.filter(i => i.ok).length;
+  $("editorCount").textContent = `${items.length} sentences (${ok} correct, ${items.length - ok} incorrect)` + (bad.length ? ` · ⚠️ ${bad.length} lines without + or −` : "");
+}
+function saveEditor(){
+  edDraft[edLevel] = $("editorText").value;
+  Object.entries(edDraft).forEach(([id, txt]) => {
+    store.custom[id] = txt.trim() === LEVELS[id].text.trim() ? null : txt;
+    if (store.custom[id] == null) delete store.custom[id];
+  });
+  saveStore(store); edDraft = {}; renderTopics();
+  $("editorOverlay").classList.add("hidden");
+}
+
+/* ===================== Eventos ===================== */
+$("startBtn").onclick = startGame;
+$("sellBtn").onclick = sell;
+$("nobodyBtn").onclick = nobody;
+$("nextBtn").onclick = next;
+$("undoBtn").onclick = undo;
+$("endBtn").onclick = () => { if (confirm("Finish the game now?")) finish("The teacher ended the game."); };
+$("againBtn").onclick = startGame;
+$("backBtn").onclick = () => { renderSetup(); show("setup"); };
+$("allInBtn").onclick = () => { if (G.sel != null) { $("bidInput").value = G.teams[G.sel].coins; updateAuction(); } };
+document.querySelectorAll(".bidbtn[data-d]").forEach(b => b.onclick = () => changeBid(parseInt(b.dataset.d)));
+$("bidInput").oninput = updateAuction;
+$("openEditor").onclick = openEditor;
+$("allTopics").onclick = () => setAllTopics(true);
+$("noTopics").onclick = () => setAllTopics(false);
+$("closeEditor").onclick = () => { edDraft = {}; $("editorOverlay").classList.add("hidden"); };
+$("saveEditor").onclick = saveEditor;
+$("resetLevel").onclick = () => { if (confirm("Restore the original sentences for this book?")) { $("editorText").value = LEVELS[edLevel].text.trim(); countEditor(); } };
+$("editorText").oninput = countEditor;
+document.addEventListener("keydown", e => {
+  if (!$("resultOverlay").classList.contains("hidden") && e.key === "Enter") { e.preventDefault(); next(); }
+});
+window.addEventListener("resize", () => { if (G && !G.over && !$("game").classList.contains("hidden")) renderBoard(); });
+
+renderSetup();
+</script>
+</body>
+</html>

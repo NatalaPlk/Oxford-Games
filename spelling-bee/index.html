@@ -50,6 +50,7 @@
   .team-input input{flex:1;min-width:0;background:transparent;border:0;font:inherit;font-size:19px;font-weight:600;color:var(--ink);outline:none}
   .team-input input::placeholder{color:#b9975a}
   .opt{display:flex;align-items:center;gap:10px;font-weight:600}
+  .mini-btn{background:var(--cream);border:3px solid var(--line);border-radius:12px;padding:6px 14px;font-weight:600;font-size:17px}
   .opt select{font:inherit;font-size:17px;padding:6px 10px;border-radius:12px;border:3px solid var(--line);background:var(--cream);color:var(--ink)}
   .switch{display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer}
   .switch input{width:22px;height:22px;accent-color:var(--honey2)}
@@ -177,6 +178,11 @@
       <label class="switch"><input type="checkbox" id="showLetters"> Show number of letters</label>
       <label class="switch"><input type="checkbox" id="allowSteal"> Other teams can steal</label>
     </div>
+    <div class="row" style="margin-top:14px">
+      <label class="opt">🗣️ Voice <select id="voiceSel" style="max-width:340px"></select></label>
+      <button class="mini-btn" id="testVoice" type="button">🔊 Test</button>
+    </div>
+    <div class="hint hidden" id="voiceTip">💡 This browser only has robotic voices. For a natural voice, open the game in <b>Microsoft Edge</b> (voices marked ⭐) or <b>Google Chrome</b>.</div>
     <div class="hint">A correct word is worth 🍯🍯 2 points, or 🍯 1 point if the team uses the first-letter hint. A stolen word is worth 🍯 1 point.</div>
   </div>
 
@@ -1202,23 +1208,47 @@ function setAllUnits(on){
 }
 
 /* ---------- speech & sound ---------- */
-let voice = null;
-function pickVoice(){
-  if (!("speechSynthesis" in window)) return;
-  const vs = speechSynthesis.getVoices();
-  voice = vs.find(v => /en-GB/i.test(v.lang) && /female|libby|sonia|hazel|serena|kate/i.test(v.name))
-       || vs.find(v => /en-GB/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null;
+// Prefer the most natural-sounding English voice the browser has:
+// Edge "Natural"/"Online" neural voices > Google voices (Chrome) > other British > any English.
+let voice = null, englishVoices = [];
+function voiceScore(v){
+  let s = 0;
+  if (/natural|neural/i.test(v.name)) s += 100;
+  if (/online/i.test(v.name) || v.localService === false) s += 40;
+  if (/google/i.test(v.name)) s += 60;
+  if (/en-GB/i.test(v.lang)) s += 30; else if (/en-(IE|AU|NZ|US)/i.test(v.lang)) s += 10;
+  if (/sonia|libby|maisie|ava|emma|jenny|aria|female|hazel|serena|kate|susan|zira/i.test(v.name)) s += 5;
+  return s;
 }
-if ("speechSynthesis" in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
-function speak(text, rate = 0.85){
+function loadVoices(){
+  if (!("speechSynthesis" in window)) return;
+  englishVoices = speechSynthesis.getVoices().filter(v => /^en/i.test(v.lang)).sort((a, b) => voiceScore(b) - voiceScore(a));
+  voice = englishVoices.find(v => v.name === cfg.voice) || englishVoices[0] || null;
+  renderVoiceSelect();
+}
+function renderVoiceSelect(){
+  const sel = $("voiceSel"); if (!sel) return;
+  sel.innerHTML = "";
+  if (!englishVoices.length) { sel.innerHTML = "<option>No English voice found</option>"; sel.disabled = true; return; }
+  sel.disabled = false;
+  englishVoices.forEach(v => {
+    const o = document.createElement("option");
+    o.value = v.name; o.textContent = v.name.replace(/^Microsoft /, "").replace(/ - English \(/, " (").replace(/ - English/, "") + (voiceScore(v) >= 100 ? " ⭐" : "");
+    sel.appendChild(o);
+  });
+  sel.value = voice ? voice.name : "";
+  $("voiceTip").classList.toggle("hidden", englishVoices.some(v => voiceScore(v) >= 60));
+}
+if ("speechSynthesis" in window) { loadVoices(); speechSynthesis.onvoiceschanged = loadVoices; }
+function speak(text, rate = 0.9){
   if (!("speechSynthesis" in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
-  if (voice) u.voice = voice;
-  u.lang = voice ? voice.lang : "en-GB"; u.rate = rate; u.pitch = 1.05;
+  if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = "en-GB";
+  u.rate = rate; u.pitch = 1; u.volume = 1;
   speechSynthesis.speak(u);
 }
-function spellOut(word){ speak(word.toUpperCase().split("").filter(c => /[A-Z]/.test(c)).join(", ") + ". " + word, 0.8); }
+function spellOut(word){ speak(word.toUpperCase().split("").filter(c => /[A-Z]/.test(c)).join(" … ") + " … " + word, 0.85); }
 
 let actx = null;
 function beep(freqs, dur = .14, type = "sine"){
@@ -1415,7 +1445,9 @@ $("startBtn").onclick = startGame;
 $("allUnits").onclick = () => setAllUnits(true);
 $("noUnits").onclick = () => setAllUnits(false);
 $("sayBtn").onclick = () => speak(cur().w);
-$("slowBtn").onclick = () => speak(cur().w, 0.45);
+$("slowBtn").onclick = () => speak(cur().w, 0.6);
+$("voiceSel").onchange = () => { voice = englishVoices.find(v => v.name === $("voiceSel").value) || voice; cfg.voice = voice ? voice.name : ""; store.cfg = cfg; saveStore(); speak("Hello! Let's spell. Elephant."); };
+$("testVoice").onclick = () => speak("Hello! Let's spell. Elephant.");
 $("hintBtn").onclick = useHint;
 $("okBtn").onclick = markOk;
 $("badBtn").onclick = markBad;

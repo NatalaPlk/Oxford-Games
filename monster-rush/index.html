@@ -163,7 +163,10 @@
   .side-panel{background:var(--navy);color:#fff;border-radius:22px;padding:18px;box-shadow:6px 6px 0 var(--brand)}
   .side-panel h3{margin:0 0 10px;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--yellow)}
   .side-panel .big{display:flex;align-items:flex-end;gap:10px}
-  .side-panel .big .mon{width:110px}
+  .side-panel .big .mon{width:130px;transform-origin:bottom center}
+  .side-panel .big .mon.hop{animation:sideHop .8s ease-out}
+  .side-panel .big .mon.sad{animation:droop 1.2s ease}
+  @keyframes sideHop{25%{transform:translateY(-40px) rotate(-8deg)}50%{transform:translateY(0) scale(1.12,.86)}70%{transform:translateY(-16px) rotate(5deg)}100%{transform:none}}
   .tally{display:flex;gap:8px;margin:12px 0;font-family:var(--mono);font-weight:700}
   .tally span{flex:1;text-align:center;border-radius:12px;padding:8px 4px;font-size:20px}
   .tally .t-ok{background:var(--ok)} .tally .t-bad{background:var(--brand)} .tally .t-pass{background:var(--yellow);color:var(--navy)}
@@ -517,6 +520,12 @@ function act(i, kind){
   if (kind !== "cheer") r._t = setTimeout(() => { r.innerHTML = mon(t.mon, "happy"); r.classList.remove(kind); }, kind === "sad" ? 1200 : 800);
 }
 
+// the big monster in the side panel reacts too: jumps for joy or gets sad
+function actSide(kind){
+  const s = $("sideMon"), t = team();
+  s.classList.remove("hop", "sad"); void s.offsetWidth; s.classList.add(kind);
+  s.innerHTML = monsterSVG(t.mon, kind === "sad" ? "sad" : "joy");
+}
 function render(){
   const t = team(), color = MONSTERS[t.mon].color;
   $("cardzone").style.setProperty("--c", color);
@@ -616,6 +625,7 @@ function answer(r, wait = 380){
   if (cfg.say) sayWord(w);
   const i = G.turn, card = G.card;
   act(i, r === "ok" ? "hop" : "sad");
+  actSide(r === "ok" ? "hop" : "sad");
   setTimeout(() => {
     if (G.phase !== "play" || G.card !== card) return;   // time ran out or undo meanwhile
     if (G.shown >= cfg.perTurn) { endTurn("All pictures done!"); }

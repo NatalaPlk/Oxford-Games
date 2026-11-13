@@ -34,7 +34,9 @@
   .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:30ch}
   .hero .r{background:var(--red);position:relative;display:grid;place-items:center;padding:26px;min-height:220px}
   .hero .r::after{content:"";position:absolute;left:-20%;right:-20%;bottom:-48%;height:80%;border-radius:50%;background:var(--red2)}
-  .hero .gavel{position:relative;z-index:1;font-size:clamp(90px,12vw,150px);filter:drop-shadow(6px 6px 0 var(--navy));animation:bang 2.4s ease-in-out infinite;transform-origin:75% 80%}
+  .hero .gavel{position:relative;z-index:1;width:clamp(170px,22vw,260px);filter:drop-shadow(6px 6px 0 var(--navy))}
+  .hero .gavel svg{position:relative;display:block;width:100%;height:auto;overflow:visible}
+  .hero .gavel::before{content:"";position:absolute;inset:6% 4% 0;border-radius:50%;background:var(--cream,#f6efe2);border:4px solid var(--navy)}
   @keyframes bang{0%,70%,100%{transform:rotate(0)}78%{transform:rotate(-30deg)}86%{transform:rotate(8deg)}}
   .sticker{position:absolute;z-index:2;top:22px;left:22px;transform:rotate(-4deg);background:var(--red);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
 
@@ -193,7 +195,7 @@
     </div>
     <div class="r">
       <span class="sticker">TEAM GAME!</span>
-      <div class="gavel">🔨</div>
+      <div class="gavel"><svg viewBox="-12 -2 224 214" role="img" aria-label="Gavel" class="gavel-art live"><style>.gavel-art .gv{transform-box:view-box;transform-origin:186px 69px}.gavel-art .burst{transform-box:fill-box;transform-origin:center}.gavel-art.live .gv,a:hover .gavel-art .gv{animation:gvHit 1.6s ease-in infinite}.gavel-art.live .burst,a:hover .gavel-art .burst{animation:gvBurst 1.6s ease-out infinite}@keyframes gvHit{0%,100%{transform:rotate(0)}10%{transform:rotate(-3deg)}45%{transform:rotate(28deg)}70%{transform:rotate(28deg)}82%{transform:rotate(0)}}@keyframes gvBurst{0%,5%{transform:scale(1);opacity:1}35%,80%{transform:scale(.2);opacity:0}86%{transform:scale(1.15);opacity:1}100%{transform:scale(1);opacity:1}}</style><g class="burst"><g transform="translate(92 128) scale(1.18) translate(-90 -131)"><path d="M90 74 L102 108 L136 86 L120 120 L164 124 L124 138 L156 166 L114 154 L104 188 L90 158 L64 186 L68 152 L26 162 L58 138 L22 116 L64 118 L52 84 L80 108 Z" fill="#e8343f" stroke="#9c1622" stroke-width="4" stroke-linejoin="round"/><path d="M90 104 L97 122 L116 112 L106 130 L128 134 L106 142 L116 160 L96 150 L90 170 L82 150 L64 162 L72 142 L50 136 L72 128 L62 112 L82 122 Z" fill="#ffd23f"/><path d="M30 92 l-14 -10 M150 92 l14 -12 M170 146 l14 4 M18 146 l-14 4" stroke="#c8323c" stroke-width="6" stroke-linecap="round"/></g></g><path d="M38 152 v18 a57 14 0 0 0 114 0 v-18" fill="#a8612a" stroke="#0b0957" stroke-width="6" stroke-linejoin="round"/><ellipse cx="95" cy="152" rx="57" ry="14" fill="#d9944a" stroke="#0b0957" stroke-width="6"/><ellipse cx="80" cy="149" rx="22" ry="4" fill="#f0b874"/><g class="gv"><g transform="translate(78 104) rotate(-18)"><rect x="12" y="-7" width="100" height="14" rx="7" fill="#8b4a1a" stroke="#0b0957" stroke-width="6"/><circle cx="114" cy="0" r="10" fill="#8b4a1a" stroke="#0b0957" stroke-width="6"/><rect x="-20" y="-38" width="40" height="76" rx="9" fill="#b9682a" stroke="#0b0957" stroke-width="6"/><rect x="-20" y="-26" width="40" height="9" fill="#ffd23f" stroke="#0b0957" stroke-width="4"/><rect x="-20" y="17" width="40" height="9" fill="#ffd23f" stroke="#0b0957" stroke-width="4"/><rect x="-12" y="-32" width="6" height="58" rx="3" fill="#fff" opacity=".35"/></g></g></svg></div>
     </div>
   </div>
 

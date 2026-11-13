@@ -199,12 +199,16 @@
     .stage-bee{width:64px;top:40px;right:10px} .keyboard .krow{gap:4px} .key{min-width:26px;padding:0 2px}
     .stage::before{left:50%;transform:translateX(-50%)}
   }
+  .home-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;font-family:"Space Mono",monospace;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:2px solid var(--navy);border-radius:999px;padding:7px 16px;background:#fff;box-shadow:3px 3px 0 var(--navy)}
+  .home-link:hover{background:var(--cream)}
+  a.btn{text-decoration:none;display:inline-flex;align-items:center}
 </style>
 </head>
 <body>
 
 <!-- ================= SETUP ================= -->
 <section id="setup" class="wrap">
+  <a class="home-link" href="../">← All games</a>
   <div class="hero">
     <div class="l">
       <p class="eyebrow">Oxford Games <b>•</b> Super Minds · Vocabulary</p>
@@ -286,6 +290,7 @@
   <div class="topbar">
     <span class="pill" id="gameTag"></span>
     <div class="actions">
+      <a class="btn btn-plain" href="../" onclick="return confirm('Leave this game and go back to all games?')">🏠 All games</a>
       <button class="btn btn-plain" id="undoBtn" title="Undo the last action">↩️ Undo</button>
       <button class="btn btn-plain" id="endBtn">🏁 Finish</button>
     </div>
@@ -346,6 +351,7 @@
   <div class="start-row">
     <button class="btn btn-honey btn-big" id="againBtn">Play again</button>
     <button class="btn btn-plain" id="backBtn">Change teams or units</button>
+    <a class="btn btn-plain" href="../">🏠 All games</a>
   </div>
 </section>
 

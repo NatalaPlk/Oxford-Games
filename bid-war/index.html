@@ -175,12 +175,16 @@
     .sentence-card{padding:56px 18px 26px}
     .topic-tag{left:24px;right:auto;top:40px;max-width:none;text-align:left}
   }
+  .home-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;font-family:"Space Mono",monospace;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:2px solid var(--navy);border-radius:999px;padding:7px 16px;background:#fff;box-shadow:3px 3px 0 var(--navy)}
+  .home-link:hover{background:var(--cream)}
+  a.btn{text-decoration:none;display:inline-flex;align-items:center}
 </style>
 </head>
 <body>
 
 <!-- ================= SETUP ================= -->
 <section id="setup" class="wrap">
+  <a class="home-link" href="../">← All games</a>
   <div class="hero">
     <div class="l">
       <div class="eyebrow">Oxford Games <b>•</b> Prepare 1–8 · Grammar</div>
@@ -240,6 +244,7 @@
   <div class="topbar">
     <span class="tag" id="gameTag"></span>
     <div class="actions">
+      <a class="btn btn-ghost" href="../" onclick="return confirm('Leave this game and go back to all games?')">🏠 All games</a>
       <button class="btn btn-ghost" id="undoBtn" title="Undo the last sale">↩ Undo</button>
       <button class="btn btn-ghost" id="endBtn">Finish</button>
     </div>
@@ -291,6 +296,7 @@
   <div class="start-row">
     <button class="btn btn-gold btn-big" id="againBtn">Play again →</button>
     <button class="btn btn-ghost" id="backBtn">Change teams or book</button>
+    <a class="btn btn-ghost" href="../">🏠 All games</a>
   </div>
 </section>
 

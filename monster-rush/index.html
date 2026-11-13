@@ -136,6 +136,11 @@
   .flash .word{position:absolute;bottom:10px;left:0;right:0;font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:.1em;color:var(--muted)}
   .flash .peek{position:absolute;top:8px;right:10px;font-size:13px;font-family:var(--mono);font-weight:700;background:var(--paper);border:2px solid #c9c6dd;color:var(--muted);border-radius:999px;padding:3px 10px}
   .flash.small{font-size:clamp(46px,7vw,76px)}
+  .flash.photo{width:min(440px,80vw);aspect-ratio:4/3;overflow:hidden;background:#fff}
+  .flash.photo .pic{position:absolute;inset:0}
+  .flash.photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .flash.photo .word{background:rgba(255,255,255,.88);bottom:0;padding:6px 0}
+  .credits{text-align:center;margin-top:24px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted)}
   .fb{position:absolute;inset:0;display:grid;place-items:center;font-size:120px;pointer-events:none;opacity:0}
   .fb.show{animation:fb .6s ease-out}
   @keyframes fb{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.1)}100%{opacity:0;transform:scale(1)}}
@@ -234,6 +239,7 @@
     <div class="row" style="margin-top:14px">
       <label class="switch"><input type="checkbox" id="showWord"> Show the English word on the card</label>
       <label class="switch"><input type="checkbox" id="sayWord"> Say the word after each answer</label>
+      <label class="switch"><input type="checkbox" id="usePhotos"> Real photos <small style="font-weight:400;color:var(--muted)">(untick = drawings)</small></label>
     </div>
     <div class="hint">In each round every team has one turn. A turn ends when the pictures run out or the time is up. Correct = the monster jumps forward one square · Wrong = the monster is sad · Pass = a little hop, no move.</div>
   </div>
@@ -241,6 +247,7 @@
   <div class="start-row">
     <button class="btn btn-red btn-big" id="startBtn">Start the race! 🏁</button>
   </div>
+  <p class="credits">📷 Photos: <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> / Wikipedia (free licences – <a href="photos/credits.json" target="_blank" rel="noopener">credits</a>)</p>
 </section>
 
 <!-- ================= GAME ================= -->
@@ -306,6 +313,7 @@
 
 <script src="../spelling-bee/words.js"></script>
 <script src="monsters.js"></script>
+<script src="photos/photos.js"></script>
 <script>
 const STORE_KEY = "monster-rush-v1";
 const $ = id => document.getElementById(id);
@@ -313,7 +321,13 @@ function loadStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) |
 function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){} }
 const store = loadStore();
 const cfg = Object.assign({ book: "sms", teamCount: 2, names: ["","","",""], mons: ["gobo","plum","blinky","tango"],
-  rounds: 3, perTurn: 8, secs: 30, showWord: false, say: true, off: {} }, store.cfg || {});
+  rounds: 3, perTurn: 8, secs: 30, showWord: false, say: true, photos: true, off: {} }, store.cfg || {});
+// real photos (photos/photos.js lists the downloaded files); words without one keep their drawing
+const PHOTO_FILES = typeof PHOTOS !== "undefined" ? PHOTOS : {};
+const slugOf = w => w.toLowerCase().replace(/[^a-z]+/g, "-");
+const photoOf = w => cfg.photos && PHOTO_FILES[slugOf(w)] ? "photos/" + PHOTO_FILES[slugOf(w)] : null;
+const preloaded = {};
+function preload(w){ const src = w && photoOf(w.w); if (src && !preloaded[src]) { const im = new Image(); im.src = src; preloaded[src] = im; } }
 cfg.off = cfg.off || {};
 
 // Words edited in Spelling Bee ("Edit words") are used here too
@@ -357,7 +371,7 @@ function renderSetup(){
   });
   renderTeamPickers();
   $("rounds").value = String(cfg.rounds); $("perTurn").value = String(cfg.perTurn); $("turnSecs").value = String(cfg.secs);
-  $("showWord").checked = cfg.showWord; $("sayWord").checked = cfg.say;
+  $("showWord").checked = cfg.showWord; $("sayWord").checked = cfg.say; $("usePhotos").checked = cfg.photos;
 }
 function renderTeamPickers(){
   const tn = $("teamNames"); tn.innerHTML = "";
@@ -447,7 +461,7 @@ const team = () => G.teams[G.turn];
 
 function startGame(){
   cfg.rounds = +$("rounds").value; cfg.perTurn = +$("perTurn").value; cfg.secs = +$("turnSecs").value;
-  cfg.showWord = $("showWord").checked; cfg.say = $("sayWord").checked;
+  cfg.showWord = $("showWord").checked; cfg.say = $("sayWord").checked; cfg.photos = $("usePhotos").checked;
   store.cfg = cfg; saveStore();
   const pool = parseWords(bookText(cfg.book)).filter(u => unitOn(u.name)).flatMap(u => u.words);
   if (!pool.length) { alert("Choose at least one unit with pictures."); return; }
@@ -520,9 +534,11 @@ function renderFlash(){
     f.className = "flash back"; f.innerHTML = G.phase === "turnEnd" ? "★" : "?"; return;
   }
   const c = G.card, n = typeof Intl !== "undefined" && Intl.Segmenter ? [...new Intl.Segmenter().segment(c.pic)].length : c.pic.length;
-  f.className = "flash" + (n > 1 ? " small" : "");
+  const src = photoOf(c.w);
+  f.className = "flash" + (src ? " photo" : n > 1 ? " small" : "");
   f.innerHTML = '<span class="pic"></span><span class="word hidden"></span><button class="peek" type="button" title="Show the word (for the teacher)">👁 word</button><div class="fb" id="fb"></div>';
-  f.querySelector(".pic").textContent = c.pic;
+  if (src) { const im = document.createElement("img"); im.src = src; im.alt = ""; im.onerror = () => { f.classList.remove("photo"); f.querySelector(".pic").textContent = c.pic; }; f.querySelector(".pic").appendChild(im); }
+  else f.querySelector(".pic").textContent = c.pic;
   const w = f.querySelector(".word"); w.textContent = c.w;
   w.classList.toggle("hidden", !cfg.showWord);
   f.querySelector(".peek").classList.toggle("hidden", cfg.showWord);
@@ -534,6 +550,7 @@ function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 8
 function drawCard(){
   if (G.di >= G.deck.length) { G.deck = shuffle(G.pool.slice()); G.di = 0; }
   G.card = G.deck[G.di++]; G.shown++;
+  preload(G.deck[G.di]); preload(G.deck[G.di + 1]);
 }
 function go(){
   if (G.phase !== "ready") return;

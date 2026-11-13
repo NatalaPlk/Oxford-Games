@@ -31,6 +31,7 @@ Play: https://natalaplk.github.io/Oxford-Games/spelling-bee/
 
 A flashcard race for children aged 6–12 with the **Super Minds** Starter–6 vocabulary.
 
+- Flashcards use real photos (free licences from Wikimedia Commons / Wikipedia, see `monster-rush/photos/credits.json`); words without a clear photo use a drawing.
 - 1–4 teams, each with its own monster (Gobo, Plum, Blinky or Tango).
 - Choose the number of rounds, pictures per turn and the time per turn (e.g. 20–30 s).
 - On each turn the team names the pictures; the teacher presses ✔ Correct, ✘ Wrong or ⏭ Pass (keys 1 / 2 / 3).

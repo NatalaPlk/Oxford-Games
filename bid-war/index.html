@@ -113,6 +113,16 @@
   .bidval input{width:110px;background:transparent;border:0;color:var(--yellow);font-family:var(--mono);font-size:40px;font-weight:700;text-align:center;outline:none}
   .bidval input::-webkit-inner-spin-button{display:none}
   .sell-col{display:flex;flex-direction:column;gap:10px;min-width:220px}
+  .steps{list-style:none;margin:0 0 14px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .steps li{display:flex;align-items:center;gap:10px;background:var(--paper);border:2px dashed #b9b6d3;border-radius:16px;padding:10px 14px;font-size:15px;line-height:1.3;color:var(--muted);transition:all .2s}
+  .steps .n{flex:none;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#e4e1f0;color:var(--muted);font-family:"Space Mono",monospace;font-weight:700;font-size:17px}
+  .steps li.now{background:var(--yellow);border:2px solid var(--navy);color:var(--navy);box-shadow:4px 4px 0 var(--navy);animation:nudge 1.4s ease-in-out infinite}
+  .steps li.now .n{background:var(--navy);color:#fff}
+  .steps li.done{color:var(--navy)} .steps li.done .n{background:#14a35a;color:#fff;font-size:0}
+  .steps li.done .n::after{content:"✓";font-size:18px}
+  @keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  .teams.pickme .team:not(.broke){animation:pickme 1.4s ease-in-out infinite;cursor:pointer}
+  @keyframes pickme{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
   .btn-sell{font-size:26px;padding:18px 26px;font-family:var(--display);font-weight:900;text-transform:uppercase}
   .btn-sell:disabled{background:#d8d6e6;color:#8e8cae;box-shadow:none;cursor:not-allowed}
   .nobody{font-size:15px;padding:10px 14px}
@@ -160,6 +170,7 @@
     .hero{grid-template-columns:1fr}
     .hero .r{min-height:160px}
     .auction{grid-template-columns:1fr}
+    .steps{grid-template-columns:1fr}
     .sell-col{min-width:0}
     .sentence-card{padding:56px 18px 26px}
     .topic-tag{left:24px;right:auto;top:40px;max-width:none;text-align:left}
@@ -243,6 +254,12 @@
       <p class="sentence" id="sentenceText"></p>
       <div class="q">Correct or incorrect? How much would you pay for it?</div>
     </div>
+
+    <ol class="steps" id="steps">
+      <li id="step1"><span class="n">1</span><span><b>Click the team</b> that wins the bid</span></li>
+      <li id="step2"><span class="n">2</span><span><b>Choose the bid</b> with −10 −1 +1 +10</span></li>
+      <li id="step3"><span class="n">3</span><span><b>Press SOLD!</b> to see if it's correct</span></li>
+    </ol>
 
     <div class="auction">
       <div>
@@ -1494,6 +1511,12 @@ function currentBid(){ return parseInt($("bidInput").value) || 0; }
 function updateAuction(){
   const bid = currentBid(), warn = $("bidWarn"), sell = $("sellBtn");
   warn.textContent = "";
+  const step = (id, cls) => { $(id).className = cls; };
+  const picked = G.sel != null;
+  step("step1", picked ? "done" : "now");
+  step("step2", picked ? "now" : "");
+  step("step3", picked && bid >= 1 && bid <= G.teams[G.sel].coins ? "now" : "");
+  $("teamsBoard").classList.toggle("pickme", !picked);
   if (G.sel == null) {
     $("whoLabel").innerHTML = "Click the team that wins the bid";
     sell.disabled = true; return;

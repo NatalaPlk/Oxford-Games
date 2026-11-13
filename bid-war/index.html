@@ -1705,5 +1705,23 @@ window.addEventListener("resize", () => { if (G && !G.over && !$("game").classLi
 
 renderSetup();
 </script>
+<script src="../shared/howto.js"></script>
+<script>setHowTo({
+  title: "Bid War",
+  intro: "Teams buy sentences at an auction. Only buy a sentence if you think it is <b>correct</b>!",
+  steps: [
+    ["⚙️", "<b>Set up:</b> choose the book, the grammar topics, the teams and the coins. Press <b>Start the auction</b>."],
+    ["📖", "Read the sentence on the screen. Is it correct or incorrect?"],
+    ["🙋", "Teams bid coins for the sentence. The team that offers the most wins the bid."],
+    ["👆", "<b>Click the team</b> that wins the bid, then <b>choose the bid</b> with −10 −1 +1 +10 (or ALL IN)."],
+    ["🔨", "Press <b>SOLD!</b> Correct sentence → the team wins ⭐ 1 point and pays its bid. Incorrect sentence → the team loses its bid and the correction appears."],
+    ["🏆", "The game ends when a team reaches the winning points or a team runs out of coins."]
+  ],
+  tips: [
+    "If no team wants a sentence, press <b>Nobody buys it</b>.",
+    "Made a mistake? Press <b>↩ Undo</b>.",
+    "Add your own sentences with <b>✏️ Edit sentences</b>."
+  ]
+});</script>
 </body>
 </html>

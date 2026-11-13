@@ -881,5 +881,23 @@ $("startBtn").addEventListener("click", () => setTimeout(() => { if (G && G.idx 
 
 renderSetup(); buildKeyboard(); drawBees();
 </script>
+<script src="../shared/howto.js"></script>
+<script>setHowTo({
+  title: "Spelling Bee",
+  intro: "Teams take turns to spell words out loud, letter by letter.",
+  steps: [
+    ["⚙️", "<b>Set up:</b> choose the book, the units, the teams and the options (timer, word length, pictures…). Press <b>Start!</b>"],
+    ["🔊", "Press <b>Listen</b> (or <b>🐢 Slowly</b>) to hear the word. The picture and its word type help."],
+    ["🗣️", "The team spells the word out loud, letter by letter."],
+    ["⌨️", "The teacher types each letter they say. If you can't hear a letter, press <b>❓ Didn't hear</b> (that makes the word wrong). Then press <b>✔ Check</b>."],
+    ["🍯", "Correct = 🍯🍯 2 points (🍯 1 if the team used <b>💡 First letter</b>). Wrong = another team can <b>steal</b> it for 🍯 1."],
+    ["🏆", "The team with the most honey at the end wins!"]
+  ],
+  tips: [
+    "Keyboard: type letters, <kbd>?</kbd> = didn't hear, <kbd>Backspace</kbd> = delete, <kbd>Enter</kbd> = check / next word.",
+    "You can also just press <b>✔ Correct</b> or <b>✘ Wrong</b>.",
+    "For little ones, choose <b>3-letter words</b> in the options."
+  ]
+});</script>
 </body>
 </html>

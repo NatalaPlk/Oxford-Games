@@ -690,5 +690,23 @@ document.addEventListener("keydown", e => {
 
 renderSetup();
 </script>
+<script src="../shared/howto.js"></script>
+<script>setHowTo({
+  title: "Monster Rush",
+  intro: "A flashcard race! Name the pictures fast to move your monster to the finish.",
+  steps: [
+    ["⚙️", "<b>Set up:</b> choose the book, the units and the teams. Click a monster to change it. Choose rounds, pictures per turn and time."],
+    ["▶️", "When the team is ready, press <b>Go!</b> The clock starts."],
+    ["🖼️", "The team says the word for each picture as fast as they can."],
+    ["✔️", "The teacher presses <b>✔ Correct</b> (the monster jumps forward), <b>✘ Wrong</b> (the monster is sad) or <b>⏭ Pass</b> (next picture, no move)."],
+    ["➜", "When the pictures or the time run out, press <b>Next team</b>."],
+    ["🏆", "After the last round, the monster furthest along the track wins!"]
+  ],
+  tips: [
+    "Keyboard: <kbd>Space</kbd> = Go / next, <kbd>1</kbd> = correct, <kbd>2</kbd> = wrong, <kbd>3</kbd> = pass.",
+    "Press <b>👁 word</b> to see the word (for the teacher).",
+    "Made a mistake? Press <b>↩ Undo</b>."
+  ]
+});</script>
 </body>
 </html>

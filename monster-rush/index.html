@@ -145,10 +145,19 @@
   .timer div{height:100%;width:100%;background:var(--mint);transition:width .25s linear}
   .timer.low div{background:var(--brand)}
   .timeleft{font-family:var(--mono);font-weight:700;font-size:14px;margin-top:-10px;margin-bottom:12px;color:var(--muted)}
-  .judge{display:flex;justify-content:center;flex-wrap:wrap;gap:14px}
-  .judge .btn{font-size:24px;padding:16px 30px;color:#fff;font-family:var(--display);font-weight:900;text-transform:uppercase;box-shadow:4px 4px 0 var(--navy)}
-  .judge .btn small{display:block;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.1em;opacity:.8}
-  .b-ok{background:var(--ok)} .b-bad{background:var(--brand)} .b-pass{background:var(--yellow);color:var(--navy)!important}
+  .ask{margin:0 0 12px;font-weight:700;color:var(--muted)} .ask b{color:var(--navy)}
+  .options{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:640px;margin:0 auto}
+  .opt-btn{position:relative;font-family:var(--display);font-weight:900;font-size:clamp(20px,2.6vw,30px);color:var(--navy);background:#fff;border:3px solid var(--navy);border-radius:18px;padding:18px 10px 16px;box-shadow:5px 5px 0 var(--c,var(--navy));cursor:pointer;transition:transform .1s,box-shadow .1s,background .15s;word-break:break-word}
+  .opt-btn:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--c,var(--navy));background:var(--paper)}
+  .opt-btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:2px 2px 0 var(--c,var(--navy))}
+  .opt-btn .k{position:absolute;top:6px;left:10px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted);text-transform:none}
+  .opt-btn:disabled{cursor:default}
+  .opt-btn.right{background:var(--ok);color:#fff;animation:pop .4s ease}
+  .opt-btn.wrong{background:var(--brand);color:#fff;animation:shake .4s ease}
+  .opt-btn.dim{opacity:.35}
+  @keyframes pop{50%{transform:scale(1.08)}}
+  @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+  @media (max-width:560px){.options{grid-template-columns:1fr}}
   .ready h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(26px,4vw,40px);margin:6px 0 4px}
   .ready p{margin:0 0 16px;color:var(--muted)}
   .side-panel{background:var(--navy);color:#fff;border-radius:22px;padding:18px;box-shadow:6px 6px 0 var(--brand)}
@@ -196,11 +205,11 @@
     <div class="l">
       <p class="eyebrow">Oxford Games <b>•</b> Super Minds · Vocabulary</p>
       <h1>Monster<span class="w2">Rush</span></h1>
-      <p>Name the picture, fast! Every right answer moves your monster one step to the finish.</p>
+      <p>Look at the picture and click the right word! Every right answer moves your monster one step to the finish.</p>
     </div>
     <div class="r" id="heroMonsters"><span class="sticker">AGES 6–12</span></div>
   </div>
-  <div class="marquee"><div><i>CORRECT <b>→</b> ¡BIEN!</i><i>PASS <b>→</b> PASA</i><i>FAST <b>→</b> RÁPIDO</i><i>WINNER <b>→</b> GANADOR</i><i>READY? <b>→</b> ¿LISTOS?</i><i>GO! <b>→</b> ¡YA!</i><i>CORRECT <b>→</b> ¡BIEN!</i><i>PASS <b>→</b> PASA</i><i>FAST <b>→</b> RÁPIDO</i><i>WINNER <b>→</b> GANADOR</i><i>READY? <b>→</b> ¿LISTOS?</i><i>GO! <b>→</b> ¡YA!</i></div></div>
+  <div class="marquee"><div><i>CORRECT <b>→</b> ¡BIEN!</i><i>CHOOSE <b>→</b> ELIGE</i><i>WORD <b>→</b> PALABRA</i><i>WINNER <b>→</b> GANADOR</i><i>READY? <b>→</b> ¿LISTOS?</i><i>GO! <b>→</b> ¡YA!</i><i>CORRECT <b>→</b> ¡BIEN!</i><i>CHOOSE <b>→</b> ELIGE</i><i>WORD <b>→</b> PALABRA</i><i>WINNER <b>→</b> GANADOR</i><i>READY? <b>→</b> ¿LISTOS?</i><i>GO! <b>→</b> ¡YA!</i></div></div>
 
   <div class="panel">
     <p class="eyebrow">01 · Book</p>
@@ -238,11 +247,10 @@
       </label>
     </div>
     <div class="row" style="margin-top:14px">
-      <label class="switch"><input type="checkbox" id="showWord"> Show the English word on the card</label>
-      <label class="switch"><input type="checkbox" id="sayWord"> Say the word after each answer</label>
+      <label class="switch"><input type="checkbox" id="sayWord"> Say the right word after each answer</label>
       <label class="switch"><input type="checkbox" id="usePhotos"> Real photos <small style="font-weight:400;color:var(--muted)">(untick = drawings)</small></label>
     </div>
-    <div class="hint">In each round every team has one turn. A turn ends when the pictures run out or the time is up. Correct = the monster jumps forward one square · Wrong = the monster is sad · Pass = a little hop, no move.</div>
+    <div class="hint">In each round every team has one turn. The team looks at the picture and clicks the right word out of three similar words (same unit, same kind of word). Right = the monster jumps forward one square · Wrong = the monster is sad and the right word lights up green. A turn ends when the pictures run out or the time is up.</div>
   </div>
 
   <div class="start-row">
@@ -280,11 +288,8 @@
       <div id="playBox" class="hidden">
         <div class="timer" id="timer"><div id="timerBar"></div></div>
         <div class="timeleft" id="timeLeft"></div>
-        <div class="judge">
-          <button class="btn b-ok" id="okBtn">✔ Correct<small>key 1</small></button>
-          <button class="btn b-bad" id="badBtn">✘ Wrong<small>key 2</small></button>
-          <button class="btn b-pass" id="passBtn">⏭ Pass<small>key 3</small></button>
-        </div>
+        <p class="ask">Which word is it? <b>Click it!</b></p>
+        <div class="options" id="options"></div>
       </div>
 
       <div id="endTurnBox" class="turnend hidden">
@@ -297,7 +302,7 @@
     <aside class="side-panel">
       <h3 id="sideTitle">THIS TURN</h3>
       <div class="big"><div class="mon" id="sideMon"></div><div id="sideName" style="font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase"></div></div>
-      <div class="tally"><span class="t-ok"><small>CORRECT</small><b id="tOk">0</b></span><span class="t-bad"><small>WRONG</small><b id="tBad">0</b></span><span class="t-pass"><small>PASS</small><b id="tPass">0</b></span></div>
+      <div class="tally"><span class="t-ok"><small>CORRECT</small><b id="tOk">0</b></span><span class="t-bad"><small>WRONG</small><b id="tBad">0</b></span></div>
       <div class="log" id="log"></div>
     </aside>
   </div>
@@ -351,7 +356,7 @@ function parseWords(txt){
     const m = line.match(/^([A-Za-z][A-Za-z\- ]*[A-Za-z]|[A-Za-z])\s*(.*)$/);
     if (!m || !m[2].trim()) return;                    // flashcards need a picture
     if (!cur) { cur = { name: "Words", words: [] }; units.push(cur); }
-    cur.words.push({ w: m[1].trim(), pic: m[2].trim() });
+    cur.words.push({ w: m[1].trim(), pic: m[2].trim(), unit: cur.name });
   });
   return units.filter(u => u.words.length);
 }
@@ -378,7 +383,7 @@ function renderSetup(){
   });
   renderTeamPickers();
   $("rounds").value = String(cfg.rounds); $("perTurn").value = String(cfg.perTurn); $("turnSecs").value = String(cfg.secs);
-  $("showWord").checked = cfg.showWord; $("sayWord").checked = cfg.say; $("usePhotos").checked = cfg.photos;
+  $("sayWord").checked = cfg.say; $("usePhotos").checked = cfg.photos;
 }
 function renderTeamPickers(){
   const tn = $("teamNames"); tn.innerHTML = "";
@@ -466,7 +471,7 @@ const team = () => G.teams[G.turn];
 
 function startGame(){
   cfg.rounds = +$("rounds").value; cfg.perTurn = +$("perTurn").value; cfg.secs = +$("turnSecs").value;
-  cfg.showWord = $("showWord").checked; cfg.say = $("sayWord").checked; cfg.photos = $("usePhotos").checked;
+  cfg.say = $("sayWord").checked; cfg.photos = $("usePhotos").checked;
   store.cfg = cfg; saveStore();
   const pool = parseWords(bookText(cfg.book)).filter(u => unitOn(u.name)).flatMap(u => u.words);
   if (!pool.length) { alert("Choose at least one unit with pictures."); return; }
@@ -528,9 +533,8 @@ function render(){
   $("sideName").textContent = t.name;
   $("tOk").textContent = turnLog.filter(l => l.r === "ok").length;
   $("tBad").textContent = turnLog.filter(l => l.r === "bad").length;
-  $("tPass").textContent = turnLog.filter(l => l.r === "pass").length;
   const lg = $("log"); lg.innerHTML = "";
-  turnLog.forEach(l => { const b = document.createElement("b"); b.className = l.r; b.textContent = (l.r === "ok" ? "✔ " : l.r === "bad" ? "✘ " : "⏭ ") + l.w; lg.appendChild(b); });
+  turnLog.forEach(l => { const b = document.createElement("b"); b.className = l.r; b.textContent = (l.r === "ok" ? "✔ " : "✘ ") + l.w; lg.appendChild(b); });
   updateTrack();
 }
 function renderFlash(){
@@ -542,13 +546,18 @@ function renderFlash(){
   const src = photoOf(c);
   $("wtype").textContent = wordTypeLabel(c.w, c.pic); $("wtype").className = "wtype " + wordType(c.w, c.pic);
   f.className = "flash" + (src ? " photo" : n > 1 ? " small" : "");
-  f.innerHTML = '<span class="pic"></span><span class="word hidden"></span><button class="peek" type="button" title="Show the word (for the teacher)">👁 word</button><div class="fb" id="fb"></div>';
+  f.innerHTML = '<span class="pic"></span><div class="fb" id="fb"></div>';
   if (src) { const im = document.createElement("img"); im.src = src; im.alt = ""; im.onerror = () => { f.classList.remove("photo"); f.querySelector(".pic").textContent = c.pic; }; f.querySelector(".pic").appendChild(im); }
   else f.querySelector(".pic").textContent = c.pic;
-  const w = f.querySelector(".word"); w.textContent = c.w;
-  w.classList.toggle("hidden", !cfg.showWord);
-  f.querySelector(".peek").classList.toggle("hidden", cfg.showWord);
-  f.querySelector(".peek").onclick = e => { e.stopPropagation(); w.classList.toggle("hidden"); };
+  // the three words to choose from
+  const box = $("options"); box.innerHTML = ""; locked = false;
+  (G.choices || [c.w]).forEach((w, i) => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "opt-btn"; b.dataset.w = w;
+    b.innerHTML = `<span class="k">${i + 1}</span><span></span>`; b.lastChild.textContent = w;
+    b.onclick = () => choose(i);
+    box.appendChild(b);
+  });
 }
 function flipCard(){ const f = $("flash"); f.classList.remove("flip"); void f.offsetWidth; f.classList.add("flip"); }
 
@@ -556,7 +565,25 @@ function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 8
 function drawCard(){
   if (G.di >= G.deck.length) { G.deck = shuffle(G.pool.slice()); G.di = 0; }
   G.card = G.deck[G.di++]; G.shown++;
+  G.choices = shuffle([G.card.w, ...distractors(G.card)]);
   preload(G.deck[G.di]); preload(G.deck[G.di + 1]);
+}
+// Two wrong answers that look like they belong with the right one:
+// same unit and same kind of word first (eye → ear, nose), then the same kind from the book, then any book.
+function distractors(c){
+  const base = w => w.toLowerCase().replace(/(es|s)$/, "");
+  const clash = (a, b) => { a = a.toLowerCase(); b = b.toLowerCase(); return a === b || base(a) === base(b) || a.includes(b) || b.includes(a); };
+  const type = wordType(c.w, c.pic), sameType = x => wordType(x.w, x.pic) === type;
+  const book = parseWords(bookText(cfg.book)), unit = (book.find(u => u.name === c.unit) || { words: [] }).words;
+  const bookAll = book.flatMap(u => u.words);
+  const everything = Object.keys(BOOKS).flatMap(id => parseWords(bookText(id)).flatMap(u => u.words));
+  const tiers = [unit.filter(sameType), bookAll.filter(sameType), unit, everything.filter(sameType), everything];
+  const out = [];
+  for (const tier of tiers) for (const x of shuffle(tier.slice())) {
+    if (out.length === 2) return out;
+    if (!clash(x.w, c.w) && !out.some(o => clash(o, x.w))) out.push(x.w);
+  }
+  return out;
 }
 function go(){
   if (G.phase !== "ready") return;
@@ -564,22 +591,36 @@ function go(){
   G.phase = "play"; G.shown = 0; drawCard();
   sGo(); render(); flipCard(); startTimer(cfg.secs);
 }
-function answer(r){
+let locked = false;
+// a child clicked word number i
+function choose(i){
+  if (G.phase !== "play" || !G.card || locked || !G.choices || !G.choices[i]) return;
+  locked = true;
+  const right = G.choices[i] === G.card.w;
+  document.querySelectorAll("#options .opt-btn").forEach((b, k) => {
+    b.disabled = true;
+    if (b.dataset.w === G.card.w) b.classList.add("right");
+    else if (k === i) b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+  answer(right ? "ok" : "bad", right ? 900 : 1700);
+}
+function answer(r, wait = 380){
   if (G.phase !== "play" || !G.card) return;
   snapshot();
   const t = team(), w = G.card.w;
   G.log.push({ team: G.turn, round: G.round, w, r });
   if (r === "ok") { t.pos++; t.ok++; sOk(); }
-  else if (r === "bad") { t.bad++; sBad(); }
-  else { t.pass++; sPass(); }
-  const fb = $("fb"); if (fb) { fb.textContent = r === "ok" ? "✔" : r === "bad" ? "✘" : "⏭"; fb.style.color = r === "ok" ? "#14a35a" : r === "bad" ? "#c8323c" : "#e0a800"; fb.classList.add("show"); }
+  else { t.bad++; sBad(); }
+  const fb = $("fb"); if (fb) { fb.textContent = r === "ok" ? "✔" : "✘"; fb.style.color = r === "ok" ? "#14a35a" : "#c8323c"; fb.classList.add("show"); }
   if (cfg.say) sayWord(w);
-  const i = G.turn;
+  const i = G.turn, card = G.card;
+  act(i, r === "ok" ? "hop" : "sad");
   setTimeout(() => {
+    if (G.phase !== "play" || G.card !== card) return;   // time ran out or undo meanwhile
     if (G.shown >= cfg.perTurn) { endTurn("All pictures done!"); }
     else { drawCard(); render(); flipCard(); }
-    act(i, r === "ok" ? "hop" : r === "bad" ? "sad" : "skip");
-  }, 380);
+  }, wait);
   updateTrack();
 }
 function endTurn(why){
@@ -662,9 +703,6 @@ $("startBtn").onclick = startGame;
 $("allUnits").onclick = () => setAllUnits(true);
 $("noUnits").onclick = () => setAllUnits(false);
 $("goBtn").onclick = go;
-$("okBtn").onclick = () => answer("ok");
-$("badBtn").onclick = () => answer("bad");
-$("passBtn").onclick = () => answer("pass");
 $("nextTurnBtn").onclick = nextTurn;
 $("undoBtn").onclick = undo;
 $("endBtn").onclick = () => { if (confirm("Finish the race now?")) finish(); };
@@ -674,9 +712,7 @@ document.addEventListener("keydown", e => {
   if (!G || $("game").classList.contains("hidden") || e.ctrlKey || e.metaKey || e.altKey) return;
   const k = e.key;
   if (G.phase === "ready" && (k === " " || k === "Enter")) go();
-  else if (G.phase === "play" && k === "1") answer("ok");
-  else if (G.phase === "play" && k === "2") answer("bad");
-  else if (G.phase === "play" && k === "3") answer("pass");
+  else if (G.phase === "play" && ["1","2","3"].includes(k)) choose(+k - 1);
   else if (G.phase === "turnEnd" && (k === " " || k === "Enter")) nextTurn();
   else return;
   e.preventDefault();
@@ -687,18 +723,18 @@ renderSetup();
 <script src="../shared/howto.js"></script>
 <script>setHowTo({
   title: "Monster Rush",
-  intro: "A flashcard race! Name the pictures fast to move your monster to the finish.",
+  intro: "Look at the picture and click the right word to move your monster to the finish!",
   steps: [
     ["⚙️", "<b>Set up:</b> choose the book, the units and the teams. Click a monster to change it. Choose rounds, pictures per turn and time."],
     ["▶️", "When the team is ready, press <b>Go!</b> The clock starts."],
-    ["🖼️", "The team says the word for each picture as fast as they can."],
-    ["✔️", "The teacher presses <b>✔ Correct</b> (the monster jumps forward), <b>✘ Wrong</b> (the monster is sad) or <b>⏭ Pass</b> (next picture, no move)."],
+    ["🖼️", "A picture appears with <b>three words</b>. They are similar words (for example <i>eye · ear · nose</i>), so look carefully!"],
+    ["👆", "The team <b>clicks the right word</b>. Right → the word turns green and the monster jumps forward. Wrong → the monster is sad and the right word turns green."],
     ["➜", "When the pictures or the time run out, press <b>Next team</b>."],
     ["🏆", "After the last round, the monster furthest along the track wins!"]
   ],
   tips: [
-    "Keyboard: <kbd>Space</kbd> = Go / next, <kbd>1</kbd> = correct, <kbd>2</kbd> = wrong, <kbd>3</kbd> = pass.",
-    "Press <b>👁 word</b> to see the word (for the teacher).",
+    "Keyboard: <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> = choose a word, <kbd>Space</kbd> = Go / next team.",
+    "The word type (noun, verb…) under the picture helps the children.",
     "Made a mistake? Press <b>↩ Undo</b>."
   ]
 });</script>

@@ -2,7 +2,7 @@
 
 Classroom games for English lessons. Home page: https://natalaplk.github.io/Oxford-Games/
 
-## Sentence Auction
+## Bid War
 
 A classroom team game for English lessons based on the grammar of the **Prepare** levels 1–8.
 
@@ -14,7 +14,7 @@ Teams start with coins and bid on sentences they think are correct:
 
 Features: 1–4 teams (renameable, default colour names), choose the Prepare level and grammar topics, 3 correct : 4 incorrect sentences in random order, undo, and an editor to add your own sentences (saved in the browser).
 
-Play: open `sentence-auction/index.html` in any browser, or use the GitHub Pages link: https://natalaplk.github.io/Oxford-Games/sentence-auction/
+Play: open `bid-war/index.html` in any browser, or use the GitHub Pages link: https://natalaplk.github.io/Oxford-Games/bid-war/
 
 ## Spelling Bee
 

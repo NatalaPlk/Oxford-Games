@@ -5,151 +5,184 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Spelling Bee</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --honey:#ffc531; --honey2:#f59e0b; --amber:#b45309; --ink:#3b2405; --cream:#fff8e6;
-    --bg:#fff4d1; --card:#ffffff; --muted:#8a6a3a; --ok:#16a34a; --bad:#e11d48; --line:#f3d78a;
-    --red:#ef4444; --blue:#3b82f6; --green:#22c55e; --purple:#a855f7;
+    --navy:#0b0957; --navy2:#16136f; --tileBg:#1c1a6e; --brand:#c8323c; --brand2:#a5242d;
+    --cream:#f3ead9; --paper:#faf6ee; --card:#ffffff; --yellow:#ffd257; --mint:#3ddc84;
+    --ink:#0b0957; --muted:#55537e; --ok:#14a35a; --bad:#c8323c;
+    /* team colours */
+    --red:#c8323c; --blue:#2f5bd3; --green:#14a35a; --purple:#7c3aed;
+    --display:"Archivo","Arial Black",Impact,sans-serif; --mono:"Space Mono",Consolas,monospace;
   }
   *{box-sizing:border-box}
   html,body{margin:0;min-height:100%}
-  body{
-    font-family:"Fredoka","Segoe UI Rounded","Segoe UI",system-ui,sans-serif;color:var(--ink);
-    background-color:var(--bg);
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='98' viewBox='0 0 56 98'%3E%3Cpath d='M28 66L0 50V16L28 0l28 16v34L28 66zm0 32L0 82V66l28 16 28-16v16L28 98z' fill='none' stroke='%23f6d77a' stroke-width='2'/%3E%3C/svg%3E");
-    min-height:100vh;
-  }
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh}
   button{font:inherit;cursor:pointer;border:0;color:inherit}
+  a{color:var(--navy);text-decoration-color:var(--brand);text-underline-offset:3px}
   .hidden{display:none!important}
-  .wrap{max-width:1150px;margin:0 auto;padding:20px 16px 40px}
+  .wrap{max-width:1150px;margin:0 auto;padding:22px 16px 48px}
+  .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
 
-  /* ---------- Setup ---------- */
-  .logo{text-align:center;margin:6px 0 20px}
-  .bee{display:inline-block;font-size:70px;animation:fly 3s ease-in-out infinite}
-  @keyframes fly{0%,100%{transform:translate(0,0) rotate(-6deg)}50%{transform:translate(10px,-10px) rotate(6deg)}}
-  .logo h1{margin:0;font-size:clamp(40px,7vw,68px);font-weight:700;color:var(--ink);letter-spacing:1px;text-shadow:0 4px 0 var(--honey)}
-  .logo p{margin:4px 0 0;font-size:20px;color:var(--muted)}
-  .panel{background:var(--card);border:3px solid var(--line);border-radius:24px;padding:20px;margin:0 auto 16px;max-width:900px;box-shadow:0 6px 0 var(--line)}
-  .panel h2{margin:0 0 12px;font-size:20px;font-weight:600}
+  /* ---------- Hero (setup) ---------- */
+  .hero{display:grid;grid-template-columns:1.4fr 1fr;border:2px solid var(--navy);border-radius:26px;overflow:hidden;margin-bottom:22px;box-shadow:6px 6px 0 var(--navy)}
+  .hero .l{background:var(--navy);color:#fff;padding:30px 30px 34px}
+  .hero .l .eyebrow{color:#fff;margin:0}
+  .hero .l .eyebrow b{color:#ff8a92}
+  .hero h1{margin:14px 0 6px;line-height:.86;font-family:var(--display);font-weight:900;font-size:clamp(58px,10vw,128px);letter-spacing:-.02em;text-transform:uppercase}
+  .hero h1 .w2{display:block;color:var(--brand);font-stretch:70%}
+  .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:32ch}
+  .hero .r{background:var(--brand);position:relative;display:grid;place-items:center;padding:26px;min-height:220px;overflow:hidden}
+  .hero .r::after{content:"";position:absolute;left:-20%;right:-20%;bottom:-48%;height:80%;border-radius:50%;background:var(--brand2)}
+  .bee{position:relative;z-index:1;display:inline-block;font-size:clamp(90px,12vw,150px);filter:drop-shadow(6px 6px 0 var(--navy));animation:fly 3s ease-in-out infinite}
+  @keyframes fly{0%,100%{transform:translate(0,0) rotate(-6deg)}50%{transform:translate(10px,-12px) rotate(6deg)}}
+  .sticker{position:absolute;z-index:2;top:22px;left:22px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
+  .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
+  .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
+  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
   .choices{display:flex;flex-wrap:wrap;gap:10px}
-  .chip{background:var(--cream);border:3px solid var(--line);padding:10px 16px;border-radius:16px;font-weight:600;font-size:17px;transition:.15s}
-  .chip:hover{border-color:var(--honey)}
-  .chip.on{background:var(--honey);border-color:var(--honey2);box-shadow:0 4px 0 var(--honey2)}
-  .chip.num{min-width:60px;font-size:24px}
-  .chip.unit{font-size:15px;padding:8px 13px;opacity:.55}
-  .chip.unit.on{opacity:1}
-  .chip.unit small{opacity:.6;font-weight:700}
-  .row{display:flex;flex-wrap:wrap;gap:18px;align-items:center}
-  .mini{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
-  .mini button{background:var(--cream);border:2px solid var(--line);border-radius:12px;padding:6px 12px;font-weight:600}
-  .hint{color:var(--muted);font-size:15px;margin-top:10px}
-  .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:14px}
-  .team-input{display:flex;align-items:center;gap:8px;border-radius:16px;padding:10px 12px;background:var(--cream);border:3px solid var(--c)}
-  .team-input .dot{width:22px;height:22px;border-radius:50%;background:var(--c);flex:none}
-  .team-input input{flex:1;min-width:0;background:transparent;border:0;font:inherit;font-size:19px;font-weight:600;color:var(--ink);outline:none}
-  .team-input input::placeholder{color:#b9975a}
-  .opt{display:flex;align-items:center;gap:10px;font-weight:600}
-  .mini-btn{background:var(--cream);border:3px solid var(--line);border-radius:12px;padding:6px 14px;font-weight:600;font-size:17px}
-  .opt select{font:inherit;font-size:17px;padding:6px 10px;border-radius:12px;border:3px solid var(--line);background:var(--cream);color:var(--ink)}
-  .switch{display:flex;align-items:center;gap:8px;font-weight:600;cursor:pointer}
-  .switch input{width:22px;height:22px;accent-color:var(--honey2)}
-  .start-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:6px}
-  .btn{padding:14px 24px;border-radius:18px;font-weight:700;font-size:19px;transition:transform .1s,filter .15s}
-  .btn:active{transform:translateY(3px)}
-  .btn-honey{background:var(--honey);box-shadow:0 6px 0 var(--honey2)}
-  .btn-honey:hover{filter:brightness(1.05)}
-  .btn-plain{background:var(--card);border:3px solid var(--line);box-shadow:0 5px 0 var(--line)}
-  .btn-big{font-size:26px;padding:18px 40px}
+  .chip{background:var(--card);border:2px solid var(--navy);color:var(--navy);padding:10px 18px;border-radius:999px;font-weight:700;font-size:16px;transition:background .15s}
+  .chip:hover{background:var(--cream)}
+  .chip.on{background:var(--navy);color:#fff}
+  .chip.num{min-width:58px;font-size:22px;font-family:var(--mono)}
+  .chip.unit{font-size:14px;padding:8px 14px;background:var(--paper);color:var(--muted);border-color:#c9c6dd}
+  .chip.unit.on{background:var(--yellow);color:var(--navy);border-color:var(--navy)}
+  .chip.unit small{font-family:var(--mono);opacity:.7}
+  .row{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+  .mini{display:flex;gap:10px;align-items:center;margin-top:14px;flex-wrap:wrap}
+  .mini button,.mini-btn{background:var(--card);border:2px solid var(--navy);border-radius:999px;padding:7px 16px;font-weight:700;font-size:14px}
+  .mini button:hover,.mini-btn:hover{background:var(--cream)}
+  .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
+  #unitCount{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+  .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-top:16px}
+  .team-input{display:flex;align-items:center;gap:10px;background:var(--paper);border:2px solid var(--navy);border-radius:999px;padding:8px 16px}
+  .team-input .dot{width:20px;height:20px;border-radius:50%;background:var(--c);border:2px solid var(--navy);flex:none}
+  .team-input input{flex:1;min-width:0;background:transparent;border:0;font:inherit;font-size:18px;font-weight:700;color:var(--navy);outline:none}
+  .team-input input::placeholder{color:#8e8cae}
+  .opt{display:flex;align-items:center;gap:10px;font-weight:700}
+  .opt select{font:inherit;font-size:16px;padding:7px 12px;border-radius:999px;border:2px solid var(--navy);background:var(--paper);color:var(--navy)}
+  .switch{display:flex;align-items:center;gap:8px;font-weight:700;cursor:pointer}
+  .switch input{width:20px;height:20px;accent-color:var(--navy)}
+  .start-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .btn{padding:14px 26px;border-radius:999px;font-weight:800;font-size:17px;border:2px solid var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
+  .btn:active{transform:translate(3px,3px);box-shadow:none!important}
+  .btn-honey{background:var(--brand);color:#fff;box-shadow:4px 4px 0 var(--navy)}
+  .btn-honey:hover{background:var(--brand2)}
+  .btn-plain{background:var(--card);color:var(--navy)}
+  .btn-plain:hover{background:var(--cream)}
+  .btn-big{font-size:22px;padding:18px 40px}
+  .credits{text-align:center;margin-top:24px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted)}
 
   /* ---------- Game ---------- */
-  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-  .pill{background:var(--card);border:3px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:600}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+  .pill{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:2px solid var(--navy);border-radius:999px;padding:8px 16px;background:var(--card)}
   .topbar .actions{display:flex;gap:8px}
-  .topbar .btn{font-size:15px;padding:8px 14px;border-radius:14px}
-  .teams{display:grid;gap:12px;margin-bottom:16px}
-  .team{position:relative;background:var(--card);border:4px solid var(--line);border-radius:22px;padding:12px 14px;text-align:left;transition:.2s}
-  .team.turn{border-color:var(--c);box-shadow:0 6px 0 var(--c);transform:translateY(-4px)}
-  .team.pickable{animation:wiggle .8s ease-in-out infinite;border-color:var(--c);cursor:pointer}
+  .topbar .btn{font-size:14px;padding:8px 16px}
+  .teams{display:grid;gap:16px;margin-bottom:22px}
+  .team{position:relative;background:var(--card);border:2px solid var(--navy);border-radius:22px;padding:16px 18px;box-shadow:5px 5px 0 var(--navy);text-align:left;transition:transform .2s,background .2s;overflow:hidden}
+  .team::before{content:"";position:absolute;inset:0 0 auto 0;height:10px;background:var(--c)}
+  .team.turn{background:var(--navy);color:#fff;transform:translate(-2px,-4px);box-shadow:7px 9px 0 var(--c)}
+  .team.pickable{animation:wiggle .8s ease-in-out infinite;cursor:pointer;background:var(--yellow)}
   @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-1.5deg)}75%{transform:rotate(1.5deg)}}
-  .team .tname{display:flex;align-items:center;gap:8px;font-size:21px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .team .tname .dot{width:18px;height:18px;border-radius:50%;background:var(--c);flex:none}
-  .team .score{font-size:34px;font-weight:700;margin-top:4px}
-  .team .turnflag{position:absolute;top:-14px;right:14px;background:var(--c);color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;opacity:0}
+  .team .tname{display:flex;align-items:center;gap:8px;margin-top:6px;font-family:var(--display);font-size:24px;font-weight:900;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .team .tname .dot{display:none}
+  .team .score{font-family:var(--mono);font-size:32px;font-weight:700;margin-top:4px}
+  .team .turnflag{position:absolute;top:20px;right:14px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;background:var(--yellow);color:var(--navy);padding:4px 8px;border-radius:999px;opacity:0}
   .team.turn .turnflag{opacity:1}
-  .delta{position:absolute;right:16px;bottom:10px;font-size:28px;font-weight:700;color:var(--ok);animation:up 1.5s ease-out forwards;pointer-events:none}
+  .delta{position:absolute;right:16px;bottom:10px;font-family:var(--mono);font-size:28px;font-weight:700;color:var(--mint);animation:up 1.5s ease-out forwards;pointer-events:none}
   @keyframes up{0%{opacity:0;transform:translateY(10px)}20%{opacity:1}100%{opacity:0;transform:translateY(-36px)}}
 
-  .stage{background:var(--card);border:4px solid var(--line);border-radius:30px;padding:22px 18px 24px;text-align:center;box-shadow:0 8px 0 var(--line);position:relative}
-  .whose{font-size:clamp(22px,3.4vw,32px);font-weight:700;margin:0 0 4px}
-  .whose span{color:var(--c)}
-  .counter{color:var(--muted);font-weight:600}
-  .picture{font-size:clamp(90px,15vw,150px);line-height:1.1;margin:10px 0 4px;min-height:1.1em}
+  /* the "departures board" */
+  .stage{background:var(--navy);color:#fff;border-radius:28px;padding:22px 22px 28px;text-align:center;box-shadow:8px 8px 0 var(--brand);position:relative}
+  .stage::before{content:"NOW SPELLING";position:absolute;top:22px;left:26px;font-family:var(--mono);font-weight:700;letter-spacing:.3em;color:var(--yellow);font-size:14px}
+  .whose{font-family:var(--display);font-size:clamp(24px,3.6vw,38px);font-weight:900;text-transform:uppercase;margin:34px 0 4px;letter-spacing:-.01em}
+  .whose span{color:var(--c);background:#fff;padding:0 10px;border-radius:8px;display:inline-block;margin-right:4px}
+  .counter{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a9a7d6}
+  .picture{display:inline-grid;place-items:center;width:clamp(130px,18vw,190px);height:clamp(130px,18vw,190px);margin:16px 0 6px;border-radius:50%;background:var(--paper);border:3px solid #fff;box-shadow:6px 6px 0 var(--brand);font-size:clamp(70px,10vw,110px);line-height:1}
   .picture.pop{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
   @keyframes pop{from{transform:scale(.3);opacity:0}}
-  .tiles{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:10px 0 16px;perspective:600px}
-  .tile{width:clamp(40px,6.4vw,64px);height:clamp(48px,7.6vw,76px);border-radius:14px;background:var(--honey);box-shadow:0 5px 0 var(--honey2);display:grid;place-items:center;font-size:clamp(26px,4.4vw,46px);font-weight:700;text-transform:uppercase;transition:transform .4s, background .4s}
-  .tile.show{background:#fff;border:3px solid var(--honey);box-shadow:0 5px 0 var(--line);animation:flip .45s ease-out both}
-  .tile.hint{background:#fff3c4}
-  .tile.hidden-count{width:auto;padding:0 18px;font-size:24px}
-  @keyframes flip{from{transform:rotateY(90deg)}to{transform:rotateY(0)}}
+  .tiles{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:16px 0 18px;perspective:600px}
+  .tile{position:relative;width:clamp(40px,6.2vw,62px);height:clamp(52px,8vw,80px);border-radius:8px;background:var(--tileBg);border:1px solid #2c2a85;display:grid;place-items:center;font-family:var(--mono);font-size:clamp(28px,4.6vw,48px);font-weight:700;text-transform:uppercase;color:#fff;overflow:hidden}
+  .tile::after{content:"";position:absolute;left:0;right:0;top:50%;height:2px;background:#08063f}
+  .tile.show{animation:flip .45s ease-out both}
+  .tile.hint{color:var(--yellow)}
+  .tile.hidden-count{width:auto;padding:0 22px;font-size:26px;letter-spacing:.2em}
+  @keyframes flip{0%{transform:rotateX(90deg)}60%{transform:rotateX(-12deg)}100%{transform:rotateX(0)}}
   .tools{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-bottom:16px}
-  .tool{background:var(--cream);border:3px solid var(--line);border-radius:18px;padding:12px 18px;font-size:20px;font-weight:600;box-shadow:0 4px 0 var(--line)}
-  .tool:hover{border-color:var(--honey)}
-  .tool:disabled{opacity:.4;cursor:not-allowed}
-  .tool.say{background:var(--honey);border-color:var(--honey2);box-shadow:0 4px 0 var(--honey2);font-size:24px}
-  .timer{height:14px;background:var(--cream);border-radius:999px;overflow:hidden;margin:0 auto 16px;max-width:520px;border:2px solid var(--line)}
-  .timer div{height:100%;width:100%;background:linear-gradient(90deg,var(--ok),var(--honey));transition:width 1s linear}
-  .timer.low div{background:var(--bad)}
+  .tool{background:transparent;border:2px solid #fff;color:#fff;border-radius:999px;padding:11px 20px;font-size:18px;font-weight:700}
+  .tool:hover{background:rgba(255,255,255,.1)}
+  .tool:disabled{opacity:.35;cursor:not-allowed}
+  .tool.say{background:var(--yellow);border-color:var(--yellow);color:var(--navy);font-size:22px;padding:12px 26px}
+  .timer{height:12px;background:rgba(255,255,255,.12);border-radius:999px;overflow:hidden;margin:0 auto 16px;max-width:520px}
+  .timer div{height:100%;width:100%;background:var(--mint);transition:width 1s linear}
+  .timer.low div{background:var(--brand)}
   .judge{display:flex;justify-content:center;flex-wrap:wrap;gap:14px}
-  .judge .btn{font-size:26px;padding:16px 34px;color:#fff}
-  .b-ok{background:var(--ok);box-shadow:0 6px 0 #0f7a36}
-  .b-bad{background:var(--bad);box-shadow:0 6px 0 #9f1239}
-  .message{font-size:clamp(22px,3.2vw,30px);font-weight:700;margin:4px 0 14px;min-height:1.3em}
-  .message.ok{color:var(--ok)} .message.bad{color:var(--bad)}
-  .worth{color:var(--muted);font-weight:600;margin-bottom:12px}
+  .judge .btn{font-size:24px;padding:16px 36px;color:#fff;border-color:#fff;font-family:var(--display);font-weight:900;text-transform:uppercase}
+  .b-ok{background:var(--ok);box-shadow:4px 4px 0 #fff}
+  .b-bad{background:var(--brand);box-shadow:4px 4px 0 #fff}
+  #noStealBtn{background:var(--card);color:var(--navy)!important;border-color:var(--navy);box-shadow:4px 4px 0 var(--yellow);font-family:"Archivo",sans-serif;text-transform:none;font-size:18px}
+  .message{font-family:var(--display);font-size:clamp(22px,3.2vw,32px);font-weight:900;text-transform:uppercase;margin:0 0 14px;min-height:1.2em}
+  .message.ok{color:var(--mint)} .message.bad{color:#ff8a92}
+  .worth{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#a9a7d6;margin-bottom:14px}
+  #donePhase .btn-honey{box-shadow:4px 4px 0 #fff;border-color:#fff}
 
   /* ---------- End ---------- */
   .end{text-align:center}
-  .end h1{font-size:clamp(38px,7vw,64px);margin:6px 0}
-  .podium{display:flex;justify-content:center;align-items:flex-end;gap:12px;margin:24px auto;max-width:720px;flex-wrap:wrap}
-  .pod{flex:1;min-width:140px;background:var(--card);border:4px solid var(--c);border-radius:22px 22px 10px 10px;padding:14px;box-shadow:0 6px 0 var(--c)}
-  .pod .medal{font-size:46px}
-  .pod .n{font-size:22px;font-weight:700;word-break:break-word}
-  .pod .s{font-size:30px;font-weight:700}
+  .end h1{font-family:var(--display);font-weight:900;font-size:clamp(46px,8vw,96px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;margin:10px 0}
+  .end .bee{filter:drop-shadow(5px 5px 0 var(--brand))}
+  .podium{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:26px auto;max-width:760px;flex-wrap:wrap}
+  .pod{flex:1;min-width:150px;background:var(--card);border:2px solid var(--navy);border-top:12px solid var(--c);border-radius:20px 20px 10px 10px;padding:14px;box-shadow:6px 6px 0 var(--navy)}
+  .pod .medal{font-size:44px}
+  .pod .n{font-family:var(--display);font-size:24px;font-weight:900;text-transform:uppercase;word-break:break-word}
+  .pod .s{font-family:var(--mono);font-size:28px;font-weight:700}
   .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
   @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
 
   /* ---------- Editor ---------- */
-  .overlay{position:fixed;inset:0;background:rgba(59,36,5,.55);display:grid;place-items:center;padding:16px;z-index:50}
-  .editor{width:min(900px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:24px;padding:22px}
-  .editor h2{margin:0 0 8px}
-  .editor .help{background:var(--cream);border-radius:14px;padding:12px 14px;font-size:15px;line-height:1.55}
-  .editor code{background:#ffe9a8;padding:1px 6px;border-radius:6px}
-  .editor textarea{width:100%;height:46vh;margin-top:12px;font:15px/1.5 Consolas,"Courier New",monospace;border:3px solid var(--line);border-radius:14px;padding:12px;color:var(--ink)}
+  .overlay{position:fixed;inset:0;background:rgba(11,9,87,.72);display:grid;place-items:center;padding:16px;z-index:50}
+  .editor{width:min(900px,100%);max-height:92vh;overflow:auto;background:var(--paper);border:2px solid var(--navy);border-radius:24px;padding:22px;box-shadow:8px 8px 0 var(--brand)}
+  .editor h2{margin:0 0 10px;font-family:var(--display);font-weight:900;text-transform:uppercase}
+  .editor .help{background:var(--card);border:2px solid var(--navy);border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.6}
+  .editor code{background:var(--cream);padding:1px 6px;border-radius:6px;font-family:var(--mono);font-size:13px}
+  .editor textarea{width:100%;height:46vh;margin-top:12px;font:14px/1.55 var(--mono);border:2px solid var(--navy);border-radius:14px;padding:12px;color:var(--navy);background:#fff}
   .editor .foot{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
-  .editor .count{color:var(--muted);font-weight:600}
+  .editor .count{font-family:var(--mono);font-size:13px;color:var(--muted);font-weight:700}
 
-  @media (max-width:640px){ .judge .btn{font-size:22px;padding:14px 22px} .tool{font-size:17px;padding:10px 14px} }
+  @media (max-width:760px){
+    .hero{grid-template-columns:1fr} .hero .r{min-height:160px}
+    .judge .btn{font-size:20px;padding:14px 22px} .tool{font-size:16px;padding:9px 14px}
+    .stage::before{left:50%;transform:translateX(-50%)}
+  }
 </style>
 </head>
 <body>
 
 <!-- ================= SETUP ================= -->
 <section id="setup" class="wrap">
-  <div class="logo">
-    <div class="bee">🐝</div>
-    <h1>Spelling Bee</h1>
-    <p>Listen, think… and spell it out loud!</p>
+  <div class="hero">
+    <div class="l">
+      <p class="eyebrow">Oxford Games <b>•</b> Super Minds · Vocabulary</p>
+      <h1>Spelling<span class="w2">Bee</span></h1>
+      <p>Listen, think… and spell it out loud as a team!</p>
+    </div>
+    <div class="r">
+      <span class="sticker">AGES 6–12</span>
+      <div class="bee">🐝</div>
+    </div>
   </div>
+  <div class="marquee"><div><i>LISTEN <b>→</b> ESCUCHA</i><i>SPELL <b>→</b> DELETREA</i><i>LETTER <b>→</b> LETRA</i><i>CORRECT <b>→</b> ¡BIEN!</i><i>STEAL <b>→</b> ¡ROBA!</i><i>WINNER <b>→</b> GANADOR</i><i>LISTEN <b>→</b> ESCUCHA</i><i>SPELL <b>→</b> DELETREA</i><i>LETTER <b>→</b> LETRA</i><i>CORRECT <b>→</b> ¡BIEN!</i><i>STEAL <b>→</b> ¡ROBA!</i><i>WINNER <b>→</b> GANADOR</i></div></div>
 
   <div class="panel">
-    <h2>📘 Book</h2>
+    <p class="eyebrow">01 · Book</p>
     <div class="choices" id="bookChoices"></div>
   </div>
 
   <div class="panel">
-    <h2>📚 Units</h2>
+    <p class="eyebrow">02 · Units</p>
     <div class="choices" id="unitChoices"></div>
     <div class="mini">
       <button id="allUnits">All</button>
@@ -159,14 +192,14 @@
   </div>
 
   <div class="panel">
-    <h2>👥 Teams</h2>
+    <p class="eyebrow">03 · Teams</p>
     <div class="choices" id="teamCountChoices"></div>
     <div class="teams-edit" id="teamNames"></div>
     <div class="hint">If you don't type a name, the team is named after its colour.</div>
   </div>
 
   <div class="panel">
-    <h2>⚙️ Game options</h2>
+    <p class="eyebrow">04 · Game options</p>
     <div class="row">
       <label class="opt">Words per team
         <select id="wordsPerTeam"><option>3</option><option>5</option><option>8</option><option>10</option><option>15</option></select>
@@ -183,13 +216,14 @@
       <button class="mini-btn" id="testVoice" type="button">🔊 Test</button>
     </div>
     <div class="hint hidden" id="voiceTip">💡 This browser only has robotic voices. For a natural voice, open the game in <b>Microsoft Edge</b> (voices marked ⭐) or <b>Google Chrome</b>.</div>
-    <div class="hint">A correct word is worth 🍯🍯 2 points, or 🍯 1 point if the team uses the first-letter hint. A stolen word is worth 🍯 1 point.</div>
+    <div class="hint">A correct word is worth <b>2 points</b>, or <b>1 point</b> if the team uses the first-letter hint. A stolen word is worth <b>1 point</b>.</div>
   </div>
 
   <div class="start-row">
     <button class="btn btn-plain" id="openEditor">✏️ Edit words</button>
     <button class="btn btn-honey btn-big" id="startBtn">Start! 🐝</button>
   </div>
+  <p class="credits">🎙️ Word recordings: real speakers from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> (free licences – <a href="audio/credits.json" target="_blank" rel="noopener">credits</a>)</p>
 </section>
 
 <!-- ================= GAME ================= -->
@@ -1248,7 +1282,31 @@ function speak(text, rate = 0.9){
   u.rate = rate; u.pitch = 1; u.volume = 1;
   speechSynthesis.speak(u);
 }
-function spellOut(word){ speak(word.toUpperCase().split("").filter(c => /[A-Z]/.test(c)).join(" … ") + " … " + word, 0.85); }
+// Real human recordings (Wikimedia Commons, see audio/credits.json). The voice is only a fallback.
+const RECORDED = new Set(["accident","actor","after","afternoon","applause","apple","archery","arm","art","astronaut","athletics","baby","bag","ball","balloon","baseball","basketball","bathroom","battery","beach","beans","bed","big","blanket","blizzard","blond","blue","boat","book","bookshop","boxing","bracelet","brazil","bread","breakfast","brother","brown","button","cafe","cake","camel","camera","campfire","camping","canoe","cap","captain","carpet","carriage","castle","chair","champion","cheese","chemist","chest","china","chocolate","church","cinema","classroom","clean","cliff","climbing","clock","coat","cold","compass","computer","concert","cough","countryside","cowboy","crater","crayon","crocodile","cucumber","cupboard","curly","curtain","customer","dance","danger","designer","desk","dictionary","dinner","dinosaur","doctor","dog","door","dress","drone","drummer","ear","earache","ears","earthquake","egg","egypt","electric","elephant","eleven","engine","engineer","english","eruption","evening","extinct","eye","eyes","factory","farmer","fencing","festival","fire","firefighter","fish","fishing","flag","flood","florist","foggy","football","footprint","forest","france","friday","friend","future","garden","gas","germany","giraffe","glasses","gloves","gold","goodbye","grandma","grandpa","grapes","gravity","green","greengrocer","guitarist","hair","hand","headphones","helicopter","hello","helmet","hippo","hockey","holiday","homework","hospital","house","hovercraft","hundred","iceberg","igloo","insect","inventor","ironing","island","italy","japan","jeans","jewellery","jewels","journalist","jump","jungle","keyboard","keyring","kitchen","kite","lamp","laptop","leaves","leg","lemon","library","lighthouse","luggage","lunch","machine","magnet","market","maths","measure","medicine","mexico","microphone","microscope","milk","mirror","mission","monday","monkey","moon","morning","motorway","mountain","moustache","mouth","music","neck","necklace","new","newsagent","nineteen","nose","notebook","nurse","old","one","onion","orange","paint","parrot","passport","pear","pen","pepper","pharaoh","photographer","piano","picnic","pirate","planet","playwright","poisonous","police","ponytail","pool","potato","pottery","prehistoric","princess","programmer","quarter","rainforest","rainy","red","river","rucksack","ruler","sailor","sandcastle","satellite","saturday","sausage","sausages","saw","saxophone","scarf","school","scientist","scissors","sea","seahorse","seven","shark","shelf","shell","sheriff","shirt","shop","shopping","silver","singer","single","sister","skating","skeleton","skirt","snake","socks","solid","souvenir","spaceship","spacesuit","spain","square","stage","star","storm","stormy","strawberries","strawberry","submarine","sun","sunday","table","tablet","teacher","teddy","television","temple","tennis","thursday","ticket","tidy","timetable","toes","torch","towel","treasure","tree","trousers","trumpet","tsunami","tuesday","twenty","two","unicorn","valley","vet","village","volleyball","wardrobe","water","wave","wednesday","wheel","window","windy","yoghurt"]);
+const slug = w => w.toLowerCase().replace(/[^a-z]+/g, "-");
+let player = null;
+function sayWord(word, slow = false){
+  if (RECORDED.has(slug(word)) && cfg.recordings !== false) {
+    if ("speechSynthesis" in window) speechSynthesis.cancel();
+    if (player) player.pause();
+    player = new Audio("audio/" + slug(word) + ".mp3");
+    player.preservesPitch = true;
+    player.playbackRate = slow ? 0.7 : 1;
+    player.play().catch(() => speak(word, slow ? 0.6 : 0.9));
+    return;
+  }
+  speak(word, slow ? 0.6 : 0.9);
+}
+function spellOut(word){
+  if (!("speechSynthesis" in window)) { sayWord(word); return; }
+  speechSynthesis.cancel(); if (player) player.pause();
+  const u = new SpeechSynthesisUtterance(word.toUpperCase().split("").filter(c => /[A-Z]/.test(c)).join(" … "));
+  if (voice) { u.voice = voice; u.lang = voice.lang; } else u.lang = "en-GB";
+  u.rate = 0.85;
+  u.onend = () => setTimeout(() => sayWord(word), 250);
+  speechSynthesis.speak(u);
+}
 
 let actx = null;
 function beep(freqs, dur = .14, type = "sine"){
@@ -1303,7 +1361,7 @@ function renderTeams(deltas = {}){
     const pickable = G.phase === "steal" && i !== turnTeam();
     el.className = "team" + (i === turnTeam() && G.phase === "ask" ? " turn" : "") + (pickable ? " pickable" : "") + (G.stealer === i && G.phase === "stealAsk" ? " turn" : "");
     el.style.setProperty("--c", t.color);
-    el.innerHTML = `<span class="turnflag">${G.phase === "stealAsk" ? "STEALING" : "YOUR TURN"}</span><div class="tname"><span class="dot"></span><span class="n"></span></div><div class="score">🍯 ${t.score}</div>`;
+    el.innerHTML = `<span class="turnflag">${G.phase === "stealAsk" ? "STEALING" : "YOUR TURN"}</span><div class="tname"><span class="dot"></span><span class="n"></span></div><div class="score">${t.score} <small style="font-size:14px;letter-spacing:.14em">PTS</small></div>`;
     el.querySelector(".n").textContent = t.name;
     if (deltas[i]) { const d = document.createElement("span"); d.className = "delta"; d.textContent = "+" + deltas[i]; el.appendChild(d); }
     if (pickable) el.onclick = () => startSteal(i);
@@ -1367,13 +1425,13 @@ function markBad(){
   if (G.phase === "ask" && cfg.steal && G.teams.length > 1) { G.phase = "steal"; render(); sndBad(); return; }
   G.result = "bad"; G.resultText = "The correct spelling is…"; G.phase = "done"; render(); sndBad(); setTimeout(() => spellOut(cur().w), 500);
 }
-function startSteal(i){ snapshot(); G.stealer = i; G.phase = "stealAsk"; render(); speak(cur().w); }
+function startSteal(i){ snapshot(); G.stealer = i; G.phase = "stealAsk"; render(); sayWord(cur().w); }
 function noSteal(){ snapshot(); G.result = "bad"; G.resultText = "Nobody stole it. The correct spelling is…"; G.phase = "done"; render(); setTimeout(() => spellOut(cur().w), 300); }
 function nextWord(){
   if (G.idx + 1 >= G.deck.length) { finish(); return; }
   snapshot();
   G.idx++; G.phase = "ask"; G.hint = false; G.stealer = null; G.result = null; G.resultText = "";
-  render(true); setTimeout(() => speak(cur().w), 400);
+  render(true); setTimeout(() => sayWord(cur().w), 400);
 }
 function undo(){ if (!undoStack.length) return; G = JSON.parse(undoStack.pop()); G.lastDeltas = null; if (!$("game").classList.contains("hidden")) render(); }
 
@@ -1405,7 +1463,7 @@ function finish(){
     const d = document.createElement("div");
     d.className = "pod"; d.style.setProperty("--c", t.color);
     d.style.paddingTop = (40 - place * 12) + "px";
-    d.innerHTML = `<div class="medal">${medals[Math.min(place, 3)]}</div><div class="n"></div><div class="s">🍯 ${t.score}</div>`;
+    d.innerHTML = `<div class="medal">${medals[Math.min(place, 3)]}</div><div class="n"></div><div class="s">${t.score} <small style="font-size:14px;letter-spacing:.14em">PTS</small></div>`;
     d.querySelector(".n").textContent = t.name;
     pod.appendChild(d);
   });
@@ -1444,8 +1502,8 @@ function saveEditor(){
 $("startBtn").onclick = startGame;
 $("allUnits").onclick = () => setAllUnits(true);
 $("noUnits").onclick = () => setAllUnits(false);
-$("sayBtn").onclick = () => speak(cur().w);
-$("slowBtn").onclick = () => speak(cur().w, 0.6);
+$("sayBtn").onclick = () => sayWord(cur().w);
+$("slowBtn").onclick = () => sayWord(cur().w, true);
 $("voiceSel").onchange = () => { voice = englishVoices.find(v => v.name === $("voiceSel").value) || voice; cfg.voice = voice ? voice.name : ""; store.cfg = cfg; saveStore(); speak("Hello! Let's spell. Elephant."); };
 $("testVoice").onclick = () => speak("Hello! Let's spell. Elephant.");
 $("hintBtn").onclick = useHint;
@@ -1465,7 +1523,7 @@ $("edReset").onclick = () => { if (confirm("Restore the original words for this 
 $("edText").oninput = countEditor;
 window.addEventListener("resize", () => { if (G && !$("game").classList.contains("hidden")) renderTeams(); });
 // Say the first word when the game starts (needs a click first in most browsers)
-$("startBtn").addEventListener("click", () => setTimeout(() => { if (G && G.idx === 0 && G.phase === "ask") speak(cur().w); }, 500));
+$("startBtn").addEventListener("click", () => setTimeout(() => { if (G && G.idx === 0 && G.phase === "ask") sayWord(cur().w); }, 500));
 
 renderSetup();
 </script>

@@ -116,7 +116,9 @@
   .whose{font-family:var(--display);font-size:clamp(24px,3.6vw,38px);font-weight:900;text-transform:uppercase;margin:34px 0 4px;letter-spacing:-.01em}
   .whose span{color:var(--c);background:#fff;padding:0 10px;border-radius:8px;display:inline-block;margin-right:4px}
   .counter{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#a9a7d6}
-  .picture{display:inline-grid;place-items:center;width:clamp(130px,18vw,190px);height:clamp(130px,18vw,190px);margin:16px 0 6px;border-radius:50%;background:var(--paper);border:3px solid #fff;box-shadow:6px 6px 0 var(--brand);font-size:clamp(70px,10vw,110px);line-height:1}
+  .picture{display:inline-grid;place-items:center;width:clamp(130px,18vw,190px);height:clamp(130px,18vw,190px);margin:16px 0 6px;border-radius:50%;background:var(--paper);border:3px solid #fff;box-shadow:6px 6px 0 var(--brand);font-size:clamp(70px,10vw,110px);line-height:1;position:relative}
+  .picture.bee-pic svg{width:68%;height:auto}
+  .pic-tag{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--yellow);color:var(--navy);border:2px solid var(--navy);border-radius:999px;padding:3px 12px;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.06em}
   .picture.pop{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
   @keyframes pop{from{transform:scale(.3);opacity:0}}
   .tiles{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:16px 0 18px;perspective:600px}
@@ -260,7 +262,7 @@
       <label class="opt">⏱️ Timer
         <select id="timerSecs"><option value="0">Off</option><option value="20">20 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option></select>
       </label>
-      <label class="switch"><input type="checkbox" id="showPicture"> Show picture</label>
+      <label class="switch"><input type="checkbox" id="showPicture"> Show picture <small style="font-weight:400;color:var(--muted)">(untick = harder)</small></label>
       <label class="switch"><input type="checkbox" id="showLetters"> Show number of letters</label>
       <label class="switch"><input type="checkbox" id="allowSteal"> Other teams can steal</label>
     </div>
@@ -400,12 +402,12 @@ bag 🎒
 ruler 📏
 crayon 🖍️
 chair 🪑
-table
+table 🪑
 door 🚪
 window 🪟
 
 ## Unit 2: My Body
-head
+head 🙂
 arm 💪
 leg 🦵
 foot 🦶
@@ -466,8 +468,8 @@ teacher 🧑‍🏫
 farmer 🧑‍🌾
 cook 🧑‍🍳
 pilot 🧑‍✈️
-nurse
-vet
+nurse 👩‍⚕️
+vet 🐶
 firefighter 🧑‍🚒
 
 ## Unit 8: My Clothes
@@ -476,7 +478,7 @@ dress 👗
 socks 🧦
 shoes 👟
 coat 🧥
-skirt
+skirt 👗
 trousers 👖
 shirt 👔
 
@@ -487,34 +489,34 @@ swim 🏊
 run 🏃
 paint 🎨
 read 📖
-jump
+jump 🦘
 football ⚽
 `},
   sm1: { name: "Super Minds 1", text: `
 ## Welcome: Friends
 hello 👋
 goodbye 👋
-friend
-eleven
-twelve
-thirteen
-fourteen
-fifteen
-sixteen
-seventeen
-eighteen
-nineteen
-twenty
+friend 🧑‍🤝‍🧑
+eleven 1️⃣1️⃣
+twelve 🕛
+thirteen 1️⃣3️⃣
+fourteen 1️⃣4️⃣
+fifteen 1️⃣5️⃣
+sixteen 1️⃣6️⃣
+seventeen 1️⃣7️⃣
+eighteen 1️⃣8️⃣
+nineteen 1️⃣9️⃣
+twenty 2️⃣0️⃣
 
 ## Unit 1: At School
 pencil ✏️
-rubber
+rubber 🧽
 ruler 📏
 book 📕
 bag 🎒
 crayon 🖍️
-desk
-board
+desk 🖥️
+board 🧑‍🏫
 chair 🪑
 computer 💻
 
@@ -528,10 +530,10 @@ robot 🤖
 teddy 🧸
 plane ✈️
 car 🚗
-big
-small
-new
-old
+big 🐘
+small 🐭
+new 🆕
+old 👴
 
 ## Unit 3: Pet Show
 dog 🐶
@@ -565,14 +567,14 @@ Thursday 📅
 Friday 📅
 Saturday 📅
 Sunday 📅
-week
+week 📅
 
 ## Unit 6: The Old House
 kitchen 🍳
 bedroom 🛏️
 bathroom 🛁
 garden 🌻
-stairs
+stairs 🪜
 sofa 🛋️
 bed 🛏️
 lamp 💡
@@ -581,7 +583,7 @@ house 🏠
 ## Unit 7: Get Dressed
 shirt 👔
 jeans 👖
-jumper
+jumper 🧶
 shorts 🩳
 boots 🥾
 scarf 🧣
@@ -591,20 +593,20 @@ trousers 👖
 socks 🧦
 
 ## Unit 8: The Robot
-head
-shoulders
-knees
-toes
-fingers
+head 🙂
+shoulders 🤷
+knees 🦵
+toes 🦶
+fingers 🖐️
 arms 💪
 legs 🦵
 feet 🦶
-neck
-body
+neck 🦒
+body 🧍
 
 ## Unit 9: At The Beach
 sea 🌊
-sand
+sand 🏖️
 shell 🐚
 sun ☀️
 boat ⛵
@@ -612,17 +614,17 @@ beach 🏖️
 holiday 🧳
 sandcastle 🏰
 crab 🦀
-towel
+towel 🛁
 `},
   sm2: { name: "Super Minds 2", text: `
 ## Welcome: Back To School
-classroom
+classroom 🏫
 scissors ✂️
-glue
+glue 🧴
 notebook 📓
 calculator 🧮
 dictionary 📖
-poster
+poster 🖼️
 pencil ✏️
 
 ## Unit 1: My Day
@@ -632,11 +634,11 @@ dinner 🍝
 shower 🚿
 teeth 🦷
 morning 🌅
-afternoon
+afternoon 🌤️
 evening 🌆
 clock ⏰
-quarter
-half
+quarter 🕒
+half 🌓
 
 ## Unit 2: The Zoo
 kangaroo 🦘
@@ -675,19 +677,19 @@ beans 🫘
 pepper 🫑
 
 ## Unit 5: My Bedroom
-wardrobe
-shelf
-cupboard
+wardrobe 🚪
+shelf 📚
+cupboard 🗄️
 mirror 🪞
-rug
-curtains
+rug 🟥
+curtains 🪟
 clock ⏰
 lamp 💡
 bed 🛏️
-desk
+desk 🖥️
 
 ## Unit 6: People
-face
+face 😀
 eyes 👀
 nose 👃
 mouth 👄
@@ -733,8 +735,8 @@ golf ⛳
 
 ## Unit 9: Holiday Plans
 mountain ⛰️
-lake
-river
+lake 🏞️
+river 🏞️
 forest 🌲
 island 🏝️
 camping ⛺
@@ -745,45 +747,45 @@ beach 🏖️
 `},
   sm3: { name: "Super Minds 3", text: `
 ## Unit 1: Our School
-English
+English 🇬🇧
 maths ➗
 science 🔬
-history
+history 🏛️
 geography 🌍
 art 🎨
 music 🎵
 subject
-timetable
+timetable 🗓️
 before
 after
 
 ## Unit 2: The Picnic
 picnic 🧺
 biscuits 🍪
-crisps
+crisps 🥔
 lemonade 🍋
-blanket
+blanket 🛏️
 strawberries 🍓
 sausages 🌭
-yoghurt
+yoghurt 🥛
 cucumber 🥒
 sandwiches 🥪
 
 ## Unit 3: Daily Tasks
-wash
-clean
-tidy
+wash 🧼
+clean 🧹
+tidy 🧹
 sweep 🧹
 dishes 🍽️
 rubbish 🗑️
 shopping 🛒
-ironing
+ironing 👕
 homework 📝
 minutes 🕒
 
 ## Unit 4: Around Town
 bridge 🌉
-square
+square ⬛
 statue 🗽
 castle 🏰
 church ⛪
@@ -791,7 +793,7 @@ theatre 🎭
 factory 🏭
 restaurant 🍽️
 hotel 🏨
-market
+market 🛒
 
 ## Unit 5: Under The Sea
 octopus 🐙
@@ -801,7 +803,7 @@ dolphin 🐬
 jellyfish 🪼
 crab 🦀
 starfish ⭐
-seahorse
+seahorse 🐠
 turtle 🐢
 squid 🦑
 
@@ -809,22 +811,22 @@ squid 🦑
 camera 📷
 laptop 💻
 phone 📱
-tablet
+tablet 📱
 headphones 🎧
 keyboard ⌨️
 printer 🖨️
 battery 🔋
 television 📺
-remote
+remote 📺
 
 ## Unit 7: In The Hospital
 headache 🤕
-cough
+cough 😷
 cold 🤧
 temperature 🌡️
 toothache 🦷
 earache 👂
-nurse
+nurse 👩‍⚕️
 medicine 💊
 ambulance 🚑
 plaster 🩹
@@ -851,18 +853,18 @@ foggy 🌫️
 stormy ⛈️
 umbrella ☂️
 sunglasses 🕶️
-weather
+weather 🌦️
 `},
   sm4: { name: "Super Minds 4", text: `
 ## Welcome: At Town Events
 parade 🎉
 fireworks 🎆
-festival
+festival 🎪
 band 🎺
 balloon 🎈
-costume
-crowd
-stage
+costume 🦸
+crowd 👥
+stage 🎭
 flag 🚩
 prize 🏆
 
@@ -874,20 +876,20 @@ castle 🏰
 sword 🗡️
 shield 🛡️
 crown 👑
-armour
+armour 🛡️
 princess 👸
 museum 🏛️
 
 ## Unit 2: The World Around Us
 hill ⛰️
-valley
-field
-waterfall
-cave
-path
+valley 🏞️
+field 🌾
+waterfall 💦
+cave 🕳️
+path 🥾
 village 🏘️
-countryside
-river
+countryside 🌳
+river 🏞️
 forest 🌲
 
 ## Unit 3: Danger
@@ -895,46 +897,46 @@ fire 🔥
 ambulance 🚑
 police 🚓
 emergency 🚨
-accident
+accident 💥
 helmet ⛑️
-rescue
+rescue 🚁
 danger ⚠️
 alarm 🚨
 firefighter 🧑‍🚒
 
 ## Unit 4: Two Return Tickets
 ticket 🎫
-platform
-timetable
+platform 🚉
+timetable 🗓️
 luggage 🧳
-journey
-passenger
+journey 🧳
+passenger 🧳
 carriage 🚃
 station 🚉
-single
-return
+single 🎫
+return 🔁
 
 ## Unit 5: Police
-curly
-straight
-blond
+curly 👩‍🦱
+straight 👩
+blond 👱
 moustache 🥸
 beard 🧔
-freckles
-fringe
-ponytail
-bald
+freckles 🧒
+fringe 💇
+ponytail 👧
+bald 👨‍🦲
 glasses 👓
 
 ## Unit 6: Mythical Beasts
 wings 🪽
-tail
-claws
-horns
-beak
-scales
+tail 🐒
+claws 🐾
+horns 🦏
+beak 🦜
+scales 🐟
 feathers 🪶
-fur
+fur 🐻
 dragon 🐉
 unicorn 🦄
 
@@ -944,10 +946,10 @@ trumpet 🎺
 drums 🥁
 guitar 🎸
 piano 🎹
-flute
+flute 🎶
 saxophone 🎷
-recorder
-orchestra
+recorder 🎶
+orchestra 🎻
 triangle 🔺
 
 ## Unit 8: In The Planetarium
@@ -960,7 +962,7 @@ Earth 🌍
 comet ☄️
 telescope 🔭
 galaxy 🌌
-space
+space 🌌
 
 ## Unit 9: At The Campsite
 tent ⛺
@@ -972,7 +974,7 @@ compass 🧭
 map 🗺️
 rucksack 🎒
 climbing 🧗
-campsite
+campsite 🏕️
 `},
   sm5: { name: "Super Minds 5", text: `
 ## Welcome: The Science Lesson
@@ -980,24 +982,24 @@ experiment 🧪
 scientist 🧑‍🔬
 magnet 🧲
 microscope 🔬
-liquid
-solid
-gas
+liquid 💧
+solid 🧊
+gas 💨
 temperature 🌡️
 result
 measure 📏
 
 ## Unit 1: Disaster
 volcano 🌋
-earthquake
+earthquake 🌍
 flood 🌊
-ash
-lava
-eruption
-disaster
+ash 🌋
+lava 🌋
+eruption 🌋
+disaster 🌪️
 tsunami 🌊
-damage
-survive
+damage 🏚️
+survive 💪
 
 ## Unit 2: In The Rainforest
 rainforest 🌳
@@ -1006,10 +1008,10 @@ sloth 🦥
 butterfly 🦋
 leaves 🍃
 insect 🐜
-poisonous
+poisonous ☠️
 hundred 💯
-thousand
-million
+thousand 🔢
+million 💰
 
 ## Unit 3: The Rock And Roll Show
 concert 🎤
@@ -1018,18 +1020,18 @@ audience 👏
 guitarist 🎸
 drummer 🥁
 microphone 🎤
-stage
+stage 🎭
 speakers 🔊
-fans
+fans 📣
 ticket 🎫
 
 ## Unit 4: Space Restaurant
 menu 📋
-waiter
-starter
+waiter 🍽️
+starter 🥗
 dessert 🍨
 bill 🧾
-order
+order 📝
 delicious 😋
 first 🥇
 second 🥈
@@ -1039,20 +1041,20 @@ third 🥉
 cowboy 🤠
 horse 🐴
 sheriff ⭐
-saloon
+saloon 🤠
 desert 🏜️
 cactus 🌵
 gold 🪙
-ranch
-wagon
-lasso
+ranch 🐴
+wagon 🛒
+lasso 🤠
 
 ## Unit 6: In Istanbul
 souvenir 🎁
-carpet
-bracelet
+carpet 🟥
+bracelet 💍
 necklace 📿
-postcard
+postcard 📮
 keyring 🔑
 jewellery 💍
 pottery 🏺
@@ -1061,36 +1063,36 @@ spices 🌶️
 
 ## Unit 7: The Story Teller
 theatre 🎭
-actor
+actor 🎭
 audience 👏
-costume
+costume 🦸
 script 📜
-scene
-curtain
+scene 🎬
+curtain 🎭
 playwright ✍️
 applause 👏
 story 📖
 
 ## Unit 8: Museum Of The Future
 engineer 👷
-architect
+architect 📐
 scientist 🧑‍🔬
 journalist 📰
-designer
+designer ✏️
 photographer 📸
 programmer 💻
 mechanic 🔧
 inventor 💡
-future
+future 🔮
 
 ## Unit 9: Mystery At Sea
-captain
-deck
-cabin
+captain 👨‍✈️
+deck 🚢
+cabin 🛏️
 anchor ⚓
-sailor
+sailor ⚓
 island 🏝️
-lighthouse
+lighthouse 🗼
 storm ⛈️
 wave 🌊
 lifeboat 🛟
@@ -1098,50 +1100,50 @@ lifeboat 🛟
   sm6: { name: "Super Minds 6", text: `
 ## Welcome: Outside At School
 playground 🛝
-bench
-fence
-gate
+bench 🪑
+fence 🚧
+gate 🚪
 slide 🛝
-swings
-path
-field
+swings 🎢
+path 🥾
+field 🌾
 bin 🗑️
 tree 🌳
 
 ## Unit 1: The Treasure
 pirate 🏴‍☠️
 treasure 💰
-chest
+chest 💎
 parrot 🦜
 island 🏝️
 map 🗺️
 diamond 💎
-silver
+silver 🥈
 gold 🪙
 jewels 💍
 
 ## Unit 2: Future Transport
-hovercraft
+hovercraft 🛥️
 spaceship 🚀
-submarine
+submarine 🌊
 electric ⚡
-engine
-passenger
-journey
-drone
+engine ⚙️
+passenger 🧳
+journey 🧳
+drone 🚁
 helicopter 🚁
-motorway
+motorway 🛣️
 
 ## Unit 3: Ancient Egypt
 pyramid 🔺
-pharaoh
-mummy
-tomb
+pharaoh 👑
+mummy 🧟
+tomb ⚱️
 desert 🏜️
 camel 🐫
-temple
-Nile
-statue
+temple 🛕
+Nile 🏜️
+statue 🗿
 hieroglyphs 📜
 
 ## Unit 4: Olympic Sports
@@ -1172,7 +1174,7 @@ souvenir 🎁
 hammer 🔨
 screwdriver 🪛
 saw 🪚
-drill
+drill 🔩
 scissors ✂️
 ladder 🪜
 machine ⚙️
@@ -1183,24 +1185,24 @@ wheel 🛞
 ## Unit 7: This Is Houston
 astronaut 🧑‍🚀
 rocket 🚀
-spacesuit
-launch
-orbit
-gravity
+spacesuit 👩‍🚀
+launch 🚀
+orbit 🛰️
+gravity 🍎
 satellite 🛰️
-crater
-mission
-landing
+crater 🌑
+mission 🚀
+landing 🛬
 
 ## Unit 8: A Cold Place
 iceberg 🧊
-glacier
+glacier 🏔️
 walrus 🦭
 seal 🦭
 penguin 🐧
-igloo
+igloo ⛄
 sledge 🛷
-Arctic
+Arctic 🐻‍❄️
 blizzard 🌨️
 reindeer 🦌
 
@@ -1209,12 +1211,12 @@ dinosaur 🦕
 fossil 🦴
 skeleton 💀
 volcano 🌋
-swamp
-cliff
+swamp 🐊
+cliff ⛰️
 jungle 🌴
-extinct
+extinct 🦕
 footprint 🐾
-prehistoric
+prehistoric 🦖
 `}
 };
 
@@ -1485,7 +1487,17 @@ function render(newWord = false){
   else { whose.innerHTML = '<span></span>, spell this word!'; whose.style.setProperty("--c", t.color); whose.querySelector("span").textContent = t.name; }
   $("counter").textContent = `Word ${G.idx + 1} of ${G.deck.length} · ${w.unit}`;
   const pic = $("picture");
-  pic.textContent = cfg.picture || G.phase === "done" ? (w.pic || "🐝") : "🐝";
+  const picHidden = !cfg.picture && G.phase !== "done";
+  if (w.pic && !picHidden) {
+    pic.className = "picture"; pic.textContent = w.pic;
+    // two-emoji pictures (e.g. 1️⃣1️⃣) need a smaller size to fit in the circle
+    const n = typeof Intl !== "undefined" && Intl.Segmenter ? [...new Intl.Segmenter().segment(w.pic)].length : w.pic.length;
+    pic.style.fontSize = n > 1 ? "clamp(38px,5.4vw,60px)" : "";
+  } else {
+    // no picture (or pictures switched off): the bee asks the children to listen
+    pic.className = "picture bee-pic"; pic.style.fontSize = "";
+    pic.innerHTML = beeSVG("happy") + '<span class="pic-tag">🔊 Listen!</span>';
+  }
   if (newWord) { pic.classList.remove("pop"); void pic.offsetWidth; pic.classList.add("pop"); }
 
   renderTiles();

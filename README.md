@@ -41,3 +41,14 @@ A picture-and-word race for children aged 6–12 with the **Super Minds** Starte
 - The monster furthest along the track at the end wins.
 
 Play: https://natalaplk.github.io/Oxford-Games/monster-rush/
+
+## Word Express
+
+A word-building race for all levels. Teams get a set of letters (6–9) and make as many English words as they can before the time runs out.
+
+- Every set of letters can make at least 20 words that students know (Super Minds and Prepare vocabulary first, then everyday English). Words are checked against the ENABLE word list (public domain); the teacher can accept a real word that isn't in it.
+- 1–4 teams, each driving a train with a monster driver in a train cap. Choose turns per team (default 2) and time per turn (default 30 s).
+- Right word: it turns into coal, flies into the furnace and the team's train moves forward. Wrong word: it crumbles into steam.
+- After each turn the game shows other words the team could have made. The train furthest along wins.
+
+Play: https://natalaplk.github.io/Oxford-Games/word-express/

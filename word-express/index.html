@@ -1,0 +1,744 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word Express</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b0957; --brand:#c8323c; --brand2:#a5242d;
+    --cream:#f3ead9; --paper:#faf6ee; --card:#ffffff; --yellow:#ffd257; --mint:#3ddc84;
+    --ink:#0b0957; --muted:#55537e; --ok:#14a35a;
+    --display:"Archivo","Arial Black",Impact,sans-serif; --mono:"Space Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden}
+  button{font:inherit;cursor:pointer;border:0;color:inherit}
+  a{color:var(--navy);text-decoration-color:var(--brand);text-underline-offset:3px}
+  .hidden{display:none!important}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 48px}
+  .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
+  .home-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:2px solid var(--navy);border-radius:999px;padding:7px 16px;background:#fff;box-shadow:3px 3px 0 var(--navy)}
+  .home-link:hover{background:var(--cream)}
+  a.btn{text-decoration:none;display:inline-flex;align-items:center}
+
+  /* ---------- Hero ---------- */
+  .hero{display:grid;grid-template-columns:1.15fr 1fr;border:2px solid var(--navy);border-radius:26px;overflow:hidden;margin-bottom:22px;box-shadow:6px 6px 0 var(--navy)}
+  .hero .l{background:var(--navy);color:#fff;padding:30px 30px 34px}
+  .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
+  .hero h1{margin:14px 0 6px;line-height:.86;font-family:var(--display);font-weight:900;font-size:clamp(58px,10vw,118px);letter-spacing:-.02em;text-transform:uppercase}
+  .hero h1 .w2{display:block;color:var(--brand);font-stretch:70%}
+  .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:34ch}
+  .hero .r{position:relative;background:linear-gradient(#bfe6ff 0 62%,#7fd6a6 62% 100%);display:flex;align-items:flex-end;justify-content:center;padding:60px 10px 26px;min-height:250px;overflow:hidden}
+  .hero .r .rail{position:absolute;left:0;right:0;bottom:18px}
+  .hero .r .loco{width:min(92%,380px);position:relative;z-index:1;animation:heroChug 1.2s ease-in-out infinite}
+  @keyframes heroChug{50%{transform:translateY(-3px)}}
+  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
+  .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
+  .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
+  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--card);border:2px solid var(--navy);color:var(--navy);padding:10px 18px;border-radius:999px;font-weight:700;font-size:16px}
+  .chip:hover{background:var(--cream)}
+  .chip.on{background:var(--navy);color:#fff}
+  .chip.num{min-width:58px;font-size:22px;font-family:var(--mono)}
+  .row{display:flex;flex-wrap:wrap;gap:20px;align-items:center}
+  .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
+  .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+  .team-pick{display:flex;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--navy);border-radius:20px;padding:10px 14px;border-top:10px solid var(--c)}
+  .team-pick .mon{width:70px;flex:none;cursor:pointer;transition:transform .15s;padding-top:14px}
+  .team-pick .mon:hover{transform:scale(1.08) rotate(-4deg)}
+  .team-pick .side{flex:1;min-width:0}
+  .team-pick input{width:100%;background:#fff;border:2px solid var(--navy);border-radius:999px;padding:7px 12px;font:inherit;font-size:17px;font-weight:700;color:var(--navy);outline:none}
+  .team-pick input::placeholder{color:#8e8cae}
+  .team-pick .swap{margin-top:6px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;background:transparent;color:var(--muted);text-decoration:underline}
+  .opt{display:flex;align-items:center;gap:10px;font-weight:700}
+  .opt select{font:inherit;font-size:16px;padding:7px 12px;border-radius:999px;border:2px solid var(--navy);background:var(--paper);color:var(--navy)}
+  .start-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .btn{padding:14px 26px;border-radius:999px;font-weight:800;font-size:17px;border:2px solid var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
+  .btn:active{transform:translate(3px,3px);box-shadow:none!important}
+  .btn-red{background:var(--brand);color:#fff;box-shadow:4px 4px 0 var(--navy)}
+  .btn-red:hover{background:var(--brand2)}
+  .btn-plain{background:var(--card);color:var(--navy)}
+  .btn-plain:hover{background:var(--cream)}
+  .btn-big{font-size:22px;padding:18px 40px}
+  .btn:disabled{opacity:.4;cursor:default}
+
+  /* ---------- locomotive ---------- */
+  .loco{position:relative;display:block}
+  .loco svg{display:block;width:100%;height:auto;overflow:visible}
+  .loco .back,.loco .front{position:relative}
+  .loco .front{position:absolute;inset:0}
+  .loco .driver{position:absolute;left:9.5%;bottom:22%;width:27%}
+  .loco .wheel{transform-box:fill-box;transform-origin:center}
+  .loco.chug .wheel{animation:spin .5s linear 2}
+  .loco.chug{animation:chug .5s ease-in-out 2}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes chug{25%{transform:translateX(4px) rotate(-.6deg)}75%{transform:translateX(-2px)}}
+  .loco .fire{transform-box:fill-box;transform-origin:50% 100%;animation:flicker .35s ease-in-out infinite alternate}
+  .loco.roar .fire{animation:roar .7s ease-out}
+  .loco .glow{opacity:.55;transition:opacity .2s}
+  .loco.roar .glow{opacity:1}
+  @keyframes flicker{to{transform:scale(1.06,.9)}}
+  @keyframes roar{0%{transform:scale(1)}30%{transform:scale(1.5,1.7)}100%{transform:scale(1)}}
+  .puff{position:absolute;width:34px;height:34px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px rgba(11,9,87,.12);pointer-events:none;z-index:5;animation:puff 1.4s ease-out forwards}
+  .puff.grey{background:#d9d7e4}
+  @keyframes puff{0%{transform:translate(-50%,-50%) scale(.3);opacity:.95}100%{transform:translate(calc(-50% + var(--dx,0px)),calc(-50% - 90px)) scale(1.8);opacity:0}}
+  .rail{height:14px;background:repeating-linear-gradient(90deg,#7a4a24 0 8px,transparent 8px 22px);border-top:4px solid #5b5f74;border-bottom:3px solid #5b5f74;opacity:.9}
+
+  /* ---------- Game ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .pill{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:2px solid var(--navy);border-radius:999px;padding:8px 16px;background:var(--card)}
+  .topbar .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .topbar .btn{font-size:14px;padding:8px 16px}
+
+  /* race track */
+  .track{background:#1a1873;border-radius:24px;padding:16px 18px 8px;box-shadow:6px 6px 0 var(--brand);margin-bottom:20px;position:relative}
+  .track::before{content:"THE RACE TO THE STATION";position:absolute;top:12px;left:20px;font-family:var(--mono);font-weight:700;letter-spacing:.3em;color:var(--yellow);font-size:12px}
+  .lane{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:end;padding-top:20px}
+  .lane + .lane{border-top:1px dashed #36339a}
+  .lane .who{display:flex;align-items:center;gap:8px;color:#fff;padding-bottom:12px;min-width:0}
+  .lane .who .dot{width:14px;height:14px;border-radius:50%;background:var(--c);border:2px solid #fff;flex:none}
+  .lane .who .nm{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .lane .who .sc{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--yellow);font-size:20px}
+  .lane.now .who .nm{color:var(--yellow)}
+  .road{position:relative;height:84px}
+  .road .rail{position:absolute;left:0;right:0;bottom:4px}
+  .road .station{position:absolute;right:0;bottom:16px;font-size:30px;line-height:1}
+  .runner{position:absolute;bottom:14px;width:118px;transform:translateX(-10%);transition:left .9s cubic-bezier(.3,1.3,.6,1);z-index:2}
+
+  .stage{display:grid;grid-template-columns:1fr minmax(280px,380px);gap:20px;align-items:start}
+  .zone{background:var(--card);border:2px solid var(--navy);border-radius:26px;box-shadow:6px 6px 0 var(--navy);padding:20px;text-align:center;position:relative;--c:var(--brand)}
+  .turnline{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(22px,3vw,32px);margin:0 0 4px}
+  .turnline span{color:#fff;background:var(--c);padding:0 10px;border-radius:8px}
+  .counter{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .timer{height:14px;background:#e9e6f4;border:2px solid var(--navy);border-radius:999px;overflow:hidden;margin:14px auto 4px;max-width:520px}
+  .timer div{height:100%;width:100%;background:var(--mint);transition:width .25s linear}
+  .timer.low div{background:var(--brand)}
+  .timeleft{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--muted);margin-bottom:8px}
+  .letters{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:14px 0 18px}
+  .ltile{width:clamp(48px,7vw,70px);aspect-ratio:1;border-radius:14px;background:var(--yellow);border:3px solid var(--navy);box-shadow:4px 4px 0 var(--navy);font-family:var(--display);font-weight:900;font-size:clamp(28px,4.4vw,42px);text-transform:uppercase;color:var(--navy);display:grid;place-items:center;transition:transform .12s,opacity .12s,box-shadow .12s}
+  .ltile:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--navy)}
+  .ltile.used{opacity:.25;transform:translate(3px,3px);box-shadow:1px 1px 0 var(--navy)}
+  .ltile.hide{background:var(--navy);color:var(--yellow)}
+  .ltile.shake{animation:shake .35s}
+  .builder{display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}
+  .wordbox{min-width:min(360px,80vw);min-height:64px;border:3px dashed var(--navy);border-radius:16px;background:var(--paper);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:900;font-size:clamp(28px,4vw,40px);letter-spacing:.08em;text-transform:uppercase;padding:4px 16px;position:relative}
+  .wordbox:empty::before{content:"type or click the letters";font-family:var(--mono);font-size:14px;letter-spacing:.06em;text-transform:none;font-weight:400;color:#9a98b8}
+  .tool{background:var(--card);border:2px solid var(--navy);border-radius:14px;padding:12px 16px;font-weight:800;font-size:18px;box-shadow:3px 3px 0 var(--navy)}
+  .tool:active{transform:translate(2px,2px);box-shadow:none}
+  .tool.go{background:var(--ok);color:#fff;font-size:20px;padding:12px 22px}
+  .msg{min-height:30px;margin:12px 0 6px;font-weight:800;font-size:18px}
+  .msg.bad{color:var(--brand)} .msg.ok{color:var(--ok)}
+  .msg button{margin-left:10px;font-size:14px;padding:5px 12px;border-radius:999px;border:2px solid var(--navy);background:var(--yellow);font-weight:800}
+  .cargo{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+  .cargo b{font-family:var(--mono);font-size:16px;font-weight:700;border-radius:10px;padding:5px 12px;background:var(--navy);color:#fff;border-bottom:4px solid var(--c);animation:pop .3s ease}
+  .cargo b.teach{background:#5b5f74}
+  .cargo .none{color:var(--muted);font-family:var(--mono);font-size:13px}
+  @keyframes pop{0%{transform:scale(.4)}70%{transform:scale(1.12)}100%{transform:none}}
+  @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+  .ready h2,.turnend h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(26px,4vw,40px);margin:10px 0 4px}
+  .ready p{margin:0 0 16px;color:var(--muted)}
+  .turnend .missed{margin:16px auto 10px;max-width:640px;text-align:left;background:var(--paper);border-radius:16px;padding:12px 16px}
+  .turnend .missed h3{margin:0 0 8px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;color:var(--muted)}
+  .turnend .missed span{display:inline-block;margin:3px 4px;font-family:var(--mono);font-weight:700;font-size:14px;background:#fff;border:1.5px solid #c9c6dd;border-radius:8px;padding:2px 8px}
+
+  /* engine room */
+  .engine{background:linear-gradient(#bfe6ff 0 70%,#8ccf9f 70% 100%);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--brand);padding:44px 14px 18px;position:relative;overflow:hidden}
+  .engine h3{position:absolute;top:12px;left:16px;margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--navy)}
+  .engine .count{position:absolute;top:8px;right:14px;font-family:var(--display);font-weight:900;font-size:30px;color:var(--navy)}
+  .engine .count small{font-family:var(--mono);font-size:11px;letter-spacing:.14em;font-weight:700}
+  .engine .rail{margin-top:-8px}
+
+  /* flying coal + crumbling steam */
+  .flyer{position:fixed;z-index:50;pointer-events:none;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:28px;letter-spacing:.06em;background:#2b2a3a;color:#ffcf6b;border-radius:12px;padding:4px 12px;box-shadow:0 0 0 3px var(--navy),0 0 18px rgba(255,140,40,.8);white-space:nowrap}
+  .crumb{position:fixed;z-index:50;pointer-events:none;font-family:var(--display);font-weight:900;font-size:34px;color:var(--brand);text-transform:uppercase;animation:crumble 1.1s ease-in forwards}
+  @keyframes crumble{0%{transform:translate(0,0) rotate(0);opacity:1}25%{transform:translate(calc(var(--dx)*.3),-6px) rotate(calc(var(--r)*.3));opacity:1}100%{transform:translate(var(--dx),70px) rotate(var(--r)) scale(.4);opacity:0}}
+  .steam{position:fixed;z-index:49;pointer-events:none;width:40px;height:40px;border-radius:50%;background:radial-gradient(circle,#fff 0 55%,rgba(255,255,255,0) 72%);animation:steam 1.6s ease-out forwards}
+  @keyframes steam{0%{transform:translate(-50%,-50%) scale(.3);opacity:0}20%{opacity:.95}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% - 120px)) scale(2.4);opacity:0}}
+
+  /* end */
+  .end{text-align:center}
+  .end h1{font-family:var(--display);font-weight:900;font-size:clamp(46px,8vw,96px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;margin:10px 0}
+  .podium{display:flex;justify-content:center;align-items:flex-end;gap:16px;margin:26px auto;max-width:980px;flex-wrap:wrap}
+  .pod{flex:1;min-width:190px;max-width:250px;background:var(--card);border:2px solid var(--navy);border-top:12px solid var(--c);border-radius:20px 20px 10px 10px;padding:12px;box-shadow:6px 6px 0 var(--navy)}
+  .pod .loco{width:100%;margin-top:-40px}
+  .pod .medal{font-size:36px}
+  .pod .n{font-family:var(--display);font-size:22px;font-weight:900;text-transform:uppercase;word-break:break-word}
+  .pod .s{font-family:var(--mono);font-size:24px;font-weight:700}
+  .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr} .stage{grid-template-columns:1fr}
+    .lane{grid-template-columns:90px 1fr} .lane .who .nm{font-size:14px} .runner{width:84px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="wrap">
+  <a class="home-link" href="../">← All games</a>
+  <div class="hero">
+    <div class="l">
+      <p class="eyebrow">Oxford Games <b>•</b> All levels · Vocabulary</p>
+      <h1>Word<span class="w2">Express</span></h1>
+      <p>Make as many English words as you can from the letters. Every word is coal for your train!</p>
+    </div>
+    <div class="r" id="heroTrain"><span class="sticker">ALL ABOARD!</span><div class="rail"></div></div>
+  </div>
+  <div class="marquee"><div><i>WORD <b>→</b> PALABRA</i><i>LETTER <b>→</b> LETRA</i><i>TRAIN <b>→</b> TREN</i><i>FAST <b>→</b> RÁPIDO</i><i>ALL ABOARD! <b>→</b> ¡AL TREN!</i><i>WORD <b>→</b> PALABRA</i><i>LETTER <b>→</b> LETRA</i><i>TRAIN <b>→</b> TREN</i><i>FAST <b>→</b> RÁPIDO</i><i>ALL ABOARD! <b>→</b> ¡AL TREN!</i></div></div>
+
+  <div class="panel">
+    <p class="eyebrow">01 · Letters</p>
+    <div class="choices" id="letterChoices"></div>
+    <div class="hint">How many letters each team gets. Every set of letters can make at least 20 words that students know (from Super Minds, Prepare and everyday English).</div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">02 · Teams &amp; drivers</p>
+    <div class="choices" id="teamCountChoices"></div>
+    <div class="teams-edit" id="teamNames"></div>
+    <div class="hint">Click a monster to change the driver. If you don't type a name, the team takes the monster's name.</div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">03 · Game options</p>
+    <div class="row">
+      <label class="opt">Turns per team
+        <select id="turns"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+      </label>
+      <label class="opt">⏱️ Time per turn
+        <select id="turnSecs"><option value="20">20 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option><option value="90">90 s</option><option value="120">2 min</option></select>
+      </label>
+    </div>
+    <div class="hint">Each turn the team gets new letters and makes as many words as possible before the time runs out. Each letter can be used once in a word. Every right word = 1 point and the train moves forward. Wrong words crumble into steam.</div>
+  </div>
+
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="startBtn">All aboard! 🚂</button>
+  </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="wrap hidden">
+  <div class="topbar">
+    <span class="pill" id="gameTag"></span>
+    <div class="actions">
+      <a class="btn btn-plain" href="../" onclick="return confirm('Leave this game and go back to all games?')">🏠 All games</a>
+      <button class="btn btn-plain" id="undoBtn" title="Undo the last word">↩ Undo</button>
+      <button class="btn btn-plain" id="endBtn">Finish</button>
+    </div>
+  </div>
+
+  <div class="track" id="track"></div>
+
+  <div class="stage">
+    <div class="zone" id="zone">
+      <p class="turnline" id="turnline"></p>
+      <div class="counter" id="counter"></div>
+
+      <div id="readyBox" class="ready">
+        <div class="letters" id="hiddenLetters"></div>
+        <h2 id="readyTitle">Ready?</h2>
+        <p>Press <b>Go!</b> (or the space bar) and the letters appear. Make as many words as you can!</p>
+        <button class="btn btn-red btn-big" id="goBtn">Go! ▶</button>
+      </div>
+
+      <div id="playBox" class="hidden">
+        <div class="timer" id="timer"><div id="timerBar"></div></div>
+        <div class="timeleft" id="timeLeft"></div>
+        <div class="letters" id="letters"></div>
+        <div class="builder">
+          <div class="wordbox" id="wordbox"></div>
+        </div>
+        <div class="builder" style="margin-top:12px">
+          <button class="tool" id="backBtn" title="Delete a letter (Backspace)">⌫</button>
+          <button class="tool" id="clearBtn" title="Clear the word">✖</button>
+          <button class="tool" id="shuffleBtn" title="Mix the letters (space bar)">🔀 Mix</button>
+          <button class="tool go" id="addBtn" title="Add the word (Enter)">✔ Add word</button>
+        </div>
+        <div class="msg" id="msg"></div>
+        <div class="cargo" id="cargo"></div>
+      </div>
+
+      <div id="endTurnBox" class="turnend hidden">
+        <h2 id="endTurnTitle"></h2>
+        <div class="cargo" id="endCargo"></div>
+        <div class="missed" id="missed"></div>
+        <button class="btn btn-red btn-big" id="nextTurnBtn">Next team ➜</button>
+      </div>
+    </div>
+
+    <aside class="engine" id="engine">
+      <h3>ENGINE ROOM</h3>
+      <div class="count"><span id="turnCount">0</span> <small>WORDS</small></div>
+      <div id="bigLoco"></div>
+      <div class="rail"></div>
+    </aside>
+  </div>
+</section>
+
+<!-- ================= END ================= -->
+<section id="end" class="wrap end hidden">
+  <p class="eyebrow">Word Express · Last stop</p>
+  <h1 id="endTitle"></h1>
+  <div class="podium" id="podium"></div>
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="againBtn">Play again</button>
+    <button class="btn btn-plain" id="setupBtn">Change teams or letters</button>
+    <a class="btn btn-plain" href="../">🏠 All games</a>
+  </div>
+</section>
+
+<script src="../monster-rush/monsters.js"></script>
+<script src="dict.js"></script>
+<script src="sets.js"></script>
+<script>
+const STORE_KEY = "word-express-v1";
+const $ = id => document.getElementById(id);
+function loadStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
+function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){} }
+const store = loadStore();
+const cfg = Object.assign({ letters: 7, teamCount: 2, names: ["","","",""], mons: ["gobo","blinky","plum","tango"], turns: 2, secs: 30 }, store.cfg || {});
+cfg.mons = (cfg.mons || []).filter((t, i, a) => MONSTERS[t] && a.indexOf(t) === i);
+for (const t of MONSTER_ORDER) if (cfg.mons.length < 4 && !cfg.mons.includes(t)) cfg.mons.push(t);
+
+const DICT = new Set(DICT_WORDS.split(" "));
+const TWO = new Set("am an as at be by do go he hi if in is it me my no of oh on or so to up us we".split(" "));
+
+/* ---------- the locomotive (two layers so the driver sits inside the cab) ---------- */
+function locoHTML(type, mood = "happy", color){
+  const c = color || MONSTERS[type].color, o = "#0b0957";
+  const wheel = (x, y, r) => `<g class="wheel"><circle cx="${x}" cy="${y}" r="${r}" fill="#2b2a3a" stroke="${o}" stroke-width="5"/><circle cx="${x}" cy="${y}" r="${r * .38}" fill="#ffd257" stroke="${o}" stroke-width="3"/><path d="M${x - r * .8} ${y} H${x + r * .8} M${x} ${y - r * .8} V${y + r * .8}" stroke="#ffd257" stroke-width="3"/></g>`;
+  const back = `<svg class="back" viewBox="0 0 300 190" aria-hidden="true">
+    <rect x="22" y="16" width="8" height="84" fill="${o}"/><rect x="104" y="16" width="8" height="84" fill="${o}"/>
+    <rect x="8" y="6" width="118" height="16" rx="6" fill="${c}" stroke="${o}" stroke-width="5"/>
+  </svg>`;
+  const front = `<svg class="front" viewBox="0 0 300 190" aria-hidden="true">
+    <path d="M233 38 h-6 v44 h22 v-44 h-6 Z" fill="#2b2a3a" stroke="${o}" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M218 28 h38 l-6 14 h-26 Z" fill="#2b2a3a" stroke="${o}" stroke-width="5" stroke-linejoin="round"/>
+    <rect x="108" y="82" width="152" height="68" rx="14" fill="#1f2b78" stroke="${o}" stroke-width="5"/>
+    <rect x="108" y="104" width="152" height="12" fill="${c}"/>
+    <path d="M160 82 q0 -18 16 -18 q16 0 16 18 Z" fill="#ffd257" stroke="${o}" stroke-width="5"/>
+    <rect x="254" y="86" width="22" height="60" rx="8" fill="#2b2a3a" stroke="${o}" stroke-width="5"/>
+    <circle cx="276" cy="98" r="7" fill="#fff6b0" stroke="${o}" stroke-width="4"/>
+    <rect x="14" y="96" width="102" height="56" rx="8" fill="${c}" stroke="${o}" stroke-width="5"/>
+    <rect x="24" y="106" width="82" height="8" rx="4" fill="#fff" opacity=".3"/>
+    <circle class="glow" cx="132" cy="128" r="24" fill="#ff8a2a" opacity=".55"/>
+    <circle cx="132" cy="128" r="16" fill="#2b2a3a" stroke="${o}" stroke-width="5"/>
+    <path class="fire" d="M122 140 q-2 -12 6 -18 q0 6 4 8 q0 -10 6 -14 q-1 8 4 12 q4 4 0 12 Z" fill="#ff7a1a" stroke="#ffd257" stroke-width="2.5"/>
+    <rect x="10" y="150" width="268" height="12" rx="5" fill="#2b2a3a" stroke="${o}" stroke-width="5"/>
+    <path d="M272 150 l24 22 h-30 Z" fill="${c}" stroke="${o}" stroke-width="5" stroke-linejoin="round"/>
+    ${wheel(62, 164, 22)}${wheel(156, 170, 16)}${wheel(198, 170, 16)}${wheel(240, 170, 16)}
+    <path d="M62 164 L198 170" stroke="#c9c6dd" stroke-width="5" stroke-linecap="round"/>
+  </svg>`;
+  // lift each driver so the face shows above the cab wall
+  const lift = { gobo: 0, tango: 3, blinky: 13, plum: 16, sunny: 17, didi: 10 }[type] || 0;
+  return `<div class="loco" data-mon="${type}">${back}<div class="driver" style="bottom:${22 + lift}%">${monsterSVG(type, mood, { hat: true })}</div>${front}</div>`;
+}
+// furnace door and chimney top, in page coordinates
+function locoPoint(loco, which){
+  const r = loco.getBoundingClientRect(), p = which === "fire" ? [132, 128] : [237, 30];
+  return { x: r.left + p[0] / 300 * r.width, y: r.top + p[1] / 190 * r.height };
+}
+function puffs(loco, n = 3, grey = false){
+  if (!loco) return;
+  const host = loco, r = loco.getBoundingClientRect();
+  for (let i = 0; i < n; i++) setTimeout(() => {
+    const p = document.createElement("div"); p.className = "puff" + (grey ? " grey" : "");
+    p.style.left = (237 / 300 * 100) + "%"; p.style.top = (30 / 190 * 100) + "%";
+    p.style.setProperty("--dx", (-20 - Math.random() * 40) + "px");
+    const s = Math.max(16, r.width * .1); p.style.width = p.style.height = s + "px";
+    host.appendChild(p); setTimeout(() => p.remove(), 1500);
+  }, i * 220);
+}
+
+/* ---------- setup ---------- */
+function renderSetup(){
+  $("heroTrain").innerHTML = '<span class="sticker">ALL ABOARD!</span><div class="rail"></div>' + locoHTML("gobo", "happy");
+  const hl = $("heroTrain").querySelector(".loco");
+  clearInterval(window._heroPuff); window._heroPuff = setInterval(() => { const s = $("setup"); if (s && !s.classList.contains("hidden") && document.visibilityState === "visible") puffs(hl, 1); }, 900);
+  const lc = $("letterChoices"); lc.innerHTML = "";
+  [6, 7, 8, 9].forEach(n => {
+    const el = document.createElement("button");
+    el.className = "chip num" + (cfg.letters === n ? " on" : ""); el.textContent = n;
+    el.onclick = () => { cfg.letters = n; renderSetup(); };
+    lc.appendChild(el);
+  });
+  const tc = $("teamCountChoices"); tc.innerHTML = "";
+  [1, 2, 3, 4].forEach(n => {
+    const el = document.createElement("button");
+    el.className = "chip num" + (cfg.teamCount === n ? " on" : ""); el.textContent = n;
+    el.onclick = () => { cfg.teamCount = n; renderSetup(); };
+    tc.appendChild(el);
+  });
+  const tn = $("teamNames"); tn.innerHTML = "";
+  for (let i = 0; i < cfg.teamCount; i++) {
+    const type = cfg.mons[i], d = document.createElement("div");
+    d.className = "team-pick"; d.style.setProperty("--c", MONSTERS[type].color);
+    d.innerHTML = `<div class="mon">${monsterSVG(type, "happy", { hat: true })}</div><div class="side"><input maxlength="20"><button class="swap" type="button">change driver ↻</button></div>`;
+    const inp = d.querySelector("input");
+    inp.placeholder = MONSTERS[type].name; inp.value = cfg.names[i] || "";
+    inp.oninput = () => { cfg.names[i] = inp.value; };
+    const swap = () => {
+      const used = cfg.mons.slice(0, cfg.teamCount), k = MONSTER_ORDER.indexOf(type);
+      for (let s = 1; s < MONSTER_ORDER.length; s++) {
+        const cand = MONSTER_ORDER[(k + s) % MONSTER_ORDER.length];
+        if (!used.includes(cand)) { cfg.mons[i] = cand; break; }
+      }
+      renderSetup();
+    };
+    d.querySelector(".mon").onclick = swap; d.querySelector(".swap").onclick = swap;
+    tn.appendChild(d);
+  }
+  $("turns").value = String(cfg.turns); $("turnSecs").value = String(cfg.secs);
+}
+
+/* ---------- sounds ---------- */
+let actx = null;
+function tone(freqs, dur = .12, type = "sine", slide = 0, vol = .2){
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    freqs.forEach((f, i) => {
+      const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + i * dur;
+      o.type = type; o.frequency.setValueAtTime(f, t);
+      if (slide) o.frequency.exponentialRampToValueAtTime(f * slide, t + dur);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + dur + .02);
+    });
+  } catch(e){}
+}
+const sWhistle = () => { tone([880, 1175], .16, "triangle", 0, .16); };
+const sChug = () => tone([110, 90, 110, 90], .07, "square", 0, .08);
+const sBad = () => tone([260, 190], .2, "sawtooth");
+const sClick = () => tone([700], .04, "triangle", 0, .08);
+const sGo = () => tone([523, 659, 784, 1047], .12, "square", 0, .14);
+const sTime = () => tone([880, 660, 440, 330], .16, "square");
+
+/* ---------- game ---------- */
+let G = null, undoStack = [], timerId = null, endsAt = 0;
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const team = () => G.teams[G.turn];
+
+function startGame(){
+  cfg.turns = +$("turns").value; cfg.secs = +$("turnSecs").value;
+  store.cfg = cfg; saveStore();
+  const sets = shuffle(LETTER_SETS[cfg.letters].slice());
+  G = {
+    teams: Array.from({ length: cfg.teamCount }, (_, i) => ({ name: (cfg.names[i] || "").trim() || MONSTERS[cfg.mons[i]].name, mon: cfg.mons[i], score: 0 })),
+    sets, si: 0, round: 1, turn: 0, phase: "ready", set: null, tiles: [], pick: [], found: [], log: []
+  };
+  undoStack = [];
+  $("gameTag").textContent = `${cfg.letters} letters · ${cfg.secs} s per turn`;
+  show("game"); buildTrack(); render();
+}
+function show(id){ ["setup","game","end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0, 0); }
+
+function goal(){ return Math.max(12, Math.ceil(Math.max(...G.teams.map(t => t.score)) * 1.15) + 2); }
+function buildTrack(){
+  const tr = $("track"); tr.innerHTML = "";
+  G.teams.forEach((t, i) => {
+    const lane = document.createElement("div");
+    lane.className = "lane"; lane.id = "lane" + i; lane.style.setProperty("--c", MONSTERS[t.mon].color);
+    lane.innerHTML = `<div class="who"><span class="dot"></span><span class="nm"></span><span class="sc"></span></div>
+      <div class="road"><div class="rail"></div><span class="station">🏁</span><div class="runner" id="run${i}">${locoHTML(t.mon)}</div></div>`;
+    lane.querySelector(".nm").textContent = t.name;
+    tr.appendChild(lane);
+  });
+  updateTrack();
+}
+function updateTrack(){
+  const gl = goal();
+  G.teams.forEach((t, i) => {
+    const lane = $("lane" + i);
+    lane.classList.toggle("now", i === G.turn && G.phase !== "over");
+    lane.querySelector(".sc").textContent = t.score;
+    const run = $("run" + i), road = run.parentElement;
+    const room = 1 - (run.offsetWidth + 40) / Math.max(1, road.offsetWidth);
+    run.style.left = (Math.min(1, t.score / gl) * room * 100) + "%";
+  });
+}
+
+function render(){
+  const t = team(), color = MONSTERS[t.mon].color;
+  $("zone").style.setProperty("--c", color);
+  $("turnline").innerHTML = "<span></span>'s turn"; $("turnline").querySelector("span").textContent = t.name;
+  $("counter").textContent = `Turn ${G.round} of ${cfg.turns}` + (G.teams.length > 1 ? ` · team ${G.turn + 1} of ${G.teams.length}` : "");
+  $("readyBox").classList.toggle("hidden", G.phase !== "ready");
+  $("playBox").classList.toggle("hidden", G.phase !== "play");
+  $("endTurnBox").classList.toggle("hidden", G.phase !== "turnEnd");
+  if (G.phase === "ready") {
+    $("readyTitle").textContent = `${t.name}, get ready!`;
+    $("hiddenLetters").innerHTML = Array.from({ length: cfg.letters }, () => '<span class="ltile hide">?</span>').join("");
+  }
+  if (G.phase === "play") { renderLetters(); renderWord(); renderCargo(); }
+  $("turnCount").textContent = G.found.length;
+  // the engine room shows the team's own train
+  const big = $("bigLoco");
+  if (big.dataset.mon !== t.mon) { big.innerHTML = locoHTML(t.mon); big.dataset.mon = t.mon; }
+  updateTrack();
+}
+function renderLetters(){
+  const box = $("letters"); box.innerHTML = "";
+  G.tiles.forEach((ch, i) => {
+    const b = document.createElement("button");
+    b.className = "ltile" + (G.pick.includes(i) ? " used" : ""); b.textContent = ch; b.type = "button";
+    b.disabled = G.pick.includes(i);
+    b.onclick = () => pickTile(i);
+    box.appendChild(b);
+  });
+}
+function renderWord(){ $("wordbox").textContent = G.pick.map(i => G.tiles[i]).join(""); }
+function renderCargo(){
+  const c = $("cargo"); c.innerHTML = "";
+  G.found.forEach(f => { const b = document.createElement("b"); b.textContent = f.w; if (f.teacher) b.className = "teach"; c.appendChild(b); });
+}
+function setMsg(text, kind = "", accept = null){
+  const m = $("msg"); m.className = "msg " + kind; m.textContent = text;
+  if (accept) { const b = document.createElement("button"); b.textContent = "✔ Accept it"; b.title = "The teacher says it's a real word"; b.onclick = accept; m.appendChild(b); }
+}
+
+function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 120) undoStack.shift(); }
+function nextSet(){
+  if (G.si >= G.sets.length) { G.sets = shuffle(LETTER_SETS[cfg.letters].slice()); G.si = 0; }
+  G.set = G.sets[G.si++];
+  G.tiles = shuffle(G.set.l.split(""));
+}
+function go(){
+  if (G.phase !== "ready") return;
+  snapshot();
+  nextSet(); G.phase = "play"; G.pick = []; G.found = [];
+  sGo(); render(); setMsg(""); startTimer(cfg.secs);
+  puffs(document.querySelector("#bigLoco .loco"), 3);
+}
+function pickTile(i){
+  if (G.phase !== "play" || G.pick.includes(i)) return;
+  G.pick.push(i); sClick(); renderLetters(); renderWord(); setMsg("");
+}
+function typeLetter(ch){
+  if (G.phase !== "play") return;
+  const i = G.tiles.findIndex((c, k) => c === ch && !G.pick.includes(k));
+  if (i === -1) { // that letter isn't free: shake the tiles
+    document.querySelectorAll("#letters .ltile").forEach(t => { t.classList.remove("shake"); void t.offsetWidth; t.classList.add("shake"); });
+    return;
+  }
+  pickTile(i);
+}
+function backspace(){ if (G.phase === "play" && G.pick.length) { G.pick.pop(); renderLetters(); renderWord(); } }
+function clearWord(){ if (G.phase === "play") { G.pick = []; renderLetters(); renderWord(); } }
+function mix(){ if (G.phase !== "play") return; const w = G.pick.map(i => G.tiles[i]); G.tiles = shuffle(G.tiles.slice()); G.pick = []; w.forEach(ch => { const i = G.tiles.findIndex((c, k) => c === ch && !G.pick.includes(k)); G.pick.push(i); }); renderLetters(); renderWord(); }
+
+function addWord(){
+  if (G.phase !== "play") return;
+  const w = G.pick.map(i => G.tiles[i]).join("");
+  if (!w) return;
+  if (w.length < 2) return reject(w, "Words need at least 2 letters");
+  if (G.found.some(f => f.w === w)) return reject(w, `“${w}” is already on the train!`);
+  if (w.length === 2 && !TWO.has(w)) return reject(w, `Hmm, “${w}” isn't a word we know`, true);
+  if (!DICT.has(w)) return reject(w, `Hmm, “${w}” isn't in our dictionary`, true);
+  accept(w);
+}
+function accept(w, teacher = false){
+  snapshot();
+  const t = team(), i = G.turn;
+  G.found.push({ w, teacher }); t.score++;
+  G.log.push({ team: i, round: G.round, w });
+  const from = $("wordbox").getBoundingClientRect();
+  G.pick = [];
+  renderLetters(); renderWord(); renderCargo(); setMsg(`✔ ${w}! +1`, "ok");
+  $("turnCount").textContent = G.found.length;
+  $("lane" + i).querySelector(".sc").textContent = t.score;
+  // the word becomes coal and flies into the furnace
+  const big = document.querySelector("#bigLoco .loco");
+  const f = document.createElement("div"); f.className = "flyer"; f.textContent = w;
+  document.body.appendChild(f);
+  const fw = f.offsetWidth, fh = f.offsetHeight;
+  const start = { x: from.left + from.width / 2 - fw / 2, y: from.top + from.height / 2 - fh / 2 };
+  const end = big ? locoPoint(big, "fire") : start;
+  f.style.left = start.x + "px"; f.style.top = start.y + "px";
+  const dx = end.x - fw / 2 - start.x, dy = end.y - fh / 2 - start.y;
+  const anim = f.animate([
+    { transform: "translate(0,0) scale(1) rotate(0)", opacity: 1 },
+    { transform: `translate(${dx * .5}px,${dy * .5 - 80}px) scale(.8) rotate(-12deg)`, opacity: 1, offset: .5 },
+    { transform: `translate(${dx}px,${dy}px) scale(.12) rotate(20deg)`, opacity: .9 }
+  ], { duration: 650, easing: "ease-in" });
+  let landed = false;
+  const land = () => {
+    if (landed) return; landed = true;
+    f.remove();
+    if (big) { big.classList.remove("roar", "chug"); void big.offsetWidth; big.classList.add("roar", "chug"); setTimeout(() => big.classList.remove("roar", "chug"), 1100); puffs(big, 3); }
+    const run = $("run" + i).querySelector(".loco");
+    if (run) { run.classList.remove("chug"); void run.offsetWidth; run.classList.add("chug"); setTimeout(() => run.classList.remove("chug"), 1100); puffs(run, 2); }
+    driverMood("joy", 900);
+    sWhistle(); sChug(); updateTrack();
+  };
+  anim.onfinish = land; setTimeout(land, 900);   // (the timeout covers browsers that pause animations)
+}
+function reject(w, why, canAccept = false){
+  const box = $("wordbox"), r = box.getBoundingClientRect();
+  // the letters crumble and turn into steam
+  const fs = parseFloat(getComputedStyle(box).fontSize) || 34;
+  const totalW = w.length * fs * .72, x0 = r.left + r.width / 2 - totalW / 2;
+  [...w].forEach((ch, k) => {
+    const s = document.createElement("span"); s.className = "crumb"; s.textContent = ch;
+    s.style.left = (x0 + k * fs * .72) + "px"; s.style.top = (r.top + r.height / 2 - fs * .6) + "px"; s.style.fontSize = fs + "px";
+    s.style.setProperty("--dx", ((Math.random() - .5) * 120) + "px"); s.style.setProperty("--r", ((Math.random() - .5) * 140) + "deg");
+    s.style.animationDelay = (k * .04) + "s";
+    document.body.appendChild(s); setTimeout(() => s.remove(), 1400);
+  });
+  for (let k = 0; k < 6; k++) {
+    const st = document.createElement("div"); st.className = "steam";
+    st.style.left = (r.left + r.width * (.2 + Math.random() * .6)) + "px"; st.style.top = (r.top + r.height * .5) + "px";
+    st.style.setProperty("--dx", ((Math.random() - .5) * 80) + "px"); st.style.animationDelay = (.15 + k * .08) + "s";
+    document.body.appendChild(st); setTimeout(() => st.remove(), 2000);
+  }
+  G.pick = []; renderLetters(); renderWord();
+  setMsg("✘ " + why, "bad", canAccept ? () => { setMsg(""); accept(w, true); } : null);
+  driverMood("sad", 1100); sBad();
+}
+function driverMood(mood, ms){
+  const big = document.querySelector("#bigLoco .loco .driver");
+  if (!big) return;
+  const t = team();
+  big.innerHTML = monsterSVG(t.mon, mood, { hat: true });
+  clearTimeout(big._t); big._t = setTimeout(() => { big.innerHTML = monsterSVG(t.mon, "happy", { hat: true }); }, ms);
+}
+
+function endTurn(){
+  if (G.phase !== "play") return;
+  stopTimer();
+  G.phase = "turnEnd";
+  const t = team(), n = G.found.length;
+  render();
+  $("endTurnTitle").textContent = n ? `⏰ Time's up! ${t.name} found ${n} word${n > 1 ? "s" : ""}!` : `⏰ Time's up! No words this time, ${t.name}.`;
+  const ec = $("endCargo"); ec.innerHTML = "";
+  G.found.forEach(f => { const b = document.createElement("b"); b.textContent = f.w; ec.appendChild(b); });
+  const got = new Set(G.found.map(f => f.w)), missed = G.set.w.filter(w => !got.has(w)).slice(0, 24);
+  $("missed").innerHTML = missed.length ? `<h3>OTHER WORDS YOU COULD MAKE WITH ${G.set.l.toUpperCase().split("").sort().join(" ")}</h3>` + missed.map(w => `<span>${w}</span>`).join("") : "";
+  const last = G.turn === G.teams.length - 1;
+  $("nextTurnBtn").textContent = last && G.round >= cfg.turns ? "Last stop: see the winners 🏆" : last ? `Start turn ${G.round + 1} ➜` : `Next team: ${G.teams[G.turn + 1].name} ➜`;
+  driverMood(n ? "joy" : "sad", 2500);
+}
+function nextTurn(){
+  if (G.phase !== "turnEnd") return;
+  const last = G.turn === G.teams.length - 1;
+  if (last && G.round >= cfg.turns) { finish(); return; }
+  snapshot();
+  if (last) { G.round++; G.turn = 0; } else G.turn++;
+  G.phase = "ready"; G.found = []; G.pick = []; G.set = null;
+  render();
+}
+function undo(){
+  if (!undoStack.length) return;
+  stopTimer();
+  G = JSON.parse(undoStack.pop());
+  if (G.phase === "play") startTimer(Math.max(5, Math.round(G.timeLeft || cfg.secs)));
+  render(); setMsg("");
+  if (G.phase === "turnEnd") { G.phase = "play"; endTurn(); }
+}
+
+function startTimer(secs){
+  stopTimer();
+  const box = $("timer"), lab = $("timeLeft");
+  box.classList.remove("low");
+  endsAt = Date.now() + secs * 1000;
+  const tick = () => {
+    const left = Math.max(0, (endsAt - Date.now()) / 1000);
+    G.timeLeft = left;
+    $("timerBar").style.width = (left / cfg.secs * 100) + "%";
+    box.classList.toggle("low", left <= 5);
+    lab.textContent = Math.ceil(left) + " s";
+    if (left <= 0) { stopTimer(); sTime(); endTurn(); }
+  };
+  tick(); timerId = setInterval(tick, 250);
+}
+function stopTimer(){ if (timerId) clearInterval(timerId); timerId = null; }
+
+function finish(){
+  stopTimer(); G.phase = "over";
+  const ranked = G.teams.map((t, i) => ({ ...t, i })).sort((a, b) => b.score - a.score);
+  const top = ranked[0].score, winners = ranked.filter(t => t.score === top);
+  $("endTitle").textContent = G.teams.length === 1 ? `${ranked[0].name}: ${top} words!` : winners.length > 1 ? "It's a tie!" : `${winners[0].name} wins!`;
+  const pod = $("podium"); pod.innerHTML = "";
+  const medals = ["🥇","🥈","🥉","🏅"]; let place = 0;
+  ranked.forEach((t, k) => {
+    if (k > 0 && t.score < ranked[k - 1].score) place = k;
+    const d = document.createElement("div");
+    d.className = "pod"; d.style.setProperty("--c", MONSTERS[t.mon].color);
+    d.style.marginTop = (60 + place * 22) + "px";
+    d.innerHTML = locoHTML(t.mon, place === 0 ? "joy" : "happy") + `<div class="medal">${medals[Math.min(place, 3)]}</div><div class="n"></div><div class="s">${t.score} <small style="font-size:13px;letter-spacing:.12em">WORDS</small></div>`;
+    d.querySelector(".n").textContent = t.name;
+    pod.appendChild(d);
+  });
+  show("end"); confetti(60); sWhistle();
+  setTimeout(() => document.querySelectorAll("#podium .loco").forEach(l => puffs(l, 3)), 300);
+}
+function confetti(n = 30){
+  const items = ["⭐","✨","🎉","🚂","🎫","💨"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti"; c.textContent = items[i % items.length];
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDuration = 2 + Math.random() * 2 + "s"; c.style.animationDelay = Math.random() * .5 + "s";
+    document.body.appendChild(c); setTimeout(() => c.remove(), 5000);
+  }
+}
+
+/* ---------- events ---------- */
+$("startBtn").onclick = startGame;
+$("goBtn").onclick = go;
+$("addBtn").onclick = addWord;
+$("backBtn").onclick = backspace;
+$("clearBtn").onclick = clearWord;
+$("shuffleBtn").onclick = mix;
+$("nextTurnBtn").onclick = nextTurn;
+$("undoBtn").onclick = undo;
+$("endBtn").onclick = () => { if (confirm("Finish the game now?")) finish(); };
+$("againBtn").onclick = startGame;
+$("setupBtn").onclick = () => { renderSetup(); show("setup"); };
+document.addEventListener("keydown", e => {
+  if (!G || $("game").classList.contains("hidden") || e.ctrlKey || e.metaKey || e.altKey) return;
+  const k = e.key;
+  if (G.phase === "ready" && (k === " " || k === "Enter")) go();
+  else if (G.phase === "turnEnd" && (k === " " || k === "Enter")) nextTurn();
+  else if (G.phase === "play" && /^[a-zA-Z]$/.test(k)) typeLetter(k.toLowerCase());
+  else if (G.phase === "play" && k === "Backspace") backspace();
+  else if (G.phase === "play" && k === "Escape") clearWord();
+  else if (G.phase === "play" && k === "Enter") addWord();
+  else if (G.phase === "play" && k === " ") mix();
+  else return;
+  e.preventDefault();
+});
+window.addEventListener("resize", () => { if (G && !$("game").classList.contains("hidden")) updateTrack(); });
+
+renderSetup();
+</script>
+<script src="../shared/howto.js"></script>
+<script>setHowTo({
+  title: "Word Express",
+  intro: "Make as many English words as you can from the letters. Every right word is coal for your train!",
+  steps: [
+    ["⚙️", "<b>Set up:</b> choose how many letters (6–9), the teams and their drivers, the turns and the time. Press <b>All aboard!</b>"],
+    ["▶️", "When the team is ready, press <b>Go!</b> The letters appear and the clock starts."],
+    ["🔤", "Make a word: <b>click the letters</b> (or type them). Each letter can be used <b>once</b> in a word. Press <b>✔ Add word</b> (or <kbd>Enter</kbd>)."],
+    ["🔥", "Right word → it turns into coal, flies into the furnace and the train moves forward (1 point). Wrong word → it crumbles into steam."],
+    ["➜", "When the time is up, see the other words you could make and press <b>Next team</b>."],
+    ["🏆", "After the last turn, the train furthest along the track wins!"]
+  ],
+  tips: [
+    "Keyboard: type letters, <kbd>Backspace</kbd> = delete, <kbd>Enter</kbd> = add word, <kbd>Space</kbd> = mix the letters, <kbd>Esc</kbd> = clear.",
+    "If a real word isn't in our dictionary, the teacher can press <b>✔ Accept it</b>.",
+    "Made a mistake? Press <b>↩ Undo</b>."
+  ]
+});</script>
+</body>
+</html>

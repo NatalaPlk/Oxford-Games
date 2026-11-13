@@ -100,19 +100,23 @@
   .topbar .btn{font-size:14px;padding:8px 16px}
 
   /* race track */
-  .track{background:#1a1873;border-radius:24px;padding:16px 18px 8px;box-shadow:6px 6px 0 var(--brand);margin-bottom:20px;position:relative}
-  .track::before{content:"THE RACE TO THE STATION";position:absolute;top:12px;left:20px;font-family:var(--mono);font-weight:700;letter-spacing:.3em;color:var(--yellow);font-size:12px}
-  .lane{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:end;padding-top:20px}
-  .lane + .lane{border-top:1px dashed #36339a}
-  .lane .who{display:flex;align-items:center;gap:8px;color:#fff;padding-bottom:12px;min-width:0}
-  .lane .who .dot{width:14px;height:14px;border-radius:50%;background:var(--c);border:2px solid #fff;flex:none}
-  .lane .who .nm{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:18px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .lane .who .sc{margin-left:auto;font-family:var(--mono);font-weight:700;color:var(--yellow);font-size:20px}
-  .lane.now .who .nm{color:var(--yellow)}
-  .road{position:relative;height:84px}
-  .road .rail{position:absolute;left:0;right:0;bottom:4px}
-  .road .station{position:absolute;right:0;bottom:16px;font-size:30px;line-height:1}
-  .runner{position:absolute;bottom:14px;width:118px;transform:translateX(-10%);transition:left .9s cubic-bezier(.3,1.3,.6,1);z-index:2}
+  .track{background:#1a1873;border-radius:24px;padding:14px 18px 10px;box-shadow:6px 6px 0 var(--brand);margin-bottom:20px;position:relative;overflow:hidden}
+  .scorebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+  .scorebar .lab{font-family:var(--mono);font-weight:700;letter-spacing:.24em;color:var(--yellow);font-size:12px;margin-right:6px}
+  .ts{display:flex;align-items:center;gap:8px;background:#24218a;color:#fff;border-radius:999px;padding:4px 14px 4px 6px;border:2px solid #24218a}
+  .ts .face{width:30px;height:30px;border-radius:50%;background:var(--c);overflow:hidden;display:grid;place-items:start center}
+  .ts .face img{width:150%;margin-top:6%}
+  .ts .nm{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:16px;max-width:12ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ts b{font-family:var(--mono);color:var(--yellow);font-size:18px}
+  .ts.now{border-color:var(--yellow);background:#2f2ca8}
+  .line{position:relative;height:150px;margin-top:4px}
+  .line .rail{position:absolute;left:0;right:0;bottom:6px}
+  .line .station{position:absolute;right:4px;bottom:22px;font-size:40px;line-height:1;z-index:1}
+  .line .sky{position:absolute;inset:0 0 18px;background:repeating-linear-gradient(90deg,transparent 0 120px,rgba(255,255,255,.05) 120px 122px)}
+  .runner{position:absolute;bottom:16px;width:150px;transition:left .9s cubic-bezier(.3,1.3,.6,1);z-index:2}
+  .runner.now{z-index:20}
+  .runner .tag{position:absolute;left:32%;transform:translateX(-50%);background:var(--c);color:#fff;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:12px;border:2px solid #fff;border-radius:999px;padding:1px 9px;white-space:nowrap;transition:top .3s}
+  .runner.now .tag{box-shadow:0 0 0 3px var(--yellow)}
 
   .stage{display:grid;grid-template-columns:1fr minmax(280px,380px);gap:20px;align-items:start}
   .zone{background:var(--card);border:2px solid var(--navy);border-radius:26px;box-shadow:6px 6px 0 var(--navy);padding:20px;text-align:center;position:relative;--c:var(--brand)}
@@ -151,11 +155,21 @@
   .turnend .missed span{display:inline-block;margin:3px 4px;font-family:var(--mono);font-weight:700;font-size:14px;background:#fff;border:1.5px solid #c9c6dd;border-radius:8px;padding:2px 8px}
 
   /* engine room */
-  .engine{background:linear-gradient(#bfe6ff 0 70%,#8ccf9f 70% 100%);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--brand);padding:44px 14px 18px;position:relative;overflow:hidden}
-  .engine h3{position:absolute;top:12px;left:16px;margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--navy)}
-  .engine .count{position:absolute;top:8px;right:14px;font-family:var(--display);font-weight:900;font-size:30px;color:var(--navy)}
-  .engine .count small{font-family:var(--mono);font-size:11px;letter-spacing:.14em;font-weight:700}
-  .engine .rail{margin-top:-8px}
+  .engine{background:#2a1a24;border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--brand);padding:44px 14px 14px;position:relative;overflow:hidden}
+  .engine h3{position:absolute;top:12px;left:16px;margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--yellow)}
+  .engine .count{position:absolute;top:6px;right:14px;font-family:var(--display);font-weight:900;font-size:30px;color:#fff}
+  .engine .count small{font-family:var(--mono);font-size:11px;letter-spacing:.14em;font-weight:700;color:var(--yellow)}
+  .furnace{position:relative}
+  .furnace svg{display:block;width:100%;height:auto;overflow:visible}
+  .furnace .fire{transform-box:fill-box;transform-origin:50% 100%;animation:flicker .3s ease-in-out infinite alternate}
+  .furnace .fire2{transform-box:fill-box;transform-origin:50% 100%;animation:flicker .22s ease-in-out infinite alternate-reverse}
+  .furnace .glow{opacity:.75;transition:opacity .2s}
+  .furnace.roar .fire,.furnace.roar .fire2{animation:roar .8s ease-out}
+  .furnace.roar .glow{opacity:1}
+  .furnace.roar svg{animation:rumble .4s ease 2}
+  @keyframes rumble{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+  .spark{position:absolute;width:8px;height:8px;border-radius:50%;background:#ffd257;box-shadow:0 0 8px 2px #ff9a1a;pointer-events:none;animation:spark .9s ease-out forwards}
+  @keyframes spark{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
 
   /* flying coal + crumbling steam */
   .flyer{position:fixed;z-index:50;pointer-events:none;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:28px;letter-spacing:.06em;background:#2b2a3a;color:#ffcf6b;border-radius:12px;padding:4px 12px;box-shadow:0 0 0 3px var(--navy),0 0 18px rgba(255,140,40,.8);white-space:nowrap}
@@ -178,7 +192,7 @@
 
   @media (max-width:860px){
     .hero{grid-template-columns:1fr} .stage{grid-template-columns:1fr}
-    .lane{grid-template-columns:90px 1fr} .lane .who .nm{font-size:14px} .runner{width:84px}
+    .runner{width:104px} .line{height:115px}
   }
 </style>
 </head>
@@ -279,10 +293,9 @@
     </div>
 
     <aside class="engine" id="engine">
-      <h3>ENGINE ROOM</h3>
+      <h3>THE FURNACE</h3>
       <div class="count"><span id="turnCount">0</span> <small>WORDS</small></div>
-      <div id="bigLoco"></div>
-      <div class="rail"></div>
+      <div class="furnace" id="furnace"></div>
     </aside>
   </div>
 </section>
@@ -350,16 +363,53 @@ function locoPoint(loco, which){
   const r = loco.getBoundingClientRect(), p = which === "fire" ? [132, 128] : [237, 30];
   return { x: r.left + p[0] / 300 * r.width, y: r.top + p[1] / 190 * r.height };
 }
-function puffs(loco, n = 3, grey = false){
+function puffs(loco, n = 3, grey = false, at = [237 / 300, 30 / 190]){
   if (!loco) return;
   const host = loco, r = loco.getBoundingClientRect();
   for (let i = 0; i < n; i++) setTimeout(() => {
     const p = document.createElement("div"); p.className = "puff" + (grey ? " grey" : "");
-    p.style.left = (237 / 300 * 100) + "%"; p.style.top = (30 / 190 * 100) + "%";
+    p.style.left = (at[0] * 100) + "%"; p.style.top = (at[1] * 100) + "%";
     p.style.setProperty("--dx", (-20 - Math.random() * 40) + "px");
     const s = Math.max(16, r.width * .1); p.style.width = p.style.height = s + "px";
     host.appendChild(p); setTimeout(() => p.remove(), 1500);
   }, i * 220);
+}
+
+/* ---------- the open furnace (words are its coal) ---------- */
+const FURNACE_MOUTH = [150 / 300, 178 / 260], FURNACE_CHIMNEY = [150 / 300, 2 / 260];
+function furnaceHTML(){
+  const o = "#0b0957";
+  const rivets = [[72, 104], [228, 104], [72, 220], [228, 220]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" fill="#8d8aa8" stroke="${o}" stroke-width="2"/>`).join("");
+  return `<svg viewBox="0 0 300 260" aria-label="An open furnace">
+    <defs>
+      <radialGradient id="fireGlow" cx="50%" cy="75%" r="65%"><stop offset="0" stop-color="#fff3a0"/><stop offset=".45" stop-color="#ffb000"/><stop offset="1" stop-color="#e2420f"/></radialGradient>
+      <pattern id="brick" width="40" height="20" patternUnits="userSpaceOnUse"><rect width="40" height="20" fill="#b04a33"/><path d="M0 1H40M0 11H40M20 1V11M2 11V21M38 11V21" stroke="#7a2e1f" stroke-width="2"/></pattern>
+    </defs>
+    <rect x="126" y="0" width="48" height="70" fill="#3a3950" stroke="${o}" stroke-width="5"/>
+    <rect x="118" y="-6" width="64" height="14" rx="4" fill="#4b4a66" stroke="${o}" stroke-width="5"/>
+    <rect x="28" y="54" width="244" height="200" rx="22" fill="url(#brick)" stroke="${o}" stroke-width="5"/>
+    <rect x="58" y="90" width="184" height="144" rx="18" fill="#2b2a3a" stroke="${o}" stroke-width="5"/>
+    ${rivets}
+    <rect x="104" y="60" width="92" height="22" rx="6" fill="#ffd257" stroke="${o}" stroke-width="3"/>
+    <text x="150" y="76" text-anchor="middle" font-family="Space Mono, monospace" font-weight="700" font-size="11" fill="${o}" letter-spacing="1">WORD EXPRESS</text>
+    <path d="M90 214 V170 a60 52 0 0 1 120 0 V214 Z" fill="#1a0f12" stroke="${o}" stroke-width="5"/>
+    <ellipse class="glow" cx="150" cy="184" rx="56" ry="38" fill="url(#fireGlow)"/>
+    <path class="fire" d="M100 212 q-6 -30 14 -48 q-2 18 10 22 q-2 -32 22 -52 q-2 32 14 38 q4 -18 20 -26 q-4 26 8 36 q8 12 -2 30 Z" fill="#ff7a1a" stroke="#ffd257" stroke-width="3" stroke-linejoin="round"/>
+    <path class="fire2" d="M122 212 q-2 -18 10 -28 q0 10 8 14 q0 -18 14 -30 q0 18 10 24 q8 10 2 20 Z" fill="#ffd257"/>
+    <g fill="#3a2a2a" stroke="${o}" stroke-width="2"><circle cx="108" cy="210" r="8"/><circle cx="126" cy="213" r="7"/><circle cx="174" cy="213" r="7"/><circle cx="192" cy="210" r="8"/></g>
+    <path d="M58 108 L20 94 L20 230 L58 216 Z" fill="#4b4a66" stroke="${o}" stroke-width="5" stroke-linejoin="round"/>
+    <circle cx="30" cy="162" r="6" fill="#ffd257" stroke="${o}" stroke-width="3"/>
+    <rect x="52" y="112" width="12" height="16" rx="3" fill="#8d8aa8" stroke="${o}" stroke-width="2"/><rect x="52" y="196" width="12" height="16" rx="3" fill="#8d8aa8" stroke="${o}" stroke-width="2"/>
+    <g fill="#2b2a3a" stroke="${o}" stroke-width="2"><circle cx="246" cy="246" r="9"/><circle cx="262" cy="244" r="8"/><circle cx="254" cy="234" r="8"/><circle cx="272" cy="248" r="7"/></g>
+  </svg>`;
+}
+function sparks(host, n = 10){
+  for (let i = 0; i < n; i++) {
+    const sp = document.createElement("div"); sp.className = "spark";
+    sp.style.left = (FURNACE_MOUTH[0] * 100) + "%"; sp.style.top = (FURNACE_MOUTH[1] * 100 - 6) + "%";
+    sp.style.setProperty("--dx", ((Math.random() - .5) * 160) + "px"); sp.style.setProperty("--dy", (-40 - Math.random() * 110) + "px");
+    host.appendChild(sp); setTimeout(() => sp.remove(), 950);
+  }
 }
 
 /* ---------- setup ---------- */
@@ -445,26 +495,38 @@ function show(id){ ["setup","game","end"].forEach(s => $(s).classList.toggle("hi
 
 function goal(){ return Math.max(12, Math.ceil(Math.max(...G.teams.map(t => t.score)) * 1.15) + 2); }
 function buildTrack(){
-  const tr = $("track"); tr.innerHTML = "";
+  const tr = $("track");
+  tr.innerHTML = '<div class="scorebar" id="scorebar"><span class="lab">THE RACE TO THE STATION</span></div><div class="line" id="line"><div class="sky"></div><div class="rail"></div><span class="station">🏁</span></div>';
   G.teams.forEach((t, i) => {
-    const lane = document.createElement("div");
-    lane.className = "lane"; lane.id = "lane" + i; lane.style.setProperty("--c", MONSTERS[t.mon].color);
-    lane.innerHTML = `<div class="who"><span class="dot"></span><span class="nm"></span><span class="sc"></span></div>
-      <div class="road"><div class="rail"></div><span class="station">🏁</span><div class="runner" id="run${i}">${locoHTML(t.mon)}</div></div>`;
-    lane.querySelector(".nm").textContent = t.name;
-    tr.appendChild(lane);
+    const c = MONSTERS[t.mon].color;
+    const ts = document.createElement("span"); ts.className = "ts"; ts.id = "ts" + i; ts.style.setProperty("--c", c);
+    ts.innerHTML = `<span class="face"><img src="${MONSTER_DIR}${MONSTERS[t.mon].img}.png" alt=""></span><span class="nm"></span><b></b>`;
+    ts.querySelector(".nm").textContent = t.name;
+    $("scorebar").appendChild(ts);
+    const run = document.createElement("div"); run.className = "runner"; run.id = "run" + i; run.style.setProperty("--c", c);
+    run.innerHTML = locoHTML(t.mon) + '<span class="tag"></span>';
+    run.querySelector(".tag").textContent = t.name;
+    $("line").appendChild(run);
   });
   updateTrack();
 }
+// all trains share one track: they overtake each other; on a tie the team playing now is in front
 function updateTrack(){
-  const gl = goal();
-  G.teams.forEach((t, i) => {
-    const lane = $("lane" + i);
-    lane.classList.toggle("now", i === G.turn && G.phase !== "over");
-    lane.querySelector(".sc").textContent = t.score;
-    const run = $("run" + i), road = run.parentElement;
-    const room = 1 - (run.offsetWidth + 40) / Math.max(1, road.offsetWidth);
+  const gl = goal(), line = $("line");
+  if (!line) return;
+  const level = {};
+  const order = G.teams.map((t, i) => i).sort((a, b) => (b === G.turn) - (a === G.turn));
+  order.forEach(i => {
+    const t = G.teams[i], run = $("run" + i), now = i === G.turn && G.phase !== "over";
+    $("ts" + i).classList.toggle("now", now);
+    $("ts" + i).querySelector("b").textContent = t.score;
+    run.classList.toggle("now", now);
+    run.style.zIndex = now ? 20 : 2 + t.score;
+    const room = 1 - (run.offsetWidth + 46) / Math.max(1, line.offsetWidth);
     run.style.left = (Math.min(1, t.score / gl) * room * 100) + "%";
+    // name tags of trains in the same place stack up so every name can be read
+    const k = level[t.score] = (level[t.score] ?? -1) + 1;
+    run.querySelector(".tag").style.top = (-24 - k * 24) + "px";
   });
 }
 
@@ -482,9 +544,6 @@ function render(){
   }
   if (G.phase === "play") { renderLetters(); renderWord(); renderCargo(); }
   $("turnCount").textContent = G.found.length;
-  // the engine room shows the team's own train
-  const big = $("bigLoco");
-  if (big.dataset.mon !== t.mon) { big.innerHTML = locoHTML(t.mon); big.dataset.mon = t.mon; }
   updateTrack();
 }
 function renderLetters(){
@@ -518,7 +577,7 @@ function go(){
   snapshot();
   nextSet(); G.phase = "play"; G.pick = []; G.found = [];
   sGo(); render(); setMsg(""); startTimer(cfg.secs);
-  puffs(document.querySelector("#bigLoco .loco"), 3);
+  puffs($("furnace"), 3, true, FURNACE_CHIMNEY);
 }
 function pickTile(i){
   if (G.phase !== "play" || G.pick.includes(i)) return;
@@ -556,14 +615,14 @@ function accept(w, teacher = false){
   G.pick = [];
   renderLetters(); renderWord(); renderCargo(); setMsg(`✔ ${w}! +1`, "ok");
   $("turnCount").textContent = G.found.length;
-  $("lane" + i).querySelector(".sc").textContent = t.score;
-  // the word becomes coal and flies into the furnace
-  const big = document.querySelector("#bigLoco .loco");
+  $("ts" + i).querySelector("b").textContent = t.score;
+  // the word jumps into the open furnace
+  const big = $("furnace");
   const f = document.createElement("div"); f.className = "flyer"; f.textContent = w;
   document.body.appendChild(f);
   const fw = f.offsetWidth, fh = f.offsetHeight;
   const start = { x: from.left + from.width / 2 - fw / 2, y: from.top + from.height / 2 - fh / 2 };
-  const end = big ? locoPoint(big, "fire") : start;
+  const fr = big.getBoundingClientRect(), end = { x: fr.left + FURNACE_MOUTH[0] * fr.width, y: fr.top + FURNACE_MOUTH[1] * fr.height };
   f.style.left = start.x + "px"; f.style.top = start.y + "px";
   const dx = end.x - fw / 2 - start.x, dy = end.y - fh / 2 - start.y;
   const anim = f.animate([
@@ -575,7 +634,8 @@ function accept(w, teacher = false){
   const land = () => {
     if (landed) return; landed = true;
     f.remove();
-    if (big) { big.classList.remove("roar", "chug"); void big.offsetWidth; big.classList.add("roar", "chug"); setTimeout(() => big.classList.remove("roar", "chug"), 1100); puffs(big, 3); }
+    big.classList.remove("roar"); void big.offsetWidth; big.classList.add("roar"); setTimeout(() => big.classList.remove("roar"), 900);
+    sparks(big, 12); puffs(big, 2, true, FURNACE_CHIMNEY);
     const run = $("run" + i).querySelector(".loco");
     if (run) { run.classList.remove("chug"); void run.offsetWidth; run.classList.add("chug"); setTimeout(() => run.classList.remove("chug"), 1100); puffs(run, 2); }
     driverMood("joy", 900);
@@ -606,7 +666,7 @@ function reject(w, why, canAccept = false){
   driverMood("sad", 1100); sBad();
 }
 function driverMood(mood, ms){
-  const big = document.querySelector("#bigLoco .loco .driver");
+  const run = $("run" + G.turn), big = run && run.querySelector(".driver");
   if (!big) return;
   const t = team();
   big.innerHTML = monsterSVG(t.mon, mood, { hat: true });
@@ -720,6 +780,7 @@ document.addEventListener("keydown", e => {
 });
 window.addEventListener("resize", () => { if (G && !$("game").classList.contains("hidden")) updateTrack(); });
 
+$("furnace").innerHTML = furnaceHTML();
 renderSetup();
 </script>
 <script src="../shared/howto.js"></script>
@@ -730,9 +791,9 @@ renderSetup();
     ["⚙️", "<b>Set up:</b> choose how many letters (6–9), the teams and their drivers, the turns and the time. Press <b>All aboard!</b>"],
     ["▶️", "When the team is ready, press <b>Go!</b> The letters appear and the clock starts."],
     ["🔤", "Make a word: <b>click the letters</b> (or type them). Each letter can be used <b>once</b> in a word. Press <b>✔ Add word</b> (or <kbd>Enter</kbd>)."],
-    ["🔥", "Right word → it turns into coal, flies into the furnace and the train moves forward (1 point). Wrong word → it crumbles into steam."],
+    ["🔥", "Right word → it jumps into the open furnace and the team's train moves forward on the track (1 point). Wrong word → it crumbles into steam."],
     ["➜", "When the time is up, see the other words you could make and press <b>Next team</b>."],
-    ["🏆", "After the last turn, the train furthest along the track wins!"]
+    ["🏆", "All the trains share one track and overtake each other. After the last turn, the train in front wins!"]
   ],
   tips: [
     "Keyboard: type letters, <kbd>Backspace</kbd> = delete, <kbd>Enter</kbd> = add word, <kbd>Space</kbd> = mix the letters, <kbd>Esc</kbd> = clear.",

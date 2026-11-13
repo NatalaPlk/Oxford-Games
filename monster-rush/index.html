@@ -24,12 +24,6 @@
   .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
 
   /* ---------- monsters ---------- */
-  .mon svg{display:block;width:100%;height:auto;overflow:visible}
-  .mon .eye{transform-box:fill-box;transform-origin:center;animation:blink 5s infinite}
-  .mon .arm.l{transform-box:fill-box;transform-origin:top right}
-  .mon .arm.r{transform-box:fill-box;transform-origin:top left}
-  .mon svg.joy .arm.l{animation:waveL .3s ease-in-out infinite alternate}
-  .mon svg.joy .arm.r{animation:waveR .3s ease-in-out infinite alternate}
   @keyframes blink{0%,93%,100%{transform:scaleY(1)}95%{transform:scaleY(.1)}}
   @keyframes waveL{to{transform:rotate(40deg)}}
   @keyframes waveR{to{transform:rotate(-40deg)}}
@@ -43,10 +37,10 @@
   .hero h1{margin:14px 0 6px;line-height:.86;font-family:var(--display);font-weight:900;font-size:clamp(58px,10vw,124px);letter-spacing:-.02em;text-transform:uppercase}
   .hero h1 .w2{display:block;color:var(--brand);font-stretch:70%}
   .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:32ch}
-  .hero .r{background:#7fd6a6;position:relative;display:flex;align-items:flex-end;justify-content:center;gap:2%;padding:60px 18px 20px;min-height:230px;overflow:hidden}
+  .hero .r{background:#7fd6a6;position:relative;display:flex;flex-wrap:wrap;align-items:flex-end;align-content:flex-end;justify-content:center;gap:4px 3%;padding:60px 18px 20px;min-height:230px;overflow:hidden}
   .hero .r::after{content:"";position:absolute;left:-10%;right:-10%;bottom:-40px;height:90px;border-radius:50%;background:#5cc58b}
-  .hero .r .mon{position:relative;z-index:1;width:23%;filter:drop-shadow(4px 4px 0 rgba(11,9,87,.85))}
-  .hero .r .mon:nth-child(2){animation-delay:-.6s} .hero .r .mon:nth-child(3){animation-delay:-1.2s} .hero .r .mon:nth-child(4){animation-delay:-1.8s}
+  .hero .r .mon{position:relative;z-index:1;width:28%;filter:drop-shadow(4px 4px 0 rgba(11,9,87,.85))}
+  .hero .r .mon:nth-child(2){animation-delay:-.6s} .hero .r .mon:nth-child(3){animation-delay:-1.2s} .hero .r .mon:nth-child(4){animation-delay:-1.8s} .hero .r .mon:nth-child(5){animation-delay:-.9s} .hero .r .mon:nth-child(6){animation-delay:-1.5s}
   .sticker{position:absolute;z-index:2;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
   .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
   .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
@@ -332,6 +326,8 @@ function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store
 const store = loadStore();
 const cfg = Object.assign({ book: "sms", teamCount: 2, names: ["","","",""], mons: ["gobo","plum","blinky","tango"],
   rounds: 3, perTurn: 8, secs: 30, showWord: false, say: true, photos: true, off: {} }, store.cfg || {});
+cfg.mons = (cfg.mons || []).filter((t, i, a) => MONSTERS[t] && a.indexOf(t) === i);
+for (const t of MONSTER_ORDER) if (cfg.mons.length < 4 && !cfg.mons.includes(t)) cfg.mons.push(t);
 // real photos (photos/photos.js lists the downloaded files); words without one keep their drawing
 const PHOTO_FILES = typeof PHOTOS !== "undefined" ? PHOTOS : {};
 const slugOf = w => w.toLowerCase().replace(/[^a-z]+/g, "-");
@@ -394,13 +390,11 @@ function renderTeamPickers(){
     inp.placeholder = MONSTERS[type].name; inp.value = cfg.names[i] || "";
     inp.oninput = () => { cfg.names[i] = inp.value; };
     const swap = () => {
-      // next monster that no other team is using (or swap with the team that has it)
-      const used = cfg.mons.slice(0, cfg.teamCount);
-      let k = MONSTER_ORDER.indexOf(type);
-      for (let s = 1; s <= 4; s++) {
-        const cand = MONSTER_ORDER[(k + s) % 4], other = used.indexOf(cand);
-        if (other === -1 || s === 4) { cfg.mons[i] = cand; break; }
-        if (cfg.teamCount === 4) { cfg.mons[other] = type; cfg.mons[i] = cand; break; }
+      // next monster that no other team is using
+      const used = cfg.mons.slice(0, cfg.teamCount), k = MONSTER_ORDER.indexOf(type);
+      for (let s = 1; s < MONSTER_ORDER.length; s++) {
+        const cand = MONSTER_ORDER[(k + s) % MONSTER_ORDER.length];
+        if (!used.includes(cand)) { cfg.mons[i] = cand; break; }
       }
       renderTeamPickers();
     };

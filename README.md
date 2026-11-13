@@ -33,7 +33,7 @@ Play: https://natalaplk.github.io/Oxford-Games/spelling-bee/
 A flashcard race for children aged 6–12 with the **Super Minds** Starter–6 vocabulary.
 
 - Flashcards use real photos (free licences from Wikimedia Commons / Wikipedia, see `shared/photos/credits.json`); words without a clear photo use a drawing.
-- 1–4 teams, each with its own monster (green Olly, purple Xia, blue Fran or orange Orla).
+- 1–4 teams, each with its own monster: green Olly, blue Fran, purple Xia, orange Roo, yellow Sunny or grey Didi (pixel-art pictures in `monster-rush/monsters/`).
 - Choose the number of rounds, pictures per turn and the time per turn (e.g. 20–30 s).
 - On each turn the team names the pictures; the teacher presses ✔ Correct, ✘ Wrong or ⏭ Pass (keys 1 / 2 / 3).
 - Correct: the monster jumps forward one square. Wrong: the monster is sad. Pass: a little hop, no move.

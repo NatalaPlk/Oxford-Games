@@ -192,13 +192,26 @@
   .end .sub b{color:var(--brand)}
   .end .garden{max-height:none;text-align:left;margin-top:22px}
   .end .garden{padding-right:26px} .end .garden .cat{--s:34px}
-  .podium{display:flex;justify-content:center;align-items:flex-end;gap:16px;margin:26px auto;max-width:980px;flex-wrap:wrap}
-  .pod{flex:1;min-width:170px;max-width:230px;background:var(--card);border:2px solid var(--navy);border-top:12px solid var(--c);border-radius:20px 20px 10px 10px;padding:12px;box-shadow:6px 6px 0 var(--navy)}
-  .pod .pmon{width:110px;margin:-50px auto 0}
-  .pod .medal{font-size:34px}
-  .pod .n{font-family:var(--display);font-size:22px;font-weight:900;text-transform:uppercase;word-break:break-word}
-  .pod .s{font-family:var(--mono);font-size:24px;font-weight:700}
-  .pod .oops{font-size:13px;font-weight:700;color:var(--brand);margin-top:4px}
+  .podium{display:flex;justify-content:center;align-items:flex-end;gap:10px;margin:18px auto 26px;max-width:900px;padding-top:84px}
+  .pod{flex:1;min-width:0;max-width:210px;display:flex;flex-direction:column;align-items:center}
+  .pod .pmon{width:var(--m);position:relative;margin-bottom:-6px;z-index:1}
+  .pod .face{position:absolute;right:-8%;top:-4%;font-size:calc(var(--m) * .3);line-height:1;filter:drop-shadow(0 2px 0 rgba(11,9,87,.25))}
+  .pod .crown{position:absolute;left:50%;top:-30%;font-size:calc(var(--m) * .38);line-height:1;transform:translateX(-50%) rotate(-8deg)}
+  .pod.p0 .pmon{animation:champ .7s ease-in-out infinite}
+  .pod.p1 .pmon{animation:sway 2.6s ease-in-out infinite}
+  .pod.p2 .pmon{transform:rotate(-3deg);filter:saturate(.8)}
+  .pod.p3 .pmon{transform:rotate(-6deg) translateY(4%);filter:saturate(.6) brightness(.95)}
+  @keyframes champ{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-22%) rotate(4deg)}}
+  @keyframes sway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+  .pod .n{font-family:var(--display);font-size:20px;font-weight:900;text-transform:uppercase;word-break:break-word;line-height:1;margin:8px 0 6px}
+  .pod.p0 .n{font-size:26px}
+  .pod .step{width:100%;height:var(--h);background:var(--c);border:3px solid var(--navy);border-radius:14px 14px 0 0;box-shadow:6px 0 0 var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;transform-origin:bottom;animation:rise .6s cubic-bezier(.3,1.4,.5,1) backwards;animation-delay:var(--dl)}
+  @keyframes rise{from{transform:scaleY(0)}}
+  .pod .rank{font-family:var(--display);font-weight:900;font-size:min(calc(var(--h) * .34),52px);line-height:1;-webkit-text-stroke:2px var(--navy);paint-order:stroke fill}
+  .pod .s{font-family:var(--mono);font-size:17px;font-weight:700;background:var(--card);color:var(--navy);border:2px solid var(--navy);border-radius:999px;padding:1px 10px;white-space:nowrap}
+  .pod.p0 .s{font-size:21px;background:var(--yellow,#ffd257)}
+  .pod .oops{font-size:13px;font-weight:700;color:var(--brand);margin-bottom:4px}
+  @media (max-width:600px){ .pod .n{font-size:15px} .pod.p0 .n{font-size:18px} .pod .s{font-size:13px;padding:1px 6px} }
   .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
   @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
 
@@ -592,13 +605,20 @@ function finish(){
   else eb.textContent = "";
   const pod = $("podium"); pod.innerHTML = "";
   const order = G.teams.map((t, i) => ({ t, i })).sort((a, b) => b.t.score - a.t.score);
-  const medals = ["🥇", "🥈", "🥉", "🎖️"];
-  order.forEach(({ t, i }, place) => {
+  const multi = G.teams.length > 1;
+  // equal scores share a step; the winner always stands on the highest one, in the middle
+  order.forEach((o, k) => { o.place = k && order[k - 1].t.score === o.t.score ? order[k - 1].place : k; });
+  const slots = order.length === 2 ? [1, 0] : order.length === 3 ? [1, 0, 2] : order.length === 4 ? [2, 0, 1, 3] : [0];
+  const big = Math.min(150, Math.max(84, Math.floor(innerWidth / (order.length + 1.2))));
+  const sizes = [1, .74, .64, .56], heights = [190, 136, 100, 74], faces = ["🤩", "😐", "😕", "😢"], ranks = ["1st", "2nd", "3rd", "4th"];
+  slots.forEach(k => {
+    const { t, i, place } = order[k];
     const d = document.createElement("div");
-    d.className = "pod"; d.style.setProperty("--c", MONSTERS[t.mon].color);
-    d.style.marginTop = (60 + place * 22) + "px";
-    const oops = bad && bad.team === i && G.teams.length > 1;
-    d.innerHTML = `<div class="pmon">${monsterSVG(t.mon, oops ? "sad" : place === 0 ? "joy" : "happy")}</div><div class="medal">${G.teams.length > 1 ? medals[Math.min(place, 3)] : "🐛"}</div><div class="n"></div><div class="s">${t.score} <small style="font-size:13px;letter-spacing:.12em">POINTS</small></div>${oops ? '<div class="oops">fed the bad word 🤢</div>' : ""}`;
+    d.className = "pod p" + place;
+    d.style.cssText = `--c:${MONSTERS[t.mon].color};--m:${Math.round(big * sizes[place])}px;--h:${heights[place]}px;--dl:${(3 - place) * .18}s`;
+    const oops = bad && bad.team === i && multi;
+    const mood = place === 0 ? "joy" : place >= 2 || oops ? "sad" : "happy";
+    d.innerHTML = `<div class="pmon">${place === 0 && multi ? '<span class="crown">👑</span>' : ""}${monsterSVG(t.mon, mood)}${multi ? `<span class="face">${oops && place ? "🤢" : faces[place]}</span>` : ""}</div><div class="n"></div>${oops ? '<div class="oops">fed the bad word 🤢</div>' : ""}<div class="step"><span class="rank">${multi ? ranks[place] : "🐛"}</span><span class="s">${t.score} pts</span></div>`;
     d.querySelector(".n").textContent = t.name;
     pod.appendChild(d);
   });

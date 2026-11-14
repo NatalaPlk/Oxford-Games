@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hungry Hungry Caterpillar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b0957; --brand:#c8323c; --brand2:#a5242d;
+    --cream:#f3ead9; --paper:#faf6ee; --card:#ffffff; --yellow:#ffd257; --mint:#3ddc84;
+    --ink:#0b0957; --muted:#55537e; --ok:#14a35a; --leaf:#3fae49; --sick:#a3ad3c;
+    --display:"Archivo","Arial Black",Impact,sans-serif; --mono:"Space Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden}
+  button{font:inherit;cursor:pointer;border:0;color:inherit}
+  a{color:var(--navy);text-decoration-color:var(--brand);text-underline-offset:3px}
+  .hidden{display:none!important}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 48px}
+  .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
+  .home-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:2px solid var(--navy);border-radius:999px;padding:6px 14px;background:var(--card)}
+  .home-link:hover{background:var(--cream)}
+  a.btn{text-decoration:none;display:inline-flex;align-items:center}
+
+  /* ---------- Hero ---------- */
+  .hero{display:grid;grid-template-columns:1.15fr 1fr;border:2px solid var(--navy);border-radius:26px;overflow:hidden;margin-bottom:22px;box-shadow:6px 6px 0 var(--navy)}
+  .hero .l{background:var(--navy);color:#fff;padding:30px 30px 34px}
+  .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
+  .hero h1{margin:14px 0 6px;line-height:.88;font-family:var(--display);font-weight:900;font-size:clamp(44px,7.4vw,88px);letter-spacing:-.02em;text-transform:uppercase}
+  .hero h1 .w2{display:block;color:#8fe06a;font-stretch:70%}
+  .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:36ch}
+  .hero .r{position:relative;background:linear-gradient(#bfe6ff 0 68%,#7fd6a6 68% 100%);display:flex;align-items:flex-end;justify-content:center;padding:70px 10px 34px;min-height:250px;overflow:hidden}
+  .hero .r .cat{--s:54px;flex-wrap:nowrap}
+  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
+  .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
+  .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
+  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--card);border:2px solid var(--navy);color:var(--navy);padding:10px 18px;border-radius:999px;font-weight:700;font-size:16px}
+  .chip:hover{background:var(--cream)}
+  .chip.on{background:var(--navy);color:#fff}
+  .chip.num{min-width:58px;font-size:22px;font-family:var(--mono)}
+  .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
+  .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+  .team-pick{display:flex;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--navy);border-radius:20px;padding:10px 14px;border-top:10px solid var(--c)}
+  .team-pick .mon{width:70px;flex:none;cursor:pointer;transition:transform .15s}
+  .team-pick .mon:hover{transform:scale(1.08) rotate(-4deg)}
+  .team-pick .side{flex:1;min-width:0}
+  .team-pick input{width:100%;background:#fff;border:2px solid var(--navy);border-radius:999px;padding:7px 12px;font:inherit;font-size:17px;font-weight:700;color:var(--navy);outline:none}
+  .team-pick input::placeholder{color:#8e8cae}
+  .team-pick .swap{margin-top:6px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;background:transparent;color:var(--muted);text-decoration:underline}
+  .start-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .btn{padding:14px 26px;border-radius:999px;font-weight:800;font-size:17px;border:2px solid var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
+  .btn:active{transform:translate(3px,3px);box-shadow:none!important}
+  .btn-red{background:var(--brand);color:#fff;box-shadow:4px 4px 0 var(--navy)}
+  .btn-red:hover{background:var(--brand2)}
+  .btn-plain{background:var(--card);color:var(--navy)}
+  .btn-plain:hover{background:var(--cream)}
+  .btn-big{font-size:22px;padding:18px 40px}
+  .btn:disabled{opacity:.4;cursor:default}
+
+  /* ---------- the caterpillar ---------- */
+  .cat{--s:64px;display:flex;flex-wrap:wrap;align-items:flex-end;row-gap:calc(var(--s)*.95);padding-left:calc(var(--s)*.3)}
+  .seg{position:relative;flex:none;width:var(--s);height:var(--s);margin-left:calc(var(--s)*-.2);border-radius:50%;background:var(--c,#58c94a);border:calc(var(--s)*.06) solid var(--navy);display:grid;place-items:center;
+       font-family:var(--display);font-weight:900;font-size:calc(var(--s)*.5);color:#fff;text-transform:uppercase;text-shadow:0 2px 0 rgba(11,9,87,.45);
+       animation:bob 1.5s ease-in-out infinite;animation-delay:calc(var(--i)*-.14s);transition:background .35s}
+  .seg.alt{filter:brightness(1.16)}
+  .seg::before,.seg::after{content:"";position:absolute;bottom:-17%;width:24%;height:24%;background:var(--navy);border-radius:40% 40% 50% 50%;z-index:-1}
+  .seg::before{left:16%} .seg::after{right:16%}
+  .seg.last{background:var(--yellow)!important;color:var(--navy);text-shadow:none;box-shadow:0 0 0 calc(var(--s)*.07) #fff,0 0 calc(var(--s)*.4) #ffb300;filter:none}
+  .seg.fresh{animation:segIn .32s cubic-bezier(.3,1.6,.6,1) backwards,bob 1.5s ease-in-out infinite;animation-delay:var(--d),calc(var(--i)*-.14s)}
+  .tail{flex:none;width:calc(var(--s)*.55);height:calc(var(--s)*.55);border-radius:50%;background:#58c94a;border:calc(var(--s)*.06) solid var(--navy);margin-bottom:calc(var(--s)*.08)}
+  @keyframes bob{50%{transform:translateY(calc(var(--s)*-.1))}}
+  @keyframes segIn{from{transform:scale(0)}}
+  .head{position:relative;flex:none;width:calc(var(--s)*1.7);height:calc(var(--s)*1.7);margin-left:calc(var(--s)*-.3);margin-bottom:calc(var(--s)*-.12);z-index:2;transition:transform .2s}
+  .head svg{display:block;width:100%;height:100%;overflow:visible}
+  .head .face{fill:#ffd257;transition:fill .6s}
+  .head .mo-open,.head .mo-sick,.head .ey-sick,.head .drool{display:none}
+  .head.chomp{animation:chomp .22s ease-in-out 2}
+  .head.chomp .mo-happy{display:none} .head.chomp .mo-open{display:block}
+  .head.sick .face{fill:#b4c24a}
+  .head.sick .mo-happy,.head.sick .ey-ok,.head.sick .cheek{display:none} .head.sick .mo-sick,.head.sick .ey-sick,.head.sick .drool{display:block}
+  .head.sick{animation:queasy .5s ease-in-out infinite}
+  @keyframes chomp{50%{transform:scale(1.14) rotate(-6deg)}}
+  @keyframes queasy{25%{transform:rotate(-7deg) translateX(-3px)}75%{transform:rotate(7deg) translateX(3px)}}
+  .bubble{position:absolute;bottom:92%;left:42%;background:#fff;border:3px solid var(--navy);border-radius:16px 16px 16px 4px;padding:2px 12px;font-family:var(--display);font-weight:900;font-size:calc(var(--s)*.5 + 6px);white-space:nowrap;box-shadow:3px 3px 0 var(--navy);text-transform:uppercase}
+  .bubble small{font-family:var(--mono);font-size:.45em;letter-spacing:.08em;vertical-align:middle;color:var(--muted)}
+  .head.sick .bubble{display:none}
+  .cat.sick .seg{background:var(--sick)!important;box-shadow:none;color:#fff;transition-delay:calc((var(--n) - var(--i))*45ms);animation:rumbleSeg .3s ease-in-out infinite;animation-delay:calc(var(--i)*-.05s)}
+  .cat.sick .tail{background:var(--sick)}
+  @keyframes rumbleSeg{50%{transform:translateY(-4px) scale(1.06,.94)}}
+  .minipoop{flex:none;width:calc(var(--s)*.9);margin-right:calc(var(--s)*.1);animation:plop .5s cubic-bezier(.3,1.6,.6,1) backwards}
+  .minipoop svg{display:block;width:100%;height:auto}
+
+  /* ---------- Game ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .pill{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:2px solid var(--navy);border-radius:999px;padding:8px 16px;background:var(--card)}
+  .topbar .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .topbar .btn{font-size:14px;padding:8px 16px}
+  .scorebar{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:#1a1873;border-radius:20px;padding:10px 14px;box-shadow:6px 6px 0 var(--brand);margin-bottom:18px}
+  .scorebar .lab{font-family:var(--mono);font-weight:700;letter-spacing:.2em;color:var(--yellow);font-size:12px;margin-right:6px}
+  .scorebar .stat{margin-left:auto;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.08em;color:#fff}
+  .scorebar .stat b{color:var(--yellow);font-size:17px}
+  .ts{display:flex;align-items:center;gap:8px;background:#24218a;color:#fff;border-radius:999px;padding:4px 14px 4px 6px;border:2px solid #24218a}
+  .ts .face{width:34px;height:34px;border-radius:50%;background:var(--c);overflow:hidden;display:grid;place-items:start center}
+  .ts .face img{width:150%;margin-top:6%}
+  .ts .nm{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:17px;max-width:12ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ts b{font-family:var(--mono);color:var(--yellow);font-size:19px}
+  .ts.now{border-color:var(--yellow);background:#2f2ca8}
+
+  .garden{position:relative;background:radial-gradient(circle at 12% 18%,rgba(255,255,255,.55) 0 60px,transparent 62px),radial-gradient(circle at 86% 70%,rgba(255,255,255,.4) 0 80px,transparent 82px),#d6f2bd;border:2px solid var(--navy);border-radius:24px;box-shadow:6px 6px 0 var(--navy);
+          padding:86px 90px 34px 26px;min-height:230px;max-height:52vh;overflow-y:auto;margin-bottom:20px}
+  .feed{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:18px 22px 20px;text-align:center}
+  .turnline{margin:0 0 12px;font-size:20px;font-weight:700}
+  .turnline .who{display:inline-block;background:var(--c);color:#fff;font-family:var(--display);font-weight:900;text-transform:uppercase;border-radius:10px;padding:1px 12px;font-size:24px;vertical-align:-2px}
+  .wordrow{display:inline-flex;align-items:stretch;gap:8px;max-width:100%}
+  .first{flex:none;width:70px;height:70px;border-radius:16px;background:var(--yellow);border:3px solid var(--navy);box-shadow:4px 4px 0 var(--navy);display:grid;place-items:center;font-family:var(--display);font-weight:900;font-size:44px;text-transform:uppercase}
+  .wordrow input{width:min(420px,56vw);height:70px;border:3px dashed var(--navy);border-radius:16px;background:var(--paper);font-family:var(--display);font-weight:900;font-size:40px;text-transform:uppercase;letter-spacing:.06em;color:var(--navy);padding:0 16px;outline:none}
+  .wordrow input:focus{border-style:solid;background:#fff}
+  .wordrow input::placeholder{font-family:var(--mono);font-size:15px;font-weight:400;letter-spacing:.04em;text-transform:none;color:#9a98b8}
+  .shake{animation:shake .35s}
+  @keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+  .tools{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .tool{background:var(--card);border:2px solid var(--navy);border-radius:999px;padding:10px 20px;font-weight:800;font-size:17px}
+  .tool:hover{background:var(--cream)}
+  .tool.go{background:var(--leaf);color:#fff;box-shadow:4px 4px 0 var(--navy);font-size:20px;padding:12px 30px}
+  .tool.pulse{animation:pulse .8s ease-in-out infinite;background:var(--yellow)}
+  @keyframes pulse{50%{transform:scale(1.08)}}
+  .msg{min-height:30px;margin-top:12px;font-weight:700;font-size:18px}
+  .msg.ok{color:var(--ok)} .msg.bad{color:var(--brand)}
+  .judge{margin-top:6px}
+  .judge h2{font-family:var(--display);font-weight:900;font-size:30px;margin:4px 0 6px;text-transform:uppercase}
+  .judge h2 b{color:var(--brand)}
+  .judge p{margin:0 0 14px;font-size:18px}
+
+  .leaf{position:fixed;z-index:50;pointer-events:none;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:30px;letter-spacing:.06em;background:var(--leaf);color:#fff;border-radius:999px 14px 999px 14px;padding:6px 22px;box-shadow:0 0 0 3px var(--navy);white-space:nowrap}
+  .leaf.bad{background:#7a6a2a}
+  .crumb{position:fixed;z-index:50;pointer-events:none;font-size:22px;animation:crumbFly .7s ease-out forwards}
+  @keyframes crumbFly{to{transform:translate(var(--dx),var(--dy)) rotate(200deg);opacity:0}}
+
+  /* ---------- the stinky ending ---------- */
+  .yuck{position:fixed;inset:0;z-index:80;background:radial-gradient(circle at 50% 55%,#c9d95a 0,#7f9a2c 55%,#4c6417 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;overflow:hidden}
+  .yuck .scene{position:relative;width:min(300px,56vw);margin-top:60px}
+  .yuck .poop{animation:plop .7s cubic-bezier(.3,1.7,.5,1) backwards;transform-origin:50% 100%}
+  .yuck .poop svg{display:block;width:100%;height:auto;animation:jiggle 1.1s ease-in-out .7s infinite;transform-origin:50% 100%}
+  @keyframes plop{0%{transform:translateY(-110vh) scale(.6,1.3)}70%{transform:translateY(0) scale(1.35,.6)}100%{transform:none}}
+  @keyframes jiggle{50%{transform:scale(1.05,.95)}}
+  .stink{position:absolute;bottom:88%;width:14%;animation:stink 1.8s ease-in infinite}
+  .stink:nth-of-type(1){left:14%} .stink:nth-of-type(2){left:43%;animation-delay:.5s} .stink:nth-of-type(3){left:72%;animation-delay:1s}
+  @keyframes stink{0%{transform:translateY(20px) scaleY(.6);opacity:0}30%{opacity:.95}100%{transform:translateY(-70px) scaleY(1.2);opacity:0}}
+  .fly{position:absolute;left:50%;top:38%;width:12px;height:12px;margin:-6px;border-radius:50%;background:#1c1c2a;animation:orbit 1.7s linear infinite}
+  .fly::before{content:"";position:absolute;left:-5px;top:-7px;width:22px;height:9px;border-radius:50%;background:rgba(255,255,255,.85);animation:buzz .08s linear infinite alternate}
+  .fly.f2{animation-duration:2.3s;animation-direction:reverse;top:55%} .fly.f3{animation-duration:1.3s;top:20%}
+  @keyframes orbit{from{transform:rotate(0) translateX(min(170px,30vw)) rotate(0)}to{transform:rotate(360deg) translateX(min(170px,30vw)) rotate(-360deg)}}
+  @keyframes buzz{to{transform:scaleY(.3)}}
+  .prrt{position:absolute;right:-34%;top:-8%;transform:rotate(12deg);background:var(--yellow);border:4px solid var(--navy);box-shadow:5px 5px 0 var(--navy);border-radius:14px;padding:4px 14px;font-family:var(--display);font-weight:900;font-size:clamp(24px,4vw,40px);animation:prrt .5s cubic-bezier(.3,1.8,.5,1) .55s backwards}
+  @keyframes prrt{from{transform:scale(0) rotate(-30deg)}}
+  .yuck h1{font-family:var(--display);font-weight:900;font-size:clamp(60px,12vw,150px);line-height:.85;margin:22px 0 8px;color:#fff;text-transform:uppercase;text-shadow:5px 5px 0 var(--navy);letter-spacing:-.02em}
+  .yuck p{font-size:clamp(18px,2.4vw,26px);font-weight:700;color:var(--navy);margin:0 0 18px;max-width:30ch}
+  .yuck p b{background:#fff;border-radius:8px;padding:0 8px;text-transform:uppercase}
+
+  /* end */
+  .end{text-align:center}
+  .end h1{font-family:var(--display);font-weight:900;font-size:clamp(46px,8vw,96px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;margin:10px 0}
+  .end .sub{font-size:21px;font-weight:700;margin:6px 0}
+  .end .sub b{color:var(--brand)}
+  .end .garden{max-height:none;text-align:left;margin-top:22px}
+  .end .garden .cat{--s:44px}
+  .podium{display:flex;justify-content:center;align-items:flex-end;gap:16px;margin:26px auto;max-width:980px;flex-wrap:wrap}
+  .pod{flex:1;min-width:170px;max-width:230px;background:var(--card);border:2px solid var(--navy);border-top:12px solid var(--c);border-radius:20px 20px 10px 10px;padding:12px;box-shadow:6px 6px 0 var(--navy)}
+  .pod .pmon{width:110px;margin:-50px auto 0}
+  .pod .medal{font-size:34px}
+  .pod .n{font-family:var(--display);font-size:22px;font-weight:900;text-transform:uppercase;word-break:break-word}
+  .pod .s{font-family:var(--mono);font-size:24px;font-weight:700}
+  .pod .oops{font-size:13px;font-weight:700;color:var(--brand);margin-top:4px}
+  .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .garden{padding:76px 60px 28px 16px}
+    .first{width:56px;height:56px;font-size:34px} .wordrow input{height:56px;font-size:28px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="wrap">
+  <a class="home-link" href="../">← All games</a>
+  <div class="hero">
+    <div class="l">
+      <p class="eyebrow">Oxford Games <b>•</b> All levels · Vocabulary</p>
+      <h1>Hungry Hungry<span class="w2">Caterpillar</span></h1>
+      <p>Feed the caterpillar words! Every word starts with the last letter of the word before. A wrong word makes it sick…</p>
+    </div>
+    <div class="r" id="heroCat"><span class="sticker">YUM YUM!</span></div>
+  </div>
+  <div class="marquee"><div><i>CATERPILLAR <b>→</b> ORUGA</i><i>HUNGRY <b>→</b> HAMBRIENTA</i><i>LEAF <b>→</b> HOJA</i><i>TO EAT <b>→</b> COMER</i><i>YUCK! <b>→</b> ¡PUAJ!</i><i>CATERPILLAR <b>→</b> ORUGA</i><i>HUNGRY <b>→</b> HAMBRIENTA</i><i>LEAF <b>→</b> HOJA</i><i>TO EAT <b>→</b> COMER</i><i>YUCK! <b>→</b> ¡PUAJ!</i></div></div>
+
+  <div class="panel">
+    <p class="eyebrow">01 · Teams or players</p>
+    <div class="choices" id="teamCountChoices"></div>
+    <div class="teams-edit" id="teamNames"></div>
+    <div class="hint">Click a monster to change it. If you don't type a name, the team takes the monster's name. With 1 team the whole class plays together and tries to beat the record.</div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">02 · How it works</p>
+    <div class="hint" style="margin-top:0;font-size:16px">
+      The caterpillar starts very small, with one letter. The first team says a word that starts with that letter (<b>W</b> → <b>wolf</b>). The caterpillar eats it and grows. The next team needs a word that starts with the <b>last letter</b> (<b>F</b> → <b>family</b>), and so on.<br>
+      <b>Points = letters in the word</b> (wolf = 4 points). The game ends when a team gives a word that is wrong or was already used: the caterpillar gets sick and… 💩
+    </div>
+  </div>
+
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="startBtn">Feed the caterpillar! 🍃</button>
+  </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="wrap hidden">
+  <div class="topbar">
+    <span class="pill">Hungry Hungry Caterpillar</span>
+    <div class="actions">
+      <a class="btn btn-plain" href="../" onclick="return confirm('Leave this game and go back to all games?')">🏠 All games</a>
+      <button class="btn btn-plain" id="undoBtn" title="Undo the last word">↩ Undo</button>
+      <button class="btn btn-plain" id="endBtn">Finish</button>
+    </div>
+  </div>
+
+  <div class="scorebar" id="scorebar"></div>
+  <div class="garden" id="garden"></div>
+
+  <div class="feed">
+    <div id="playBox">
+      <p class="turnline" id="turnline"></p>
+      <div class="wordrow" id="wordrow">
+        <span class="first" id="first"></span>
+        <input id="word" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="24" placeholder="type the rest of the word…">
+      </div>
+      <div class="tools">
+        <button class="tool go" id="feedBtn" title="Feed the word (Enter)">🍃 Feed it!</button>
+        <button class="tool" id="diceBtn" title="No words with this letter? Get a new one">🎲 New letter</button>
+      </div>
+      <div class="msg" id="msg"></div>
+    </div>
+    <div id="judgeBox" class="judge hidden">
+      <h2>🤔 <b id="judgeWord"></b>?</h2>
+      <p>This word isn't in our dictionary. Teacher, is it a real English word?</p>
+      <div class="tools">
+        <button class="tool go" id="judgeYes">✔ Yes, feed it</button>
+        <button class="tool" id="judgeNo" style="background:var(--brand);color:#fff">✘ No, it's wrong</button>
+        <button class="tool" id="judgeBack">↩ Typing mistake</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= YUCK ================= -->
+<div id="yuck" class="yuck hidden">
+  <div class="scene">
+    <svg class="stink" viewBox="0 0 30 80"><path d="M15 78 q-14 -10 0 -20 q14 -10 0 -20 q-14 -10 0 -20 q8 -8 0 -16" stroke="#e8ff8a" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
+    <svg class="stink" viewBox="0 0 30 80"><path d="M15 78 q-14 -10 0 -20 q14 -10 0 -20 q-14 -10 0 -20 q8 -8 0 -16" stroke="#e8ff8a" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
+    <svg class="stink" viewBox="0 0 30 80"><path d="M15 78 q-14 -10 0 -20 q14 -10 0 -20 q-14 -10 0 -20 q8 -8 0 -16" stroke="#e8ff8a" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
+    <div class="poop" id="bigPoop"></div>
+    <span class="fly"></span><span class="fly f2"></span><span class="fly f3"></span>
+    <span class="prrt">PRRRT!</span>
+  </div>
+  <h1>Yuck!</h1>
+  <p id="yuckWhy"></p>
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="yuckNext">See the scores ➜</button>
+    <button class="btn btn-plain" id="yuckUndo">↩ It was a mistake, keep playing</button>
+  </div>
+</div>
+
+<!-- ================= END ================= -->
+<section id="end" class="wrap end hidden">
+  <p class="eyebrow">Hungry Hungry Caterpillar · The end</p>
+  <h1 id="endTitle"></h1>
+  <p class="sub" id="endSub"></p>
+  <p class="sub" id="endBad"></p>
+  <div class="podium" id="podium"></div>
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="againBtn">Play again</button>
+    <button class="btn btn-plain" id="setupBtn">Change teams</button>
+    <a class="btn btn-plain" href="../">🏠 All games</a>
+  </div>
+  <div class="garden" id="endGarden"></div>
+</section>
+
+<script src="../monster-rush/monsters.js"></script>
+<script src="dict.js"></script>
+<script>
+const STORE_KEY = "hungry-caterpillar-v1";
+const $ = id => document.getElementById(id);
+function loadStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
+function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){} }
+const store = loadStore();
+const cfg = Object.assign({ teamCount: 2, names: ["","","",""], mons: ["gobo","blinky","plum","tango"] }, store.cfg || {});
+cfg.mons = (cfg.mons || []).filter((t, i, a) => MONSTERS[t] && a.indexOf(t) === i);
+for (const t of MONSTER_ORDER) if (cfg.mons.length < 4 && !cfg.mons.includes(t)) cfg.mons.push(t);
+
+const DICT = new Set(DICT_WORDS.split(" "));
+const TWO = new Set("am an as at be by do go he hi if in is it me my no of oh on or ox so to up us we".split(" "));
+const isWord = w => w.length === 2 ? TWO.has(w) : DICT.has(w);
+const START_LETTERS = "abcdefghlmnprstw", TRICKY = "xqzj";
+const pick = s => s[Math.floor(Math.random() * s.length)];
+
+/* ---------- drawing ---------- */
+function headSVG(){
+  const o = "#0b0957";
+  return `<svg viewBox="0 0 120 120" aria-hidden="true">
+    <path d="M44 24 Q40 10 30 4 M76 24 Q80 10 90 4" fill="none" stroke="${o}" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="29" cy="4" r="7" fill="#c8323c" stroke="${o}" stroke-width="3"/><circle cx="91" cy="4" r="7" fill="#c8323c" stroke="${o}" stroke-width="3"/>
+    <circle class="face" cx="60" cy="66" r="48" stroke="${o}" stroke-width="5"/>
+    <g class="cheek" fill="#ff8a92" opacity=".8"><circle cx="24" cy="82" r="9"/><circle cx="96" cy="82" r="9"/></g>
+    <g class="ey-ok"><circle cx="42" cy="56" r="14" fill="#fff" stroke="${o}" stroke-width="4"/><circle cx="78" cy="56" r="14" fill="#fff" stroke="${o}" stroke-width="4"/><circle cx="46" cy="58" r="6" fill="${o}"/><circle cx="82" cy="58" r="6" fill="${o}"/><circle cx="48" cy="55" r="2" fill="#fff"/><circle cx="84" cy="55" r="2" fill="#fff"/></g>
+    <g class="ey-sick" fill="none" stroke="${o}" stroke-width="5" stroke-linecap="round"><path d="M32 46 L52 66 M52 46 L32 66 M68 46 L88 66 M88 46 L68 66"/></g>
+    <path class="mo-happy" d="M40 86 Q60 104 80 86" fill="none" stroke="${o}" stroke-width="5" stroke-linecap="round"/>
+    <g class="mo-open"><ellipse cx="60" cy="90" rx="18" ry="15" fill="#7a1230" stroke="${o}" stroke-width="5"/><ellipse cx="60" cy="98" rx="10" ry="6" fill="#ff8a92"/></g>
+    <path class="mo-sick" d="M36 92 q6 -10 12 0 t12 0 t12 0 t12 0" fill="none" stroke="${o}" stroke-width="5" stroke-linecap="round"/>
+    <path class="drool" d="M70 94 q5 12 0 18 q-6 -6 0 -18Z" fill="#7fbf3a" stroke="${o}" stroke-width="2"/>
+  </svg>`;
+}
+function poopSVG(face = true){
+  const o = "#0b0957", b = "#8a5a2b";
+  return `<svg viewBox="0 0 200 190" aria-label="A stinky poop">
+    <path d="M22 168 q-14 -46 40 -50 h76 q54 4 40 50 q-78 26 -156 0Z" fill="${b}" stroke="${o}" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M46 122 q-10 -38 34 -40 h40 q44 2 34 40 q-54 14 -108 0Z" fill="${b}" stroke="${o}" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M70 86 q-8 -30 22 -36 q-8 -20 16 -40 q-4 24 14 36 q20 10 10 40 q-32 10 -62 0Z" fill="${b}" stroke="${o}" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M44 150 q10 -16 30 -16 M62 106 q8 -10 22 -10 M88 66 q4 -8 12 -10" fill="none" stroke="#b9824a" stroke-width="6" stroke-linecap="round"/>
+    ${face ? `<circle cx="76" cy="134" r="13" fill="#fff" stroke="${o}" stroke-width="4"/><circle cx="124" cy="134" r="13" fill="#fff" stroke="${o}" stroke-width="4"/><circle cx="80" cy="137" r="5" fill="${o}"/><circle cx="120" cy="137" r="5" fill="${o}"/>
+    <path d="M82 160 q18 14 36 0" fill="none" stroke="${o}" stroke-width="5" stroke-linecap="round"/>` : ""}
+  </svg>`;
+}
+// one body segment per letter; the last one (yellow) is the letter the next word must start with
+function catHTML(segs, { freshFrom = Infinity, mood = "", poop = false, bubble = true, teams = [] } = {}){
+  const n = segs.length;
+  const body = segs.map((sg, i) => {
+    const c = sg.team >= 0 && teams[sg.team] ? MONSTERS[teams[sg.team].mon].color : "#58c94a";
+    const cls = "seg" + (i === n - 1 && mood !== "sick" ? " last" : "") + (sg.w % 2 === 1 ? " alt" : "") + (i >= freshFrom ? " fresh" : "");
+    return `<span class="${cls}" style="--c:${c};--i:${i};--d:${Math.max(0, i - freshFrom) * .09}s">${sg.ch}</span>`;
+  }).join("");
+  const last = n ? segs[n - 1].ch : "";
+  return `<div class="cat${mood === "sick" ? " sick" : ""}" style="--n:${n}">${poop ? `<span class="minipoop">${poopSVG(false)}</span>` : ""}<span class="tail"></span>${body}<span class="head ${mood}">${headSVG()}${bubble ? `<span class="bubble">${last}… <small>?</small></span>` : ""}</span></div>`;
+}
+function segSize(n){ return n <= 10 ? 66 : n <= 24 ? 56 : n <= 45 ? 46 : n <= 80 ? 38 : n <= 130 ? 32 : 27; }
+
+/* ---------- setup ---------- */
+function renderSetup(){
+  $("heroCat").innerHTML = '<span class="sticker">YUM YUM!</span>' + catHTML([..."yum"].map((ch, i) => ({ ch, team: -1, w: i })), { bubble: false });
+  const tc = $("teamCountChoices"); tc.innerHTML = "";
+  [1, 2, 3, 4].forEach(n => {
+    const el = document.createElement("button");
+    el.className = "chip num" + (cfg.teamCount === n ? " on" : ""); el.textContent = n;
+    el.onclick = () => { cfg.teamCount = n; renderSetup(); };
+    tc.appendChild(el);
+  });
+  const tn = $("teamNames"); tn.innerHTML = "";
+  for (let i = 0; i < cfg.teamCount; i++) {
+    const type = cfg.mons[i], d = document.createElement("div");
+    d.className = "team-pick"; d.style.setProperty("--c", MONSTERS[type].color);
+    d.innerHTML = `<div class="mon">${monsterSVG(type, "happy")}</div><div class="side"><input maxlength="20"><button class="swap" type="button">change monster ↻</button></div>`;
+    const inp = d.querySelector("input");
+    inp.placeholder = MONSTERS[type].name; inp.value = cfg.names[i] || "";
+    inp.oninput = () => { cfg.names[i] = inp.value; };
+    const swap = () => {
+      const used = cfg.mons.slice(0, cfg.teamCount), k = MONSTER_ORDER.indexOf(type);
+      for (let s = 1; s < MONSTER_ORDER.length; s++) {
+        const cand = MONSTER_ORDER[(k + s) % MONSTER_ORDER.length];
+        if (!used.includes(cand)) { cfg.mons[i] = cand; break; }
+      }
+      renderSetup();
+    };
+    d.querySelector(".mon").onclick = swap; d.querySelector(".swap").onclick = swap;
+    tn.appendChild(d);
+  }
+}
+
+/* ---------- sounds ---------- */
+let actx = null;
+function tone(freqs, dur = .12, type = "sine", slide = 0, vol = .2){
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    freqs.forEach((f, i) => {
+      const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + i * dur;
+      o.type = type; o.frequency.setValueAtTime(f, t);
+      if (slide) o.frequency.exponentialRampToValueAtTime(f * slide, t + dur);
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      o.connect(g).connect(actx.destination); o.start(t); o.stop(t + dur + .02);
+    });
+  } catch(e){}
+}
+const sChomp = () => tone([260, 180, 260, 180], .07, "square", .7, .14);
+const sGrow = n => tone(Array.from({ length: Math.min(n, 12) }, (_, i) => 420 + i * 45), .085, "triangle", 0, .16);
+const sDice = () => tone([500, 700, 600, 900], .07, "triangle", 0, .15);
+const sNo = () => tone([200, 150], .12, "square", 0, .12);
+const sGurgle = () => tone([110, 80, 130, 70, 120, 60, 100], .2, "sawtooth", .7, .2);
+const sFart = () => { tone([140], .9, "sawtooth", .35, .32); tone([70, 90, 60], .3, "square", .8, .16); };
+const sWin = () => tone([523, 659, 784, 1047], .14, "triangle", 0, .18);
+
+/* ---------- game ---------- */
+let G = null, undoStack = [], busy = false, timers = [];
+const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
+const team = () => G.teams[G.turn];
+function show(id){ ["setup", "game", "end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); $("yuck").classList.add("hidden"); window.scrollTo(0, 0); }
+function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 200) undoStack.shift(); }
+
+function startGame(){
+  store.cfg = cfg; saveStore();
+  const teams = [];
+  for (let i = 0; i < cfg.teamCount; i++) teams.push({ name: (cfg.names[i] || "").trim() || MONSTERS[cfg.mons[i]].name, mon: cfg.mons[i], score: 0 });
+  const start = pick(START_LETTERS);
+  G = { teams, turn: 0, segs: [{ ch: start, team: -1, w: -1 }], words: [], letter: start, phase: "play", bad: null, judging: null };
+  undoStack = []; busy = false; clearTimers();
+  show("game"); render();
+}
+function render(freshFrom = Infinity){
+  const sb = $("scorebar");
+  sb.innerHTML = '<span class="lab">POINTS</span>';
+  G.teams.forEach((t, i) => {
+    const ts = document.createElement("span"); ts.className = "ts" + (i === G.turn ? " now" : ""); ts.style.setProperty("--c", MONSTERS[t.mon].color);
+    ts.innerHTML = `<span class="face"><img src="${MONSTER_DIR}${MONSTERS[t.mon].img}.png" alt=""></span><span class="nm"></span><b>${t.score}</b>`;
+    ts.querySelector(".nm").textContent = t.name;
+    sb.appendChild(ts);
+  });
+  const st = document.createElement("span"); st.className = "stat";
+  st.innerHTML = `🐛 <b>${G.segs.length}</b> LETTERS · <b>${G.words.length}</b> WORDS · RECORD <b>${Math.max(store.best || 0, G.segs.length)}</b>`;
+  sb.appendChild(st);
+
+  const g = $("garden");
+  g.innerHTML = catHTML(G.segs, { freshFrom, teams: G.teams });
+  g.firstChild.style.setProperty("--s", segSize(G.segs.length) + "px");
+  g.scrollTop = g.scrollHeight;
+
+  const t = team(), tl = $("turnline");
+  tl.innerHTML = `<span class="who"></span> feed me a word that starts with <b style="color:var(--brand);font-size:26px">${G.letter.toUpperCase()}</b>`;
+  tl.querySelector(".who").textContent = t.name; tl.querySelector(".who").style.setProperty("--c", MONSTERS[t.mon].color);
+  $("first").textContent = G.letter;
+  $("diceBtn").classList.toggle("pulse", TRICKY.includes(G.letter));
+  const judging = G.phase === "judge";
+  $("playBox").classList.toggle("hidden", judging); $("judgeBox").classList.toggle("hidden", !judging);
+  if (judging) $("judgeWord").textContent = G.judging;
+  else { $("word").value = ""; $("word").focus({ preventScroll: true }); }
+}
+function setMsg(text, kind = ""){ const m = $("msg"); m.className = "msg " + kind; m.textContent = text; }
+
+// the word flies to the caterpillar's mouth as a leaf, then it chomps
+function flyToMouth(word, bad, done){
+  const from = $("wordrow").getBoundingClientRect(), head = document.querySelector("#garden .head");
+  $("garden").scrollTop = $("garden").scrollHeight;
+  const to = head.getBoundingClientRect();
+  const f = document.createElement("div"); f.className = "leaf" + (bad ? " bad" : ""); f.textContent = word;
+  document.body.appendChild(f);
+  const fw = f.offsetWidth, fh = f.offsetHeight;
+  const sx = from.left + from.width / 2 - fw / 2, sy = from.top + from.height / 2 - fh / 2;
+  const ex = to.left + to.width / 2 - fw / 2, ey = to.top + to.height * .7 - fh / 2;
+  f.style.left = sx + "px"; f.style.top = sy + "px";
+  const dx = ex - sx, dy = ey - sy;
+  let fin = false;
+  const land = () => {
+    if (fin) return; fin = true; f.remove();
+    head.classList.add("chomp"); sChomp();
+    for (let k = 0; k < 7; k++) {
+      const c = document.createElement("span"); c.className = "crumb"; c.textContent = bad ? "🟤" : "🍃";
+      c.style.left = (to.left + to.width / 2) + "px"; c.style.top = (to.top + to.height * .65) + "px";
+      c.style.setProperty("--dx", ((Math.random() - .5) * 150) + "px"); c.style.setProperty("--dy", (-20 - Math.random() * 90) + "px");
+      document.body.appendChild(c); setTimeout(() => c.remove(), 750);
+    }
+    later(done, 450);
+  };
+  const anim = f.animate([
+    { transform: "translate(0,0) scale(1) rotate(0)" },
+    { transform: `translate(${dx * .5}px,${dy * .5 - 70}px) scale(.85) rotate(-10deg)`, offset: .5 },
+    { transform: `translate(${dx}px,${dy}px) scale(.2) rotate(15deg)` }
+  ], { duration: 600, easing: "ease-in" });
+  anim.onfinish = land; later(land, 850);   // (the timeout covers browsers that pause animations)
+}
+
+function feed(){
+  if (!G || G.phase !== "play" || busy) return;
+  const rest = $("word").value.toLowerCase().replace(/[^a-z]/g, "");
+  let w = G.letter + rest;
+  // typed the whole word, first letter included? ("wolf" after the W) → take it as it is
+  if (!isWord(w) && rest[0] === G.letter && isWord(rest)) w = rest;
+  if (w.length < 2) { const r = $("wordrow"); r.classList.remove("shake"); void r.offsetWidth; r.classList.add("shake"); setMsg("Type a word that starts with " + G.letter.toUpperCase(), "bad"); sNo(); return; }
+  if (G.words.some(x => x.w === w)) return gameOver(w, "used");
+  if (!isWord(w)) { G.phase = "judge"; G.judging = w; sNo(); render(); return; }
+  accept(w);
+}
+function accept(w){
+  snapshot(); busy = true; setMsg("");
+  flyToMouth(w, false, () => {
+    const t = team(), from = G.segs.length, wi = G.words.length;
+    [...w.slice(1)].forEach(ch => G.segs.push({ ch, team: G.turn, w: wi }));
+    t.score += w.length;
+    G.words.push({ w, team: G.turn });
+    G.letter = w[w.length - 1];
+    G.turn = (G.turn + 1) % G.teams.length;
+    G.phase = "play"; G.judging = null;
+    render(from); sGrow(w.length - 1);
+    setMsg(`Yum! ${w.toUpperCase()} = +${w.length} points for ${t.name}` + (TRICKY.includes(G.letter) ? `  ·  ${G.letter.toUpperCase()} is a hard letter: the teacher can press 🎲 New letter` : ""), "ok");
+    busy = false;
+  });
+}
+function newLetter(){
+  if (!G || G.phase !== "play" || busy) return;
+  snapshot();
+  let ch; do { ch = pick(START_LETTERS); } while (ch === G.letter);
+  G.segs.push({ ch, team: -1, w: -1 }); G.letter = ch;
+  render(G.segs.length - 1); sDice();
+  setMsg("🎲 New letter: " + ch.toUpperCase(), "ok");
+}
+// a wrong word: the caterpillar eats it, gets sick and…
+function gameOver(w, why){
+  snapshot(); busy = true; setMsg("");
+  G.phase = "over"; G.bad = { w, why, team: G.turn };
+  $("playBox").classList.remove("hidden"); $("judgeBox").classList.add("hidden");
+  flyToMouth(w, true, () => {
+    const cat = document.querySelector("#garden .cat"), head = cat.querySelector(".head");
+    head.classList.remove("chomp"); head.classList.add("sick"); cat.classList.add("sick");
+    cat.querySelectorAll(".seg").forEach(s => s.classList.remove("last", "fresh"));
+    sGurgle();
+    later(() => {
+      cat.insertAdjacentHTML("afterbegin", `<span class="minipoop">${poopSVG(false)}</span>`);
+      const t = G.teams[G.bad.team];
+      $("yuckWhy").innerHTML = why === "used" ? `<b></b> was already eaten! The caterpillar got sick…` : `<b></b> isn't a real word! The caterpillar got sick…`;
+      $("yuckWhy").querySelector("b").textContent = w;
+      $("bigPoop").innerHTML = poopSVG(true);
+      $("yuck").classList.remove("hidden"); sFart();
+      busy = false;
+    }, 1900);
+  });
+}
+function finish(){
+  clearTimers(); busy = false;
+  const len = G.segs.length, bad = G.bad, prev = store.best || 0;
+  if (len > prev) { store.best = len; saveStore(); }
+  G.phase = "over";
+  $("endTitle").textContent = bad ? "Game over!" : "So full!";
+  $("endSub").innerHTML = `The caterpillar ate <b>${G.words.length}</b> word${G.words.length === 1 ? "" : "s"} and grew to <b>${len}</b> letters.` + (len > prev && G.words.length ? " 🏅 New record!" : prev ? ` Record: ${prev}.` : "");
+  const eb = $("endBad");
+  if (bad) { eb.innerHTML = `🤢 <b></b> ${bad.why === "used" ? "was already used" : "isn't a real word"} <span></span>`; eb.querySelector("b").textContent = bad.w.toUpperCase(); eb.querySelector("span").textContent = G.teams.length > 1 ? `(${G.teams[bad.team].name})` : ""; }
+  else eb.textContent = "";
+  const pod = $("podium"); pod.innerHTML = "";
+  const order = G.teams.map((t, i) => ({ t, i })).sort((a, b) => b.t.score - a.t.score);
+  const medals = ["🥇", "🥈", "🥉", "🎖️"];
+  order.forEach(({ t, i }, place) => {
+    const d = document.createElement("div");
+    d.className = "pod"; d.style.setProperty("--c", MONSTERS[t.mon].color);
+    d.style.marginTop = (60 + place * 22) + "px";
+    const oops = bad && bad.team === i && G.teams.length > 1;
+    d.innerHTML = `<div class="pmon">${monsterSVG(t.mon, oops ? "sad" : place === 0 ? "joy" : "happy")}</div><div class="medal">${G.teams.length > 1 ? medals[Math.min(place, 3)] : "🐛"}</div><div class="n"></div><div class="s">${t.score} <small style="font-size:13px;letter-spacing:.12em">POINTS</small></div>${oops ? '<div class="oops">fed the bad word 🤢</div>' : ""}`;
+    d.querySelector(".n").textContent = t.name;
+    pod.appendChild(d);
+  });
+  $("endGarden").innerHTML = catHTML(G.segs, { mood: bad ? "sick" : "", poop: !!bad, bubble: false, teams: G.teams });
+  show("end");
+  if (!bad || G.teams.length > 1) { confetti(bad ? 30 : 60); sWin(); }
+}
+function undo(){
+  if (!undoStack.length || (busy && G.phase !== "over")) return;
+  clearTimers(); busy = false;
+  document.querySelectorAll(".leaf,.crumb").forEach(e => e.remove());
+  G = JSON.parse(undoStack.pop());
+  if (G.phase === "judge") { G.phase = "play"; G.judging = null; }
+  show("game"); render(); setMsg("↩ Undone");
+}
+function confetti(n = 30){
+  const items = ["🍃","⭐","🍎","🍓","✨","🐛"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti"; c.textContent = items[i % items.length];
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDuration = 2 + Math.random() * 2 + "s"; c.style.animationDelay = Math.random() * .5 + "s";
+    document.body.appendChild(c); setTimeout(() => c.remove(), 5000);
+  }
+}
+
+/* ---------- events ---------- */
+$("startBtn").onclick = startGame;
+$("feedBtn").onclick = feed;
+$("diceBtn").onclick = newLetter;
+$("word").addEventListener("input", e => { const v = e.target.value.replace(/[^a-zA-Z]/g, ""); if (v !== e.target.value) e.target.value = v; });
+$("word").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); feed(); } });
+$("judgeYes").onclick = () => { if (G.phase !== "judge") return; const w = G.judging; G.phase = "play"; G.judging = null; render(); accept(w); };
+$("judgeNo").onclick = () => { if (G.phase !== "judge") return; const w = G.judging; G.phase = "play"; G.judging = null; gameOver(w, "notword"); };
+$("judgeBack").onclick = () => { if (G.phase !== "judge") return; G.phase = "play"; G.judging = null; render(); };
+$("undoBtn").onclick = undo;
+$("yuckUndo").onclick = undo;
+$("yuckNext").onclick = finish;
+$("endBtn").onclick = () => { if (!busy && confirm("Finish the game now?")) finish(); };
+$("againBtn").onclick = startGame;
+$("setupBtn").onclick = () => { renderSetup(); show("setup"); };
+document.addEventListener("keydown", e => {
+  if (!$("yuck").classList.contains("hidden") && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); finish(); }
+});
+
+renderSetup();
+</script>
+<script src="../shared/howto.js"></script>
+<script>setHowTo({
+  title: "Hungry Hungry Caterpillar",
+  intro: "Feed the caterpillar words. Every word starts with the last letter of the word before!",
+  steps: [
+    ["⚙️", "<b>Set up:</b> choose 1–4 teams (or players) and their monsters. Press <b>Feed the caterpillar!</b>"],
+    ["🐛", "The caterpillar starts very small, with one letter. The first team says a word that starts with that letter: <b>W</b> → <b>wolf</b>."],
+    ["🍃", "Type the rest of the word and press <b>Feed it!</b> (or <kbd>Enter</kbd>). The caterpillar eats the word and grows."],
+    ["🔁", "The next team needs a word that starts with the <b>last letter</b>: wol<b>f</b> → <b>f</b>amily → <b>y</b>ellow…"],
+    ["⭐", "<b>Points = letters in the word.</b> Wolf = 4 points, family = 6 points. Long words are better!"],
+    ["💩", "A word that is wrong or was already used ends the game: the caterpillar gets sick and… you'll see!"]
+  ],
+  tips: [
+    "Hard letter like <b>X</b> or <b>Q</b>? The teacher can press <b>🎲 New letter</b>.",
+    "If a real word isn't in our dictionary, the game asks the teacher: <b>✔ Yes, feed it</b> or <b>✘ No, it's wrong</b>.",
+    "Typing mistake? Press <b>↩ Undo</b>, even after the game is over."
+  ]
+});</script>
+</body>
+</html>

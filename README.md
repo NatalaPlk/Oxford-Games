@@ -52,3 +52,14 @@ A word-building race for all levels. Teams get a set of letters (6–9) and make
 - After each turn the game shows other words the team could have made. The train furthest along wins.
 
 Play: https://natalaplk.github.io/Oxford-Games/word-express/
+
+## Hungry Hungry Caterpillar
+
+A word-chain game for all levels. The caterpillar starts very small, with one letter. Each team feeds it a word that starts with the last letter of the word before (wolf → family → yellow…), and it grows one segment per letter.
+
+- 1–4 teams (or the whole class together, trying to beat the record). Points = letters in the word.
+- Hard letter such as X or Q? The teacher presses **New letter** to get a random one.
+- Words are checked against the ENABLE word list (public domain). If a word isn't in it, the teacher decides: real word or wrong.
+- The game ends when a team gives a wrong word or one that was already used: the caterpillar eats it, gets sick and… makes a stinky poop.
+
+Play: https://natalaplk.github.io/Oxford-Games/hungry-caterpillar/

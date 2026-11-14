@@ -76,7 +76,7 @@
   .loco svg{display:block;width:100%;height:auto;overflow:visible}
   .loco .back,.loco .front{position:relative}
   .loco .front{position:absolute;inset:0}
-  .loco .driver{position:absolute;left:9.5%;bottom:22%;width:27%}
+  .loco .driver{position:absolute;left:7.5%;top:21%;width:29%}
   .loco .wheel{transform-box:fill-box;transform-origin:center}
   .loco.chug .wheel{animation:spin .5s linear 2}
   .loco.chug{animation:chug .5s ease-in-out 2}
@@ -355,9 +355,8 @@ function locoHTML(type, mood = "happy", color){
     ${wheel(62, 164, 22)}${wheel(156, 170, 16)}${wheel(198, 170, 16)}${wheel(240, 170, 16)}
     <path d="M62 164 L198 170" stroke="#c9c6dd" stroke-width="5" stroke-linecap="round"/>
   </svg>`;
-  // lift each driver so the face shows above the cab wall
-  const lift = { gobo: 0, tango: 3, blinky: 13, plum: 16, sunny: 17, didi: 10 }[type] || 0;
-  return `<div class="loco" data-mon="${type}">${back}<div class="driver" style="bottom:${22 + lift}%">${monsterSVG(type, mood, { hat: true })}</div>${front}</div>`;
+  // the driver hangs from just under the cab roof, so the cap and face always show in the window
+  return `<div class="loco" data-mon="${type}">${back}<div class="driver">${monsterSVG(type, mood, { hat: true })}</div>${front}</div>`;
 }
 // furnace door and chimney top, in page coordinates
 function locoPoint(loco, which){
@@ -501,7 +500,7 @@ function buildTrack(){
   G.teams.forEach((t, i) => {
     const c = MONSTERS[t.mon].color;
     const ts = document.createElement("span"); ts.className = "ts"; ts.id = "ts" + i; ts.style.setProperty("--c", c);
-    ts.innerHTML = `<span class="face"><img src="${MONSTER_DIR}${MONSTERS[t.mon].img}.png" alt=""></span><span class="nm"></span><b></b>`;
+    ts.innerHTML = `<span class="face"><img src="${DRIVER_DIR}${MONSTERS[t.mon].img}.png" alt=""></span><span class="nm"></span><b></b>`;
     ts.querySelector(".nm").textContent = t.name;
     $("scorebar").appendChild(ts);
     const run = document.createElement("div"); run.className = "runner"; run.id = "run" + i; run.style.setProperty("--c", c);

@@ -38,6 +38,25 @@
   .icon.art svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(3px 3px 0 rgba(11,9,87,.85))}
   a.game:hover .icon.art svg{animation:wig .5s ease}
   @keyframes wig{30%{transform:rotate(-8deg) translateY(-4px)}70%{transform:rotate(6deg)}}
+  /* little shows on the cards: the driver shouts, the caterpillar wobbles its head, the chair burns */
+  .driver-art{position:relative}
+  .driver-art img{animation:drvBob 4.5s ease-in-out infinite;transform-origin:50% 100%}
+  .driver-art .shout{position:absolute;left:96%;top:2%;white-space:nowrap;background:#fff;border:2px solid var(--navy);border-radius:14px 14px 14px 2px;padding:5px 10px;font-family:var(--display);font-weight:900;font-size:14px;text-transform:uppercase;color:var(--brand);box-shadow:3px 3px 0 var(--navy);transform-origin:0 100%;animation:shout 4.5s ease-in-out infinite}
+  @keyframes drvBob{0%,8%,46%,100%{transform:none}14%{transform:translateY(-7px) rotate(-4deg) scale(1.05)}22%{transform:translateY(0) rotate(3deg)}30%{transform:translateY(-4px) rotate(-2deg)}38%{transform:none}}
+  @keyframes shout{0%,8%{transform:scale(0) rotate(-12deg);opacity:0}14%{transform:scale(1.15) rotate(-4deg);opacity:1}18%,42%{transform:scale(1) rotate(-4deg);opacity:1}48%,100%{transform:scale(0) rotate(-12deg);opacity:0}}
+  .cat-art{position:relative}
+  .cat-art img{position:absolute;inset:0;width:100%;height:100%}
+  .cat-art .body{clip-path:polygon(0 74%,48% 74%,56% 61%,100% 57%,100% 100%,0 100%)}
+  .cat-art .head{clip-path:polygon(0 0,66% 0,66% 40%,57% 50%,57% 64%,50% 80%,6% 80%,0 70%);transform-origin:36% 78%;animation:catHead 3.6s ease-in-out infinite}
+  @keyframes catHead{0%,100%{transform:rotate(0)}10%{transform:rotate(-9deg)}20%{transform:rotate(8deg)}30%{transform:rotate(-7deg)}40%{transform:rotate(6deg)}50%,60%{transform:rotate(0)}66%{transform:rotate(0) translateY(-5%)}72%{transform:rotate(0)}}
+  .fire-art .fl{transform-box:fill-box;transform-origin:50% 100%;animation:burn .55s ease-in-out infinite alternate}
+  .fire-art .fl.b{animation-duration:.4s;animation-delay:-.2s} .fire-art .fl.c{animation-duration:.33s;animation-delay:-.1s}
+  .fire-art .sparks rect{transform-box:fill-box;animation:spark 1.4s ease-out infinite}
+  .fire-art .sparks rect:nth-child(2){animation-delay:-.5s} .fire-art .sparks rect:nth-child(3){animation-delay:-.9s}
+  @keyframes burn{from{transform:scale(1,1) skewX(-2deg)}to{transform:scale(1.03,1.09) skewX(3deg)}}
+  @keyframes spark{0%{transform:translateY(10px) scale(.4);opacity:0}25%{opacity:1}100%{transform:translateY(-30px) scale(1.1) rotate(60deg);opacity:0}}
+  a.game:hover .icon.fire-art svg{animation:none}
+  @media (prefers-reduced-motion:reduce){.driver-art img,.driver-art .shout,.cat-art .head,.fire-art .fl,.fire-art .sparks rect{animation:none}.driver-art .shout{opacity:0}}
   .num{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.2em}
   .game .body{padding:20px 22px 24px;display:flex;flex-direction:column;flex:1}
   .game h3{margin:0 0 8px;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:34px;line-height:1}
@@ -88,7 +107,7 @@
         </div>
       </a>
       <a class="game" href="word-express/">
-        <div class="top"><span class="icon art" style="width:88px;height:84px;margin:-6px 0"><img src="word-express/drivers/fran.png" alt="Fran the train driver" style="width:100%;height:100%;object-fit:contain"></span><span class="num">04</span></div>
+        <div class="top"><span class="icon art driver-art" style="width:88px;height:84px;margin:-6px 0"><img src="word-express/drivers/fran.png" alt="Fran the train driver" style="width:100%;height:100%;object-fit:contain"><span class="shout" aria-hidden="true">All aboard!</span></span><span class="num">04</span></div>
         <div class="body">
           <h3>Word Express</h3>
           <p>Make as many English words as you can from the letters before the time runs out. Every word is coal for your team's train!</p>
@@ -97,7 +116,7 @@
         </div>
       </a>
       <a class="game" href="hungry-caterpillar/">
-        <div class="top"><span class="icon art" style="width:92px;height:92px;margin:-8px 0"><img src="hungry-caterpillar/img/cat-full.png" alt="Caterpillar" style="width:100%;height:100%;object-fit:contain"></span><span class="num">05</span></div>
+        <div class="top"><span class="icon art cat-art" style="width:89px;height:92px;margin:-8px 0"><img class="body" src="hungry-caterpillar/img/cat-full.png" alt="Caterpillar"><img class="head" src="hungry-caterpillar/img/cat-full.png" alt=""></span><span class="num">05</span></div>
         <div class="body">
           <h3>Hungry Hungry Caterpillar</h3>
           <p>Feed the caterpillar words: each word starts with the last letter of the one before. A wrong word makes it sick… and stinky!</p>
@@ -115,7 +134,7 @@
         </div>
       </a>
       <a class="game" href="hot-seat/">
-        <div class="top"><span class="icon art"><svg viewBox="-2 -6 224 240" role="img" aria-label="Chair on fire"><g stroke="#0b0957" stroke-linejoin="round" stroke-linecap="round"><path d="M26 156 C6 126 26 104 30 86 C36 100 48 98 48 84 C46 60 66 46 70 22 C86 40 94 52 94 36 C102 14 122 8 128 0 C130 22 148 30 154 14 C170 34 186 50 182 76 C192 68 198 58 198 46 C214 78 210 112 198 132 C206 130 210 124 212 118 C214 144 202 164 186 172 L40 172 Z" fill="#c8323c" stroke-width="6"/><path d="M46 156 C32 130 46 112 50 100 C55 111 64 108 66 97 C66 76 84 62 88 46 C98 60 106 66 108 54 C114 36 128 28 132 22 C134 40 148 46 152 36 C164 52 172 66 168 88 C176 84 182 76 184 68 C192 94 188 120 178 136 L172 164 L50 164Z" fill="#ef7d1a" stroke="none"/><path d="M66 156 C56 134 68 120 72 110 C78 118 84 112 86 102 C90 84 104 74 108 62 C114 74 122 78 126 68 C132 56 138 52 140 46 C144 60 152 66 156 60 C162 76 164 90 160 104 L156 156Z" fill="#ffd257" stroke="none"/><path d="M96 168 L100 208" stroke-width="13"/><path d="M96 168 L100 208" stroke="#aeb4d6" stroke-width="6"/><path d="M70 166 L50 222 M134 168 L140 226 M164 156 L186 216" stroke-width="13" fill="none"/><path d="M70 166 L50 222 M134 168 L140 226 M164 156 L186 216" stroke="#d9dcf0" stroke-width="6" fill="none"/><path d="M38 124 Q34 98 58 94 Q84 92 96 64 Q110 34 150 36 Q180 38 178 72 L172 134 Q168 166 130 170 L78 170 Q42 168 38 124 Z" fill="#2a9d9b" stroke-width="6"/><path d="M56 126 Q56 112 72 110 Q98 108 110 80 Q120 54 148 54 Q164 56 162 76 L158 126 Q154 148 128 150 L82 150 Q58 148 56 126 Z" fill="#1c7475" stroke-width="4"/><path d="M70 108 Q94 104 106 76" fill="none" stroke="#7fd8d2" stroke-width="5" stroke-opacity=".9"/><g fill="#ffd257" stroke-width="3"><rect x="18" y="52" width="9" height="9" transform="rotate(20 22 56)"/><rect x="196" y="18" width="8" height="8" transform="rotate(-15 200 22)"/><rect x="6" y="110" width="7" height="7"/></g></g></svg></span><span class="num">07</span></div>
+        <div class="top"><span class="icon art fire-art" id="hotIcon"><svg viewBox="-2 -6 224 240" role="img" aria-label="Chair on fire"><g stroke="#0b0957" stroke-linejoin="round" stroke-linecap="round"><path class="fl" d="M26 156 C6 126 26 104 30 86 C36 100 48 98 48 84 C46 60 66 46 70 22 C86 40 94 52 94 36 C102 14 122 8 128 0 C130 22 148 30 154 14 C170 34 186 50 182 76 C192 68 198 58 198 46 C214 78 210 112 198 132 C206 130 210 124 212 118 C214 144 202 164 186 172 L40 172 Z" fill="#c8323c" stroke-width="6"/><path class="fl b" d="M46 156 C32 130 46 112 50 100 C55 111 64 108 66 97 C66 76 84 62 88 46 C98 60 106 66 108 54 C114 36 128 28 132 22 C134 40 148 46 152 36 C164 52 172 66 168 88 C176 84 182 76 184 68 C192 94 188 120 178 136 L172 164 L50 164Z" fill="#ef7d1a" stroke="none"/><path class="fl c" d="M66 156 C56 134 68 120 72 110 C78 118 84 112 86 102 C90 84 104 74 108 62 C114 74 122 78 126 68 C132 56 138 52 140 46 C144 60 152 66 156 60 C162 76 164 90 160 104 L156 156Z" fill="#ffd257" stroke="none"/><path d="M96 168 L100 208" stroke-width="13"/><path d="M96 168 L100 208" stroke="#aeb4d6" stroke-width="6"/><path d="M70 166 L50 222 M134 168 L140 226 M164 156 L186 216" stroke-width="13" fill="none"/><path d="M70 166 L50 222 M134 168 L140 226 M164 156 L186 216" stroke="#d9dcf0" stroke-width="6" fill="none"/><path d="M38 124 Q34 98 58 94 Q84 92 96 64 Q110 34 150 36 Q180 38 178 72 L172 134 Q168 166 130 170 L78 170 Q42 168 38 124 Z" fill="#2a9d9b" stroke-width="6"/><path d="M56 126 Q56 112 72 110 Q98 108 110 80 Q120 54 148 54 Q164 56 162 76 L158 126 Q154 148 128 150 L82 150 Q58 148 56 126 Z" fill="#1c7475" stroke-width="4"/><path d="M70 108 Q94 104 106 76" fill="none" stroke="#7fd8d2" stroke-width="5" stroke-opacity=".9"/><g class="sparks" fill="#ffd257" stroke-width="3"><rect x="18" y="52" width="9" height="9" transform="rotate(20 22 56)"/><rect x="196" y="18" width="8" height="8" transform="rotate(-15 200 22)"/><rect x="6" y="110" width="7" height="7"/></g></g></svg></span><span class="num">07</span></div>
         <div class="body">
           <h3>Hot Seat</h3>
           <p>For teens: one player can't see the screen. The team explains the word, or the famous person, without saying the forbidden words. Beat the clock!</p>
@@ -125,5 +144,26 @@
       </a>
     </div>
   </div>
+<script>
+(function(){
+  let ctx = null, last = 0;
+  const wake = () => { try { ctx = ctx || new (window.AudioContext || window.webkitAudioContext)(); if (ctx.state === "suspended") ctx.resume(); } catch(e){} };
+  addEventListener("pointerdown", wake); addEventListener("keydown", wake);
+  function hiss(){
+    if (!ctx || ctx.state !== "running" || Date.now() - last < 900) return;
+    last = Date.now();
+    try {
+      const dur = .9, n = Math.floor(ctx.sampleRate * dur), buf = ctx.createBuffer(1, n, ctx.sampleRate), d = buf.getChannelData(0);
+      for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+      const src = ctx.createBufferSource(), hp = ctx.createBiquadFilter(), g = ctx.createGain(), t = ctx.currentTime;
+      src.buffer = buf; hp.type = "highpass"; hp.frequency.value = 4200;
+      g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(.16, t + .05); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+      src.connect(hp); hp.connect(g); g.connect(ctx.destination); src.start(t);
+    } catch(e){}
+  }
+  const card = document.querySelector('a.game[href="hot-seat/"]');
+  if (card) { card.addEventListener("pointerenter", hiss); card.addEventListener("focus", hiss); }
+})();
+</script>
 </body>
 </html>

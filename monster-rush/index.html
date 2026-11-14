@@ -133,6 +133,17 @@
   .wtype{display:inline-block;margin:0 0 14px;padding:6px 16px;border-radius:999px;background:var(--navy);color:#fff;font-weight:800;font-size:18px;letter-spacing:.02em}
   .wtype:empty{display:none}
   .wtype.verb{background:#14a35a} .wtype.adj{background:#9b51e0} .wtype.noun{background:var(--navy)}
+  /* family words: the whole family, with an arrow on the person we mean */
+  .flash.scene{width:min(440px,80vw);aspect-ratio:4/3;font-size:clamp(34px,6.4vw,50px);background:#fff8e6}
+  .fam{display:flex;flex-direction:column;align-items:center;gap:.6em;padding-top:.55em}
+  .fam .row{display:flex;gap:.32em}
+  .fam .p{position:relative;display:inline-grid;place-items:center;width:1.3em;height:1.3em;border-radius:50%;opacity:.45;filter:grayscale(.8);transform:scale(.85)}
+  .fam .p.on{opacity:1;filter:none;transform:scale(1.12);background:var(--yellow);box-shadow:0 0 0 .07em var(--navy);z-index:1}
+  .fam .p.on::before{content:"";position:absolute;left:50%;bottom:108%;width:.44em;height:.48em;margin-left:-.22em;background:var(--brand);clip-path:polygon(30% 0,70% 0,70% 52%,100% 52%,50% 100%,0 52%,30% 52%);filter:drop-shadow(0 .03em 0 var(--navy));animation:point .6s ease-in-out infinite alternate}
+  .fam.all .p.on{transform:none;background:none;box-shadow:none}
+  .fam.all .p.on::before{display:none}
+  .fam.all{outline:.08em dashed var(--brand);outline-offset:-.1em;border-radius:.5em;padding:.25em .4em;background:var(--yellow)}
+  @keyframes point{to{transform:translateY(-.08em)}}
   .flash.photo{width:min(440px,80vw);aspect-ratio:4/3;overflow:hidden;background:#fff}
   .flash.photo .pic{position:absolute;inset:0}
   .flash.photo img{width:100%;height:100%;object-fit:cover;display:block}
@@ -546,17 +557,29 @@ function render(){
   turnLog.forEach(l => { const b = document.createElement("b"); b.className = l.r; b.textContent = (l.r === "ok" ? "✔ " : "✘ ") + l.w; lg.appendChild(b); });
   updateTrack();
 }
+// Family words are ambiguous as a single face (mum, sister or girl?) or as a photo of two people,
+// so they show the whole family with an arrow on the person the word means.
+const FAMILY = [["👴", "👵"], ["👨", "👩"], ["👦", "👧", "👶"]];
+const FAMILY_WORDS = { grandpa: "👴", grandfather: "👴", grandad: "👴", granddad: "👴", grandma: "👵", grandmother: "👵", granny: "👵",
+  dad: "👨", daddy: "👨", father: "👨", mum: "👩", mummy: "👩", mom: "👩", mother: "👩", brother: "👦", sister: "👧", baby: "👶",
+  parents: "👨👩", grandparents: "👴👵", family: "👴👵👨👩👦👧👶" };
+function familyScene(w){
+  const on = FAMILY_WORDS[w.toLowerCase()];
+  if (!on) return null;
+  return `<span class="fam${w.toLowerCase() === "family" ? " all" : ""}">` + FAMILY.map(r => '<span class="row">' + r.map(p => `<span class="p${on.includes(p) ? " on" : ""}">${p}</span>`).join("") + "</span>").join("") + "</span>";
+}
 function renderFlash(){
   const f = $("flash");
   if (G.phase !== "play" || !G.card) {
     f.className = "flash back"; f.innerHTML = G.phase === "turnEnd" ? "★" : "?"; $("wtype").textContent = ""; return;
   }
   const c = G.card, n = typeof Intl !== "undefined" && Intl.Segmenter ? [...new Intl.Segmenter().segment(c.pic)].length : c.pic.length;
-  const src = photoOf(c);
+  const scene = familyScene(c.w), src = scene ? null : photoOf(c);
   $("wtype").textContent = wordTypeLabel(c.w, c.pic); $("wtype").className = "wtype " + wordType(c.w, c.pic);
-  f.className = "flash" + (src ? " photo" : n > 1 ? " small" : "");
+  f.className = "flash" + (scene ? " scene" : src ? " photo" : n > 1 ? " small" : "");
   f.innerHTML = '<span class="pic"></span><div class="fb" id="fb"></div>';
   if (src) { const im = document.createElement("img"); im.src = src; im.alt = ""; im.onerror = () => { f.classList.remove("photo"); f.querySelector(".pic").textContent = c.pic; }; f.querySelector(".pic").appendChild(im); }
+  else if (scene) f.querySelector(".pic").innerHTML = scene;
   else f.querySelector(".pic").textContent = c.pic;
   // the three words to choose from
   const box = $("options"); box.innerHTML = ""; locked = false;

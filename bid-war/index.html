@@ -232,7 +232,7 @@
       <label class="field"><span class="coin">$</span> Coins per team <input id="startCoins" type="number" min="10" max="9999" value="100"></label>
       <label class="field">⭐ Points to win <input id="winPoints" type="number" min="1" max="20" value="5"></label>
     </div>
-    <div class="hint">The game ends when a team reaches the winning points or when a team runs out of money.</div>
+    <div class="hint">The game ends when a team reaches the winning points or when a team runs out of money. There are always at least 3 lots: a team that spends everything early is out, and the others keep playing.</div>
   </div>
 
   <div class="start-row">
@@ -1575,20 +1575,27 @@ function showResult(s, team, bid){
   if (!team) ef.textContent = s.ok ? "Nobody bought it… but it was correct! Point lost." : "Nobody bought it. Well spotted!";
   else if (s.ok) ef.textContent = `🎉 ${team.name} wins 1 point and pays ${bid} coins.`;
   else ef.textContent = `💸 ${team.name} loses ${bid} coins and doesn't win the point.`;
+  // out of money before lot 3: the game goes on for the others
+  const out = G.teams.filter(t => t.coins <= 0);
+  if (out.length && !checkEnd(true)) ef.textContent += ` ${out.map(t => t.name).join(" and ")} ${out.length > 1 ? "are" : "is"} out of money, but the game goes on until lot ${MIN_LOTS}.`;
   $("resultOverlay").classList.remove("hidden");
   if (team && s.ok) confetti(team.color);
   $("nextBtn").textContent = checkEnd(true) ? "See results 🏆" : "Next sentence ➜";
   $("nextBtn").focus();
 }
 
+// A team with no money can't end the game before lot MIN_LOTS (no "all in" on lot 1 to stop the others playing):
+// the teams that still have coins keep bidding. If nobody has coins left, there is nothing to play.
+const MIN_LOTS = 3;
 function checkEnd(dry){
   const winner = G.teams.find(t => t.points >= cfg.win);
   const broke = G.teams.filter(t => t.coins <= 0);
   const noMore = G.idx + 1 >= G.deck.length;
-  if (!winner && !broke.length && !noMore) return null;
+  const brokeEnds = broke.length && (G.lot >= MIN_LOTS || broke.length === G.teams.length);
+  if (!winner && !brokeEnds && !noMore) return null;
   let reason;
   if (winner) reason = `${winner.name} reached ${cfg.win} points.`;
-  else if (broke.length) reason = broke.map(t => t.name).join(" and ") + (broke.length > 1 ? " have run out of money." : " has run out of money.");
+  else if (brokeEnds) reason = broke.map(t => t.name).join(" and ") + (broke.length > 1 ? " have run out of money." : " has run out of money.");
   else reason = "There are no more sentences.";
   return { reason };
 }
@@ -1717,7 +1724,7 @@ renderSetup();
     ["🙋", "Teams bid coins for the sentence. The team that offers the most wins the bid."],
     ["👆", "<b>Click the team</b> that wins the bid, then <b>choose the bid</b> with −10 −1 +1 +10 (or ALL IN)."],
     ["🔨", "Press <b>SOLD!</b> Correct sentence → the team wins ⭐ 1 point and pays its bid. Incorrect sentence → the team loses its bid and the correction appears."],
-    ["🏆", "The game ends when a team reaches the winning points or a team runs out of coins."]
+    ["🏆", "The game ends when a team reaches the winning points or a team runs out of coins. There are always <b>at least 3 lots</b>: if a team goes “all in” and runs out early, the other teams keep playing."]
   ],
   tips: [
     "If no team wants a sentence, press <b>Nobody buys it</b>.",

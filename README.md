@@ -10,7 +10,7 @@ Teams start with coins and bid on sentences they think are correct:
 
 - **Correct sentence** → the team wins 1 ⭐ and pays its bid.
 - **Incorrect sentence** → the team loses its bid and wins no point (the correction is shown).
-- The game ends when a team reaches the winning points (default 5) or a team runs out of money.
+- The game ends when a team reaches the winning points (default 5) or a team runs out of money. There are always at least 3 lots: a team that spends everything on lot 1 or 2 is out, and the other teams keep playing.
 
 Features: 1–4 teams (renameable, default colour names), choose the Prepare level and grammar topics, 3 correct : 4 incorrect sentences in random order, undo, and an editor to add your own sentences (saved in the browser).
 

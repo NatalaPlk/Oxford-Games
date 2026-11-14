@@ -64,6 +64,19 @@ A word-chain game for all levels. The caterpillar starts very small, with one le
 
 Play: https://natalaplk.github.io/Oxford-Games/hungry-caterpillar/
 
+## Word Heist
+
+A competitive quiz for teenagers (12–18), levels A1 to C1. Crews crack vaults by answering grammar and vocabulary questions, then pick a briefcase of loot. The richest crew wins.
+
+- 2–4 crews on one screen. The teacher sets the class level, the questions per crew and the time to answer.
+- Each turn the crew chooses its vault: one level down (small loot), the class level, or one level up (big loot).
+- A right answer opens the vault and the crew picks one of three briefcases: cash, a jackpot, double your loot, steal 25% from a rival, swap loot with a rival, or an alarm that costs 25%.
+- A wrong answer (or no answer in time) means no loot; the right answer is shown.
+- Three right answers in a row give ×1.5 on cash prizes. In the final round all loot is doubled.
+- 160 questions (32 per level): grammar, vocabulary, phrasal verbs and idioms, and word formation. They are in `word-heist/questions.js`, one line per question, so you can add your own.
+
+Play: https://natalaplk.github.io/Oxford-Games/word-heist/
+
 ## Adding words to the word games
 
 Word Express and Hungry Hungry Caterpillar check words against the ENABLE list plus `shared/extra-words.js` (British spellings, modern words, days, months, countries). To accept a new word, add it to that file.

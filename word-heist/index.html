@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Word Heist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b0957; --navy2:#1a1873; --brand:#c8323c; --brand2:#a5242d;
+    --cream:#f3ead9; --paper:#faf6ee; --card:#ffffff; --yellow:#ffd257; --mint:#3ddc84;
+    --ink:#0b0957; --muted:#55537e; --ok:#14a35a;
+    --display:"Archivo","Arial Black",Impact,sans-serif; --mono:"Space Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden}
+  button{font:inherit;cursor:pointer;border:0;color:inherit}
+  a{color:var(--navy);text-decoration-color:var(--brand);text-underline-offset:3px}
+  .hidden{display:none!important}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 48px}
+  .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
+  .home-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:2px solid var(--navy);border-radius:999px;padding:6px 14px;background:var(--card)}
+  .home-link:hover{background:var(--cream)}
+  a.btn{text-decoration:none;display:inline-flex;align-items:center}
+
+  /* ---------- Setup ---------- */
+  .hero{display:grid;grid-template-columns:1.15fr 1fr;border:2px solid var(--navy);border-radius:26px;overflow:hidden;margin-bottom:22px;box-shadow:6px 6px 0 var(--navy)}
+  .hero .l{background:var(--navy);color:#fff;padding:30px 30px 34px}
+  .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
+  .hero h1{margin:14px 0 6px;line-height:.88;font-family:var(--display);font-weight:900;font-size:clamp(50px,8.4vw,104px);letter-spacing:-.02em;text-transform:uppercase}
+  .hero h1 .w2{display:block;color:var(--yellow);font-stretch:70%}
+  .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:36ch}
+  .hero .r{position:relative;background:var(--brand) repeating-linear-gradient(45deg,transparent 0 18px,rgba(0,0,0,.08) 18px 36px);display:grid;place-items:center;padding:24px;min-height:250px;overflow:hidden}
+  .hero .r .vault{width:min(230px,60%)}
+  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--yellow);color:var(--navy);border:2px solid var(--navy);box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
+  .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
+  .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
+  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--card);border:2px solid var(--navy);color:var(--navy);padding:10px 18px;border-radius:999px;font-weight:700;font-size:16px}
+  .chip:hover{background:var(--cream)}
+  .chip.on{background:var(--navy);color:#fff}
+  .chip.num{min-width:58px;font-size:22px;font-family:var(--mono)}
+  .chip small{display:block;font-size:11px;font-weight:400;font-family:var(--mono);opacity:.8}
+  .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .grid2 .panel{margin:0 0 20px}
+  .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
+  .team-pick{display:flex;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--navy);border-radius:20px;padding:10px 14px;border-top:10px solid var(--c)}
+  .team-pick .emb{width:58px;height:58px;flex:none;border-radius:50%;background:var(--c);border:2px solid var(--navy);display:grid;place-items:center;font-size:32px;line-height:1}
+  .team-pick input{flex:1;min-width:0;background:#fff;border:2px solid var(--navy);border-radius:999px;padding:7px 12px;font:inherit;font-size:17px;font-weight:700;color:var(--navy);outline:none}
+  .team-pick input::placeholder{color:#8e8cae}
+  .start-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .btn{padding:14px 26px;border-radius:999px;font-weight:800;font-size:17px;border:2px solid var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
+  .btn:active{transform:translate(3px,3px);box-shadow:none!important}
+  .btn-red{background:var(--brand);color:#fff;box-shadow:4px 4px 0 var(--navy)}
+  .btn-red:hover{background:var(--brand2)}
+  .btn-plain{background:var(--card);color:var(--navy)}
+  .btn-plain:hover{background:var(--cream)}
+  .btn-yellow{background:var(--yellow);color:var(--navy);box-shadow:4px 4px 0 var(--navy)}
+  .btn-big{font-size:22px;padding:18px 40px}
+
+  /* ---------- Game ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .topbar .counter{font-family:var(--mono);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--muted)}
+  .topbar .counter b{color:var(--brand)}
+  .topbar .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .topbar .btn{font-size:14px;padding:8px 16px}
+  .scorebar{display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:10px;margin-bottom:18px}
+  .crew{position:relative;display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--navy);border-bottom:8px solid var(--c);border-radius:18px;padding:8px 12px;transition:transform .2s,box-shadow .2s}
+  .crew.now{transform:translateY(-4px);box-shadow:6px 6px 0 var(--navy);background:#fffbe9}
+  .crew .emb{width:44px;height:44px;flex:none;border-radius:50%;background:var(--c);border:2px solid var(--navy);display:grid;place-items:center;font-size:24px;line-height:1}
+  .crew .nm{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:16px;line-height:1.05;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .crew .cash{font-family:var(--mono);font-weight:700;font-size:22px;line-height:1.1}
+  .crew .info{min-width:0;flex:1}
+  .crew .fire{position:absolute;top:-12px;right:8px;background:var(--brand);color:#fff;border:2px solid var(--navy);border-radius:999px;font-family:var(--mono);font-size:12px;font-weight:700;padding:1px 8px}
+  .crew.bump{animation:bump .5s ease}
+  .crew.hit{animation:shake .5s ease}
+  @keyframes bump{40%{transform:translateY(-4px) scale(1.07)}}
+  @keyframes shake{20%,60%{transform:translateX(-7px)}40%,80%{transform:translateX(7px)}}
+
+  .stage{display:grid;grid-template-columns:minmax(220px,300px) 1fr;gap:0;border:2px solid var(--navy);border-radius:26px;overflow:hidden;box-shadow:8px 8px 0 var(--c,var(--navy));background:var(--card);min-height:440px}
+  .side{background:var(--navy) repeating-linear-gradient(45deg,transparent 0 16px,rgba(255,255,255,.04) 16px 32px);color:#fff;padding:20px 16px;display:flex;flex-direction:column;align-items:center;gap:14px;justify-content:center}
+  .screen{width:100%;background:#05042e;border:2px solid #3b39a8;border-radius:12px;padding:8px 6px;text-align:center;font-family:var(--mono);font-weight:700;letter-spacing:.14em;font-size:15px;color:var(--yellow);text-transform:uppercase}
+  .screen.ok{color:var(--mint);border-color:var(--mint)} .screen.bad{color:#ff6b74;border-color:#ff6b74;animation:blink .35s steps(2) 4}
+  @keyframes blink{50%{opacity:.25}}
+  .vault{width:min(210px,80%);display:block}
+  .vault .wheel{transform-box:fill-box;transform-origin:center;transition:transform 1.1s cubic-bezier(.3,1.3,.5,1)}
+  .vault.open .wheel{transform:rotate(300deg)}
+  .vault .lamp{fill:#ffd257}
+  .vault.open .lamp{fill:#3ddc84} .vault.alarm .lamp{fill:#ff3b47;animation:blink .3s steps(2) infinite}
+  .vault.alarm{animation:shake .4s ease 2}
+  .stake{font-family:var(--mono);font-size:13px;letter-spacing:.1em;text-align:center;color:#c9c7ef;line-height:1.5}
+  .stake b{display:block;font-size:26px;color:var(--yellow);letter-spacing:0}
+  .main{padding:22px 24px 24px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+  .turnline{margin:0 0 4px;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(24px,3.4vw,38px);line-height:1}
+  .turnline span{background:var(--c);color:#fff;border-radius:12px;padding:0 12px;display:inline-block}
+  .lead{font-size:18px;color:var(--muted);margin:8px 0 16px;font-weight:600}
+  .final{display:inline-block;background:var(--yellow);border:2px solid var(--navy);border-radius:999px;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.12em;padding:3px 12px;margin-bottom:10px;transform:rotate(-1.5deg)}
+
+  .tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+  .tier{position:relative;text-align:left;background:var(--paper);border:3px solid var(--navy);border-radius:20px;padding:16px 16px 14px;box-shadow:5px 5px 0 var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
+  .tier:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--navy);background:#fff}
+  .tier:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--navy)}
+  .tier .ic{font-size:34px;line-height:1}
+  .tier .t{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:22px;margin-top:6px}
+  .tier .lv{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.08em}
+  .tier .pay{margin-top:8px;font-family:var(--mono);font-weight:700;font-size:20px;color:var(--brand)}
+  .k{position:absolute;top:8px;right:12px;font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted)}
+
+  .qhead{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .tag{font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;border:2px solid var(--navy);border-radius:999px;padding:3px 12px;background:var(--cream)}
+  .tag.lv{background:var(--navy);color:#fff}
+  .prompt{font-size:clamp(24px,3.2vw,36px);font-weight:800;line-height:1.2;margin:4px 0 14px}
+  .prompt .gap{display:inline-block;min-width:2.6em;border-bottom:5px solid var(--brand);margin:0 .12em;text-align:center;color:var(--ok)}
+  .prompt .root{font-family:var(--mono);font-size:.6em;background:var(--yellow);border:2px solid var(--navy);border-radius:8px;padding:1px 8px;white-space:nowrap;vertical-align:middle}
+  .timer{height:14px;border:2px solid var(--navy);border-radius:999px;background:#e6e3f4;overflow:hidden;margin-bottom:14px}
+  .timer div{height:100%;width:100%;background:var(--mint);transform-origin:left}
+  .timer.low div{background:var(--brand)}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .opt{position:relative;font-family:var(--display);font-weight:800;font-size:clamp(18px,2.2vw,24px);color:var(--navy);background:#fff;border:3px solid var(--navy);border-radius:16px;padding:16px 14px 14px 40px;box-shadow:5px 5px 0 var(--navy);text-align:left;transition:transform .1s,box-shadow .1s,background .15s;line-height:1.15}
+  .opt:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--navy);background:var(--paper)}
+  .opt .n{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:6px;background:var(--navy);color:#fff;font-family:var(--mono);font-size:13px;display:grid;place-items:center}
+  .opt:disabled{cursor:default}
+  .opt.right{background:var(--ok);color:#fff}
+  .opt.wrong{background:var(--brand);color:#fff;animation:shake .4s ease}
+  .opt.dim{opacity:.35}
+  .verdict{margin-top:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .verdict .msg{font-size:19px;font-weight:700;flex:1;min-width:200px;line-height:1.35}
+  .verdict .msg b{color:var(--brand)}
+
+  .cases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:6px}
+  .case{position:relative;aspect-ratio:1/.92;background:var(--yellow);border:3px solid var(--navy);border-radius:20px;box-shadow:5px 5px 0 var(--navy);display:grid;place-items:center;transition:transform .12s,box-shadow .12s;padding:6px;text-align:center}
+  .case:hover:not(:disabled){transform:translate(-2px,-4px) rotate(-2deg);box-shadow:7px 9px 0 var(--navy)}
+  .case .bag{font-size:clamp(46px,7vw,74px);line-height:1;animation:wob 1.6s ease-in-out infinite}
+  .case:nth-child(2) .bag{animation-delay:-.5s} .case:nth-child(3) .bag{animation-delay:-1s}
+  @keyframes wob{50%{transform:rotate(5deg) translateY(-4px)}}
+  .case:disabled{cursor:default}
+  .case.open{background:#fff;animation:flip .4s ease-out}
+  .case.open.mine{background:var(--navy);color:#fff;transform:scale(1.04)}
+  .case.open:not(.mine){opacity:.55}
+  @keyframes flip{from{transform:rotateY(90deg)}}
+  .case .ic{font-size:clamp(30px,4.6vw,48px);line-height:1}
+  .case .lb{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(14px,1.9vw,20px);line-height:1.05;margin-top:4px}
+  .case .sm{font-family:var(--mono);font-size:12px;font-weight:700;opacity:.8}
+  .targets{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  .target{display:flex;align-items:center;gap:8px;background:#fff;border:3px solid var(--navy);border-bottom:8px solid var(--c);border-radius:16px;padding:8px 14px;font-weight:800;font-size:18px;box-shadow:4px 4px 0 var(--navy)}
+  .target:hover{background:var(--paper);transform:translate(-2px,-2px)}
+  .target small{font-family:var(--mono);font-weight:700;color:var(--muted)}
+
+  /* ---------- End ---------- */
+  .end{text-align:center}
+  .end h1{font-family:var(--display);font-weight:900;font-size:clamp(46px,8vw,96px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;margin:10px 0}
+  .end .sub{font-size:21px;font-weight:700;margin:6px 0}
+  .end .sub b{color:var(--brand)}
+  .podium{display:flex;justify-content:center;align-items:flex-end;gap:10px;margin:18px auto 26px;max-width:900px;padding-top:70px}
+  .pod{flex:1;min-width:0;max-width:210px;display:flex;flex-direction:column;align-items:center}
+  .pod .emb{position:relative;width:var(--m);height:var(--m);border-radius:50%;background:var(--c);border:3px solid var(--navy);display:grid;place-items:center;font-size:calc(var(--m) * .56);line-height:1;box-shadow:4px 4px 0 var(--navy)}
+  .pod .crown{position:absolute;left:50%;top:-46%;font-size:calc(var(--m) * .5);transform:translateX(-50%) rotate(-8deg)}
+  .pod .face{position:absolute;right:-14%;bottom:-8%;font-size:calc(var(--m) * .36)}
+  .pod.p0 .emb{animation:champ .7s ease-in-out infinite}
+  .pod.p2 .emb,.pod.p3 .emb{filter:saturate(.6)}
+  @keyframes champ{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-22%) rotate(5deg)}}
+  .pod .n{font-family:var(--display);font-size:20px;font-weight:900;text-transform:uppercase;word-break:break-word;line-height:1;margin:12px 0 4px}
+  .pod.p0 .n{font-size:26px}
+  .pod .st{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--muted);margin-bottom:6px}
+  .pod .step{width:100%;height:var(--h);background:var(--c);border:3px solid var(--navy);border-radius:14px 14px 0 0;box-shadow:6px 0 0 var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#fff;transform-origin:bottom;animation:rise .6s cubic-bezier(.3,1.4,.5,1) backwards;animation-delay:var(--dl)}
+  @keyframes rise{from{transform:scaleY(0)}}
+  .pod .rank{font-family:var(--display);font-weight:900;font-size:min(calc(var(--h) * .34),52px);line-height:1;-webkit-text-stroke:2px var(--navy);paint-order:stroke fill}
+  .pod .s{font-family:var(--mono);font-size:17px;font-weight:700;background:var(--card);color:var(--navy);border:2px solid var(--navy);border-radius:999px;padding:1px 10px;white-space:nowrap}
+  .pod.p0 .s{font-size:21px;background:var(--yellow)}
+  .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr} .grid2{grid-template-columns:1fr}
+    .stage{grid-template-columns:1fr;min-height:0}
+    .side{flex-direction:row;flex-wrap:wrap;padding:12px}
+    .side .vault{width:90px} .side .screen{flex:1;min-width:150px;width:auto}
+    .scorebar{grid-template-columns:repeat(2,minmax(0,1fr))}
+  }
+  @media (max-width:560px){ .opts{grid-template-columns:1fr} .pod .n{font-size:15px} .pod.p0 .n{font-size:18px} .pod .s{font-size:13px;padding:1px 6px} }
+</style>
+</head>
+<body>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="wrap">
+  <a class="home-link" href="../">← All games</a>
+  <div class="hero">
+    <div class="l">
+      <p class="eyebrow">Oxford Games <b>•</b> Teens · A1–C1 · Grammar &amp; vocabulary</p>
+      <h1>Word<span class="w2">Heist</span></h1>
+      <p>Crack the vault with your English, grab a briefcase… and steal your rivals' loot. The richest crew wins.</p>
+    </div>
+    <div class="r" id="heroVault"><span class="sticker">TOP SECRET</span></div>
+  </div>
+  <div class="marquee"><div><i>CRACK THE CODE <b>→</b> DESCIFRA EL CÓDIGO</i><i>LOOT <b>→</b> BOTÍN</i><i>VAULT <b>→</b> CÁMARA ACORAZADA</i><i>TO STEAL <b>→</b> ROBAR</i><i>BRIEFCASE <b>→</b> MALETÍN</i><i>CRACK THE CODE <b>→</b> DESCIFRA EL CÓDIGO</i><i>LOOT <b>→</b> BOTÍN</i><i>VAULT <b>→</b> CÁMARA ACORAZADA</i><i>TO STEAL <b>→</b> ROBAR</i><i>BRIEFCASE <b>→</b> MALETÍN</i></div></div>
+
+  <div class="panel">
+    <p class="eyebrow">01 · Crews</p>
+    <div class="choices" id="teamCountChoices"></div>
+    <div class="teams-edit" id="teamNames"></div>
+    <div class="hint">Type a name for each crew, or keep the default one.</div>
+  </div>
+
+  <div class="panel">
+    <p class="eyebrow">02 · Class level</p>
+    <div class="choices" id="levelChoices"></div>
+    <div class="hint">On every turn the crew chooses its vault: an easier one (one level down, small loot), the class level, or a harder one (one level up, big loot).</div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <p class="eyebrow">03 · Questions per crew</p>
+      <div class="choices" id="roundChoices"></div>
+      <div class="hint">The last round is the <b>final round</b>: all the loot is doubled.</div>
+    </div>
+    <div class="panel">
+      <p class="eyebrow">04 · Seconds to answer</p>
+      <div class="choices" id="secChoices"></div>
+      <div class="hint">When the time runs out, the alarm goes off and the turn is lost.</div>
+    </div>
+  </div>
+
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="startBtn">Start the heist 💼</button>
+  </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="wrap hidden">
+  <div class="topbar">
+    <span class="counter" id="counter"></span>
+    <div class="actions">
+      <a class="btn btn-plain" href="../" onclick="return confirm('Leave this game and go back to all games?')">🏠 All games</a>
+      <button class="btn btn-plain" id="undoBtn" title="Go back to the start of the turn">↩ Undo</button>
+      <button class="btn btn-plain" id="endBtn">Finish</button>
+    </div>
+  </div>
+  <div class="scorebar" id="scorebar"></div>
+  <div class="stage" id="stage">
+    <div class="side">
+      <div class="screen" id="screen">Locked</div>
+      <div id="vaultBox"></div>
+      <div class="stake" id="stake"></div>
+    </div>
+    <div class="main" id="main"></div>
+  </div>
+</section>
+
+<!-- ================= END ================= -->
+<section id="end" class="wrap end hidden">
+  <p class="eyebrow">Word Heist · The getaway</p>
+  <h1 id="endTitle">Heist complete!</h1>
+  <p class="sub" id="endSub"></p>
+  <div class="podium" id="podium"></div>
+  <div class="start-row">
+    <button class="btn btn-red" id="againBtn">Play again</button>
+    <button class="btn btn-plain" id="setupBtn">Change crews</button>
+    <a class="btn btn-plain" href="../">🏠 All games</a>
+  </div>
+</section>
+
+<script src="questions.js"></script>
+<script src="../shared/howto.js"></script>
+<script>
+const STORE_KEY = "word-heist-v1";
+const $ = id => document.getElementById(id);
+function loadStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
+function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){} }
+const store = loadStore();
+const LEVELS = ["A1", "A2", "B1", "B2", "C1"];
+const LEVEL_NAMES = { A1: "Beginner", A2: "Elementary", B1: "Intermediate", B2: "Upper-int.", C1: "Advanced" };
+const CREWS = [
+  { name: "Foxes",  emoji: "🦊", color: "#ef7d1a" },
+  { name: "Wolves", emoji: "🐺", color: "#2f8fd8" },
+  { name: "Eagles", emoji: "🦅", color: "#9b51e0" },
+  { name: "Sharks", emoji: "🦈", color: "#14a35a" }
+];
+const TYPES = { G: "Grammar", V: "Vocabulary", P: "Phrasal verbs & idioms", W: "Word formation" };
+const cfg = Object.assign({ teamCount: 2, names: ["", "", "", ""], level: "B1", rounds: 6, secs: 30 }, store.cfg || {});
+if (!LEVELS.includes(cfg.level)) cfg.level = "B1";
+
+// ---- question bank ----
+const BANK = {};
+for (const lv of LEVELS) BANK[lv] = (QUESTIONS[lv] || "").split("\n").map(l => l.trim()).filter(Boolean).map(l => {
+  const p = l.split("|"); return { type: p[0], q: p[1], right: p[2], opts: p.slice(2) };
+}).filter(q => q.opts.length >= 2);
+
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const money = n => (n < 0 ? "−" : "") + "$" + Math.abs(Math.round(n)).toLocaleString("en-GB");
+const round10 = n => Math.round(n / 10) * 10;
+
+// ---- sounds ----
+let actx = null;
+function tone(freqs, dur = .12, type = "sine", vol = .18){
+  try {
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    freqs.forEach((f, i) => {
+      const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + i * dur;
+      o.type = type; o.frequency.setValueAtTime(f, t);
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + dur * .95);
+      o.connect(g); g.connect(actx.destination); o.start(t); o.stop(t + dur);
+    });
+  } catch(e){}
+}
+const sClick = () => tone([520], .06, "square", .08);
+const sOk = () => tone([523, 659, 784, 1047], .1, "triangle");
+const sBad = () => tone([320, 240, 320, 240, 320, 240], .13, "sawtooth", .12);
+const sCash = () => tone([988, 1319, 1568], .08, "square", .1);
+const sBig = () => tone([523, 659, 784, 1047, 1319, 1568], .09, "square", .1);
+const sSteal = () => tone([700, 500, 700, 900], .09, "triangle");
+const sTick = () => tone([880], .04, "square", .05);
+const sWin = () => tone([523, 523, 659, 784, 659, 784, 1047], .14, "triangle");
+
+// ---- vault picture ----
+function vaultSVG(){
+  const bolts = [...Array(8)].map((_, i) => { const a = i * Math.PI / 4; return `<circle cx="${100 + 78 * Math.cos(a)}" cy="${100 + 78 * Math.sin(a)}" r="5" fill="#0b0957"/>`; }).join("");
+  const spokes = [0, 60, 120].map(a => `<rect x="54" y="95" width="92" height="10" rx="5" fill="#ffd257" stroke="#0b0957" stroke-width="3" transform="rotate(${a} 100 100)"/>`).join("");
+  return `<svg class="vault" viewBox="0 0 200 200" aria-hidden="true">
+    <rect x="4" y="4" width="192" height="192" rx="26" fill="#2b2a6e" stroke="#0b0957" stroke-width="6"/>
+    <circle cx="100" cy="100" r="88" fill="#aeb4d6" stroke="#0b0957" stroke-width="6"/>
+    <circle cx="100" cy="100" r="66" fill="#d9dcf0" stroke="#0b0957" stroke-width="5"/>
+    ${bolts}
+    <g class="wheel">${spokes}<circle cx="100" cy="100" r="18" fill="#c8323c" stroke="#0b0957" stroke-width="5"/><circle cx="100" cy="100" r="6" fill="#0b0957"/></g>
+    <circle class="lamp" cx="170" cy="30" r="9" stroke="#0b0957" stroke-width="4"/>
+  </svg>`;
+}
+
+// ---- setup ----
+function chips(id, items, cur, onPick, cls = ""){
+  const box = $(id); box.innerHTML = "";
+  items.forEach(it => {
+    const b = document.createElement("button");
+    b.className = "chip " + cls + (it.v === cur ? " on" : ""); b.innerHTML = it.html;
+    b.onclick = () => { sClick(); onPick(it.v); renderSetup(); };
+    box.appendChild(b);
+  });
+}
+function renderSetup(){
+  $("heroVault").innerHTML = '<span class="sticker">TOP SECRET</span>' + vaultSVG();
+  chips("teamCountChoices", [2, 3, 4].map(n => ({ v: n, html: n })), cfg.teamCount, v => cfg.teamCount = v, "num");
+  chips("levelChoices", LEVELS.map(l => ({ v: l, html: `${l}<small>${LEVEL_NAMES[l]}</small>` })), cfg.level, v => cfg.level = v);
+  chips("roundChoices", [4, 6, 8, 10].map(n => ({ v: n, html: n })), cfg.rounds, v => cfg.rounds = v, "num");
+  chips("secChoices", [{ v: 20, html: "20" }, { v: 30, html: "30" }, { v: 45, html: "45" }, { v: 0, html: "No timer" }], cfg.secs, v => cfg.secs = v, "num");
+  const tn = $("teamNames"); tn.innerHTML = "";
+  for (let i = 0; i < cfg.teamCount; i++) {
+    const c = CREWS[i], d = document.createElement("div");
+    d.className = "team-pick"; d.style.setProperty("--c", c.color);
+    d.innerHTML = `<span class="emb">${c.emoji}</span><input maxlength="16">`;
+    const inp = d.querySelector("input"); inp.placeholder = c.name; inp.value = cfg.names[i] || "";
+    inp.oninput = () => { cfg.names[i] = inp.value; };
+    tn.appendChild(d);
+  }
+}
+
+// ---- game state ----
+let G = null, undoStack = [], timerId = null, locked = false;
+function show(id){ ["setup", "game", "end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0, 0); }
+const team = () => G.teams[G.turn];
+const isFinal = () => G.round === cfg.rounds && cfg.rounds > 1;
+
+function startGame(){
+  store.cfg = cfg; saveStore();
+  const teams = [];
+  for (let i = 0; i < cfg.teamCount; i++) teams.push({ name: (cfg.names[i] || "").trim() || CREWS[i].name, emoji: CREWS[i].emoji, color: CREWS[i].color, cash: 0, streak: 0, right: 0, asked: 0 });
+  G = { teams, turn: 0, round: 1, phase: "pick", used: {}, tier: null, q: null, chosen: -1, cases: null, mine: -1, note: "" };
+  undoStack = [];
+  show("game"); beginTurn();
+}
+// the three vaults a crew can choose from: one level down, the class level, one level up
+function tiers(){
+  const at = LEVELS.indexOf(cfg.level), out = [];
+  [[-1, "Easy vault", "🔓"], [0, "Main vault", "🔐"], [1, "Hard vault", "🧨"]].forEach(([d, t, ic], k) => {
+    const lv = LEVELS[at + d]; if (!lv) return;
+    out.push({ lv, t, ic, base: 100 * (k + 1) * (isFinal() ? 2 : 1) });
+  });
+  return out;
+}
+function beginTurn(){
+  stopTimer(); locked = false;
+  G.phase = "pick"; G.tier = null; G.q = null; G.chosen = -1; G.cases = null; G.mine = -1; G.note = "";
+  undoStack.push(JSON.stringify(G)); if (undoStack.length > 120) undoStack.shift();
+  render();
+}
+function nextQuestion(lv){
+  const used = G.used[lv] = G.used[lv] || [];
+  let free = BANK[lv].map((_, i) => i).filter(i => !used.includes(i));
+  if (!free.length) { used.length = 0; free = BANK[lv].map((_, i) => i); }
+  const i = pick(free); used.push(i);
+  const q = BANK[lv][i];
+  return { type: q.type, q: q.q, right: q.right, opts: shuffle(q.opts.slice()), lv };
+}
+function chooseTier(k){
+  if (G.phase !== "pick") return;
+  const t = tiers()[k]; if (!t) return;
+  sClick();
+  G.tier = t; G.q = nextQuestion(t.lv); G.phase = "question"; team().asked++;
+  render(); startTimer();
+}
+function answer(i){
+  if (G.phase !== "question" || locked) return;
+  stopTimer();
+  const t = team(), right = i >= 0 && G.q.opts[i] === G.q.right;
+  G.chosen = i;
+  if (right) {
+    t.right++; t.streak++; G.phase = "cases"; G.cases = makeCases(); sOk();
+  } else {
+    t.streak = 0; G.phase = "denied"; sBad();
+  }
+  render();
+}
+// three briefcases: one is always plain cash, the others can be anything
+function makeCases(){
+  const t = team(), base = G.tier.base, bonus = t.streak >= 3 ? 1.5 : 1;
+  const cash = () => ({ kind: "cash", amount: round10(base * pick([1, 1, 2, 2, 3]) * bonus) });
+  const rivals = G.teams.filter((x, i) => i !== G.turn);
+  const pool = [["cash", 4], ["jackpot", .7]];
+  if (t.cash >= base) { pool.push(["double", 1.1]); pool.push(["alarm", 1.3]); }
+  if (rivals.some(r => r.cash > 0)) { pool.push(["steal", 1.7]); pool.push(["swap", .6]); }
+  const draw = () => {
+    let r = Math.random() * pool.reduce((s, p) => s + p[1], 0);
+    for (const [kind, w] of pool) { if ((r -= w) < 0) return kind === "cash" ? cash() : kind === "jackpot" ? { kind, amount: round10(base * 5 * bonus) } : { kind }; }
+    return cash();
+  };
+  const b = draw(); let c = draw();
+  for (let n = 0; n < 6 && c.kind === b.kind && c.kind !== "cash"; n++) c = draw();
+  return shuffle([cash(), b, c]);
+}
+const CASE_VIEW = {
+  cash:    c => ({ ic: "💵", lb: "+" + money(c.amount), sm: "cash" }),
+  jackpot: c => ({ ic: "💎", lb: "Jackpot!", sm: "+" + money(c.amount) }),
+  double:  () => ({ ic: "✖️2", lb: "Double", sm: "your loot ×2" }),
+  steal:   () => ({ ic: "🕵️", lb: "Steal", sm: "25% of a rival" }),
+  swap:    () => ({ ic: "🔄", lb: "Swap", sm: "loot with a rival" }),
+  alarm:   () => ({ ic: "🚨", lb: "Alarm!", sm: "lose 25%" })
+};
+function pickCase(i){
+  if (G.phase !== "cases" || !G.cases[i]) return;
+  const t = team(), c = G.cases[i];
+  G.mine = i;
+  if (c.kind === "cash" || c.kind === "jackpot") { t.cash += c.amount; G.note = `<b>+${money(c.amount)}</b> for ${esc(t.name)}!`; G.phase = "done"; c.kind === "jackpot" ? sBig() : sCash(); bump(G.turn); }
+  else if (c.kind === "double") { const gain = t.cash; t.cash *= 2; G.note = `Loot doubled: <b>+${money(gain)}</b>!`; G.phase = "done"; sBig(); bump(G.turn); }
+  else if (c.kind === "alarm") { const loss = round10(t.cash * .25); t.cash -= loss; G.note = `The alarm went off! ${esc(t.name)} dropped <b>${money(loss)}</b> on the way out.`; G.phase = "done"; sBad(); bump(G.turn, true); }
+  else { G.phase = "target"; sSteal(); }
+  render();
+}
+function chooseTarget(j){
+  if (G.phase !== "target") return;
+  const t = team(), c = G.cases[G.mine];
+  if (j < 0) { G.note = `${esc(t.name)} kept their own loot.`; }
+  else {
+    const r = G.teams[j];
+    if (c.kind === "steal") { const amt = round10(r.cash * .25); r.cash -= amt; t.cash += amt; G.note = `${esc(t.name)} stole <b>${money(amt)}</b> from ${esc(r.name)}!`; }
+    else { [t.cash, r.cash] = [r.cash, t.cash]; G.note = `${esc(t.name)} swapped loot with ${esc(r.name)}!`; }
+    sSteal(); bump(G.turn); bump(j, true);
+  }
+  G.phase = "done"; render();
+}
+function nextTurn(){
+  if (G.phase !== "done" && G.phase !== "denied") return;
+  G.turn = (G.turn + 1) % G.teams.length;
+  if (G.turn === 0) G.round++;
+  if (G.round > cfg.rounds) return finish();
+  beginTurn();
+}
+function undo(){
+  stopTimer();
+  if (G.phase === "pick" && undoStack.length > 1) undoStack.pop();
+  if (!undoStack.length) return;
+  G = JSON.parse(undoStack[undoStack.length - 1]);
+  locked = false; show("game"); render();
+}
+
+// ---- timer ----
+function startTimer(){
+  stopTimer();
+  if (!cfg.secs) return;
+  const end = Date.now() + cfg.secs * 1000; let lastSec = cfg.secs;
+  timerId = setInterval(() => {
+    const left = Math.max(0, end - Date.now()), bar = document.querySelector("#timer div");
+    if (bar) { bar.style.transform = `scaleX(${left / (cfg.secs * 1000)})`; bar.parentNode.classList.toggle("low", left < 6000); }
+    const s = Math.ceil(left / 1000);
+    if (s !== lastSec && s <= 5 && s > 0) sTick();
+    lastSec = s;
+    if (left <= 0) answer(-1);
+  }, 100);
+}
+function stopTimer(){ clearInterval(timerId); timerId = null; }
+
+// ---- drawing ----
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function bump(i, bad){ setTimeout(() => { const el = document.querySelectorAll("#scorebar .crew")[i]; if (el) { el.classList.remove("bump", "hit"); void el.offsetWidth; el.classList.add(bad ? "hit" : "bump"); } }, 30); }
+function promptHTML(q, solved){
+  let h = esc(q.q).replace(/\(([A-Z]+)\)/, '<span class="root">$1</span>');
+  return h.replace("___", `<span class="gap">${solved ? esc(q.right) : "&nbsp;"}</span>`);
+}
+function render(){
+  const t = team();
+  $("counter").innerHTML = `Round <b>${Math.min(G.round, cfg.rounds)}</b> of ${cfg.rounds} · Class level <b>${cfg.level}</b>`;
+  const sb = $("scorebar"); sb.style.setProperty("--n", G.teams.length); sb.innerHTML = "";
+  G.teams.forEach((x, i) => {
+    const d = document.createElement("div");
+    d.className = "crew" + (i === G.turn ? " now" : ""); d.style.setProperty("--c", x.color);
+    d.innerHTML = `<span class="emb">${x.emoji}</span><div class="info"><div class="nm"></div><div class="cash">${money(x.cash)}</div></div>${x.streak >= 3 ? `<span class="fire">🔥 ×1.5</span>` : ""}`;
+    d.querySelector(".nm").textContent = x.name;
+    sb.appendChild(d);
+  });
+  $("stage").style.setProperty("--c", t.color);
+  const granted = ["cases", "target", "done"].includes(G.phase), denied = G.phase === "denied";
+  $("screen").textContent = granted ? "Access granted" : denied ? "Access denied" : G.phase === "question" ? "Enter the code" : "Locked";
+  $("screen").className = "screen" + (granted ? " ok" : denied ? " bad" : "");
+  if (!$("vaultBox").firstChild) $("vaultBox").innerHTML = vaultSVG();
+  const v = $("vaultBox").firstChild; v.classList.toggle("open", granted); v.classList.toggle("alarm", denied);
+  $("stake").innerHTML = G.tier ? `${G.tier.t} · ${G.tier.lv}<b>${money(G.tier.base)}+</b>` : `Pick a vault`;
+
+  const m = $("main");
+  const head = `<p class="turnline" style="--c:${t.color}"><span></span>${G.phase === "pick" ? ", your move" : ""}</p>`;
+  const fin = isFinal() ? `<div><span class="final">★ FINAL ROUND · DOUBLE LOOT ★</span></div>` : "";
+  if (G.phase === "pick") {
+    m.innerHTML = fin + head + `<p class="lead">Which vault do you want to crack? Harder vault, bigger loot.</p><div class="tiers">` +
+      tiers().map((x, k) => `<button class="tier" data-k="${k}"><span class="k">${k + 1}</span><div class="ic">${x.ic}</div><div class="t">${x.t}</div><div class="lv">Level ${x.lv} · ${LEVEL_NAMES[x.lv]}</div><div class="pay">from ${money(x.base)}</div></button>`).join("") + `</div>` +
+      (t.streak >= 2 ? `<p class="lead" style="margin:16px 0 0">🔥 ${t.streak} in a row${t.streak >= 3 ? ": cash prizes ×1.5!" : ". One more for a ×1.5 bonus!"}</p>` : "");
+    m.querySelectorAll(".tier").forEach(b => b.onclick = () => chooseTier(+b.dataset.k));
+  } else if (G.phase === "question" || G.phase === "denied") {
+    const q = G.q, done = G.phase === "denied";
+    m.innerHTML = fin + `<div class="qhead"><span class="tag lv">${q.lv}</span><span class="tag">${TYPES[q.type] || "English"}</span><span class="tag" style="background:${t.color};color:#fff"></span></div>` +
+      `<p class="prompt">${promptHTML(q, done)}</p>` +
+      (cfg.secs && !done ? `<div class="timer" id="timer"><div></div></div>` : "") +
+      `<div class="opts">` + q.opts.map((o, i) => `<button class="opt${done ? (o === q.right ? " right" : i === G.chosen ? " wrong" : " dim") : ""}" data-i="${i}" ${done ? "disabled" : ""}><span class="n">${i + 1}</span>${esc(o)}</button>`).join("") + `</div>` +
+      (done ? `<div class="verdict"><div class="msg">🚨 ${G.chosen < 0 ? "Time's up!" : "Wrong code!"} The answer was <b>${esc(q.right)}</b>. No loot this turn.</div><button class="btn btn-red" id="nextBtn">Next crew ▶</button></div>` : "");
+    m.querySelector(".qhead .tag:last-child").textContent = t.name;
+    m.querySelectorAll(".opt").forEach(b => b.onclick = () => answer(+b.dataset.i));
+  } else {
+    const picked = G.mine >= 0;
+    m.innerHTML = head + `<p class="lead">${picked ? "" : `✅ <b>${esc(G.q.right)}</b> is right! The vault is open. Pick a briefcase:`}</p>` +
+      `<div class="cases">` + G.cases.map((c, i) => {
+        if (!picked) return `<button class="case" data-i="${i}"><span class="k">${i + 1}</span><span class="bag">💼</span></button>`;
+        const vw = CASE_VIEW[c.kind](c);
+        return `<button class="case open${i === G.mine ? " mine" : ""}" disabled><span><div class="ic">${vw.ic}</div><div class="lb">${vw.lb}</div><div class="sm">${vw.sm}</div></span></button>`;
+      }).join("") + `</div>` +
+      (G.phase === "target" ? `<p class="lead" style="margin:18px 0 0">${G.cases[G.mine].kind === "steal" ? "🕵️ Who do you steal from?" : "🔄 Who do you swap your loot with?"}</p><div class="targets">` +
+        G.teams.map((r, j) => j === G.turn || (G.cases[G.mine].kind === "steal" && r.cash <= 0) ? "" : `<button class="target" data-j="${j}" style="--c:${r.color}">${r.emoji} <span>${esc(r.name)}</span> <small>${money(r.cash)}</small></button>`).join("") +
+        (G.cases[G.mine].kind === "swap" ? `<button class="target" data-j="-1" style="--c:#8b8f9c">✋ Keep my loot</button>` : "") + `</div>` : "") +
+      (G.phase === "done" ? `<div class="verdict"><div class="msg">${G.note}</div><button class="btn btn-red" id="nextBtn">Next crew ▶</button></div>` : "");
+    m.querySelectorAll(".case:not(.open)").forEach(b => b.onclick = () => pickCase(+b.dataset.i));
+    m.querySelectorAll(".target").forEach(b => b.onclick = () => chooseTarget(+b.dataset.j));
+  }
+  const tl = m.querySelector(".turnline span"); if (tl) tl.textContent = t.name;
+  const nb = $("nextBtn"); if (nb) { nb.onclick = nextTurn; const last = G.turn === G.teams.length - 1 && G.round === cfg.rounds; if (last) nb.textContent = "See who won 🏆"; }
+}
+
+// ---- end ----
+function finish(){
+  stopTimer(); G.phase = "over";
+  const order = G.teams.map((t, i) => ({ t, i })).sort((a, b) => b.t.cash - a.t.cash);
+  order.forEach((o, k) => { o.place = k && order[k - 1].t.cash === o.t.cash ? order[k - 1].place : k; });
+  const tie = order.length > 1 && order[1].place === 0;
+  $("endTitle").textContent = tie ? "It's a tie!" : "Heist complete!";
+  const total = G.teams.reduce((s, t) => s + t.cash, 0);
+  $("endSub").innerHTML = tie ? `Two crews got away with <b>${money(order[0].t.cash)}</b> each.` : `<b></b> got away with <b>${money(order[0].t.cash)}</b> of the ${money(total)} taken.`;
+  if (!tie) $("endSub").querySelector("b").textContent = order[0].t.name;
+  const slots = order.length === 2 ? [1, 0] : order.length === 3 ? [1, 0, 2] : order.length === 4 ? [2, 0, 1, 3] : [0];
+  const big = Math.min(130, Math.max(70, Math.floor(innerWidth / (order.length + 2))));
+  const sizes = [1, .76, .66, .58], heights = [190, 136, 100, 74], faces = ["", "😐", "😕", "😢"], ranks = ["1st", "2nd", "3rd", "4th"];
+  const pod = $("podium"); pod.innerHTML = "";
+  slots.forEach(k => {
+    const { t, place } = order[k], d = document.createElement("div");
+    d.className = "pod p" + place;
+    d.style.cssText = `--c:${t.color};--m:${Math.round(big * sizes[place])}px;--h:${heights[place]}px;--dl:${(3 - place) * .18}s`;
+    d.innerHTML = `<div class="emb">${place === 0 ? '<span class="crown">👑</span>' : ""}${t.emoji}${faces[place] ? `<span class="face">${faces[place]}</span>` : ""}</div><div class="n"></div><div class="st">${t.right}/${t.asked} correct</div><div class="step"><span class="rank">${ranks[place]}</span><span class="s">${money(t.cash)}</span></div>`;
+    d.querySelector(".n").textContent = t.name;
+    pod.appendChild(d);
+  });
+  show("end"); confetti(50); sWin();
+}
+function confetti(n){
+  const items = ["💵", "💰", "💎", "⭐", "💼", "✨"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti"; c.textContent = items[i % items.length];
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.animationDuration = 2 + Math.random() * 2 + "s"; c.style.animationDelay = Math.random() * .5 + "s";
+    document.body.appendChild(c); setTimeout(() => c.remove(), 5000);
+  }
+}
+
+// ---- wiring ----
+$("startBtn").onclick = startGame;
+$("undoBtn").onclick = undo;
+$("endBtn").onclick = () => { if (confirm("Finish the game now and see who won?")) finish(); };
+$("againBtn").onclick = startGame;
+$("setupBtn").onclick = () => { show("setup"); renderSetup(); };
+addEventListener("keydown", e => {
+  if (!G || $("game").classList.contains("hidden") || e.target.tagName === "INPUT" || e.ctrlKey || e.metaKey || e.altKey) return;
+  const n = +e.key;
+  if (n >= 1 && n <= 4) {
+    if (G.phase === "pick") chooseTier(n - 1);
+    else if (G.phase === "question") answer(n - 1 < G.q.opts.length ? n - 1 : -2);
+    else if (G.phase === "cases" && n <= 3) pickCase(n - 1);
+  } else if ((e.key === "Enter" || e.key === " ") && (G.phase === "done" || G.phase === "denied")) { e.preventDefault(); nextTurn(); }
+});
+renderSetup();
+</script>
+<script>setHowTo({
+  title: "Word Heist",
+  intro: "Crews crack vaults with their English, grab briefcases full of loot and steal from each other. The richest crew wins.",
+  steps: [
+    ["⚙️", "<b>Set up:</b> choose 2–4 crews, the class level (A1–C1), how many questions each crew gets and the time to answer."],
+    ["🔐", "On its turn, a crew <b>chooses a vault</b>: an easier one (small loot), the class level, or a harder one (big loot)."],
+    ["❓", "The crew answers the question: click the answer or press <kbd>1</kbd>–<kbd>4</kbd> before the time runs out."],
+    ["💼", "<b>Right?</b> The vault opens. Pick one of three briefcases: cash, a jackpot, double your loot, steal 25% from a rival, swap loot… or set off the alarm and lose 25%."],
+    ["🚨", "<b>Wrong or too slow?</b> Access denied: no loot this turn. The right answer is shown so everyone learns it."],
+    ["🔥", "Three right answers in a row give a crew <b>×1.5</b> on cash prizes. In the <b>final round</b>, all loot is doubled."]
+  ],
+  tips: [
+    "The crew must agree on one answer before clicking. Give them a spokesperson!",
+    "Made a mistake? <b>↩ Undo</b> goes back to the start of the turn.",
+    "To add your own questions, edit <b>word-heist/questions.js</b>: one line per question."
+  ]
+});</script>
+</body>
+</html>

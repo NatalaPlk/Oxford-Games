@@ -92,14 +92,14 @@ street 🛣️
 bus 🚌
 
 ## Unit 7: Jobs
-doctor 🧑‍⚕️
-teacher 🧑‍🏫
-farmer 🧑‍🌾
-cook 🧑‍🍳
-pilot 🧑‍✈️
-nurse 👩‍⚕️
-vet 🐶
-firefighter 🧑‍🚒
+doctor 👨‍⚕️🩺
+teacher 👩‍🏫
+farmer 👨‍🌾
+cook 👨‍🍳
+pilot 👨‍✈️
+nurse 👩‍⚕️💉
+vet 👩‍⚕️🐶
+firefighter 👨‍🚒
 
 ## Unit 8: My Clothes
 hat 👒
@@ -125,7 +125,7 @@ football ⚽
 ## Welcome: Friends
 hello 👋
 goodbye 👋
-friend 🧑‍🤝‍🧑
+friend 👫
 eleven 1️⃣1️⃣
 twelve 🕛
 thirteen 1️⃣3️⃣
@@ -145,7 +145,7 @@ book 📕
 bag 🎒
 crayon 🖍️
 desk 🖥️
-board 🧑‍🏫
+board 👩‍🏫
 chair 🪑
 computer 💻
 
@@ -455,7 +455,7 @@ cold 🤧
 temperature 🌡️
 toothache 🦷
 earache 👂
-nurse 👩‍⚕️
+nurse 👩‍⚕️💉
 medicine 💊
 ambulance 🚑
 plaster 🩹
@@ -531,7 +531,7 @@ helmet ⛑️
 rescue 🚁
 danger ⚠️
 alarm 🚨
-firefighter 🧑‍🚒
+firefighter 👨‍🚒
 
 ## Unit 4: Two Return Tickets
 ticket 🎫
@@ -586,7 +586,7 @@ planet 🪐
 star ⭐
 moon 🌙
 rocket 🚀
-astronaut 🧑‍🚀
+astronaut 👨‍🚀
 Earth 🌍
 comet ☄️
 telescope 🔭
@@ -608,7 +608,7 @@ campsite 🏕️
   sm5: { name: "Super Minds 5", text: `
 ## Welcome: The Science Lesson
 experiment 🧪
-scientist 🧑‍🔬
+scientist 👩‍🔬
 magnet 🧲
 microscope 🔬
 liquid 💧
@@ -705,7 +705,7 @@ story 📖
 ## Unit 8: Museum Of The Future
 engineer 👷
 architect 📐
-scientist 🧑‍🔬
+scientist 👩‍🔬
 journalist 📰
 designer ✏️
 photographer 📸
@@ -812,7 +812,7 @@ button 🔘
 wheel 🛞
 
 ## Unit 7: This Is Houston
-astronaut 🧑‍🚀
+astronaut 👨‍🚀
 rocket 🚀
 spacesuit 👩‍🚀
 launch 🚀
@@ -831,7 +831,7 @@ seal 🦭
 penguin 🐧
 igloo ⛄
 sledge 🛷
-Arctic 🐻‍❄️
+Arctic 🧊
 blizzard 🌨️
 reindeer 🦌
 

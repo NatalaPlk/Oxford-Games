@@ -63,3 +63,7 @@ A word-chain game for all levels. The caterpillar starts very small, with one le
 - The game ends when a team gives a wrong word or one that was already used: the caterpillar eats it, gets sick and… makes a stinky poop.
 
 Play: https://natalaplk.github.io/Oxford-Games/hungry-caterpillar/
+
+## Adding words to the word games
+
+Word Express and Hungry Hungry Caterpillar check words against the ENABLE list plus `shared/extra-words.js` (British spellings, modern words, days, months, countries). To accept a new word, add it to that file.

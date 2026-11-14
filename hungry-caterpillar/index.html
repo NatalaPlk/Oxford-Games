@@ -299,6 +299,7 @@
 
 <script src="../monster-rush/monsters.js"></script>
 <script src="dict.js"></script>
+<script src="../shared/extra-words.js"></script>
 <script>
 const STORE_KEY = "hungry-caterpillar-v1";
 const $ = id => document.getElementById(id);
@@ -309,7 +310,7 @@ const cfg = Object.assign({ teamCount: 2, names: ["","","",""], mons: ["gobo","b
 cfg.mons = (cfg.mons || []).filter((t, i, a) => MONSTERS[t] && a.indexOf(t) === i);
 for (const t of MONSTER_ORDER) if (cfg.mons.length < 4 && !cfg.mons.includes(t)) cfg.mons.push(t);
 
-const DICT = new Set(DICT_WORDS.split(" "));
+const DICT = new Set((DICT_WORDS + " " + EXTRA_WORDS).split(" "));
 const TWO = new Set("am an as at be by do go he hi if in is it me my no of oh on or ox so to up us we".split(" "));
 const isWord = w => w.length === 2 ? TWO.has(w) : DICT.has(w);
 const START_LETTERS = "abcdefghlmnprstw", TRICKY = "xqzj";

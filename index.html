@@ -46,8 +46,8 @@
   @keyframes shout{0%,8%{transform:scale(0) rotate(-12deg);opacity:0}14%{transform:scale(1.15) rotate(-4deg);opacity:1}18%,42%{transform:scale(1) rotate(-4deg);opacity:1}48%,100%{transform:scale(0) rotate(-12deg);opacity:0}}
   .cat-art{position:relative}
   .cat-art img{position:absolute;inset:0;width:100%;height:100%}
-  .cat-art .body{clip-path:polygon(0 74%,48% 74%,56% 61%,100% 57%,100% 100%,0 100%)}
-  .cat-art .head{clip-path:polygon(0 0,66% 0,66% 40%,57% 50%,57% 64%,50% 80%,6% 80%,0 70%);transform-origin:36% 78%;animation:catHead 3.6s ease-in-out infinite}
+  .cat-art .cbody{clip-path:polygon(0 74%,48% 74%,56% 61%,100% 57%,100% 100%,0 100%)}
+  .cat-art .chead{clip-path:polygon(0 0,66% 0,66% 40%,57% 50%,57% 64%,50% 80%,6% 80%,0 70%);transform-origin:36% 78%;animation:catHead 3.6s ease-in-out infinite}
   @keyframes catHead{0%,100%{transform:rotate(0)}10%{transform:rotate(-9deg)}20%{transform:rotate(8deg)}30%{transform:rotate(-7deg)}40%{transform:rotate(6deg)}50%,60%{transform:rotate(0)}66%{transform:rotate(0) translateY(-5%)}72%{transform:rotate(0)}}
   .fire-art .fl{transform-box:fill-box;transform-origin:50% 100%;animation:burn .55s ease-in-out infinite alternate}
   .fire-art .fl.b{animation-duration:.4s;animation-delay:-.2s} .fire-art .fl.c{animation-duration:.33s;animation-delay:-.1s}
@@ -56,7 +56,7 @@
   @keyframes burn{from{transform:scale(1,1) skewX(-2deg)}to{transform:scale(1.03,1.09) skewX(3deg)}}
   @keyframes spark{0%{transform:translateY(10px) scale(.4);opacity:0}25%{opacity:1}100%{transform:translateY(-30px) scale(1.1) rotate(60deg);opacity:0}}
   a.game:hover .icon.fire-art svg{animation:none}
-  @media (prefers-reduced-motion:reduce){.driver-art img,.driver-art .shout,.cat-art .head,.fire-art .fl,.fire-art .sparks rect{animation:none}.driver-art .shout{opacity:0}}
+  @media (prefers-reduced-motion:reduce){.driver-art img,.driver-art .shout,.cat-art .chead,.fire-art .fl,.fire-art .sparks rect{animation:none}.driver-art .shout{opacity:0}}
   .num{font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.2em}
   .game .body{padding:20px 22px 24px;display:flex;flex-direction:column;flex:1}
   .game h3{margin:0 0 8px;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:34px;line-height:1}
@@ -116,7 +116,7 @@
         </div>
       </a>
       <a class="game" href="hungry-caterpillar/">
-        <div class="top"><span class="icon art cat-art" style="width:89px;height:92px;margin:-8px 0"><img class="body" src="hungry-caterpillar/img/cat-full.png" alt="Caterpillar"><img class="head" src="hungry-caterpillar/img/cat-full.png" alt=""></span><span class="num">05</span></div>
+        <div class="top"><span class="icon art cat-art" style="width:89px;height:92px;margin:-8px 0"><img class="cbody" src="hungry-caterpillar/img/cat-full.png" alt="Caterpillar"><img class="chead" src="hungry-caterpillar/img/cat-full.png" alt=""></span><span class="num">05</span></div>
         <div class="body">
           <h3>Hungry Hungry Caterpillar</h3>
           <p>Feed the caterpillar words: each word starts with the last letter of the one before. A wrong word makes it sick… and stinky!</p>

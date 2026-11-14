@@ -68,7 +68,7 @@ Play: https://natalaplk.github.io/Oxford-Games/hungry-caterpillar/
 
 A competitive quiz for teenagers (12–18), levels A1 to C1. Crews crack vaults by answering grammar and vocabulary questions, then pick a briefcase of loot. The richest crew wins.
 
-- 2–4 crews on one screen. The teacher sets the class level, the questions per crew and the time to answer.
+- 2–4 crews on one screen, each with its own character (fox, wolf, owl, raccoon or lynx). The teacher sets the class level, the questions per crew and the time to answer.
 - Each turn the crew chooses its vault: one level down (small loot), the class level, or one level up (big loot).
 - A right answer opens the vault and the crew picks one of three briefcases: cash, a jackpot, double your loot, steal 25% from a rival, swap loot with a rival, or an alarm that costs 25%.
 - A wrong answer (or no answer in time) means no loot; the right answer is shown.

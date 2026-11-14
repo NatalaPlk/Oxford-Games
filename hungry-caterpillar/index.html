@@ -210,6 +210,7 @@
   .pod .rank{font-family:var(--display);font-weight:900;font-size:min(calc(var(--h) * .34),52px);line-height:1;-webkit-text-stroke:2px var(--navy);paint-order:stroke fill}
   .pod .s{font-family:var(--mono);font-size:17px;font-weight:700;background:var(--card);color:var(--navy);border:2px solid var(--navy);border-radius:999px;padding:1px 10px;white-space:nowrap}
   .pod.p0 .s{font-size:21px;background:var(--yellow,#ffd257)}
+  .pen{display:inline-block;background:var(--brand);color:#fff;font-family:var(--mono);font-weight:700;border-radius:999px;padding:2px 12px;margin-top:8px;transform:rotate(-2deg)}
   .pod .oops{font-size:13px;font-weight:700;color:var(--brand);margin-bottom:4px}
   @media (max-width:600px){ .pod .n{font-size:15px} .pod.p0 .n{font-size:18px} .pod .s{font-size:13px;padding:1px 6px} }
   .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
@@ -575,7 +576,9 @@ function newLetter(){
 // a wrong word: the caterpillar eats it, gets sick and…
 function gameOver(w, why){
   snapshot(); busy = true; setMsg("");
-  G.phase = "over"; G.bad = { w, why, team: G.turn };
+  // a bad word costs double its length
+  G.phase = "over"; G.bad = { w, why, team: G.turn, pen: w.length * 2 };
+  G.teams[G.turn].score -= G.bad.pen;
   $("playBox").classList.remove("hidden"); $("judgeBox").classList.add("hidden");
   flyToMouth(w, true, () => {
     const cat = document.querySelector("#garden .cat"), head = cat.querySelector(".head");
@@ -584,8 +587,11 @@ function gameOver(w, why){
     sGurgle();
     later(() => {
       cat.insertAdjacentHTML("afterbegin", `<span class="minipoop">${poopSVG(false)}</span>`);
-      const t = G.teams[G.bad.team];
+      const chip = document.querySelectorAll("#scorebar .ts b")[G.bad.team];
+      if (chip) { chip.textContent = G.teams[G.bad.team].score; chip.style.color = "#ff6b6b"; }
       $("yuckWhy").innerHTML = why === "used" ? `<b></b> was already eaten! The caterpillar got sick…` : `<b></b> isn't a real word! The caterpillar got sick…`;
+      $("yuckWhy").insertAdjacentHTML("beforeend", `<br><span class="pen">−${G.bad.pen} points</span> <span class="penwho"></span>`);
+      $("yuckWhy").querySelector(".penwho").textContent = G.teams.length > 1 ? "for " + G.teams[G.bad.team].name : "";
       $("yuckWhy").querySelector("b").textContent = w;
       $("bigPoop").innerHTML = poopSVG(true);
       $("yuck").classList.remove("hidden"); sGurgle(); later(sFart, 1100);
@@ -601,7 +607,7 @@ function finish(){
   $("endTitle").textContent = bad ? "Game over!" : "So full!";
   $("endSub").innerHTML = `The caterpillar ate <b>${G.words.length}</b> word${G.words.length === 1 ? "" : "s"} and grew to <b>${len}</b> letters.` + (len > prev && G.words.length ? " 🏅 New record!" : prev ? ` Record: ${prev}.` : "");
   const eb = $("endBad");
-  if (bad) { eb.innerHTML = `🤢 <b></b> ${bad.why === "used" ? "was already used" : "isn't a real word"} <span></span>`; eb.querySelector("b").textContent = bad.w.toUpperCase(); eb.querySelector("span").textContent = G.teams.length > 1 ? `(${G.teams[bad.team].name})` : ""; }
+  if (bad) { eb.innerHTML = `🤢 <b></b> ${bad.why === "used" ? "was already used" : "isn't a real word"} <span></span>`; eb.querySelector("b").textContent = bad.w.toUpperCase(); eb.querySelector("span").textContent = (G.teams.length > 1 ? `(${G.teams[bad.team].name}) ` : "") + `−${bad.pen} points`; }
   else eb.textContent = "";
   const pod = $("podium"); pod.innerHTML = "";
   const order = G.teams.map((t, i) => ({ t, i })).sort((a, b) => b.t.score - a.t.score);
@@ -618,7 +624,7 @@ function finish(){
     d.style.cssText = `--c:${MONSTERS[t.mon].color};--m:${Math.round(big * sizes[place])}px;--h:${heights[place]}px;--dl:${(3 - place) * .18}s`;
     const oops = bad && bad.team === i && multi;
     const mood = place === 0 ? "joy" : place >= 2 || oops ? "sad" : "happy";
-    d.innerHTML = `<div class="pmon">${place === 0 && multi ? '<span class="crown">👑</span>' : ""}${monsterSVG(t.mon, mood)}${multi ? `<span class="face">${oops && place ? "🤢" : faces[place]}</span>` : ""}</div><div class="n"></div>${oops ? '<div class="oops">fed the bad word 🤢</div>' : ""}<div class="step"><span class="rank">${multi ? ranks[place] : "🐛"}</span><span class="s">${t.score} pts</span></div>`;
+    d.innerHTML = `<div class="pmon">${place === 0 && multi ? '<span class="crown">👑</span>' : ""}${monsterSVG(t.mon, mood)}${multi ? `<span class="face">${oops && place ? "🤢" : faces[place]}</span>` : ""}</div><div class="n"></div>${oops ? `<div class="oops">fed the bad word 🤢 −${bad.pen}</div>` : ""}<div class="step"><span class="rank">${multi ? ranks[place] : "🐛"}</span><span class="s">${t.score} pts</span></div>`;
     d.querySelector(".n").textContent = t.name;
     pod.appendChild(d);
   });
@@ -678,7 +684,7 @@ renderSetup();
     ["🍃", "Type the rest of the word and press <b>Feed it!</b> (or <kbd>Enter</kbd>). The caterpillar eats the word and grows."],
     ["🔁", "The next team needs a word that starts with the <b>last letter</b>: wol<b>f</b> → <b>f</b>amily → <b>y</b>ellow…"],
     ["⭐", "<b>Points = letters in the word.</b> Wolf = 4 points, family = 6 points. Long words are better!"],
-    ["💩", "A word that is wrong or was already used ends the game: the caterpillar gets sick and… you'll see!"]
+    ["💩", "A word that is wrong or was already used ends the game: the caterpillar gets sick and… you'll see! That team <b>loses double the points</b> of the bad word: a 4-letter word costs 8 points."]
   ],
   tips: [
     "Hard letter like <b>X</b> or <b>Q</b>? The teacher can press <b>🎲 New letter</b>.",

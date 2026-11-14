@@ -77,6 +77,18 @@ A competitive quiz for teenagers (12–18), levels A1 to C1. Crews crack vaults 
 
 Play: https://natalaplk.github.io/Oxford-Games/word-heist/
 
+## Hot Seat
+
+A speaking game for teenagers (12–18), levels A1 to C1. One player sits in the "hot seat" with their back to the screen. Their team explains the word in English without saying the forbidden words, and the player guesses as many as possible before the clock stops.
+
+- 2–4 teams on one screen. The teacher sets the level, the cards, the turns per team and the seconds per turn.
+- Three packs of cards: the level's vocabulary, famous people and characters that Spanish teenagers know (SpongeBob, Messi, Rosalía, Spider-Man…), or both mixed.
+- The teacher (or a student) presses **Got it!** (+1), **Pass** (up to 3 per turn) or **Forbidden!** (−1, when somebody says a forbidden word). The other teams act as judges.
+- **Pause** hides the word and stops the clock. **Undo** takes back the last button.
+- About 200 vocabulary cards (40 per level) and 65 famous cards. They are in `hot-seat/words.js`, one line per card, so you can add your own.
+
+Play: https://natalaplk.github.io/Oxford-Games/hot-seat/
+
 ## Adding words to the word games
 
 Word Express and Hungry Hungry Caterpillar check words against the ENABLE list plus `shared/extra-words.js` (British spellings, modern words, days, months, countries). To accept a new word, add it to that file.

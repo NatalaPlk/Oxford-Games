@@ -157,8 +157,8 @@
   .timer.low div{background:var(--brand)}
   .timeleft{font-family:var(--mono);font-weight:700;font-size:14px;margin-top:-10px;margin-bottom:12px;color:var(--muted)}
   .ask{margin:0 0 12px;font-weight:700;color:var(--muted)} .ask b{color:var(--navy)}
-  .options{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;max-width:640px;margin:0 auto}
-  .opt-btn{position:relative;font-family:var(--display);font-weight:900;font-size:clamp(20px,2.6vw,30px);color:var(--navy);background:#fff;border:3px solid var(--navy);border-radius:18px;padding:18px 10px 16px;box-shadow:5px 5px 0 var(--c,var(--navy));cursor:pointer;transition:transform .1s,box-shadow .1s,background .15s;word-break:break-word}
+  .options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;max-width:640px;margin:0 auto}
+  .opt-btn{position:relative;font-family:var(--display);font-weight:900;font-size:clamp(20px,2.6vw,30px);color:var(--navy);background:#fff;border:3px solid var(--navy);border-radius:18px;padding:18px 10px 16px;box-shadow:5px 5px 0 var(--c,var(--navy));cursor:pointer;transition:transform .1s,box-shadow .1s,background .15s;white-space:nowrap;overflow:hidden}
   .opt-btn:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--c,var(--navy));background:var(--paper)}
   .opt-btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:2px 2px 0 var(--c,var(--navy))}
   .opt-btn .k{position:absolute;top:6px;left:10px;font-family:var(--mono);font-size:11px;font-weight:700;color:var(--muted);text-transform:none}
@@ -590,7 +590,19 @@ function renderFlash(){
     b.onclick = () => choose(i);
     box.appendChild(b);
   });
+  fitOptions();
 }
+// long words (hieroglyphs…) get smaller letters so they always stay on one line
+function fitOptions(){
+  document.querySelectorAll("#options .opt-btn").forEach(b => {
+    const t = b.lastChild; b.style.fontSize = "";
+    const cs = getComputedStyle(b), room = b.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const size = parseFloat(cs.fontSize), need = t.getBoundingClientRect().width;
+    if (room > 0 && need > room) b.style.fontSize = Math.max(11, Math.floor(size * room / need * 100) / 100) + "px";
+  });
+}
+addEventListener("resize", fitOptions);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitOptions);
 function flipCard(){ const f = $("flash"); f.classList.remove("flip"); void f.offsetWidth; f.classList.add("flip"); }
 
 function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 80) undoStack.shift(); }

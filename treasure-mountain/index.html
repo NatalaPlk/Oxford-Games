@@ -122,9 +122,10 @@
   /* ---------- Goblin encounter ---------- */
   .enc{position:absolute;inset:0;z-index:10;background:rgba(11,9,87,.72);display:grid;grid-template-columns:26% 1fr;align-items:center;gap:2%;padding:2.5% 3%}
   .goblin{width:100%;animation:gobIn .5s cubic-bezier(.2,1.5,.4,1)}
-  .goblin svg{width:100%;height:auto;display:block;overflow:visible;transform-origin:50% 100%;animation:gobIdle 1.6s ease-in-out infinite}
-  .goblin.happy svg{animation:gobYes .45s ease-in-out infinite alternate}
-  .goblin.angry svg{animation:gobNo .12s linear 6}
+  .goblin img{width:100%;height:auto;display:block;transform-origin:50% 100%;animation:gobIdle 1.6s ease-in-out infinite;filter:drop-shadow(0 6px 0 rgba(0,0,0,.3))}
+  .goblin.happy img{animation:gobYes .45s ease-in-out infinite alternate}
+  .goblin.angry img{animation:gobNo .12s linear 6}
+  .goblin .gname{display:block;width:max-content;margin:0 auto 6px;background:var(--yellow);border:3px solid var(--navy);border-radius:999px;padding:2px 14px;font-family:var(--display);font-weight:900;font-size:clamp(12px,1.8cqw,18px);text-transform:uppercase;box-shadow:3px 3px 0 var(--navy)}
   @keyframes gobIn{from{transform:translateY(60%) scale(.5);opacity:0}}
   @keyframes gobIdle{50%{transform:rotate(-3deg) translateY(-2%)}}
   @keyframes gobYes{to{transform:translateY(-8%) rotate(5deg)}}
@@ -380,27 +381,13 @@ const sLose = () => tone([392, 370, 349, 330, 262], .25, "sawtooth", .12);
 
 // ---------- drawings ----------
 const N = "#0b0957";
-function goblinSVG(){
-  return `<svg viewBox="0 0 200 250" aria-hidden="true"><g stroke="${N}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
-    <path d="M62 236 q-6 -30 8 -50 h60 q14 20 8 50Z" fill="#8a5a2b"/>
-    <path d="M70 236 v-14 M130 236 v-14" fill="none"/>
-    <path d="M56 236 h30 M114 236 h30" stroke-width="12"/>
-    <path d="M70 190 q-34 -6 -40 -30 M130 190 q34 -6 40 -30" fill="none" stroke="#6fbf3f" stroke-width="16"/>
-    <path d="M70 190 q-34 -6 -40 -30 M130 190 q34 -6 40 -30" fill="none" stroke-width="0"/>
-    <path d="M44 104 L4 78 L40 130Z M156 104 L196 78 L160 130Z" fill="#6fbf3f"/>
-    <ellipse cx="100" cy="124" rx="62" ry="58" fill="#7fd04a"/>
-    <path d="M40 92 Q100 -40 160 92 Q100 70 40 92Z" fill="#c8323c"/>
-    <circle cx="100" cy="14" r="10" fill="#ffd257"/>
-    <path d="M40 92 Q100 70 160 92" fill="none" stroke="#ffd257" stroke-width="10"/>
-    <path d="M40 92 Q100 70 160 92" fill="none"/>
-    <ellipse cx="76" cy="118" rx="15" ry="17" fill="#fff"/><ellipse cx="124" cy="118" rx="15" ry="17" fill="#fff"/>
-    <circle cx="80" cy="121" r="6" fill="${N}"/><circle cx="120" cy="121" r="6" fill="${N}"/>
-    <path d="M56 98 l28 8 M144 98 l-28 8" fill="none"/>
-    <path d="M100 126 q-12 18 0 22 q12 -4 0 -22Z" fill="#5fae36"/>
-    <path d="M72 156 Q100 180 128 156" fill="#3a1030"/>
-    <path d="M82 160 l6 10 l6 -8 M106 162 l6 8 l6 -10" fill="#fff" stroke-width="3"/>
-  </g></svg>`;
-}
+// the six goblins: a picture of each one and its face for the map. Each game puts them on the camps in a random order.
+const GOBLINS = [
+  { id: 1, name: "Grimble" }, { id: 2, name: "Tally" }, { id: 3, name: "Madame Quill" },
+  { id: 4, name: "Brutus" }, { id: 5, name: "Winky" }, { id: 6, name: "Zorbo" }
+];
+GOBLINS.forEach(g => { new Image().src = `goblins/g${g.id}.png`; new Image().src = `goblins/a${g.id}.png`; });
+const gobAt = camp => GOBLINS.find(g => g.id === G.gobs[camp]);
 function dragonSVG(){
   return `<svg viewBox="0 0 300 250" aria-hidden="true"><g stroke="${N}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
     <path d="M96 120 Q20 60 6 10 Q50 30 62 54 Q64 30 88 22 Q84 50 100 70Z" fill="#8f1f3a"/>
@@ -435,7 +422,8 @@ function chestSVG(open){
 // camps on the path, from the bottom (0) to the top (CAMPS = the dragon's cave)
 const PTS = [[150, 548], [335, 492], [600, 446], [430, 378], [600, 310], [476, 236]];
 const TOP = [540, 150];
-function mapSVG(known){
+function mapSVG(gobs){
+  const known = null;
   const path = "M" + PTS.concat([TOP]).map(p => p.join(" ")).join(" L");
   const camps = PTS.slice(0, CAMPS).map((p, i) => {
     const k = known ? known[i] : null;
@@ -445,7 +433,7 @@ function mapSVG(known){
       return `<circle cx="${x}" cy="${p[1] - 56}" r="11" fill="${st}" stroke="${N}" stroke-width="3"/>${mark}`;
     };
     return `<g><path d="M${p[0]} ${p[1] - 8} v-36" stroke="#8a5a2b" stroke-width="6"/>${arrow("L", p[0] - 13)}${arrow("R", p[0] + 13)}
-      <g class="camp-g" style="animation-delay:${-i * .3}s"><path d="M${p[0] + 26} ${p[1] - 26} l-14 -22 l34 6Z" fill="#c8323c" stroke="${N}" stroke-width="3" stroke-linejoin="round"/><circle cx="${p[0] + 34}" cy="${p[1] - 16}" r="13" fill="#7fd04a" stroke="${N}" stroke-width="3"/><circle cx="${p[0] + 30}" cy="${p[1] - 18}" r="2.6" fill="${N}"/><circle cx="${p[0] + 39}" cy="${p[1] - 18}" r="2.6" fill="${N}"/><path d="M${p[0] + 29} ${p[1] - 10} q5 4 10 0" stroke="${N}" stroke-width="2.5" fill="none"/></g></g>`;
+      <g class="camp-g" style="animation-delay:${-i * .3}s"><image href="goblins/a${gobs[i]}.png" x="${p[0] + 24}" y="${p[1] - 62}" width="68" height="64" preserveAspectRatio="xMidYMax meet"/></g></g>`;
   }).join("");
   return `<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6ec1ff"/><stop offset="1" stop-color="#d9f1ff"/></linearGradient></defs>
     <rect width="1000" height="600" fill="url(#sky)"/>
@@ -524,7 +512,7 @@ const isRight = (q, v) => q.answers.some(a => norm(a) === norm(v) || (norm(v).le
 
 // ---------- setup ----------
 function renderSetup(){
-  $("heroScene").innerHTML = '<span class="sticker">HERE BE DRAGONS</span><svg viewBox="150 0 700 600" preserveAspectRatio="xMidYMid slice">' + mapSVG(null) + "</svg>";
+  $("heroScene").innerHTML = '<span class="sticker">HERE BE DRAGONS</span><svg viewBox="150 0 700 600" preserveAspectRatio="xMidYMid slice">' + mapSVG(shuffle(GOBLINS.map(g => g.id))) + "</svg>";
   const tc = $("teamCountChoices"); tc.innerHTML = "";
   [1, 2].forEach(n => {
     const b = document.createElement("button");
@@ -574,7 +562,7 @@ function startGame(){
   store.cfg = cfg; saveStore(); clearTimers(); stopBoss();
   const teams = [];
   for (let i = 0; i < cfg.teamCount; i++) teams.push({ name: (cfg.names[i] || "").trim() || MONSTERS[cfg.mons[i]].name, mon: cfg.mons[i], color: MONSTERS[cfg.mons[i]].color, lives: LIVES, camp: 0, out: false });
-  G = { teams, turn: 0, phase: "map", safe: Array.from({ length: CAMPS }, () => pick(["L", "R"])), known: Array.from({ length: CAMPS }, () => ({})), hp: DRAGON_HP, q: null, toast: "" };
+  G = { teams, turn: 0, phase: "map", safe: Array.from({ length: CAMPS }, () => pick(["L", "R"])), known: Array.from({ length: CAMPS }, () => ({})), hp: DRAGON_HP, q: null, toast: "", gobs: shuffle(GOBLINS.map(g => g.id)).slice(0, CAMPS) };
   show("game"); $("layer").innerHTML = ""; render();
 }
 function spot(t, i){
@@ -599,7 +587,7 @@ function render(opts = {}){
     hud.appendChild(d);
   });
   $("scene").style.setProperty("--c", t.color);
-  $("mapSvg").innerHTML = mapSVG(null);
+  $("mapSvg").innerHTML = mapSVG(G.gobs);
   const tk = $("tokens");
   G.teams.forEach((x, i) => {
     let el = tk.children[i];
@@ -614,8 +602,9 @@ function render(opts = {}){
 function drawBanner(){
   const t = team(), L = $("layer");
   const atTop = t.camp >= CAMPS;
-  L.innerHTML = `<div class="banner">${G.toast ? `<span class="note">${G.toast}</span>` : ""}<span class="txt"><b></b>, ${atTop ? "the dragon is waiting…" : "a goblin blocks the path!"}</span><button class="btn btn-red" id="goBtn">${atTop ? "Fight the dragon 🐉" : "Meet the goblin ▶"}</button></div>`;
+  L.innerHTML = `<div class="banner">${G.toast ? `<span class="note">${G.toast}</span>` : ""}<span class="txt"><b></b>, ${atTop ? "the dragon is waiting…" : `<i class="gob-nm"></i> the goblin blocks the path!`}</span><button class="btn btn-red" id="goBtn">${atTop ? "Fight the dragon 🐉" : "Meet the goblin ▶"}</button></div>`;
   L.querySelector(".banner b").textContent = t.name;
+  if (!atTop) L.querySelector(".gob-nm").textContent = gobAt(t.camp).name;
   $("goBtn").onclick = () => { G.toast = ""; atTop ? startBoss() : meetGoblin(); };
   $("goBtn").focus({ preventScroll: true });
 }
@@ -634,10 +623,11 @@ function loseLife(t){
 function meetGoblin(){
   G.phase = "riddle"; G.q = makeQuestion(cfg.level); sGoblin();
   const q = G.q, L = $("layer");
-  L.innerHTML = `<div class="enc"><div class="goblin" id="gob">${goblinSVG()}</div><div class="bubble" id="bubble">
+  L.innerHTML = `<div class="enc"><div class="goblin" id="gob"><span class="gname"></span><img src="goblins/g${gobAt(team().camp).id}.png" alt="${gobAt(team().camp).name} the goblin"></div><div class="bubble" id="bubble">
     <span class="qtag">${q.type} · Camp ${team().camp + 1}</span>
     <div class="qrow">${q.pic ? `<div class="qpic">${q.pic}</div>` : ""}<div style="flex:1;min-width:0"><p class="qtext" id="qtext">${q.html}</p>${q.tiles ? `<div class="tiles">${q.tiles.map(x => `<span>${esc(x)}</span>`).join("")}</div>` : ""}</div></div>
     <div id="answerBox"></div><div class="fb" id="fb"></div><div id="forkBox"></div></div></div>`;
+  L.querySelector(".gname").textContent = gobAt(team().camp).name;
   const box = $("answerBox");
   if (q.mode === "choice") {
     box.innerHTML = `<div class="choices3">${q.choices.map((c, i) => `<button class="ch-btn" data-i="${i}">${esc(c)}</button>`).join("")}</div>`;
@@ -658,13 +648,13 @@ function answer(v, btn){
   document.querySelectorAll(".ch-btn").forEach(b => { const mine = b === btn, right = isRight(q, b.textContent); b.classList.add(right ? "right" : mine ? "wrong" : "dim"); });
   if (q.solved) $("qtext").innerHTML = q.solved;
   const fb = $("fb"), gob = $("gob");
-  if (ok) { sOk(); gob.classList.add("happy"); fb.className = "fb ok"; fb.textContent = "✔ Right! The goblin lets you pass."; showFork(true); }
+  if (ok) { sOk(); gob.classList.add("happy"); fb.className = "fb ok"; fb.textContent = `✔ Right! ${gobAt(t.camp).name} lets you pass.`; showFork(true); }
   else {
     sBad(); gob.classList.add("angry"); loseLife(t); render({ pop: G.turn });
     fb.className = "fb bad";
     fb.innerHTML = `✘ Wrong! The answer is <b>${esc(q.show)}</b>. You lose a life.` + (q.mode === "type" ? ` <button class="accept" id="acceptBtn">Teacher: count it as right</button>` : "");
     const ab = $("acceptBtn");
-    if (ab) ab.onclick = () => { t.lives = Math.min(LIVES, t.lives + 1); t.out = false; render(); gob.className = "goblin happy"; fb.className = "fb ok"; fb.textContent = "✔ Accepted! The goblin lets you pass."; sOk(); showFork(true); };
+    if (ab) ab.onclick = () => { t.lives = Math.min(LIVES, t.lives + 1); t.out = false; render(); gob.className = "goblin happy"; fb.className = "fb ok"; fb.textContent = `✔ Accepted! ${gobAt(t.camp).name} lets you pass.`; sOk(); showFork(true); };
     if (t.out) { $("forkBox").innerHTML = `<div class="fork"><p>💔 No lives left. ${esc(t.name)} goes home…</p><button class="btn btn-red" id="outBtn">Continue ▶</button></div>`; $("outBtn").onclick = () => { $("layer").innerHTML = ""; nextTurn(`💔 ${esc(t.name)} is out of lives.`); }; }
     else showFork(false);
   }

@@ -419,35 +419,21 @@ function chestSVG(open){
     <rect x="86" y="98" width="28" height="30" rx="6" fill="#ffd257"/><circle cx="100" cy="112" r="4" fill="${N}"/>
   </g></svg>`;
 }
+// the mountain is a picture (img/mountain.webp, 1877×1247). IMG turns a point on the picture into map units (1000×600).
+const IMG_W = 1877, IMG_H = 1247, IMG_K = 1000 / IMG_W, IMG_Y = -30;
+const IMG = (x, y) => [Math.round(x * IMG_K), Math.round(y * IMG_K + IMG_Y)];
 // camps on the path, from the bottom (0) to the top (CAMPS = the dragon's cave)
-const PTS = [[150, 548], [335, 492], [600, 446], [430, 378], [600, 310], [476, 236]];
-const TOP = [540, 150];
+const PTS = [IMG(250, 1070), IMG(470, 790), IMG(880, 700), IMG(1230, 615), IMG(1010, 495)];
+const TOP = IMG(1330, 300);
+new Image().src = "img/mountain.webp";
 function mapSVG(gobs){
-  const known = null;
-  const path = "M" + PTS.concat([TOP]).map(p => p.join(" ")).join(" L");
   const camps = PTS.slice(0, CAMPS).map((p, i) => {
-    const k = known ? known[i] : null;
-    const arrow = (side, x) => {
-      const st = !k ? "#fff" : k[side] === "safe" ? "#3ddc84" : k[side] === "trap" ? "#c8323c" : "#fff";
-      const mark = k && k[side] === "trap" ? `<path d="M${x - 6} ${p[1] - 62} l12 12 m0 -12 l-12 12" stroke="#fff" stroke-width="3.5" fill="none"/>` : `<path d="M${x + (side === "L" ? 5 : -5)} ${p[1] - 62} l${side === "L" ? -10 : 10} 6 l${side === "L" ? 10 : -10} 6" stroke="${N}" stroke-width="3.5" fill="none"/>`;
-      return `<circle cx="${x}" cy="${p[1] - 56}" r="11" fill="${st}" stroke="${N}" stroke-width="3"/>${mark}`;
-    };
+    const arrow = (side, x) => `<circle cx="${x}" cy="${p[1] - 56}" r="11" fill="#fff" stroke="${N}" stroke-width="3"/><path d="M${x + (side === "L" ? 5 : -5)} ${p[1] - 62} l${side === "L" ? -10 : 10} 6 l${side === "L" ? 10 : -10} 6" stroke="${N}" stroke-width="3.5" fill="none"/>`;
     return `<g><path d="M${p[0]} ${p[1] - 8} v-36" stroke="#8a5a2b" stroke-width="6"/>${arrow("L", p[0] - 13)}${arrow("R", p[0] + 13)}
-      <g class="camp-g" style="animation-delay:${-i * .3}s"><image href="goblins/a${gobs[i]}.png" x="${p[0] + 24}" y="${p[1] - 62}" width="68" height="64" preserveAspectRatio="xMidYMax meet"/></g></g>`;
+      <g class="camp-g" style="animation-delay:${-i * .3}s"><image href="goblins/a${gobs[i]}.png" x="${p[0] + (i ? 24 : 52)}" y="${p[1] - 62}" width="68" height="64" preserveAspectRatio="xMidYMax meet"/></g></g>`;
   }).join("");
-  return `<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6ec1ff"/><stop offset="1" stop-color="#d9f1ff"/></linearGradient></defs>
-    <rect width="1000" height="600" fill="url(#sky)"/>
-    <circle cx="880" cy="90" r="46" fill="#ffd257" stroke="${N}" stroke-width="5"/>
-    <g fill="#fff" opacity=".9"><g class="cloud"><ellipse cx="60" cy="120" rx="70" ry="22"/><ellipse cx="100" cy="100" rx="44" ry="24"/></g><g class="cloud b"><ellipse cx="80" cy="220" rx="56" ry="18"/><ellipse cx="50" cy="206" rx="34" ry="18"/></g></g>
-    <path d="M-20 600 L130 330 L250 470 L330 300 L460 600Z M560 600 L740 250 L850 420 L930 320 L1040 600Z" fill="#a9b6e8" stroke="${N}" stroke-width="5" stroke-linejoin="round"/>
-    <path d="M-40 610 L250 372 L328 414 L520 44 L724 398 L800 356 L1040 610Z" fill="#7d74c9" stroke="${N}" stroke-width="6" stroke-linejoin="round"/>
-    <path d="M520 44 L450 180 L486 164 L512 196 L546 160 L590 182Z" fill="#fff" stroke="${N}" stroke-width="5" stroke-linejoin="round"/>
-    <path d="M-40 610 L60 528 Q300 470 520 520 Q760 566 1040 530 V610Z" fill="#6fcf8f" stroke="${N}" stroke-width="5"/>
-    <path d="${path}" fill="none" stroke="${N}" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="${path}" fill="none" stroke="#fff3d6" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 14"/>
-    <ellipse cx="${TOP[0] + 8}" cy="${TOP[1] - 4}" rx="62" ry="44" fill="#2a1a4a" stroke="${N}" stroke-width="5"/>
-    <g transform="translate(${TOP[0] + 46} ${TOP[1] - 30}) scale(.26)">${chestSVG(false).replace(/<\/?svg[^>]*>/g, "")}</g>
-    <g class="mini-dragon"><g transform="translate(${TOP[0] - 66} ${TOP[1] - 112}) scale(.36)">${dragonSVG().replace(/<\/?svg[^>]*>/g, "")}</g></g>
+  return `<image href="img/mountain.webp" x="0" y="${IMG_Y}" width="1000" height="${Math.round(IMG_H * IMG_K)}" preserveAspectRatio="none"/>
+    <g transform="translate(${TOP[0] + 50} ${TOP[1] - 22}) scale(.24)">${chestSVG(false).replace(/<\/?svg[^>]*>/g, "")}</g>
     ${camps}
     <g><rect x="${PTS[0][0] - 96}" y="${PTS[0][1] - 4}" width="62" height="22" rx="6" fill="#fff" stroke="${N}" stroke-width="3"/><text x="${PTS[0][0] - 65}" y="${PTS[0][1] + 12}" text-anchor="middle" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="${N}">START</text></g>`;
 }
@@ -566,7 +552,7 @@ function startGame(){
   show("game"); $("layer").innerHTML = ""; render();
 }
 function spot(t, i){
-  const p = t.camp >= CAMPS ? [TOP[0] - 70, TOP[1] + 46] : PTS[t.camp];
+  const p = t.camp >= CAMPS ? [TOP[0] - 95, TOP[1] + 8] : PTS[t.camp];
   const dx = G.teams.length > 1 ? (i === 0 ? -34 : 34) : -6;
   return [(p[0] + dx - 14) / 10, p[1] / 6];
 }

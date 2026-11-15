@@ -899,125 +899,126 @@ porthole ⭕
 cabin 🛏️
 `},
   sm6: { name: "Super Minds 6", text: `
-## Welcome: Outside At School
-playground 🛝
-bench 🪑
-fence 🚧
-gate 🚪
-slide 🛝
-swings 🎢
-path 🥾
-field 🌾
-bin 🗑️
-tree 🌳
+## Welcome: Back To School
+basketball hoop 🏀
+bell 🔔
+net 🥅
+football pitch ⚽
+running track 🏃
+gym 🏋️
+litter bin 🗑️
+tennis court 🎾
+bike rack 🚲
+railings 🚧
 
 ## Unit 1: The Treasure
-pirate 🏴‍☠️
-treasure 💰
-chest 💎
-parrot 🦜
-island 🏝️
-map 🗺️
-diamond 💎
-silver 🥈
-gold 🪙
-jewels 💍
+palm tree 🌴
+hook 🪝
+eye-patch 🏴‍☠️
+binoculars 🔭
+key 🔑
+hammock 🛏️
+coins 🪙
+spade ⛏️
+treasure chest 🧰
+hole 🕳️
+stone 🪨
 
 ## Unit 2: Future Transport
-hovercraft 🛥️
-spaceship 🚀
-submarine 🌊
-electric ⚡
-engine ⚙️
-passenger 🧳
-journey 🧳
-drone 🚁
-helicopter 🚁
-motorway 🛣️
+hang-glider 🪂
+parachute 🪂
+monorail 🚝
+solar panel ☀️
+microlight 🛩️
+wind turbine 🌬️
+cable car 🚡
+jet pack 🚀
+surfboard 🏄
+inline skates 🛼
+unicycle 🚲
+floating skateboard 🛹
 
 ## Unit 3: Ancient Egypt
-pyramid 🔺
+Sphinx 🦁
 pharaoh 👑
+slaves ⛓️
+pyramid 🔺
+chariot 🐎
+rock 🪨
+hieroglyphics 📜
+step 🪜
 mummy 🧟
 tomb ⚱️
-desert 🏜️
-camel 🐫
-temple 🛕
-Nile 🏜️
-statue 🗿
-hieroglyphs 📜
 
 ## Unit 4: Olympic Sports
-athletics 🏃
-gymnastics 🤸
-cycling 🚴
-rowing 🚣
-sailing ⛵
+long jump 🏃
+hurdles 🏃
+high jump 🤸
 boxing 🥊
-fencing 🤺
 archery 🏹
-medal 🏅
-champion 🏆
+wrestling 🤼
+weightlifting 🏋️
+rowing 🚣
+gymnastics 🤸
+fencing 🤺
 
 ## Unit 5: In London
-bakery 🥐
-butcher 🥩
-chemist 💊
-newsagent 📰
-greengrocer 🥦
-florist 💐
-jeweller 💍
-bookshop 📚
-customer 🛍️
-souvenir 🎁
+carpenter's 🪚
+jeweller's 💍
+butcher's 🥩
+grocer's 🥕
+baker's 🥖
+barber's 💈
+tailor's 🧵
+chemist's 💊
 
 ## Unit 6: Crazy Inventions
-hammer 🔨
-screwdriver 🪛
-saw 🪚
-drill 🔩
-scissors ✂️
-ladder 🪜
-machine ⚙️
-invention 💡
+spanner 🔧
+switch 💡
+lever 🕹️
 button 🔘
-wheel 🛞
+drill 🔩
+screwdriver 🪛
+workbench 🛠️
+hammer 🔨
+nails 📌
+saw 🪚
+paint pot 🎨
+paintbrush 🖌️
 
 ## Unit 7: This Is Houston
-astronaut 👨‍🚀
-rocket 🚀
+countdown clock ⏱️
+lunar module 🌕
+space capsule 🛰️
 spacesuit 👩‍🚀
-launch 🚀
-orbit 🛰️
-gravity 🍎
-satellite 🛰️
+launch pad 🚀
 crater 🌑
-mission 🚀
-landing 🛬
+control panel 🎛️
+headset 🎧
+screen 🖥️
 
 ## Unit 8: A Cold Place
+northern lights 🌌
 iceberg 🧊
-glacier 🏔️
-walrus 🦭
 seal 🦭
-penguin 🐧
-igloo ⛄
+seal pup 🦭
+ice floe 🧊
+polar bear 🐻‍❄️
+polar bear cub 🐻‍❄️
 sledge 🛷
-Arctic 🧊
-blizzard 🌨️
-reindeer 🦌
+mittens 🧤
+igloo 🏠
 
 ## Unit 9: The Jurassic Age
-dinosaur 🦕
-fossil 🦴
-skeleton 💀
-volcano 🌋
+sunrise 🌅
+horizon 🌄
+pond 🦆
+grassland 🌾
+valley 🏞️
+bush 🌳
+stream 🏞️
 swamp 🐊
-cliff ⛰️
-jungle 🌴
-extinct 🦕
-footprint 🐾
-prehistoric 🦖
+log 🪵
 `}
 };
 

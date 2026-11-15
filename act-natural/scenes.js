@@ -1,4 +1,4 @@
-// Situationship: the situations and their conversations, one per level (A1, A2, B1, B2).
+// Act Natural!: the situations and their conversations, one per level (A1, A2, B1, B2).
 //
 // One line per turn:  T(what the other person says, the task, good answers, key words, wrong answer 1, wrong answer 2, flags)
 //   good answers   "answer 1|answer 2"                  the first one is the model answer

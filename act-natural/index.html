@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Act Natural!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b0957; --navy2:#1a1873; --brand:#c8323c; --brand2:#a5242d;
+    --cream:#f3ead9; --paper:#faf6ee; --card:#ffffff; --yellow:#ffd257; --mint:#3ddc84;
+    --ink:#0b0957; --muted:#55537e; --ok:#14a35a;
+    --display:"Archivo","Arial Black",Impact,sans-serif; --mono:"Space Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden}
+  button{font:inherit;cursor:pointer;border:0;color:inherit}
+  a{color:var(--navy);text-decoration-color:var(--brand);text-underline-offset:3px}
+  .hidden{display:none!important}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 48px}
+  .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
+  .home-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:2px solid var(--navy);border-radius:999px;padding:6px 14px;background:var(--card)}
+  .home-link:hover{background:var(--cream)}
+
+  /* ---------- Setup ---------- */
+  .hero{display:grid;grid-template-columns:1.15fr 1fr;border:2px solid var(--navy);border-radius:26px;overflow:hidden;margin-bottom:22px;box-shadow:6px 6px 0 var(--navy)}
+  .hero .l{background:var(--navy);color:#fff;padding:30px 30px 34px}
+  .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
+  .hero h1{margin:14px 0 6px;line-height:.88;font-family:var(--display);font-weight:900;font-size:clamp(46px,7.6vw,96px);letter-spacing:-.02em;text-transform:uppercase}
+  .hero h1 .w2{display:block;color:var(--yellow);font-stretch:70%}
+  .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:38ch}
+  .hero .r{position:relative;background:var(--brand) repeating-linear-gradient(45deg,transparent 0 18px,rgba(0,0,0,.08) 18px 36px);display:grid;place-items:center;padding:24px;min-height:250px;overflow:hidden}
+  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--yellow);color:var(--navy);border:2px solid var(--navy);box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
+  .bubbles{display:grid;gap:12px;width:min(340px,100%)}
+  .bub{background:#fff;border:2px solid var(--navy);border-radius:20px;padding:12px 16px;font-weight:700;font-size:17px;box-shadow:4px 4px 0 var(--navy);max-width:85%}
+  .bub.a{justify-self:start;border-bottom-left-radius:4px} .bub.b{justify-self:end;background:var(--yellow);border-bottom-right-radius:4px}
+  .bub.c{justify-self:start;border-bottom-left-radius:4px;background:#ffe0e2}
+  .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
+  .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
+  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--card);border:2px solid var(--navy);color:var(--navy);padding:10px 18px;border-radius:999px;font-weight:700;font-size:16px;text-align:left}
+  .chip:hover{background:var(--cream)}
+  .chip.on{background:var(--navy);color:#fff}
+  .chip small{display:block;font-size:11px;font-weight:400;font-family:var(--mono);opacity:.8}
+  .chip.big{border-radius:18px;padding:12px 18px}
+  .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .grid2 .panel{margin:0 0 20px}
+  .scenes{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+  .scene{position:relative;background:var(--card);border:2px solid var(--navy);border-radius:18px;padding:14px 12px 12px;text-align:center;border-bottom:8px solid var(--c);transition:transform .12s}
+  .scene:hover{transform:translateY(-3px)}
+  .scene .ic{font-size:44px;line-height:1.1;display:block}
+  .scene .nm{display:block;font-weight:800;font-size:16px;margin-top:6px}
+  .scene .st{display:block;font-size:14px;letter-spacing:2px;margin-top:4px;color:#c9c6dd}
+  .scene .st b{color:#f2a100;font-weight:400}
+  .scene.on{background:var(--navy);color:#fff;box-shadow:5px 5px 0 var(--c)}
+  .start-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .btn{padding:14px 26px;border-radius:999px;font-weight:800;font-size:17px;border:2px solid var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
+  .btn:active{transform:translate(3px,3px);box-shadow:none!important}
+  .btn-red{background:var(--brand);color:#fff;box-shadow:4px 4px 0 var(--navy)}
+  .btn-red:hover{background:var(--brand2)}
+  .btn-plain{background:var(--card);color:var(--navy)}
+  .btn-plain:hover{background:var(--cream)}
+  .btn-yellow{background:var(--yellow);color:var(--navy);box-shadow:4px 4px 0 var(--navy)}
+  .btn-big{font-size:22px;padding:18px 40px}
+  .btn[disabled]{opacity:.45;cursor:default}
+
+  /* ---------- Game ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+  .topbar .counter{font-family:var(--mono);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--muted)}
+  .topbar .counter b{color:var(--brand)}
+  .topbar .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .topbar .btn{font-size:14px;padding:8px 16px}
+  .seg{display:inline-flex;border:2px solid var(--navy);border-radius:999px;overflow:hidden;background:#fff}
+  .seg button{padding:7px 12px;font-size:13px;font-weight:700;font-family:var(--mono)}
+  .seg button.on{background:var(--navy);color:#fff}
+  .stage{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start}
+  .npc{position:sticky;top:12px;background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);overflow:hidden;text-align:center}
+  .npc .bg{background:var(--c) repeating-linear-gradient(45deg,transparent 0 14px,rgba(0,0,0,.08) 14px 28px);padding:18px 10px 10px;border-bottom:2px solid var(--navy);position:relative}
+  .npc .face{font-size:96px;line-height:1;display:inline-block;transform-origin:50% 100%;animation:idle 1.6s ease-in-out infinite}
+  .npc .mood{position:absolute;right:16px;top:12px;font-size:42px;background:#fff;border:2px solid var(--navy);border-radius:50%;width:62px;height:62px;display:grid;place-items:center;transition:transform .2s}
+  .npc .mood.pop{animation:pop .45s}
+  .npc.angry .face{animation:shake .45s}
+  @keyframes idle{50%{transform:translateY(-4px) scaleY(1.03)}}
+  @keyframes shake{20%{transform:translateX(-9px) rotate(-6deg)}40%{transform:translateX(9px) rotate(6deg)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+  @keyframes pop{40%{transform:scale(1.35) rotate(-8deg)}}
+  .npc .who{font-family:var(--display);font-weight:900;font-size:22px;text-transform:uppercase;margin:12px 10px 2px}
+  .npc .where{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+  .pat{margin:14px 16px 16px;text-align:left}
+  .pat .lb{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .pat .bar{height:18px;border:2px solid var(--navy);border-radius:999px;margin-top:6px;overflow:hidden;background:var(--cream)}
+  .pat .bar i{display:block;height:100%;background:var(--ok);transition:width .5s,background .5s}
+  .pat .fun{font-size:15px;line-height:1.4;color:var(--muted)}
+  .progress{display:flex;gap:6px;justify-content:center;margin:0 0 16px}
+  .progress i{width:14px;height:14px;border-radius:50%;border:2px solid var(--navy);background:#fff}
+  .progress i.done{background:var(--ok)} .progress i.now{background:var(--yellow)}
+
+  .talk{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);display:flex;flex-direction:column;min-height:560px}
+  .chat{flex:1;padding:18px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;max-height:52vh;min-height:260px}
+  .msg{max-width:80%;padding:12px 16px;border:2px solid var(--navy);border-radius:20px;font-size:19px;line-height:1.4;animation:in .25s ease-out}
+  @keyframes in{from{opacity:0;transform:translateY(8px)}}
+  .msg.them{align-self:flex-start;background:var(--cream);border-bottom-left-radius:4px;cursor:pointer}
+  .msg.them .sp{font-size:13px;opacity:.5;margin-left:6px}
+  .msg.them.mad{background:#ffe0e2;border-color:var(--brand)}
+  .msg.me{align-self:flex-end;background:var(--yellow);border-bottom-right-radius:4px;box-shadow:3px 3px 0 var(--navy)}
+  .msg.me.bad{background:#fff;text-decoration:line-through;text-decoration-color:var(--brand);color:var(--muted)}
+  .msg.coach{align-self:center;max-width:92%;background:#eef9f2;border-color:var(--ok);border-style:dashed;font-size:16px}
+  .msg.coach.warn{background:#fff5da;border-color:#d99a00}
+  .msg.coach.err{background:#fff0f1;border-color:var(--brand)}
+  .msg.coach b.t{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:4px}
+  .msg.coach .model{display:block;margin-top:6px;font-weight:800}
+  .msg.coach .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .msg.coach .row .btn{font-size:14px;padding:7px 14px}
+  .typing{align-self:flex-start;background:var(--cream);border:2px solid var(--navy);border-radius:20px;padding:12px 18px;font-size:22px;letter-spacing:4px}
+  .typing span{animation:blink 1s infinite} .typing span:nth-child(2){animation-delay:.2s} .typing span:nth-child(3){animation-delay:.4s}
+  @keyframes blink{50%{opacity:.2}}
+
+  .you{border-top:2px solid var(--navy);padding:16px 18px 18px;background:var(--paper);border-radius:0 0 20px 20px}
+  .task{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+  .task .tag{flex:none;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;background:var(--navy);color:#fff;border-radius:999px;padding:5px 10px;margin-top:2px}
+  .task .tag.ask{background:var(--brand)}
+  .task .tx{font-size:19px;font-weight:700;line-height:1.35}
+  .opts{display:grid;gap:10px}
+  .opt{background:#fff;border:2px solid var(--navy);border-radius:16px;padding:12px 16px;font-size:18px;text-align:left;box-shadow:3px 3px 0 var(--navy);display:flex;gap:12px;align-items:center}
+  .opt:hover{background:var(--cream)}
+  .opt kbd{flex:none;font-family:var(--mono);font-weight:700;background:var(--navy);color:#fff;border-radius:8px;padding:2px 8px;font-size:14px}
+  .opt.x{opacity:.45;text-decoration:line-through;pointer-events:none;box-shadow:none}
+  .gaps{font-size:21px;line-height:2.1;background:#fff;border:2px solid var(--navy);border-radius:16px;padding:10px 16px}
+  .gaps input{font:inherit;font-weight:800;color:var(--brand);border:0;border-bottom:3px solid var(--brand);background:#fff5f5;border-radius:6px 6px 0 0;padding:0 6px;outline:none;text-align:center;margin:0 2px}
+  .gaps input:focus{background:#ffe0e2}
+  .gaps input.good{color:var(--ok);border-color:var(--ok);background:#eef9f2}
+  .typebox{display:flex;gap:10px}
+  .typebox input{flex:1;min-width:0;font:inherit;font-size:20px;border:2px solid var(--navy);border-radius:999px;padding:12px 18px;outline:none;background:#fff;color:var(--navy)}
+  .typebox input:focus{box-shadow:3px 3px 0 var(--navy)}
+  .under{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+  .under .btn{font-size:14px;padding:7px 14px}
+  .under .keys{font-family:var(--mono);font-size:14px;color:var(--muted)}
+  .sendrow{display:flex;justify-content:flex-end;margin-top:10px}
+
+  /* ---------- End ---------- */
+  .end{max-width:760px;margin:0 auto;text-align:center}
+  .end .big{font-size:110px;line-height:1;margin:6px 0}
+  .end h2{font-family:var(--display);font-weight:900;font-size:clamp(38px,6vw,62px);text-transform:uppercase;margin:6px 0;line-height:.95}
+  .end .stars{font-size:54px;letter-spacing:6px;margin:6px 0 10px}
+  .end .stars .off{filter:grayscale(1);opacity:.3}
+  .end p.sub{font-size:19px;color:var(--muted);margin:0 0 18px}
+  .fixes{text-align:left;display:grid;gap:10px;margin:0 0 20px}
+  .fix{background:#fff;border:2px solid var(--navy);border-radius:16px;padding:12px 16px}
+  .fix .q{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .fix .no{color:var(--brand);text-decoration:line-through;margin:4px 0 2px}
+  .fix .why{font-size:15px;color:var(--muted)}
+  .fix .yes{font-weight:800;color:var(--ok);margin-top:4px}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr} .hero .r{min-height:200px}
+    .grid2{grid-template-columns:1fr}
+    .stage{grid-template-columns:1fr}
+    .npc{position:static;display:grid;grid-template-columns:130px 1fr;text-align:left;align-items:center}
+    .npc .bg{border-bottom:0;border-right:2px solid var(--navy);height:100%;padding:14px 6px;text-align:center}
+    .npc .face{font-size:64px}
+    .npc .mood{width:40px;height:40px;font-size:26px;right:4px;top:4px}
+    .npc .who{margin:10px 14px 0;font-size:18px} .npc .where{margin:0 14px}
+    .pat{margin:8px 14px 12px}
+    .chat{max-height:46vh}
+    .msg{max-width:92%;font-size:17px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="wrap">
+  <a class="home-link" href="../">← All games</a>
+  <div class="hero">
+    <div class="l">
+      <p class="eyebrow">Oxford Games · <b>Real-life English</b></p>
+      <h1>Act<span class="w2">Natural!</span></h1>
+      <p>Order a coffee, see a doctor, survive the airport. Talk your way through everyday situations, but be careful: bad English makes people lose their patience!</p>
+    </div>
+    <div class="r">
+      <span class="sticker">A1 → B2</span>
+      <div class="bubbles">
+        <div class="bub a">Hi! What can I get you? ☕</div>
+        <div class="bub b">I want coffee.</div>
+        <div class="bub c">Excuse me?! 😠</div>
+        <div class="bub b">Could I have a coffee, please?</div>
+      </div>
+    </div>
+  </div>
+  <div class="marquee"><div id="marq"></div></div>
+
+  <div class="panel">
+    <p class="eyebrow">01 · Choose a situation</p>
+    <div class="scenes" id="scenes"></div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <p class="eyebrow">02 · Level</p>
+      <div class="choices" id="levels"></div>
+      <p class="hint" id="levelHint"></p>
+    </div>
+    <div class="panel">
+      <p class="eyebrow">03 · Mode</p>
+      <div class="choices" id="modes"></div>
+      <p class="hint" id="modeHint"></p>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <p class="eyebrow">04 · Your role</p>
+      <div class="choices" id="roles"></div>
+      <p class="hint" id="roleHint"></p>
+    </div>
+    <div class="panel">
+      <p class="eyebrow">05 · Answer help</p>
+      <div class="choices" id="helps"></div>
+      <p class="hint">Weaker students can start with <b>Choose</b> or <b>Fill the gaps</b>. You can change it during the conversation too.
+        <label style="white-space:nowrap"><input type="checkbox" id="voice" checked> 🔊 Read the other person's lines aloud</label></p>
+    </div>
+  </div>
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="startBtn">Start the conversation →</button>
+  </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="wrap hidden">
+  <div class="topbar">
+    <div class="actions">
+      <button class="btn btn-plain" id="quitBtn">← Situations</button>
+      <span class="counter" id="counter"></span>
+    </div>
+    <div class="actions">
+      <span class="seg" id="helpSeg"></span>
+      <button class="btn btn-plain" id="voiceBtn" title="Voice on / off">🔊</button>
+      <button class="btn btn-plain" id="restartBtn">↻ Restart</button>
+    </div>
+  </div>
+  <div class="stage">
+    <div class="npc" id="npc">
+      <div class="bg"><span class="face" id="face"></span><span class="mood" id="mood">🙂</span></div>
+      <div>
+        <div class="who" id="who"></div>
+        <div class="where" id="where"></div>
+        <div class="pat" id="pat"></div>
+      </div>
+    </div>
+    <div>
+      <div class="progress" id="progress"></div>
+      <div class="talk">
+        <div class="chat" id="chat"></div>
+        <div class="you" id="you"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= END ================= -->
+<section id="end" class="wrap hidden">
+  <div class="end" id="endBox"></div>
+</section>
+
+<script src="scenes.js"></script>
+<script src="staff.js"></script>
+<script src="../shared/howto.js"></script>
+<script>
+const LEVELS = { A1: "Beginner", A2: "Elementary", B1: "Intermediate", B2: "Upper-intermediate" };
+const HELPS = { choose: ["🅰️ Choose", "Pick the right sentence"], gaps: ["✏️ Fill the gaps", "Part of the answer is written"], type: ["⌨️ Type it", "Write the whole answer"] };
+const HELP_FOR = { A1: "choose", A2: "gaps", B1: "type", B2: "type" };
+const COST = { wrong: 35, rude: 15, typo: 10, hint: 5 };
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+const S = { scene: SCENES[0].id, level: "A1", mode: "real", role: "client", help: "choose", helpPicked: false, voice: true };
+let best = {};
+// the saved data keeps the game's first name (Situationship), so nobody loses their stars
+try { best = JSON.parse(localStorage.getItem("situationship-best") || "{}"); } catch (e) {}
+try { const p = JSON.parse(localStorage.getItem("situationship-setup") || "null"); if (p) Object.assign(S, p); } catch (e) {}
+if (!SCENES.some(s => s.id === S.scene)) S.scene = SCENES[0].id;
+function saveSetup(){ try { localStorage.setItem("situationship-setup", JSON.stringify(S)); } catch (e) {} }
+
+/* ---------- setup screen ---------- */
+$("marq").innerHTML = (SCENES.map(s => `<i>${s.icon}</i><b>${s.name}</b>`).join("") + "<i>·</i>").repeat(4);
+function starsHtml(n){ return "★★★".split("").map((c, i) => i < n ? `<b>${c}</b>` : c).join(""); }
+const bestKey = id => id + S.level + (S.role === "staff" ? "-staff" : "");   // stars are kept per role
+function drawSetup(){
+  $("scenes").innerHTML = SCENES.map(s => `<button class="scene${s.id === S.scene ? " on" : ""}" style="--c:${s.color}" data-id="${s.id}">
+    <span class="ic">${s.icon}</span><span class="nm">${s.name}</span><span class="st" title="Best at ${S.level}">${starsHtml(best[bestKey(s.id)] || 0)}</span></button>`).join("")
+    + `<button class="scene" style="--c:#ffd257" data-id="random"><span class="ic">🎲</span><span class="nm">Surprise me</span><span class="st">random</span></button>`;
+  $("levels").innerHTML = Object.keys(LEVELS).map(l => `<button class="chip big${l === S.level ? " on" : ""}" data-l="${l}">${l}<small>${LEVELS[l]}</small></button>`).join("");
+  $("modes").innerHTML = [["real", "😠 Real life", "They lose patience"], ["fun", "😄 Just for fun", "Nobody gets angry"]]
+    .map(([k, t, s]) => `<button class="chip big${k === S.mode ? " on" : ""}" data-m="${k}">${t}<small>${s}</small></button>`).join("");
+  $("modeHint").innerHTML = S.mode === "real"
+    ? "Every mistake costs <b>patience</b>. Three bad mistakes and the other person walks away: you lose!"
+    : "No stress: when you make a mistake, you get a <b>correction</b> and the right answer, and you try again.";
+  $("levelHint").textContent = { A1: "Short, simple sentences: ordering, saying yes / no, simple questions.",
+    A2: "Everyday requests, questions with do / does, can / could.", B1: "Problems and explanations: allergies, delays, complaints.",
+    B2: "Polite complaints, negotiating, softening what you say." }[S.level];
+  const sc = SCENES.find(s => s.id === S.scene), cl = STAFF[sc.id].client.toLowerCase(), wk = sc.who.toLowerCase();
+  $("roles").innerHTML = [["client", "🙋 " + STAFF[sc.id].client, "You answer the " + wk], ["staff", sc.face + " " + sc.who, "You ask the questions"]]
+    .map(([k, t, s]) => `<button class="chip big${k === S.role ? " on" : ""}" data-r="${k}">${t}<small>${s}</small></button>`).join("");
+  $("roleHint").innerHTML = S.role === "staff"
+    ? `You are the <b>${esc(wk)}</b>: you start the conversation, ask the questions and serve the ${esc(cl)}.`
+    : `You are the <b>${esc(cl)}</b>: you answer the ${esc(wk)} and ask for what you need.`;
+  $("helps").innerHTML = Object.entries(HELPS).map(([k, [t, s]]) => `<button class="chip big${k === S.help ? " on" : ""}" data-h="${k}">${t}<small>${s}</small></button>`).join("");
+  $("voice").checked = S.voice;
+}
+$("scenes").onclick = e => { const b = e.target.closest(".scene"); if (!b) return;
+  if (b.dataset.id === "random") { S.scene = pick(SCENES.filter(s => s.id !== S.scene)).id; } else S.scene = b.dataset.id; drawSetup(); };
+$("levels").onclick = e => { const b = e.target.closest("[data-l]"); if (!b) return; S.level = b.dataset.l; if (!S.helpPicked) S.help = HELP_FOR[S.level]; drawSetup(); };
+$("modes").onclick = e => { const b = e.target.closest("[data-m]"); if (!b) return; S.mode = b.dataset.m; drawSetup(); };
+$("roles").onclick = e => { const b = e.target.closest("[data-r]"); if (!b) return; S.role = b.dataset.r; drawSetup(); };
+$("helps").onclick = e => { const b = e.target.closest("[data-h]"); if (!b) return; S.help = b.dataset.h; S.helpPicked = true; drawSetup(); };
+$("voice").onchange = () => { S.voice = $("voice").checked; };
+$("startBtn").onclick = () => { saveSetup(); startGame(); };
+drawSetup();
+
+/* ---------- speech ---------- */
+let VOICE = null;
+function findVoice(){ const v = (window.speechSynthesis && speechSynthesis.getVoices()) || [];
+  VOICE = v.find(x => x.lang === "en-GB" && /female|libby|sonia|serena|kate|google uk/i.test(x.name)) || v.find(x => x.lang === "en-GB") || v.find(x => /^en/.test(x.lang)) || null; }
+if (window.speechSynthesis){ findVoice(); speechSynthesis.onvoiceschanged = findVoice; }
+function speak(t){
+  if (!S.voice || !window.speechSynthesis) return;
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = "en-GB"; if (VOICE) u.voice = VOICE; u.rate = S.level === "A1" ? .85 : .95; speechSynthesis.speak(u); } catch (e) {}
+}
+function drawVoiceBtn(){ $("voiceBtn").textContent = S.voice ? "🔊" : "🔇"; }
+$("voiceBtn").onclick = () => { S.voice = !S.voice; drawVoiceBtn(); if (!S.voice && window.speechSynthesis) speechSynthesis.cancel(); saveSetup(); };
+
+/* ---------- checking answers ---------- */
+function norm(s){ return String(s).toLowerCase().replace(/[’'`]/g, "").replace(/-/g, " ").replace(/[^a-z0-9& ]+/g, " ").replace(/\s+/g, " ").trim(); }
+function lev(a, b){
+  if (a === b) return 0; const m = a.length, n = b.length; if (!m || !n) return m || n;
+  let p = Array.from({ length: n + 1 }, (_, j) => j);
+  for (let i = 1; i <= m; i++){ const c = [i]; for (let j = 1; j <= n; j++) c[j] = Math.min(p[j] + 1, c[j - 1] + 1, p[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); p = c; }
+  return p[n];
+}
+const slack = w => w.length >= 7 ? 2 : w.length >= 4 ? 1 : 0;
+// Is "alt" (one or more words) in the answer? 2 = yes, 1 = yes with a typo (returns the word written), 0 = no
+function findAlt(toks, alt){
+  const a = norm(alt).split(" ").filter(Boolean); if (!a.length) return { r: 0 };
+  let bestFuzzy = null;
+  for (let i = 0; i + a.length <= toks.length; i++){
+    let exact = true, ok = true, wrote = [];
+    for (let j = 0; j < a.length; j++){
+      const t = toks[i + j], w = a[j];
+      if (t === w || (w.length >= 4 && t.startsWith(w) && t.length - w.length <= 3)) { wrote.push(t); continue; }
+      if (w.length >= 4 && lev(t, w) <= slack(w)) { exact = false; wrote.push(t); continue; }
+      ok = false; break;
+    }
+    if (ok && exact) return { r: 2 };
+    if (ok && !bestFuzzy) bestFuzzy = { r: 1, wrote: wrote.join(" "), want: a.join(" ") };
+  }
+  // "wifi" written as "wi fi" and the other way round
+  const joined = toks.join(""), aj = a.join("");
+  if (aj.length >= 4 && joined.includes(aj)) return { r: 2 };
+  return bestFuzzy || { r: 0 };
+}
+const Q_START = /^(what|whats|where|wheres|when|whens|why|who|whos|which|how|hows|is|isnt|are|arent|am|do|does|did|dont|doesnt|can|cant|could|couldnt|will|would|wouldnt|should|may|shall|have|has|was|were|any|anything)\b/;
+const FILLERS = /^((excuse me|sorry|hi|hello|hey|so|and|ok|okay|oh|yes|no|well|um|then|but|please|thanks|thank you|right|great|perfect|just to check|by the way|also|and also)\s+)+/;
+const POLITE = /\b(please|could|would|can i|can we|may i|id like|i would like|we would like|wed like|thank|thanks|ill have|ill take|well have|if possible|mind|cheers|lovely)\b/;
+const STATEMENT = /^(i|you|we|they|the|my|it|he|she|there|this|that) (can|could|have|has|need|needs|is|are|will|would|must|should|pay|pays|take|takes|want|go|do)\b/;
+
+function sentences(text){ return text.split(/(?<=[.!?])\s+/).map(s => s.trim()).filter(Boolean); }
+function checkTyped(turn, text){
+  const raw = text.trim(), n = norm(raw), toks = n.split(" ").filter(Boolean);
+  const res = { kind: "great", notes: [] };
+  const bad = (why) => { res.kind = "wrong"; res.notes.push(why); return res; };
+  if (toks.length < 1) return bad("Write an answer first.");
+  if (turn.say.some(s => norm(s) === n)) return res;
+  // one of the typical wrong answers?
+  for (const w of turn.wrong){ const wn = norm(w.t); if (lev(wn, n) <= Math.max(2, Math.round(wn.length * .12))) return bad(w.why); }
+  // a typical mistake?
+  for (const [re, why] of COMMON_ERRORS){ if (re.test(n)) return bad(why); }
+  // the key words
+  const missing = [], typos = [];
+  for (const g of turn.need){
+    let bestR = { r: 0 };
+    for (const alt of g){ const f = findAlt(toks, alt); if (f.r > bestR.r) bestR = f; if (f.r === 2) break; }
+    if (bestR.r === 0) missing.push(g[0]); else if (bestR.r === 1) typos.push(bestR);
+  }
+  if (missing.length){
+    res.kind = "wrong";
+    res.notes.push(`That doesn't answer the task. You need to mention: <b>${missing.map(esc).join(", ")}</b>.`);
+    return res;
+  }
+  // questions
+  if (turn.question){
+    const ss = sentences(raw), qs = ss.filter(s => s.endsWith("?"));
+    const looksQ = s => Q_START.test(norm(s).replace(FILLERS, ""));
+    for (const s of qs){ if (STATEMENT.test(norm(s).replace(FILLERS, ""))) return bad("Word order! In a question the verb goes first: <b>Can I…? Do you…? Is it…?</b>"); }
+    if (!qs.length){
+      if (ss.some(looksQ)) res.notes.push("Don't forget the question mark <b>?</b>");
+      else return bad("That isn't a question. The task asks you to <b>ask</b> something.");
+    }
+  }
+  if (typos.length){ res.kind = "typo"; typos.forEach(t => res.notes.push(`Spelling: <s>${esc(t.wrote)}</s> → <b>${esc(t.want)}</b>`)); }
+  if (turn.polite && !POLITE.test(n)){
+    res.kind = "rude";
+    res.notes.push("That sounds a bit rude. Add <b>please</b>, or ask with <b>Could I…? / Can I…?</b>");
+  }
+  return res;
+}
+
+/* ---------- the game ---------- */
+let G = null;
+const scene = () => SCENES.find(s => s.id === S.scene);
+function startGame(){
+  const sc = scene(), lv = sc.levels[S.level], st = STAFF[sc.id], staff = S.role === "staff";
+  // the other person: the worker (normal role) or the customer ("You're the worker" role)
+  const other = staff ? { name: st.client, face: st.face, leave: st.leave } : { name: sc.who, face: sc.face, leave: sc.leave };
+  // as the worker, the student says the worker's lines, and the customer answers with the model answers of the normal role
+  const turns = staff ? st[S.level].map((w, k) => Object.assign({}, w, { npc: k ? lv.turns[k - 1].say[0] : "" })) : lv.turns;
+  G = { sc, other, turns, endLine: staff ? st.bye[S.level] : lv.end, i: 0, patience: 100, mistakes: [], wrongs: 0, over: false, token: 0, opts: null, gaps: null, struck: new Set() };
+  $("setup").classList.add("hidden"); $("end").classList.add("hidden"); $("game").classList.remove("hidden");
+  $("npc").style.setProperty("--c", sc.color);
+  $("face").textContent = other.face; $("who").textContent = other.name;
+  $("where").textContent = sc.icon + " " + sc.name + (staff ? " · you're the " + sc.who.toLowerCase() : "");
+  $("counter").innerHTML = `<b>${S.level}</b> · ${S.mode === "real" ? "Real life" : "Just for fun"}${staff ? " · " + esc(sc.face + " " + sc.who) : ""}`;
+  $("chat").innerHTML = ""; $("you").innerHTML = "";
+  drawVoiceBtn(); drawHelpSeg(); drawPatience(); drawProgress();
+  window.scrollTo({ top: 0 });
+  if (staff){   // the worker speaks first
+    coach("", `${sc.face} You're the ${esc(sc.who.toLowerCase())}`, `A ${esc(other.name.toLowerCase())} is here. You start the conversation!`);
+    drawTurn();
+  } else npcSay(G.turns[0].npc, false, () => drawTurn());
+}
+function drawHelpSeg(){
+  $("helpSeg").innerHTML = Object.entries(HELPS).map(([k, [t]]) => `<button data-h="${k}" class="${k === S.help ? "on" : ""}">${t}</button>`).join("");
+}
+$("helpSeg").onclick = e => { const b = e.target.closest("[data-h]"); if (!b || !G || G.over) return; S.help = b.dataset.h; S.helpPicked = true; saveSetup(); drawHelpSeg(); if (!G.busy) drawTurn(true); };
+$("quitBtn").onclick = () => { if (G && !G.over && G.i > 0 && !confirm("Leave this conversation?")) return; stopGame(); showSetup(); };
+$("restartBtn").onclick = () => { stopGame(); startGame(); };
+function stopGame(){ if (G) { G.over = true; G.token++; } if (window.speechSynthesis) speechSynthesis.cancel(); }
+function showSetup(){ $("game").classList.add("hidden"); $("end").classList.add("hidden"); $("setup").classList.remove("hidden"); drawSetup(); window.scrollTo({ top: 0 }); }
+
+function mood(){ if (S.mode === "fun") return G.wrongs ? "🙂" : "😄"; const p = G.patience; return p > 80 ? "😊" : p > 55 ? "🙂" : p > 30 ? "😒" : p > 0 ? "😠" : "🤬"; }
+function drawPatience(){
+  const m = $("mood"); const nm = mood(); if (m.textContent !== nm){ m.textContent = nm; m.classList.remove("pop"); void m.offsetWidth; m.classList.add("pop"); }
+  if (S.mode === "fun"){ $("pat").innerHTML = `<div class="fun">😄 <b>Just for fun:</b> nobody gets angry. Mistakes so far: <b>${G.mistakes.length}</b></div>`; return; }
+  const p = Math.max(0, G.patience), col = p > 55 ? "var(--ok)" : p > 30 ? "#f2a100" : "var(--brand)";
+  $("pat").innerHTML = `<div class="lb"><span>Patience</span><span>${p}%</span></div><div class="bar"><i style="width:${p}%;background:${col}"></i></div>`;
+}
+function drawProgress(){ $("progress").innerHTML = G.turns.map((t, i) => `<i class="${i < G.i ? "done" : i === G.i ? "now" : ""}"></i>`).join(""); }
+
+function addMsg(cls, html){ const d = document.createElement("div"); d.className = "msg " + cls; d.innerHTML = html; $("chat").appendChild(d); $("chat").scrollTop = $("chat").scrollHeight; return d; }
+function npcSay(text, mad, then){
+  const tk = G.token; G.busy = true;
+  const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<span>•</span><span>•</span><span>•</span>"; $("chat").appendChild(t); $("chat").scrollTop = $("chat").scrollHeight;
+  setTimeout(() => {
+    if (tk !== G.token) return; t.remove();
+    const d = addMsg("them" + (mad ? " mad" : ""), esc(text) + '<span class="sp">🔊</span>'); d.title = "Listen again"; d.onclick = () => { const v = S.voice; S.voice = true; speak(text); S.voice = v; };
+    speak(text); G.busy = false; then && then();
+  }, Math.min(1300, 450 + text.length * 12));
+}
+function coach(kind, title, html, buttons){
+  const d = addMsg("coach" + (kind === "err" ? " err" : kind === "warn" ? " warn" : ""), `<b class="t">${title}</b>${html}`);
+  if (buttons){ const r = document.createElement("div"); r.className = "row"; buttons.forEach(([t, cls, fn]) => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = t; b.onclick = () => { r.remove(); fn(); }; r.appendChild(b); }); d.appendChild(r); }
+  $("chat").scrollTop = $("chat").scrollHeight; return d;
+}
+
+/* ----- the answer area ----- */
+function drawTurn(keep){
+  if (G.over) return;
+  const turn = G.turns[G.i];
+  if (!keep){ G.opts = null; G.gaps = null; G.struck = new Set(); }
+  const tag = turn.question ? '<span class="tag ask">Ask</span>' : '<span class="tag">Your turn</span>';
+  let h = `<div class="task">${tag}<span class="tx">${esc(turn.task)}</span></div>`;
+  if (S.help === "choose"){
+    if (!G.opts) G.opts = shuffle([{ t: turn.say[0], ok: true }, ...turn.wrong.map(w => ({ t: w.t, why: w.why }))]);
+    h += `<div class="opts">${G.opts.map((o, i) => `<button class="opt${G.struck.has(i) ? " x" : ""}" data-i="${i}"><kbd>${i + 1}</kbd><span>${esc(o.t)}</span></button>`).join("")}</div>`;
+  } else if (S.help === "gaps"){
+    if (!G.gaps) G.gaps = makeGaps(turn);
+    h += `<div class="gaps">${G.gaps.map((g, i) => g.blank
+      ? `${esc(g.pre)}<input data-i="${i}" size="${Math.max(3, g.core.length + 1)}" placeholder="${esc(g.core[0])}…" autocomplete="off" autocapitalize="off" spellcheck="false">${esc(g.post)}`
+      : esc(g.tok)).join(" ")}</div><div class="sendrow"><button class="btn btn-red" id="sendGaps">Say it →</button></div>`;
+  } else {
+    h += `<div class="typebox"><input id="typed" placeholder="Write your answer…" autocomplete="off" spellcheck="false"><button class="btn btn-red" id="sendTyped">Say it →</button></div>
+      <div class="under"><button class="btn btn-plain" id="hintBtn">💡 Key words${S.mode === "real" ? " (−5 patience)" : ""}</button>${S.mode === "fun" ? '<button class="btn btn-plain" id="showBtn">👀 Show an answer</button>' : ""}<span class="keys" id="keys"></span></div>`;
+  }
+  $("you").innerHTML = h;
+  if (S.help === "choose"){
+    $("you").querySelectorAll(".opt").forEach(b => b.onclick = () => choose(+b.dataset.i));
+  } else if (S.help === "gaps"){
+    const ins = [...$("you").querySelectorAll(".gaps input")];
+    ins.forEach((inp, k) => inp.onkeydown = e => { if (e.key === "Enter"){ e.preventDefault(); if (k < ins.length - 1 && !ins[k + 1].value) ins[k + 1].focus(); else sendGaps(); } });
+    $("sendGaps").onclick = sendGaps; if (ins[0]) ins[0].focus({ preventScroll: true });
+  } else {
+    const inp = $("typed"); inp.onkeydown = e => { if (e.key === "Enter"){ e.preventDefault(); sendTyped(); } };
+    $("sendTyped").onclick = sendTyped; inp.focus({ preventScroll: true });
+    $("hintBtn").onclick = () => {
+      if ($("keys").textContent) return;
+      $("keys").innerHTML = "Use: " + turn.need.map(g => `<b>${esc(g[0])}</b>`).join(" · ") + (turn.question ? " · end with <b>?</b>" : "") + (turn.polite ? " · be polite" : "");
+      if (S.mode === "real"){ G.patience -= COST.hint; drawPatience(); }
+    };
+    if ($("showBtn")) $("showBtn").onclick = () => { inp.value = turn.say[0]; inp.focus(); };
+  }
+}
+document.addEventListener("keydown", e => {
+  if (!G || G.over || G.busy || S.help !== "choose" || $("game").classList.contains("hidden")) return;
+  if (e.target.tagName === "INPUT") return;
+  const k = +e.key; if (k >= 1 && k <= (G.opts || []).length && !G.struck.has(k - 1)) choose(k - 1);
+});
+const STOP = new Set("the a an and but or so to of for in on at it is are am be i you we my your me this that can could would will please some any have has do does with just very really".split(" "));
+function makeGaps(turn){
+  const toks = turn.say[0].split(/\s+/).map(tok => {
+    const m = tok.match(/^([^A-Za-z0-9]*)(.*?)([^A-Za-z0-9]*)$/); return { tok, pre: m[1], core: m[2], post: m[3], n: norm(m[2]), blank: false };
+  });
+  for (const g of turn.need){
+    for (const alt of g){
+      const a = norm(alt).split(" ");
+      let found = false;
+      for (let i = 0; i + a.length <= toks.length && !found; i++){
+        if (a.every((w, j) => toks[i + j].n.replace(/ /g, "") === w || (toks[i + j].n.startsWith(w) && w.length >= 4))){ a.forEach((w, j) => toks[i + j].blank = true); found = true; }
+      }
+      if (found) break;
+    }
+  }
+  if (toks.filter(t => t.blank).length < 2 && toks.length >= 4){
+    const c = toks.filter(t => !t.blank && t.n.length >= 4 && !STOP.has(t.n) && !/ /.test(t.n)).sort((x, y) => y.n.length - x.n.length)[0];
+    if (c) c.blank = true;
+  }
+  if (!toks.some(t => t.blank)) toks.filter(t => t.n.length >= 3).slice(-1).forEach(t => t.blank = true);
+  return toks;
+}
+
+/* ----- the three ways to answer ----- */
+function choose(i){
+  if (G.busy) return; const o = G.opts[i];
+  if (o.ok) return accepted(o.t, { kind: "great", notes: [] });
+  G.struck.add(i);
+  mistake(o.t, o.why, () => drawTurn(true));
+}
+function sendGaps(){
+  if (G.busy) return;
+  const ins = [...$("you").querySelectorAll(".gaps input")];
+  if (ins.some(x => !x.value.trim())){ const e = ins.find(x => !x.value.trim()); e.focus(); return; }
+  let worst = "great"; const notes = [], wrongWords = [];
+  ins.forEach(inp => {
+    const g = G.gaps[+inp.dataset.i], v = norm(inp.value), want = g.n;
+    g.typed = inp.value.trim();
+    if (v === want || v.replace(/ /g, "") === want.replace(/ /g, "")) { inp.classList.add("good"); return; }
+    if (want.length >= 4 && lev(v, want) <= slack(want)) { if (worst === "great") worst = "typo"; notes.push(`Spelling: <s>${esc(g.typed)}</s> → <b>${esc(g.core)}</b>`); return; }
+    worst = "wrong"; wrongWords.push(`<s>${esc(g.typed)}</s> → <b>${esc(g.core)}</b>`);
+  });
+  const sentence = G.gaps.map(g => g.blank ? g.pre + (g.typed || "") + g.post : g.tok).join(" ");
+  if (worst === "wrong") return mistake(sentence, "Not quite: " + wrongWords.join(", "), () => drawTurn(true));
+  accepted(sentence, { kind: worst, notes });
+}
+function sendTyped(){
+  if (G.busy) return; const v = $("typed").value.trim(); if (!v) { $("typed").focus(); return; }
+  const r = checkTyped(G.turns[G.i], v);
+  if (r.kind === "wrong") return mistake(v, r.notes.join("<br>"), () => { drawTurn(true); $("typed").value = v; $("typed").select(); });
+  accepted(v, r);
+}
+
+/* ----- what happens next ----- */
+const ANNOYED = [
+  ["Sorry? I don't understand.", "Pardon?", "Sorry, what was that?"],
+  ["Hmm… what do you mean?", "I'm sorry, I really don't follow.", "Could you say that again… properly?"],
+  ["Look, I haven't got all day!", "Excuse me?! Can you say that properly?", "I'm losing my patience here…"],
+];
+const RUDE = ["Hmm. A 'please' would be nice…", "No need to be so rude.", "Excuse me? Ask nicely, please."];
+const FRIENDLY = ["Haha, no worries! Try again 🙂", "Almost! Have another go.", "Nice try! Once more?"];
+function logMistake(said, why){ const t = G.turns[G.i]; G.mistakes.push({ task: t.task, said, why, model: t.say[0] }); }
+function mistake(said, why, retry){
+  G.busy = true; G.wrongs++;
+  addMsg("me bad", esc(said));
+  logMistake(said, why);
+  const t = G.turns[G.i];
+  if (S.mode === "real"){
+    G.patience -= COST.wrong; drawPatience();
+    $("npc").classList.remove("angry"); void $("npc").offsetWidth; $("npc").classList.add("angry");
+    if (G.patience <= 0) return npcSay(G.other.leave, true, () => lose());
+    const lvl = G.patience > 60 ? 0 : G.patience > 30 ? 1 : 2;
+    npcSay(pick(ANNOYED[lvl]), true, () => { coach("err", "✗ Mistake", why); retry(); });
+  } else {
+    drawPatience();
+    npcSay(pick(FRIENDLY), false, () => {
+      coach("err", "✏️ Correction", `${why}<span class="model">✓ ${esc(t.say[0])}</span>`, [
+        ["Try again", "btn-plain", retry],
+        ["Use this answer", "btn-yellow", () => accepted(t.say[0], { kind: "great", notes: [] }, true)],
+      ]);
+      G.busy = false;
+    });
+  }
+  $("you").innerHTML = "";
+}
+function accepted(said, r, fromModel){
+  G.busy = true; $("you").innerHTML = "";
+  addMsg("me", esc(said));
+  const t = G.turns[G.i];
+  if (r.kind === "typo" || r.kind === "rude"){
+    logMistake(said, r.notes.join("<br>"));
+    if (S.mode === "real"){ G.patience -= COST[r.kind]; drawPatience(); }
+  }
+  if (r.kind !== "great" || r.notes.length){
+    const better = t.say.some(s => norm(s) === norm(said)) ? "" : `<span class="model">✓ ${esc(t.say[0])}</span>`;
+    coach(r.kind === "great" ? "" : "warn", r.kind === "great" ? "✓ Good" : "Nearly perfect", r.notes.join("<br>") + better);
+  } else if (!fromModel && Math.random() < .5 && t.say.length > 1 && norm(said) !== norm(t.say[1])){
+    // show another way of saying it, now and then
+    coach("", "✓ Well said!", `You could also say: <i>${esc(t.say[1])}</i>`);
+  }
+  if (S.mode === "real" && G.patience <= 0) return npcSay(G.other.leave, true, () => lose());
+  const go = () => {
+    G.i++; drawProgress(); drawPatience();
+    const next = G.i < G.turns.length ? G.turns[G.i].npc : G.endLine;
+    const pre = r.kind === "rude" && S.mode === "real" ? pick(RUDE) + " " : "";
+    npcSay(pre + next, r.kind === "rude" && S.mode === "real", () => { if (G.i < G.turns.length) drawTurn(); else setTimeout(() => win(), 1100); });
+  };
+  setTimeout(go, 250);
+}
+
+/* ----- the end ----- */
+function starsFor(){ if (S.mode === "real") return G.patience >= 85 ? 3 : G.patience >= 50 ? 2 : 1; const m = G.mistakes.length; return m === 0 ? 3 : m <= 2 ? 2 : 1; }
+function fixesHtml(){
+  if (!G.mistakes.length) return "";
+  return `<p class="eyebrow" style="text-align:left">Learn from your mistakes</p><div class="fixes">${G.mistakes.map(m => `<div class="fix"><div class="q">${esc(m.task)}</div>
+    <div class="no">${esc(m.said)}</div><div class="why">${m.why}</div><div class="yes">✓ ${esc(m.model)}</div></div>`).join("")}</div>`;
+}
+const nextLevel = () => { const ks = Object.keys(LEVELS); return ks[ks.indexOf(S.level) + 1]; };
+function win(){
+  if (G.over) return; G.over = true;
+  const st = starsFor(), key = bestKey(S.scene);
+  if (st > (best[key] || 0)){ best[key] = st; try { localStorage.setItem("situationship-best", JSON.stringify(best)); } catch (e) {} }
+  const nl = nextLevel();
+  showEnd(`<div class="big">${G.other.face}</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${S.level}</p>
+    <h2>${st === 3 ? "Perfect conversation!" : st === 2 ? "Well done!" : "You made it!"}</h2>
+    <div class="stars">${[0, 1, 2].map(i => `<span class="${i < st ? "" : "off"}">⭐</span>`).join("")}</div>
+    <p class="sub">${S.mode === "real" ? `The ${esc(G.other.name.toLowerCase())} still had <b>${Math.max(0, G.patience)}%</b> patience left.` : `Mistakes: <b>${G.mistakes.length}</b>.`}</p>
+    ${fixesHtml()}
+    <div class="start-row">${nl ? `<button class="btn btn-red" id="eNext">Try ${nl} →</button>` : ""}<button class="btn btn-yellow" id="eAgain">↻ Play again</button><button class="btn btn-plain" id="eHome">Another situation</button></div>`);
+  if (nl) $("eNext").onclick = () => { S.level = nl; if (!S.helpPicked) S.help = HELP_FOR[nl]; saveSetup(); startGame(); };
+}
+function lose(){
+  if (G.over) return; G.over = true;
+  showEnd(`<div class="big">🤬</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${S.level}</p>
+    <h2>They walked away!</h2>
+    <p class="sub">The ${esc(G.other.name.toLowerCase())} lost their patience. Look at your mistakes and try again.</p>
+    ${fixesHtml()}
+    <div class="start-row"><button class="btn btn-red" id="eAgain">↻ Try again</button><button class="btn btn-yellow" id="eFun">😄 Try it just for fun</button><button class="btn btn-plain" id="eHome">Another situation</button></div>`);
+  $("eFun").onclick = () => { S.mode = "fun"; saveSetup(); startGame(); };
+}
+function showEnd(html){
+  setTimeout(() => {
+    $("game").classList.add("hidden"); $("end").classList.remove("hidden"); $("endBox").innerHTML = html; window.scrollTo({ top: 0 });
+    $("eAgain").onclick = () => startGame(); $("eHome").onclick = showSetup;
+  }, 700);
+}
+</script>
+<script>setHowTo({
+  // instrucciones en castellano (botón ES)
+  es: {
+    title: "Act Natural!",
+    intro: "Conversaciones de la vida real en inglés: pedir en una cafetería o un restaurante, ir al médico, el aeropuerto, el hotel, preguntar el camino, comprar ropa y la estación de tren. Niveles A1 a B2, pensado sobre todo para adultos.",
+    steps: [
+      ["🗺️", "<b>Elige una situación</b> y el nivel (A1–B2). Cada conversación tiene 4 turnos."],
+      ["😠", "<b>Real life:</b> cada error le quita <b>paciencia</b> a la otra persona (un error gordo −35, una falta de ortografía −10, no decir <i>please</i> −15). Si llega a cero, se va… ¡y pierdes!"],
+      ["🔄", "<b>Tu papel:</b> cliente (respondes al camarero, al médico…) o <b>trabajador</b>: eres el camarero, el médico, el recepcionista… y tú haces las preguntas al cliente."],
+      ["😄", "<b>Just for fun:</b> nadie se enfada. Si te equivocas, ves la corrección y la respuesta buena, y lo intentas otra vez."],
+      ["🅰️", "<b>Ayuda para responder:</b> <i>Choose</i> (elegir la frase correcta), <i>Fill the gaps</i> (la frase está casi hecha, solo faltan palabras) o <i>Type it</i> (escribirla entera). Se puede cambiar en mitad de la conversación."],
+      ["❓", "Cuando pone <b>ASK</b>, el alumno tiene que <b>hacer una pregunta</b> (con el orden correcto: <i>Can I…? Do you…?</i>)."],
+      ["⭐", "Al final: estrellas y una lista de los errores con la corrección, para comentarla en clase."]
+    ],
+    tips: [
+      "El juego corrige los errores típicos de hispanohablantes: <i>I have 30 years, How much costs, since three days, explain me, put me a coffee…</i>",
+      "Pulsad una frase de la otra persona para volver a escucharla 🔊.",
+      "Proyectadlo en la pizarra y que la clase decida la respuesta, o que cada alumno juegue en su ordenador.",
+      "Para añadir situaciones, editad <b>act-natural/scenes.js</b> (y <b>staff.js</b> para el papel de trabajador)."
+    ]
+  },
+  title: "Act Natural!",
+  intro: "Real-life conversations in English: ordering at a café or restaurant, seeing a doctor, the airport, the hotel, asking the way, buying clothes and the train station. Levels A1 to B2, mainly for adults.",
+  steps: [
+    ["🗺️", "<b>Choose a situation</b> and a level (A1–B2). Each conversation has 4 turns."],
+    ["😠", "<b>Real life:</b> every mistake costs the other person's <b>patience</b> (a real mistake −35, a spelling mistake −10, forgetting <i>please</i> −15). At zero they walk away… and you lose!"],
+    ["🔄", "<b>Your role:</b> the customer (you answer the waiter, the doctor…) or the <b>worker</b>: you are the waiter, the doctor, the receptionist… and you ask the customer the questions."],
+    ["😄", "<b>Just for fun:</b> nobody gets angry. When you make a mistake you see the correction and the right answer, and try again."],
+    ["🅰️", "<b>Answer help:</b> <i>Choose</i> the right sentence, <i>Fill the gaps</i> in a ready-made sentence, or <i>Type it</i> all. You can change it during the conversation."],
+    ["❓", "When it says <b>ASK</b>, you must <b>ask a question</b> with the right word order: <i>Can I…? Do you…?</i>"],
+    ["⭐", "At the end: stars, and a list of your mistakes with the corrections."]
+  ],
+  tips: [
+    "It catches typical mistakes of Spanish speakers: <i>I have 30 years, How much costs, since three days, explain me…</i>",
+    "Click a line from the other person to hear it again 🔊.",
+    "To add situations, edit <b>act-natural/scenes.js</b> (and <b>staff.js</b> for the worker role)."
+  ]
+});</script>
+</body>
+</html>

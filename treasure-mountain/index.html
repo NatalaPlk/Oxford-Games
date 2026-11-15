@@ -49,7 +49,7 @@
   .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
   .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:16px}
   .team-pick{display:flex;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--navy);border-radius:20px;padding:10px 14px;border-top:10px solid var(--c)}
-  .team-pick .mon{width:70px;flex:none;cursor:pointer;transition:transform .15s}
+  .team-pick .mon{width:84px;flex:none;cursor:pointer;transition:transform .15s}
   .team-pick .mon:hover{transform:scale(1.08) rotate(-4deg)}
   .team-pick .side{flex:1;min-width:0}
   .team-pick input{width:100%;background:#fff;border:2px solid var(--navy);border-radius:999px;padding:7px 12px;font:inherit;font-size:17px;font-weight:700;color:var(--navy);outline:none}
@@ -102,7 +102,7 @@
   @keyframes dBob{50%{transform:translateY(-6px) rotate(-3deg)}}
   .camp-g{transform-box:fill-box;transform-origin:50% 100%;animation:gBob 1.8s ease-in-out infinite}
   @keyframes gBob{50%{transform:translateY(-3px) rotate(4deg)}}
-  .token{position:absolute;width:6.4%;transform:translate(-50%,-92%);transition:left .9s cubic-bezier(.4,0,.3,1),top .9s cubic-bezier(.4,0,.3,1);z-index:3;filter:drop-shadow(0 4px 0 rgba(11,9,87,.35))}
+  .token{position:absolute;width:8%;transform:translate(-50%,-92%);transition:left .9s cubic-bezier(.4,0,.3,1),top .9s cubic-bezier(.4,0,.3,1);z-index:3;filter:drop-shadow(0 4px 0 rgba(11,9,87,.35))}
   .token.now{z-index:4}
   .token.now .mon-art{animation:tokenHop .7s ease-in-out infinite}
   .token.fall{transition:left 1.4s ease-in,top 1.4s ease-in}
@@ -349,6 +349,10 @@ function picHTML(c){
   return file ? `<img src="../shared/photos/${file}" alt="" draggable="false">` : esc(c.pic);
 }
 
+// the monsters dressed as mountain hikers (pictures in ./heroes/)
+const hero = (type, mood) => monsterSVG(type, mood, { dir: "heroes/" });
+MONSTER_ORDER.forEach(k => { new Image().src = "heroes/" + MONSTERS[k].img + ".png"; });
+
 // ---------- sounds ----------
 let actx = null;
 function tone(freqs, dur = .12, type = "sine", vol = .18){
@@ -542,7 +546,7 @@ function renderSetup(){
   for (let i = 0; i < cfg.teamCount; i++) {
     const type = cfg.mons[i], m = MONSTERS[type], d = document.createElement("div");
     d.className = "team-pick"; d.style.setProperty("--c", m.color);
-    d.innerHTML = `<div class="mon">${monsterSVG(type, "happy")}</div><div class="side"><input maxlength="16"><button class="swap" type="button">change monster ↻</button></div>`;
+    d.innerHTML = `<div class="mon">${hero(type, "happy")}</div><div class="side"><input maxlength="16"><button class="swap" type="button">change monster ↻</button></div>`;
     const inp = d.querySelector("input"); inp.placeholder = m.name; inp.value = cfg.names[i] || "";
     inp.oninput = () => { cfg.names[i] = inp.value; };
     const swap = () => {
@@ -590,7 +594,7 @@ function render(opts = {}){
   G.teams.forEach((x, i) => {
     const d = document.createElement("div");
     d.className = "hero-card" + (i === G.turn && !x.out ? " now" : "") + (x.out ? " out" : ""); d.style.setProperty("--c", x.color);
-    d.innerHTML = `<div class="face">${monsterSVG(x.mon, x.out ? "sad" : "happy")}</div><div class="info"><div class="nm"></div><div class="where">${x.out ? "OUT OF LIVES" : x.camp >= CAMPS ? "AT THE DRAGON'S CAVE" : "CAMP " + (x.camp + 1) + " OF " + CAMPS}</div></div>${hearts(x, opts.pop === i ? x.lives : -1)}`;
+    d.innerHTML = `<div class="face">${hero(x.mon, x.out ? "sad" : "happy")}</div><div class="info"><div class="nm"></div><div class="where">${x.out ? "OUT OF LIVES" : x.camp >= CAMPS ? "AT THE DRAGON'S CAVE" : "CAMP " + (x.camp + 1) + " OF " + CAMPS}</div></div>${hearts(x, opts.pop === i ? x.lives : -1)}`;
     d.querySelector(".nm").textContent = x.name;
     hud.appendChild(d);
   });
@@ -599,7 +603,7 @@ function render(opts = {}){
   const tk = $("tokens");
   G.teams.forEach((x, i) => {
     let el = tk.children[i];
-    if (!el) { el = document.createElement("div"); el.className = "token"; el.innerHTML = `<span class="flag"></span>${monsterSVG(x.mon, "happy")}`; tk.appendChild(el); }
+    if (!el) { el = document.createElement("div"); el.className = "token"; el.innerHTML = `<span class="flag"></span>${hero(x.mon, "happy")}`; tk.appendChild(el); }
     el.style.setProperty("--c", x.color); el.querySelector(".flag").textContent = x.name;
     el.classList.toggle("now", i === G.turn && G.phase === "map" && !x.out); el.classList.toggle("out", x.out);
     const [l, tp] = spot(x, i); el.style.left = l + "%"; el.style.top = tp + "%";
@@ -696,7 +700,7 @@ function startBoss(){
   const L = $("layer");
   L.innerHTML = `<div class="boss" id="boss"><div class="lava"></div>
     <div class="bars"><span>DRAGON</span><div class="bar hp"><div id="hpBar"></div></div><span>🔥 FIRE</span><div class="bar fire" id="fireWrap"><div id="fireBar"></div></div></div>
-    <div class="bars r"><div class="who"><span id="bossHearts"></span><div class="face">${monsterSVG(t.mon, "happy")}</div></div><span id="bossName"></span></div>
+    <div class="bars r"><div class="who"><span id="bossHearts"></span><div class="face">${hero(t.mon, "happy")}</div></div><span id="bossName"></span></div>
     <div class="dragon" id="dragon">${dragonSVG()}<div class="flame"></div></div>
     <div class="arena" id="arena"></div>
     <div class="card"><span class="lbl">CLICK THE WORD!</span><div class="fc" id="fc"></div></div>
@@ -823,8 +827,8 @@ function finish(winner){
   $("endSub").innerHTML = `<b></b> beat the dragon and won the treasure of the mountain!`;
   $("endSub").querySelector("b").textContent = winner.name;
   const others = G.teams.filter(x => x !== winner);
-  $("finale").innerHTML = `<div><div class="champ"><span class="crown">👑</span>${monsterSVG(winner.mon, "joy")}</div><div class="nm"></div></div><div class="chest">${chestSVG(true)}</div>` +
-    others.map(o => `<div><div class="other">${monsterSVG(o.mon, "sad")}</div><div class="nm" data-o="1"></div></div>`).join("");
+  $("finale").innerHTML = `<div><div class="champ"><span class="crown">👑</span>${hero(winner.mon, "joy")}</div><div class="nm"></div></div><div class="chest">${chestSVG(true)}</div>` +
+    others.map(o => `<div><div class="other">${hero(o.mon, "sad")}</div><div class="nm" data-o="1"></div></div>`).join("");
   const nms = $("finale").querySelectorAll(".nm"); nms[0].textContent = winner.name; others.forEach((o, k) => nms[k + 1].textContent = o.name);
   show("end"); confetti(70);
 }
@@ -832,7 +836,7 @@ function gameOver(){
   clearTimers(); stopBoss(); G.phase = "over"; $("layer").innerHTML = "";
   $("endTitle").textContent = "The dragon wins…";
   $("endSub").textContent = "No lives left. The treasure stays in the mountain. Try again!";
-  $("finale").innerHTML = `<div class="chest" style="width:240px">${dragonSVG()}</div>` + G.teams.map(o => `<div><div class="other">${monsterSVG(o.mon, "sad")}</div><div class="nm"></div></div>`).join("");
+  $("finale").innerHTML = `<div class="chest" style="width:240px">${dragonSVG()}</div>` + G.teams.map(o => `<div><div class="other">${hero(o.mon, "sad")}</div><div class="nm"></div></div>`).join("");
   $("finale").querySelectorAll(".nm").forEach((n, k) => n.textContent = G.teams[k].name);
   show("end"); sLose();
 }

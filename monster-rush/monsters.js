@@ -32,6 +32,6 @@ document.head.insertAdjacentHTML("beforeend", `<style>
 function monsterSVG(type, mood = "happy", opts = {}){
   const m = MONSTERS[type] || MONSTERS.gobo;
   const extra = mood === "sad" ? `<i class="tear">💧</i>` : mood === "joy" ? `<i class="spark a">✨</i><i class="spark b">✨</i>` : "";
-  // opts.hat: the train-driver picture (cap and all) instead of the plain monster
-  return `<span class="mon-art ${mood}"><span class="mbody"><img src="${opts.hat ? DRIVER_DIR : MONSTER_DIR}${m.img}.png" alt="${m.name}" draggable="false"></span>${extra}</span>`;
+  // opts.hat: the train-driver picture (cap and all) instead of the plain monster; opts.dir: another folder of pictures
+  return `<span class="mon-art ${mood}"><span class="mbody"><img src="${opts.dir || (opts.hat ? DRIVER_DIR : MONSTER_DIR)}${m.img}.png" alt="${m.name}" draggable="false"></span>${extra}</span>`;
 }

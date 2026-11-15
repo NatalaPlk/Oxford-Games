@@ -159,6 +159,9 @@
   .typed{display:flex;gap:10px;flex-wrap:wrap}
   .typed input{flex:1;min-width:140px;font:inherit;font-weight:800;font-size:clamp(16px,2.6cqw,28px);border:3px solid var(--navy);border-radius:999px;padding:8px 18px;outline:none;color:var(--navy);background:var(--paper)}
   .typed input:focus{background:#fff;box-shadow:0 0 0 4px var(--yellow)}
+  .tnote{margin:0 0 10px;display:inline-block;background:var(--yellow);color:var(--navy);border:2px solid var(--navy);border-radius:999px;padding:6px 16px;font-weight:800;font-size:clamp(14px,2.2cqw,22px);box-shadow:3px 3px 0 var(--navy)}
+  .tnote.shake{animation:tshake .4s}
+  @keyframes tshake{25%{transform:translateX(-8px)}50%{transform:translateX(8px)}75%{transform:translateX(-4px)}}
   .typed .btn{font-size:clamp(14px,2cqw,20px);padding:8px 22px}
   .fb{margin-top:10px;font-weight:800;font-size:clamp(14px,2.1cqw,22px);line-height:1.3}
   .fb.ok{color:var(--ok)} .fb.bad{color:var(--brand)}
@@ -541,7 +544,7 @@ function mathsQ(id){
     if (ans >= 0 && ans <= 100) break;
   }
   const wrong = shuffle([ans + 1, ans - 1, ans + 2, ans - 2, ans + 10].filter(n => n >= 0 && n <= 100 && n !== ans)).slice(0, 2);
-  return { type: "Maths", html: `How much is <b>${text}</b>?`, answers: [numWord(ans)], show: numWord(ans), choices: shuffle([ans, ...wrong]).map(numWord), note: "Write the number in letters." };
+  return { type: "Maths", html: `How much is <b>${text}</b>?`, answers: [numWord(ans)], show: numWord(ans), choices: shuffle([ans, ...wrong]).map(numWord), note: "e.g. seven", letters: true };
 }
 function vocabQ(id){
   const ws = levelWords(id), c = pick(ws);
@@ -733,7 +736,7 @@ function meetGoblin(){
     box.innerHTML = `<div class="choices3">${q.choices.map((c, i) => `<button class="ch-btn" data-i="${i}">${esc(c)}</button>`).join("")}</div>`;
     box.querySelectorAll(".ch-btn").forEach(b => b.onclick = () => answer(q.choices[+b.dataset.i], b));
   } else {
-    box.innerHTML = `<div class="typed"><input id="ansInput" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="30" placeholder="${q.note || "Type your answer…"}"><button class="btn btn-red" id="ansBtn">Answer</button></div>`;
+    box.innerHTML = (q.letters ? `<p class="tnote" id="tnote">✏️ Write the number in <u>letters</u>, not digits: 7 → seven</p>` : "") + `<div class="typed"><input id="ansInput" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="30" placeholder="${q.note || "Type your answer…"}"><button class="btn btn-red" id="ansBtn">Answer</button></div>`;
     const inp = $("ansInput");
     inp.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); answer(inp.value); } });
     $("ansBtn").onclick = () => answer(inp.value);
@@ -742,6 +745,12 @@ function meetGoblin(){
 }
 function answer(v, btn){
   if (G.phase !== "riddle" || !String(v).trim()) return;
+  // maths: digits are not an answer yet, ask again for the word (no life lost)
+  if (G.q.letters && /[0-9]/.test(v)) {
+    const n = $("tnote"); if (n) { n.innerHTML = "✏️ Use <u>letters</u>, not numbers! Try again: 7 → seven"; n.classList.remove("shake"); void n.offsetWidth; n.classList.add("shake"); }
+    const inp = $("ansInput"); if (inp) { inp.value = ""; inp.focus({ preventScroll: true }); }
+    return;
+  }
   const q = G.q, t = team(), ok = isRight(q, v);
   G.phase = "fork";
   document.querySelectorAll("#answerBox button, #answerBox input").forEach(e => e.disabled = true);

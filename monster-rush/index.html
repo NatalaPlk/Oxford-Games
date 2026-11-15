@@ -147,6 +147,7 @@
   .flash.photo{width:min(440px,80vw);aspect-ratio:4/3;overflow:hidden;background:#fff}
   .flash.photo .pic{position:absolute;inset:0}
   .flash.photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .flash.photo img[src*="/cards/"]{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}   /* flashcards are shown whole */
   .flash.photo .word{background:rgba(255,255,255,.88);bottom:0;padding:6px 0}
   .credits{text-align:center;margin-top:24px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted)}
   .fb{position:absolute;inset:0;display:grid;place-items:center;font-size:120px;pointer-events:none;opacity:0}
@@ -374,7 +375,7 @@ function parseWords(txt){
     const line = raw.trim();
     if (line.startsWith("##")) { cur = { name: line.replace(/^#+/, "").trim() || "Words", words: [] }; units.push(cur); return; }
     if (!line || line.startsWith("#")) return;
-    const m = line.match(/^([A-Za-z][A-Za-z\- ]*[A-Za-z]|[A-Za-z])\s*(.*)$/);
+    const m = line.match(/^([A-Za-z][A-Za-z'’\- ]*[A-Za-z]|[A-Za-z])\s*(.*)$/);
     if (!m || !m[2].trim()) return;                    // flashcards need a picture
     if (!cur) { cur = { name: "Words", words: [] }; units.push(cur); }
     cur.words.push({ w: m[1].trim(), pic: m[2].trim(), unit: cur.name });

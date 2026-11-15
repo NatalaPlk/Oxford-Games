@@ -267,132 +267,161 @@ look for shells 🐚
 `},
   sm2: { name: "Super Minds 2", text: `
 ## Welcome: Back To School
-classroom 🏫
-scissors ✂️
-glue 🧴
-notebook 📓
-calculator 🧮
-dictionary 📖
-poster 🖼️
-pencil ✏️
+bookcase 📚
+wall 🧱
+board 👩‍🏫
+clock 🕰️
+door 🚪
+cupboard 🗄️
+window 🪟
+chair 🪑
+crayon 🖍️
+floor 🟫
+ten 🔟
+twenty 2️⃣0️⃣
+thirty 3️⃣0️⃣
+forty 4️⃣0️⃣
+fifty 5️⃣0️⃣
+sixty 6️⃣0️⃣
+seventy 7️⃣0️⃣
+eighty 8️⃣0️⃣
+ninety 9️⃣0️⃣
+one hundred 💯
 
 ## Unit 1: My Day
-breakfast 🥣
-lunch 🍽️
-dinner 🍝
-shower 🚿
-teeth 🦷
-morning 🌅
-afternoon 🌤️
-evening 🌆
-clock ⏰
-quarter 🕒
-half 🌓
+get up 🛌
+get dressed 👕
+have breakfast 🥣
+brush your teeth 🪥
+go to school 🏫
+have lunch 🥪
+play in the park 🛝
+have dinner 🍽️
+go to bed 🛏️
+one o'clock 🕐
+two o'clock 🕑
+three o'clock 🕒
+four o'clock 🕓
+five o'clock 🕔
+six o'clock 🕕
+seven o'clock 🕖
+eight o'clock 🕗
+nine o'clock 🕘
+ten o'clock 🕙
+eleven o'clock 🕚
+twelve o'clock 🕛
 
 ## Unit 2: The Zoo
-kangaroo 🦘
-penguin 🐧
+polar bear 🐻‍❄️
+bear 🐻
+zebra 🦓
+crocodile 🐊
+hippo 🦛
+tiger 🐯
 parrot 🦜
-camel 🐫
-gorilla 🦍
-dolphin 🐬
-shark 🦈
-lizard 🦎
-whale 🐳
-bat 🦇
+monkey 🐒
+snake 🐍
 
 ## Unit 3: Where We Live
-library 📚
-cinema 🎬
-supermarket 🛒
-park 🌳
-bank 🏦
+train station 🚉
 hospital 🏥
-station 🚉
-museum 🏛️
-pool 🏊
+cinema 🎬
+playground 🛝
 cafe ☕
+shop 🏪
+street 🛣️
+bus stop 🚏
+park 🌳
+school 🏫
+swimming pool 🏊
 
 ## Unit 4: The Market
-lemon 🍋
-pear 🍐
-grapes 🍇
-watermelon 🍉
-onion 🧅
-mango 🥭
-pineapple 🍍
-strawberry 🍓
+tomatoes 🍅
 beans 🫘
-pepper 🫑
+greens 🥬
+potatoes 🥔
+kiwis 🥝
+lemons 🍋
+bread 🍞
+mangoes 🥭
+grapes 🍇
+eggs 🥚
+watermelons 🍉
 
 ## Unit 5: My Bedroom
+poster 🖼️
 wardrobe 🚪
-shelf 📚
-cupboard 🗄️
 mirror 🪞
-rug 🟥
-curtains 🪟
-clock ⏰
+armchair 💺
 lamp 💡
 bed 🛏️
-desk 🖥️
+table 🍽️
+sofa 🛋️
+rug 🟥
 
 ## Unit 6: People
-face 😀
 eyes 👀
-nose 👃
-mouth 👄
-ears 👂
-beard 🧔
+face 🙂
 glasses 👓
-January 📅
-February 📅
-March 📅
-April 📅
-May 📅
-June 📅
-July 📅
-August 📅
-September 📅
-October 📅
-November 📅
-December 📅
+hair 💇
+cheeks 😊
+ears 👂
+nose 👃
+tears 😢
+chin 🧔
+mouth 👄
+happy 😀
+sad 😞
+angry 😠
+tired 😴
+scared 😱
+excited 🤩
+January 🗓️
+February 🗓️
+March 🗓️
+April 🗓️
+May 🗓️
+June 🗓️
+July 🗓️
+August 🗓️
+September 🗓️
+October 🗓️
+November 🗓️
+December 🗓️
 
 ## Unit 7: Off We Go!
-bus 🚌
-train 🚆
-plane ✈️
-bike 🚲
-boat ⛵
 helicopter 🚁
+ship 🚢
+lorry 🚚
+boat ⛵
+scooter 🛴
+skateboard 🛹
 motorbike 🏍️
 taxi 🚕
-lorry 🚚
-tram 🚊
+bus 🚌
 
 ## Unit 8: Sports Club
-football ⚽
-basketball 🏀
-tennis 🎾
-volleyball 🏐
-baseball ⚾
-hockey 🏒
-swimming 🏊
-skating ⛸️
 badminton 🏸
-golf ⛳
+table tennis 🏓
+tennis 🎾
+basketball 🏀
+baseball ⚾
+volleyball 🏐
+swimming 🏊
+football ⚽
+hockey 🏑
+athletics 🏃
 
 ## Unit 9: Holiday Plans
-mountain ⛰️
-lake 🏞️
-river 🏞️
-forest 🌲
-island 🏝️
-camping ⛺
-tent ⛺
-suitcase 🧳
-passport 🛂
-beach 🏖️
+read a comic 📖
+go hiking 🥾
+visit cousins 👫
+help in the garden 🌻
+take riding lessons 🐴
+build a tree house 🌳
+keep a scrapbook 📒
+learn to swim 🏊
+go camping ⛺
 `},
   sm3: { name: "Super Minds 3", text: `
 ## Unit 1: Our School
@@ -873,10 +902,10 @@ prehistoric 🦖
 // Anything not listed here is a noun.
 const WORD_TYPE_LISTS = {
   verb: "dance sing swim run paint read jump wash clean tidy sweep measure survive ironing shopping camping swimming skating climbing fishing cycling rowing sailing boxing fencing",
-  adj: "big small new old long short beautiful ugly curly straight blond bald sunny cloudy rainy windy snowy foggy stormy delicious poisonous extinct prehistoric electric",
+  adj: "big small new old long short beautiful ugly happy sad angry tired scared excited curly straight blond bald sunny cloudy rainy windy snowy foggy stormy delicious poisonous extinct prehistoric electric",
   colour: "red blue green yellow orange purple black white brown pink",
   prep: "in on under",
-  number: "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty hundred thousand million first second third",
+  number: "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million first second third",
   day: "Monday Tuesday Wednesday Thursday Friday Saturday Sunday",
   month: "January February March April May June July August September October November December",
   greeting: "hello goodbye",
@@ -884,12 +913,16 @@ const WORD_TYPE_LISTS = {
 };
 const WORD_TYPE_LABELS = {
   noun: "🧸 Noun · thing, person or place", verb: "🏃 Verb · action", adj: "🎨 Adjective · describing word",
-  colour: "🌈 Colour", prep: "📍 Preposition · where it is", number: "🔢 Number", day: "📅 Day of the week", month: "🗓️ Month", greeting: "👋 Greeting", country: "🌍 Country",
+  colour: "🌈 Colour", time: "🕐 Time", prep: "📍 Preposition · where it is", number: "🔢 Number", day: "📅 Day of the week", month: "🗓️ Month", greeting: "👋 Greeting", country: "🌍 Country",
 };
 const WORD_TYPES = {};
 Object.entries(WORD_TYPE_LISTS).forEach(([t, s]) => s.split(" ").forEach(w => { WORD_TYPES[w] = t; }));
 // actions of more than one word
-"paint a picture|listen to music|catch a fish|take a photo|eat ice cream|play the guitar|read a book|make a sandcastle|look for shells".split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
+("paint a picture|listen to music|catch a fish|take a photo|eat ice cream|play the guitar|read a book|make a sandcastle|look for shells|" +
+ "get up|get dressed|have breakfast|brush your teeth|go to school|have lunch|play in the park|have dinner|go to bed|" +
+ "read a comic|go hiking|visit cousins|help in the garden|take riding lessons|build a tree house|keep a scrapbook|learn to swim|go camping").split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
+WORD_TYPES["one hundred"] = "number";
+"one two three four five six seven eight nine ten eleven twelve".split(" ").forEach(n => { WORD_TYPES[n + " o'clock"] = "time"; });
 // "orange" is a colour in Starter (🟠) but the fruit in the food unit (🍊)
 function wordType(word, pic){ if (word === "orange" && pic && pic.includes("🍊")) return "noun"; return WORD_TYPES[word] || "noun"; }
 function wordTypeLabel(word, pic){ return WORD_TYPE_LABELS[wordType(word, pic)]; }

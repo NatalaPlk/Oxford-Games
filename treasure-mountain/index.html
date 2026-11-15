@@ -147,6 +147,8 @@
   .qtext .gap{display:inline-block;min-width:2.4em;border-bottom:4px solid var(--brand);text-align:center;color:var(--ok)}
   .qpic{display:grid;place-items:center;width:clamp(80px,17cqw,180px);aspect-ratio:4/3;margin:0 0 10px;border:3px solid var(--navy);border-radius:16px;background:var(--paper);overflow:hidden;font-size:clamp(40px,9cqw,96px);line-height:1}
   .qpic img{width:100%;height:100%;object-fit:cover;display:block}
+  .qpic:has(img[src*="/cards/"]){position:relative}
+  .qpic img[src*="/cards/"]{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}
   .qrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
   .tiles{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 10px}
   .tiles span{display:grid;place-items:center;width:clamp(26px,4.4cqw,48px);aspect-ratio:1;background:var(--yellow);border:3px solid var(--navy);border-radius:10px;font-family:var(--display);font-weight:900;font-size:clamp(16px,2.8cqw,30px);text-transform:uppercase;box-shadow:3px 3px 0 var(--navy)}
@@ -263,6 +265,8 @@
   .card .lbl{display:inline-block;font-family:var(--mono);font-weight:700;font-size:clamp(9px,1.25cqw,13px);letter-spacing:.14em;color:#fff;background:var(--navy);border:2px solid #fff;border-radius:999px;padding:2px 12px;margin-bottom:5px}
   .fc{display:grid;place-items:center;width:100%;aspect-ratio:4/3;background:#fff;border:4px solid var(--navy);border-radius:18px;box-shadow:6px 6px 0 rgba(0,0,0,.45);overflow:hidden;font-size:clamp(44px,10cqw,104px);line-height:1}
   .fc img{width:100%;height:100%;object-fit:cover;display:block}
+  .fc:has(img[src*="/cards/"]){position:relative}
+  .fc img[src*="/cards/"]{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#fff}   /* flashcards are shown whole */
   .fc.in{animation:fcIn .35s cubic-bezier(.2,1.5,.4,1)}
   @keyframes fcIn{from{transform:translateY(60%) scale(.5);opacity:0}}
   .fly{position:absolute;left:50%;top:84%;transform:translate(-50%,-50%);width:clamp(90px,19cqw,200px);z-index:8;pointer-events:none}
@@ -400,7 +404,7 @@ function levelWords(id){
   if (wordCache[id]) return wordCache[id];
   const all = [];
   BOOKS[id].text.split(/\r?\n/).forEach(raw => {
-    const m = raw.trim().match(/^([A-Za-z][A-Za-z\- ]*[A-Za-z]|[A-Za-z])\s+(\S.*)$/);
+    const m = raw.trim().match(/^([A-Za-z][A-Za-z'’\- ]*[A-Za-z]|[A-Za-z])\s+(\S.*)$/);
     if (m && !raw.trim().startsWith("#")) all.push({ w: m[1].trim(), pic: m[2].trim() });
   });
   const count = {}; all.forEach(c => count[c.pic] = (count[c.pic] || 0) + 1);

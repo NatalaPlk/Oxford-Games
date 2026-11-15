@@ -136,11 +136,16 @@
   @keyframes zoom{from{transform:scale(.7);opacity:0}}
   .verdict{font-family:var(--display);font-weight:900;font-size:clamp(46px,8vw,84px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;margin:0 0 10px}
   .verdict.ok{color:var(--ok)} .verdict.bad{color:var(--red)}
+  /* nobody bought a wrong sentence: a big GOOD JOB! before the correction */
+  .goodjob{font-family:var(--display);font-weight:900;font-size:clamp(44px,9vw,100px);line-height:.9;white-space:nowrap;text-transform:uppercase;letter-spacing:-.02em;margin:0 0 14px;color:var(--ok);text-shadow:5px 5px 0 var(--navy);animation:gj .8s cubic-bezier(.2,1.6,.4,1)}
+  .goodjob small{display:block;white-space:normal;font-size:max(.24em,16px);letter-spacing:.08em;text-shadow:none;color:var(--navy);margin-top:10px}
+  @keyframes gj{0%{transform:scale(.3) rotate(-8deg);opacity:0}60%{transform:scale(1.12) rotate(2deg);opacity:1}100%{transform:none}}
   .r-sent{font-size:clamp(20px,3vw,30px);font-weight:700;margin:10px 0}
   .r-sent.strike{text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:3px;color:var(--muted)}
   .r-fix{font-size:clamp(22px,3.4vw,34px);font-weight:800;color:var(--ok);margin:6px 0 12px}
   .r-fix small{display:block;font-family:var(--mono);font-size:12px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.16em;margin-bottom:4px}
   .r-effect{font-size:19px;font-weight:700;background:var(--card);border:2px solid var(--navy);border-radius:16px;padding:14px;margin:16px 0 22px}
+  .r-effect:empty{display:none}
   .confetti{position:fixed;top:-20px;width:12px;height:18px;z-index:60;pointer-events:none;animation:fall linear forwards}
   @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
 
@@ -305,6 +310,7 @@
 <!-- ================= RESULT OVERLAY ================= -->
 <div class="overlay hidden" id="resultOverlay">
   <div class="result">
+    <p class="goodjob hidden" id="rGood">Good job!<small>Nobody bought it. Well spotted!</small></p>
     <p class="verdict" id="rVerdict"></p>
     <p class="r-sent" id="rSent"></p>
     <div class="r-fix" id="rFix"></div>
@@ -1571,8 +1577,9 @@ function showResult(s, team, bid){
   const fx = $("rFix");
   if (!s.ok && s.fix) { fx.innerHTML = "<small>The correct sentence is</small>"; fx.appendChild(document.createTextNode(s.fix)); fx.classList.remove("hidden"); }
   else fx.classList.add("hidden");
-  const ef = $("rEffect");
-  if (!team) ef.textContent = s.ok ? "Nobody bought it… but it was correct! Point lost." : "Nobody bought it. Well spotted!";
+  const ef = $("rEffect"), spotted = !team && !s.ok;
+  $("rGood").classList.toggle("hidden", !spotted);
+  if (!team) ef.textContent = s.ok ? "Nobody bought it… but it was correct! Point lost." : "";
   else if (s.ok) ef.textContent = `🎉 ${team.name} wins 1 point and pays ${bid} coins.`;
   else ef.textContent = `💸 ${team.name} loses ${bid} coins and doesn't win the point.`;
   // out of money before lot 3: the game goes on for the others
@@ -1580,6 +1587,7 @@ function showResult(s, team, bid){
   if (out.length && !checkEnd(true)) ef.textContent += ` ${out.map(t => t.name).join(" and ")} ${out.length > 1 ? "are" : "is"} out of money, but the game goes on until lot ${MIN_LOTS}.`;
   $("resultOverlay").classList.remove("hidden");
   if (team && s.ok) confetti(team.color);
+  if (spotted) confetti("#14a35a");
   $("nextBtn").textContent = checkEnd(true) ? "See results 🏆" : "Next sentence ➜";
   $("nextBtn").focus();
 }

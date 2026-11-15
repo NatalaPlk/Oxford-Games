@@ -531,6 +531,43 @@ addEventListener("keydown", e => {
 renderSetup();
 </script>
 <script>setHowTo({
+  // instrucciones en castellano para las familias (botón ES)
+  es: {
+    "title": "Hot Seat",
+    "intro": "Un juego para hablar en inglés. Un jugador se sienta de espaldas a la pantalla y adivina las palabras que le explica su equipo, sin usar las palabras prohibidas.",
+    "steps": [
+      [
+        "⚙️",
+        "<b>Preparación:</b> elegid de 2 a 4 equipos, el nivel (A1–C1), las tarjetas (palabras, famosos y personajes, o las dos), los turnos por equipo y los segundos por turno."
+      ],
+      [
+        "🪑",
+        "Cada equipo manda a un jugador a la <b>silla caliente</b>, mirando a la clase y de espaldas a la pantalla. Pulsad <b>Start the clock</b> (empieza el reloj)."
+      ],
+      [
+        "🗣️",
+        "El equipo explica la palabra en inglés. No puede decir la palabra ni las <b>palabras prohibidas</b>, ni traducir, deletrear o señalar."
+      ],
+      [
+        "✔",
+        "¿La ha adivinado? Pulsad <b>Got it!</b> (<kbd>Enter</kbd>): +1 punto y otra palabra."
+      ],
+      [
+        "🚨",
+        "¿Alguien ha dicho una palabra prohibida? Pulsad <b>Forbidden!</b> (<kbd>T</kbd>): −1 punto y otra palabra. ¡Los otros equipos hacen de jueces!"
+      ],
+      [
+        "⏭",
+        "¿Es muy difícil? <b>Pass</b> (pasar, <kbd>P</kbd>), hasta 3 veces por turno. Cuando se acaba el tiempo, juega el siguiente equipo."
+      ]
+    ],
+    "tips": [
+      "Cambiad de jugador en la silla en cada turno.",
+      "¿Hay que parar un momento? <b>Pause</b> (<kbd>Espacio</kbd>) esconde la palabra y para el reloj.",
+      "¿Botón equivocado? <b>↩ Undo</b> deshace el último.",
+      "Para añadir tarjetas, editad <b>hot-seat/words.js</b>: una línea por tarjeta."
+    ]
+  },
   title: "Hot Seat",
   intro: "A speaking game. One player sits with their back to the screen and guesses the words their team explains, without the forbidden words.",
   steps: [

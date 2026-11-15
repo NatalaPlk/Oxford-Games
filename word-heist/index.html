@@ -645,6 +645,42 @@ addEventListener("keydown", e => {
 renderSetup();
 </script>
 <script>setHowTo({
+  // instrucciones en castellano para las familias (botón ES)
+  es: {
+    "title": "Word Heist",
+    "intro": "Las bandas abren cámaras acorazadas con su inglés, se llevan maletines con botín y se roban entre ellas. Gana la banda más rica.",
+    "steps": [
+      [
+        "⚙️",
+        "<b>Preparación:</b> elegid de 2 a 4 bandas, el nivel de la clase (A1–C1), cuántas preguntas tiene cada banda y el tiempo para responder."
+      ],
+      [
+        "🔐",
+        "En su turno, la banda <b>elige una cámara</b>: una más fácil (poco botín), la del nivel de la clase, o una más difícil (mucho botín)."
+      ],
+      [
+        "❓",
+        "La banda responde la pregunta en inglés: pulsad la respuesta o las teclas <kbd>1</kbd>–<kbd>4</kbd> antes de que se acabe el tiempo."
+      ],
+      [
+        "💼",
+        "¿<b>Bien</b>? La cámara se abre. Elegid uno de tres maletines: dinero, un premio gordo, doblar el botín, robar el 25% a otra banda, cambiar botines… o hacer saltar la alarma y perder el 25%."
+      ],
+      [
+        "🚨",
+        "¿<b>Mal o demasiado lentos</b>? Acceso denegado: ese turno no hay botín. Se muestra la respuesta correcta para que todos la aprendan."
+      ],
+      [
+        "🔥",
+        "Tres respuestas seguidas bien dan a la banda <b>×1,5</b> en los premios de dinero. En la <b>ronda final</b>, todo el botín vale el doble."
+      ]
+    ],
+    "tips": [
+      "La banda tiene que ponerse de acuerdo antes de pulsar. ¡Que elijan un portavoz!",
+      "¿Os habéis equivocado? <b>↩ Undo</b> vuelve al principio del turno.",
+      "Para añadir preguntas, editad <b>word-heist/questions.js</b>: una línea por pregunta."
+    ]
+  },
   title: "Word Heist",
   intro: "Crews crack vaults with their English, grab briefcases full of loot and steal from each other. The richest crew wins.",
   steps: [

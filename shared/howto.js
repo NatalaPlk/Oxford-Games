@@ -1,5 +1,6 @@
 // "How to play" button + popup for every game.
-// Usage: setHowTo({ title, intro, steps: [[emoji, html], ...], tips: [html, ...] })
+// Usage: setHowTo({ title, intro, steps: [[emoji, html], ...], tips: [html, ...], es: { the same in Spanish } })
+// With "es", the popup has an ES / EN button (instructions in Spanish for families). The choice is remembered.
 // Adds a button next to every "All games" link on the page.
 function setHowTo(cfg){
   const css = `
@@ -21,6 +22,9 @@ function setHowTo(cfg){
   .howto .tips .th{display:block;font-family:"Space Mono",monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;margin-bottom:4px}
   .howto .tips p{margin:2px 0}
   .howto kbd{font-family:"Space Mono",monospace;font-size:13px;background:#fff;border:1.5px solid #0b0957;border-radius:6px;padding:0 6px}
+  .howto .top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .howto .lang{flex:none;cursor:pointer;border:2px solid #0b0957;border-radius:999px;background:#ffd257;color:#0b0957;font:700 13px "Space Mono",monospace;letter-spacing:.08em;padding:6px 12px;box-shadow:3px 3px 0 #0b0957}
+  .howto .lang:active{transform:translate(2px,2px);box-shadow:1px 1px 0 #0b0957}
   .howto .close{display:block;margin:0 auto;cursor:pointer;border:2px solid #0b0957;border-radius:999px;background:#c8323c;color:#fff;font:800 17px "Archivo",sans-serif;padding:12px 30px;box-shadow:4px 4px 0 #0b0957}
   .howto .close:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #0b0957}
   @media (max-width:560px){.howto{padding:20px 18px}.howto h2{font-size:26px}}`;
@@ -28,12 +32,26 @@ function setHowTo(cfg){
 
   const ov = document.createElement("div");
   ov.className = "howto-ov"; ov.hidden = true;
-  ov.innerHTML = `<div class="howto" role="dialog" aria-modal="true" aria-labelledby="howtoTitle">
-    <p class="eb">How to play</p><h2 id="howtoTitle">${cfg.title}</h2>
-    ${cfg.intro ? `<p class="intro">${cfg.intro}</p>` : ""}
-    <ol>${cfg.steps.map(([e, t], i) => `<li><span class="n">${i + 1}</span><span class="e">${e}</span><span class="t">${t}</span></li>`).join("")}</ol>
-    ${cfg.tips && cfg.tips.length ? `<div class="tips"><b class="th">Tips</b>${cfg.tips.map(t => `<p>• ${t}</p>`).join("")}</div>` : ""}
-    <button class="close" type="button">Got it! 👍</button></div>`;
+  const WORDS = { en: { eb: "How to play", tips: "Tips", ok: "Got it! 👍", sw: "ES · Español", swl: "Instrucciones en español" },
+                  es: { eb: "Cómo se juega", tips: "Consejos", ok: "¡Entendido! 👍", sw: "EN · English", swl: "Instructions in English" } };
+  let lang = "en";
+  try { if (cfg.es && localStorage.getItem("howto-lang") === "es") lang = "es"; } catch(e){}
+  function paint(){
+    const c = lang === "es" && cfg.es ? Object.assign({}, cfg, cfg.es) : cfg, w = WORDS[lang];
+    ov.innerHTML = `<div class="howto" role="dialog" aria-modal="true" aria-labelledby="howtoTitle" lang="${lang}">
+    <div class="top"><p class="eb">${w.eb}</p>${cfg.es ? `<button class="lang" type="button" title="${w.swl}" aria-label="${w.swl}">${w.sw}</button>` : ""}</div><h2 id="howtoTitle">${c.title}</h2>
+    ${c.intro ? `<p class="intro">${c.intro}</p>` : ""}
+    <ol>${c.steps.map(([e, t], i) => `<li><span class="n">${i + 1}</span><span class="e">${e}</span><span class="t">${t}</span></li>`).join("")}</ol>
+    ${c.tips && c.tips.length ? `<div class="tips"><b class="th">${w.tips}</b>${c.tips.map(t => `<p>• ${t}</p>`).join("")}</div>` : ""}
+    <button class="close" type="button">${w.ok}</button></div>`;
+    const l = ov.querySelector(".lang");
+    if (l) l.onclick = () => {
+      lang = lang === "es" ? "en" : "es";
+      try { localStorage.setItem("howto-lang", lang); } catch(e){}
+      paint(); const d = ov.querySelector(".howto"); d.tabIndex = -1; d.focus({ preventScroll: true });
+    };
+  }
+  paint();
   document.body.appendChild(ov);
 
   const open = () => { ov.hidden = false; const d = ov.querySelector(".howto"); d.scrollTop = 0; d.tabIndex = -1; d.focus({ preventScroll: true }); };
@@ -43,6 +61,7 @@ function setHowTo(cfg){
   document.addEventListener("keydown", e => {
     if (ov.hidden) return;
     e.stopImmediatePropagation();
+    if (e.target.classList && e.target.classList.contains("lang") && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); e.target.click(); return; }
     if (e.key === "Escape" || e.key === "Enter" || e.key === " ") { e.preventDefault(); close(); }
   }, true);
 

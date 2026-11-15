@@ -190,6 +190,21 @@
   .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
   @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
 
+  /* lists that can get long scroll inside the box (fitScreen sets their height) */
+  .fitlist{overflow-y:auto;overscroll-behavior:contain}
+  /* short screens (laptops, projectors): tighter spacing so the game fits without scrolling */
+  @media (max-height:1100px) and (min-width:861px){
+    #game.wrap{padding-top:12px;padding-bottom:12px}
+    #game .topbar{margin-bottom:10px} #game .topbar .btn{padding:6px 14px}
+    .track{padding:10px 16px 6px;margin-bottom:14px} .line{height:118px} .runner{width:122px}
+    .line:has(.runner ~ .runner ~ .runner){height:150px}   /* 3–4 trains: room for the stacked name tags */
+    .zone{padding:12px 18px} .turnline{font-size:24px;margin:0}
+    .timer{margin:8px auto 2px} .timeleft{font-size:12px;margin-bottom:4px}
+    .letters{margin:8px 0 12px} .wordbox{min-height:56px}
+    .tool{padding:9px 14px} .tool.go{padding:9px 20px}
+    .msg{margin:8px 0 4px;min-height:26px} .cargo{margin-top:6px}
+    .ready h2,.turnend h2{margin:6px 0 4px} .turnend .missed{margin:10px auto 8px}
+  }
   @media (max-width:860px){
     .hero{grid-template-columns:1fr} .stage{grid-template-columns:1fr}
     .runner{width:104px} .line{height:115px}
@@ -281,13 +296,13 @@
           <button class="tool go" id="addBtn" title="Add the word (Enter)">✔ Add word</button>
         </div>
         <div class="msg" id="msg"></div>
-        <div class="cargo" id="cargo"></div>
+        <div class="cargo fitlist" id="cargo"></div>
       </div>
 
       <div id="endTurnBox" class="turnend hidden">
         <h2 id="endTurnTitle"></h2>
-        <div class="cargo" id="endCargo"></div>
-        <div class="missed" id="missed"></div>
+        <div class="cargo fitlist" id="endCargo"></div>
+        <div class="missed fitlist" id="missed"></div>
         <button class="btn btn-red btn-big" id="nextTurnBtn">Next team ➜</button>
       </div>
     </div>
@@ -782,6 +797,27 @@ window.addEventListener("resize", () => { if (G && !$("game").classList.contains
 
 $("furnace").innerHTML = furnaceHTML();
 renderSetup();
+
+// Make the whole game screen fit in the window: long word lists scroll inside the box instead
+function fitScreen(){
+  const g = document.getElementById("game");
+  const lists = ["missed", "endCargo", "cargo"].map(id => document.getElementById(id)).filter(Boolean);
+  lists.forEach(l => l.style.maxHeight = "");
+  if (!g || g.classList.contains("hidden") || innerWidth <= 860) return;
+  let over = document.getElementById("zone").getBoundingClientRect().bottom + scrollY + 14 - innerHeight;
+  for (const l of lists){                          // the "missed" list shrinks first, then the team's words
+    if (over <= 0) break;
+    if (!l.offsetParent) continue;
+    const h = l.offsetHeight, nh = Math.max(56, h - over);
+    if (nh < h){ l.style.maxHeight = nh + "px"; over -= h - nh; }
+  }
+  const c = document.getElementById("cargo");
+  if (c && c.childElementCount !== fitScreen.n){ fitScreen.n = c.childElementCount; c.scrollTop = c.scrollHeight; }   // a new word: keep it in sight
+}
+let fitQueued = false;
+const queueFit = () => { if (fitQueued) return; fitQueued = true; setTimeout(() => { fitQueued = false; fitScreen(); }, 30); };
+addEventListener("resize", queueFit);
+new MutationObserver(queueFit).observe(document.getElementById("game"), { attributes: true, attributeFilter: ["class"], childList: true, subtree: true });
 </script>
 <script src="../shared/howto.js"></script>
 <script>setHowTo({

@@ -97,7 +97,7 @@ An adventure game for one or two heroes (players or teams), with levels from Sup
 - The teacher chooses how many goblins guard the path (3 to 8: a shorter or longer game). They are chosen from six (Grimble, Tally, Madame Quill, Brutus, Winky and Zorbo) and placed in a random order every game. Their pictures are in `treasure-mountain/goblins/` (g = whole goblin, a = face for the map).
 - Each goblin asks something: a word from the level (with its picture), a spelling puzzle, grammar, a riddle, or maths with the answer written in letters ("two times two minus two" → "two").
 - Right answer: the goblin lets the hero pass. Wrong answer: the hero loses a life.
-- Then the hero chooses left or right. It is a lottery: nothing says which path is safe. The wrong path is a rockslide, back to the start. The paths stay the same for the whole game, so the heroes can remember them.
+- Then the hero chooses left or right. It is a lottery: nothing says which path is safe. The wrong path is a rockslide, back to the start. Each hero has its own paths (another hero can't copy them), and they stay the same for the whole game, so the heroes can remember them.
 - At the top, the dragon: a flashcard shows a picture and ten words float around the screen. Click the right word to throw the flashcard at the dragon. A wrong click changes that word for a new one and heats up the fire bar; when the bar is full, the dragon burns the hero (one life).
 - The dragon needs 8 hits. With two heroes it keeps its wounds, so they take turns to finish it.
 - Starter and level 1 need no writing: the heroes choose from three answers. From level 2 they type.

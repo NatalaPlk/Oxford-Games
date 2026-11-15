@@ -632,7 +632,9 @@ function startGame(){
   const teams = [];
   for (let i = 0; i < cfg.teamCount; i++) teams.push({ name: (cfg.names[i] || "").trim() || MONSTERS[cfg.mons[i]].name, mon: cfg.mons[i], color: MONSTERS[cfg.mons[i]].color, lives: LIVES, camp: 0, out: false });
   const n = cfg.camps;
-  G = { n, teams, turn: 0, phase: "map", safe: Array.from({ length: n }, () => pick(["L", "R"])), known: Array.from({ length: n }, () => ({})), hp: DRAGON_HP, q: null, toast: "", gobs: goblinOrder(n) };
+  // every hero has its own lottery: the safe side of each camp is drawn separately for each team
+  teams.forEach(x => { x.safe = Array.from({ length: n }, () => pick(["L", "R"])); });
+  G = { n, teams, turn: 0, phase: "map", known: Array.from({ length: n }, () => ({})), hp: DRAGON_HP, q: null, toast: "", gobs: goblinOrder(n) };
   show("game"); $("layer").innerHTML = ""; render();
 }
 // a hero's place: a fraction of the path, plus a little step aside so two heroes don't stand on each other
@@ -758,7 +760,7 @@ function showFork(){
 }
 function choosePath(side){
   if (G.phase !== "fork") return;
-  const t = team(), i = G.turn, camp = t.camp, ok = side === G.safe[camp];
+  const t = team(), i = G.turn, camp = t.camp, ok = side === t.safe[camp];
   G.phase = "moving"; $("layer").innerHTML = "";
   G.known[camp][side] = ok ? "safe" : "trap";
   if (ok) G.known[camp][side === "L" ? "R" : "L"] = "trap";

@@ -102,10 +102,18 @@
   @keyframes dBob{50%{transform:translateY(-6px) rotate(-3deg)}}
   .camp-g{transform-box:fill-box;transform-origin:50% 100%;animation:gBob 1.8s ease-in-out infinite}
   @keyframes gBob{50%{transform:translateY(-3px) rotate(4deg)}}
-  .token{position:absolute;width:8%;transform:translate(-50%,-92%);transition:left .9s cubic-bezier(.4,0,.3,1),top .9s cubic-bezier(.4,0,.3,1);z-index:3;filter:drop-shadow(0 4px 0 rgba(11,9,87,.35))}
+  .token{position:absolute;width:8%;transform:translate(-50%,-92%);z-index:3;filter:drop-shadow(0 4px 0 rgba(11,9,87,.35))}
+  .token .mon-art{transition:transform .2s}
+  .token.left .mon-art{transform:scaleX(-1)}
+  .token.walk{z-index:5}
+  .token.walk .mon-art .mbody{animation:walkStep .34s ease-in-out infinite}
+  @keyframes walkStep{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-14%) rotate(4deg)}}
+  .token .dust{position:absolute;left:50%;bottom:-4%;width:60%;height:14%;transform:translateX(-50%);border-radius:50%;background:rgba(255,243,214,.8);opacity:0;pointer-events:none}
+  .token.walk .dust{animation:dust .34s ease-out infinite}
+  @keyframes dust{0%{opacity:.8;transform:translateX(-50%) scale(.4)}100%{opacity:0;transform:translateX(-50%) scale(1.3)}}
   .token.now{z-index:4}
-  .token.now .mon-art{animation:tokenHop .7s ease-in-out infinite}
-  .token.fall{transition:left 1.4s ease-in,top 1.4s ease-in}
+  .token.now:not(.walk):not(.fall) .mon-art .mbody{animation:tokenHop .7s ease-in-out infinite}
+  .token.fall{z-index:5}
   .token.fall .mon-art{animation:tumble .5s linear infinite}
   .token.out{filter:grayscale(1) opacity(.55)}
   .token .flag{position:absolute;left:50%;top:-16%;transform:translateX(-50%);background:var(--c);color:#fff;border:2px solid var(--navy);border-radius:999px;font-family:var(--display);font-weight:900;font-size:clamp(9px,1.5cqw,14px);padding:0 8px;white-space:nowrap;text-transform:uppercase}
@@ -283,6 +291,12 @@
     <div class="hint" id="levelHint"></div>
   </div>
 
+  <div class="panel">
+    <p class="eyebrow">03 · Goblins</p>
+    <div class="choices" id="campChoices"></div>
+    <div class="hint" id="campHint"></div>
+  </div>
+
   <div class="start-row">
     <button class="btn btn-red btn-big" id="startBtn">Start the adventure ⛰️</button>
   </div>
@@ -331,9 +345,10 @@ function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store
 const store = loadStore();
 const LEVELS = Object.keys(BOOKS);                       // sms, sm1 … sm6
 const LEVEL_SHORT = { sms: "Starter", sm1: "1", sm2: "2", sm3: "3", sm4: "4", sm5: "5", sm6: "6" };
-const CAMPS = 5, LIVES = 3, DRAGON_HP = 8, BUBBLES = 10;
+const CAMP_CHOICES = [3, 4, 5, 6, 7, 8], LIVES = 3, DRAGON_HP = 8, BUBBLES = 10;
 const FIRE_SECS = { sms: 20, sm1: 18, sm2: 15, sm3: 13, sm4: 12, sm5: 11, sm6: 10 };   // seconds before the dragon breathes fire
-const cfg = Object.assign({ teamCount: 1, names: ["", ""], mons: ["gobo", "blinky"], level: LEVELS[0] }, store.cfg || {});
+const cfg = Object.assign({ teamCount: 1, names: ["", ""], mons: ["gobo", "blinky"], level: LEVELS[0], camps: 5 }, store.cfg || {});
+if (!CAMP_CHOICES.includes(cfg.camps)) cfg.camps = 5;
 if (!BOOKS[cfg.level]) cfg.level = LEVELS[0];
 cfg.mons = (cfg.mons || []).filter((t, i, a) => MONSTERS[t] && a.indexOf(t) === i);
 for (const t of MONSTER_ORDER) if (cfg.mons.length < 2 && !cfg.mons.includes(t)) cfg.mons.push(t);
@@ -409,6 +424,11 @@ const GOBLINS = [
 ];
 GOBLINS.forEach(g => { new Image().src = `goblins/g${g.id}.png`; new Image().src = `goblins/a${g.id}.png`; });
 const gobAt = camp => GOBLINS.find(g => g.id === G.gobs[camp]);
+function goblinOrder(n){
+  const out = [];
+  while (out.length < n) { let b = shuffle(GOBLINS.map(g => g.id)); if (out.length && b[0] === out[out.length - 1]) b.push(b.shift()); out.push(...b); }
+  return out.slice(0, n);
+}
 function dragonSVG(){
   return `<svg viewBox="0 0 300 250" aria-hidden="true"><g stroke="${N}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
     <path d="M96 120 Q20 60 6 10 Q50 30 62 54 Q64 30 88 22 Q84 50 100 70Z" fill="#8f1f3a"/>
@@ -443,20 +463,31 @@ function chestSVG(open){
 // the mountain is a picture (img/mountain.webp, 1877×1247). IMG turns a point on the picture into map units (1000×600).
 const IMG_W = 1877, IMG_H = 1247, IMG_K = 1000 / IMG_W, IMG_Y = -30;
 const IMG = (x, y) => [Math.round(x * IMG_K), Math.round(y * IMG_K + IMG_Y)];
-// camps on the path, from the bottom (0) to the top (CAMPS = the dragon's cave)
-const PTS = [IMG(250, 1070), IMG(470, 790), IMG(880, 700), IMG(1230, 615), IMG(1010, 495)];
-const TOP = IMG(1330, 300);
-new Image().src = "img/mountain.webp"; new Image().src = "img/cave.webp"; new Image().src = "img/cave-calm.webp";
+// the path on the picture, in map units, from the bottom of the mountain to the dragon's cave
+const PATH = [[81,600],[77,576],[89,555],[113,535],[161,522],[210,510],[266,495],[323,485],[371,477],[399,461],[399,437],[379,421],[339,413],[282,409],[242,401],[222,381],[234,361],[266,349],[323,344],[387,340],[398,337],[535,335],[585,328],[642,316],[682,304],[692,288],[674,277],[642,276],[594,274],[553,268],[533,252],[535,231],[555,219],[611,210],[644,198],[648,182],[627,166],[571,162],[539,166],[531,154],[555,142],[611,138],[660,130],[690,120]];
+const PATH_LEN = [0]; for (let k = 1; k < PATH.length; k++) PATH_LEN.push(PATH_LEN[k - 1] + Math.hypot(PATH[k][0] - PATH[k - 1][0], PATH[k][1] - PATH[k - 1][1]));
+// the point at a fraction (0 = bottom, 1 = cave) of the way
+function pathAt(fr){
+  const d = Math.max(0, Math.min(1, fr)) * PATH_LEN[PATH_LEN.length - 1];
+  let k = 1; while (k < PATH.length - 1 && PATH_LEN[k] < d) k++;
+  const t = (d - PATH_LEN[k - 1]) / (PATH_LEN[k] - PATH_LEN[k - 1] || 1);
+  return [PATH[k - 1][0] + (PATH[k][0] - PATH[k - 1][0]) * t, PATH[k - 1][1] + (PATH[k][1] - PATH[k - 1][1]) * t];
+}
+// camps are spread evenly along the path; the last step reaches the cave
+const nCamps = () => G ? G.n : cfg.camps;
+const campFr = (i, n = nCamps()) => i >= n ? 1 : .05 + i * (.86 / n);
+const TOP = [690, 120];
 function mapSVG(gobs){
-  const camps = PTS.slice(0, CAMPS).map((p, i) => {
+  const camps = gobs.map((g, i) => {
+    const p = pathAt(campFr(i, gobs.length)).map(Math.round);
     const arrow = (side, x) => `<circle cx="${x}" cy="${p[1] - 56}" r="11" fill="#fff" stroke="${N}" stroke-width="3"/><path d="M${x + (side === "L" ? 5 : -5)} ${p[1] - 62} l${side === "L" ? -10 : 10} 6 l${side === "L" ? 10 : -10} 6" stroke="${N}" stroke-width="3.5" fill="none"/>`;
     return `<g><path d="M${p[0]} ${p[1] - 8} v-36" stroke="#8a5a2b" stroke-width="6"/>${arrow("L", p[0] - 13)}${arrow("R", p[0] + 13)}
-      <g class="camp-g" style="animation-delay:${-i * .3}s"><image href="goblins/a${gobs[i]}.png" x="${p[0] + (i ? 24 : 52)}" y="${p[1] - 62}" width="68" height="64" preserveAspectRatio="xMidYMax meet"/></g></g>`;
+      <g class="camp-g" style="animation-delay:${-i * .3}s"><image href="goblins/a${g}.png" x="${p[0] + (i ? 24 : 52)}" y="${p[1] - 62}" width="68" height="64" preserveAspectRatio="xMidYMax meet"/></g></g>`;
   }).join("");
   return `<image href="img/mountain.webp" x="0" y="${IMG_Y}" width="1000" height="${Math.round(IMG_H * IMG_K)}" preserveAspectRatio="none"/>
-    <g transform="translate(${TOP[0] + 50} ${TOP[1] - 22}) scale(.24)">${chestSVG(false).replace(/<\/?svg[^>]*>/g, "")}</g>
+    <g transform="translate(${TOP[0] + 69} ${TOP[1] - 12}) scale(.24)">${chestSVG(false).replace(/<\/?svg[^>]*>/g, "")}</g>
     ${camps}
-    <g><rect x="${PTS[0][0] - 96}" y="${PTS[0][1] - 4}" width="62" height="22" rx="6" fill="#fff" stroke="${N}" stroke-width="3"/><text x="${PTS[0][0] - 65}" y="${PTS[0][1] + 12}" text-anchor="middle" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="${N}">START</text></g>`;
+    <g><rect x="${Math.round(pathAt(campFr(0, gobs.length))[0]) - 96}" y="${Math.round(pathAt(campFr(0, gobs.length))[1]) - 4}" width="62" height="22" rx="6" fill="#fff" stroke="${N}" stroke-width="3"/><text x="${Math.round(pathAt(campFr(0, gobs.length))[0]) - 65}" y="${Math.round(pathAt(campFr(0, gobs.length))[1]) + 12}" text-anchor="middle" font-family="Space Mono,monospace" font-weight="700" font-size="13" fill="${N}">START</text></g>`;
 }
 
 // ---------- questions ----------
@@ -519,7 +550,7 @@ const isRight = (q, v) => q.answers.some(a => norm(a) === norm(v) || (norm(v).le
 
 // ---------- setup ----------
 function renderSetup(){
-  $("heroScene").innerHTML = '<span class="sticker">HERE BE DRAGONS</span><svg viewBox="150 0 700 600" preserveAspectRatio="xMidYMid slice">' + mapSVG(shuffle(GOBLINS.map(g => g.id))) + "</svg>";
+  $("heroScene").innerHTML = '<span class="sticker">HERE BE DRAGONS</span><svg viewBox="150 0 700 600" preserveAspectRatio="xMidYMid slice">' + mapSVG(goblinOrder(cfg.camps)) + "</svg>";
   const tc = $("teamCountChoices"); tc.innerHTML = "";
   [1, 2].forEach(n => {
     const b = document.createElement("button");
@@ -527,6 +558,14 @@ function renderSetup(){
     b.onclick = () => { sClick(); cfg.teamCount = n; renderSetup(); };
     tc.appendChild(b);
   });
+  const cc = $("campChoices"); cc.innerHTML = "";
+  CAMP_CHOICES.forEach(n => {
+    const b = document.createElement("button");
+    b.className = "chip num" + (cfg.camps === n ? " on" : ""); b.textContent = n;
+    b.onclick = () => { sClick(); cfg.camps = n; renderSetup(); };
+    cc.appendChild(b);
+  });
+  $("campHint").textContent = `${cfg.camps} goblins on the way up: ${cfg.camps <= 4 ? "a short game" : cfg.camps <= 6 ? "a normal game" : "a long adventure"}.`;
   const lc = $("levelChoices"); lc.innerHTML = "";
   LEVELS.forEach(id => {
     const b = document.createElement("button");
@@ -569,13 +608,34 @@ function startGame(){
   store.cfg = cfg; saveStore(); clearTimers(); stopBoss();
   const teams = [];
   for (let i = 0; i < cfg.teamCount; i++) teams.push({ name: (cfg.names[i] || "").trim() || MONSTERS[cfg.mons[i]].name, mon: cfg.mons[i], color: MONSTERS[cfg.mons[i]].color, lives: LIVES, camp: 0, out: false });
-  G = { teams, turn: 0, phase: "map", safe: Array.from({ length: CAMPS }, () => pick(["L", "R"])), known: Array.from({ length: CAMPS }, () => ({})), hp: DRAGON_HP, q: null, toast: "", gobs: shuffle(GOBLINS.map(g => g.id)).slice(0, CAMPS) };
+  const n = cfg.camps;
+  G = { n, teams, turn: 0, phase: "map", safe: Array.from({ length: n }, () => pick(["L", "R"])), known: Array.from({ length: n }, () => ({})), hp: DRAGON_HP, q: null, toast: "", gobs: goblinOrder(n) };
   show("game"); $("layer").innerHTML = ""; render();
 }
-function spot(t, i){
-  const p = t.camp >= CAMPS ? [TOP[0] - 95, TOP[1] + 8] : PTS[t.camp];
-  const dx = G.teams.length > 1 ? (i === 0 ? -34 : 34) : -6;
-  return [(p[0] + dx - 14) / 10, p[1] / 6];
+// a hero's place: a fraction of the path, plus a little step aside so two heroes don't stand on each other
+function spotAt(fr, i){
+  const p = pathAt(fr), top = fr >= 1;
+  const dx = (G.teams.length > 1 ? (i === 0 ? -34 : 34) : -6) - 14 + (top ? -70 : 0);
+  return [(p[0] + dx) / 10, (p[1] + (top ? 14 : 0)) / 6];
+}
+const spot = (t, i) => spotAt(campFr(t.camp), i);
+// walk a hero's token along the path from one fraction to another
+function walkToken(i, from, to, ms, cls, done){
+  const el = $("tokens").children[i], t0 = performance.now();
+  if (!el) return done && done();
+  el.dataset.busy = "1"; el.classList.add(cls);
+  const ease = cls === "fall" ? (x => x * x) : (x => x < .5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+  let lastX = null;
+  const step = now => {
+    if (!el.isConnected) return;
+    const k = Math.min(1, (now - t0) / ms), fr = from + (to - from) * ease(k);
+    const [l, tp] = spotAt(fr, i);
+    if (lastX !== null && Math.abs(l - lastX) > .02) el.classList.toggle("left", l < lastX);
+    lastX = l; el.style.left = l + "%"; el.style.top = tp + "%";
+    if (k < 1) setTimeout(() => step(performance.now()), 16);
+    else { el.classList.remove(cls, "left"); delete el.dataset.busy; done && done(); }
+  };
+  step(t0);
 }
 function hearts(t, popAt){
   let h = "";
@@ -589,7 +649,7 @@ function render(opts = {}){
   G.teams.forEach((x, i) => {
     const d = document.createElement("div");
     d.className = "hero-card" + (i === G.turn && !x.out ? " now" : "") + (x.out ? " out" : ""); d.style.setProperty("--c", x.color);
-    d.innerHTML = `<div class="face">${hero(x.mon, x.out ? "sad" : "happy")}</div><div class="info"><div class="nm"></div><div class="where">${x.out ? "OUT OF LIVES" : x.camp >= CAMPS ? "AT THE DRAGON'S CAVE" : "CAMP " + (x.camp + 1) + " OF " + CAMPS}</div></div>${hearts(x, opts.pop === i ? x.lives : -1)}`;
+    d.innerHTML = `<div class="face">${hero(x.mon, x.out ? "sad" : "happy")}</div><div class="info"><div class="nm"></div><div class="where">${x.out ? "OUT OF LIVES" : x.camp >= G.n ? "AT THE DRAGON'S CAVE" : "CAMP " + (x.camp + 1) + " OF " + G.n}</div></div>${hearts(x, opts.pop === i ? x.lives : -1)}`;
     d.querySelector(".nm").textContent = x.name;
     hud.appendChild(d);
   });
@@ -598,17 +658,17 @@ function render(opts = {}){
   const tk = $("tokens");
   G.teams.forEach((x, i) => {
     let el = tk.children[i];
-    if (!el) { el = document.createElement("div"); el.className = "token"; el.innerHTML = `<span class="flag"></span>${hero(x.mon, "happy")}`; tk.appendChild(el); }
+    if (!el) { el = document.createElement("div"); el.className = "token"; el.innerHTML = `<span class="flag"></span>${hero(x.mon, "happy")}<i class="dust"></i>`; tk.appendChild(el); }
     el.style.setProperty("--c", x.color); el.querySelector(".flag").textContent = x.name;
     el.classList.toggle("now", i === G.turn && G.phase === "map" && !x.out); el.classList.toggle("out", x.out);
-    const [l, tp] = spot(x, i); el.style.left = l + "%"; el.style.top = tp + "%";
+    if (!el.dataset.busy) { const [l, tp] = spot(x, i); el.style.left = l + "%"; el.style.top = tp + "%"; }
   });
   while (tk.children.length > G.teams.length) tk.lastChild.remove();
   if (G.phase === "map") drawBanner();
 }
 function drawBanner(){
   const t = team(), L = $("layer");
-  const atTop = t.camp >= CAMPS;
+  const atTop = t.camp >= G.n;
   L.innerHTML = `<div class="banner">${G.toast ? `<span class="note">${G.toast}</span>` : ""}<span class="txt"><b></b>, ${atTop ? "the dragon is waiting…" : `<i class="gob-nm"></i> the goblin blocks the path!`}</span><button class="btn btn-red" id="goBtn">${atTop ? "Fight the dragon 🐉" : "Meet the goblin ▶"}</button></div>`;
   L.querySelector(".banner b").textContent = t.name;
   if (!atTop) L.querySelector(".gob-nm").textContent = gobAt(t.camp).name;
@@ -682,13 +742,15 @@ function choosePath(side){
   const el = $("tokens").children[i];
   if (ok) {
     const other = side === "L" ? "right" : "left";
-    t.camp++; sStep(); render();
+    const from = campFr(t.camp);
+    t.camp++; sStep(); walkToken(i, from, campFr(t.camp), 1500, "walk"); render();
     $("layer").innerHTML = `<div class="toast">🍀 Lucky! The ${side === "L" ? "left" : "right"} path is safe… the ${other} one was a rockslide!</div>`;
-    later(() => nextTurn(t.camp >= CAMPS ? `⛰️ ${esc(t.name)} reached the dragon's cave!` : `🍀 Lucky! The ${other} path was a rockslide. ${esc(t.name)} climbs to camp ${t.camp + 1}.`), 1600);
+    later(() => nextTurn(t.camp >= G.n ? `⛰️ ${esc(t.name)} reached the dragon's cave!` : `🍀 Lucky! The ${other} path was a rockslide. ${esc(t.name)} climbs to camp ${t.camp + 1}.`), 1900);
   } else {
     sFall(); $("layer").innerHTML = `<div class="toast">🪨 Rockslide! The ${side === "L" ? "left" : "right"} path was a trap…</div>`;
-    t.camp = 0; el.classList.add("fall"); render(); $("layer").innerHTML = `<div class="toast">🪨 Rockslide! The ${side === "L" ? "left" : "right"} path was a trap…</div>`;
-    later(() => { el.classList.remove("fall"); nextTurn(`🪨 ${esc(t.name)} fell back to the start.`); }, 1700);
+    const from = campFr(t.camp);
+    t.camp = 0; walkToken(i, from, campFr(0), 1500, "fall"); render(); $("layer").innerHTML = `<div class="toast">🪨 Rockslide! The ${side === "L" ? "left" : "right"} path was a trap…</div>`;
+    later(() => { nextTurn(`🪨 ${esc(t.name)} fell back to the start.`); }, 1700);
   }
 }
 

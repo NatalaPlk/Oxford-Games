@@ -94,7 +94,7 @@ Play: https://natalaplk.github.io/Oxford-Games/hot-seat/
 An adventure game for one or two heroes (players or teams), with levels from Super Minds Starter to 6. The heroes climb a mountain, answer the goblins, choose the right path and fight a dragon to win the treasure.
 
 - Each hero chooses a monster and has 3 lives.
-- Five goblins guard the path, chosen from six (Grimble, Tally, Madame Quill, Brutus, Winky and Zorbo) and placed in a random order every game. Their pictures are in `treasure-mountain/goblins/` (g = whole goblin, a = face for the map).
+- The teacher chooses how many goblins guard the path (3 to 8: a shorter or longer game). They are chosen from six (Grimble, Tally, Madame Quill, Brutus, Winky and Zorbo) and placed in a random order every game. Their pictures are in `treasure-mountain/goblins/` (g = whole goblin, a = face for the map).
 - Each goblin asks something: a word from the level (with its picture), a spelling puzzle, grammar, a riddle, or maths with the answer written in letters ("two times two minus two" → "two").
 - Right answer: the goblin lets the hero pass. Wrong answer: the hero loses a life.
 - Then the hero chooses left or right. It is a lottery: nothing says which path is safe. The wrong path is a rockslide, back to the start. The paths stay the same for the whole game, so the heroes can remember them.

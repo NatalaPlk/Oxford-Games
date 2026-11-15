@@ -583,10 +583,9 @@ function renderCityDesk(){
         <p class="hint">🔥 Wrong answers bring <b>heat</b>. ${RAID_AT} 🔥 = a police raid: you lose a soldier. Each family can use <b>🔫 The Hit</b> and <b>💵 The Bribe</b> once.</p>`;
     }
   } else {
-    const t = typeOf(q.job.fam, q.job.answer);
-    const need = q.d === "uptown" ? `an OPPOSITE ${WORD_TYPES[t].toUpperCase()}` : article(t);
+    // only the clue word: the students work out what kind of word the sentence needs
     h += `<div class="tags"><span class="tag">${d.icon} ${d.name}</span>${q.hard ? `<span class="tag red">🔫 The Hit · ${q.job.level}</span>` : ""}</div>
-      <div class="clue"><span class="w">${esc(q.clue)}</span><span class="arrow">→</span><span class="need"><small>you need</small>${need}</span></div>`;
+      <div class="clue"><span class="need"><small>clue word</small></span><span class="w">${esc(q.clue)}</span></div>`;
     const gap = G.phase === "ask" ? `<span class="gap">&nbsp;</span>`
       : `<span class="gap ${G.res.ok ? "good" : "bad"}">${esc(q.job.answer)}</span>`;
     h += `<div class="sentence">${esc(q.job.text).replace("___", gap)}</div>`;
@@ -761,7 +760,7 @@ function endGame(){
     intro: "Un juego de mafiosos para practicar las familias de palabras (word families): pasar de sustantivo a verbo, adjetivo y adverbio, y los contrarios (un-, in-, dis-…). Por equipos (2–4 \"familias\"), niveles A2 a C1. Pensado para adolescentes.",
     steps: [
       ["🗺️", "<b>Take the City:</b> por turnos, cada familia elige un barrio de la ciudad. Cada barrio pide un tipo de palabra: <i>The Docks</i> sustantivos en -tion/-ment, <i>Little Italy</i> otros sustantivos, <i>The Factory</i> verbos, <i>Casino Row</i> adjetivos, <i>Downtown</i> adverbios y <i>Uptown</i> contrarios."],
-      ["✏️", "Sale una frase con un hueco y una palabra pista (por ejemplo <b>DECIDE → a NOUN</b>). Si aciertan (<i>decision</i>), mandan un soldado a ese barrio. La familia con más soldados controla el barrio."],
+      ["✏️", "Sale una frase con un hueco y una palabra pista (por ejemplo <b>DECIDE</b>): el equipo tiene que deducir qué tipo de palabra necesita la frase. Si aciertan (<i>decision</i>), mandan un soldado a ese barrio. La familia con más soldados controla el barrio."],
       ["🔥", "Cada error da <b>calor</b> (la policía). Con 3 🔥 hay una <b>redada</b>: pierden un soldado. Una vez por partida pueden usar <b>🔫 The Hit</b> (una palabra más difícil en un barrio rival: si aciertan, le quitan un soldado) y <b>💵 The Bribe</b> (sobornar al policía para que no suba el calor)."],
       ["🏆", "Puntos = soldados + 3 por cada barrio controlado."],
       ["💰", "<b>The Laundry:</b> cada familia recibe $1,000 de dinero sucio y una palabra (por ejemplo <b>SUCCESS</b>). Para blanquearlo tiene que pasarlo por sus negocios: la lavandería pide el sustantivo, la pizzería el verbo, el casino el adjetivo y la compañía de taxis el adverbio."],
@@ -780,7 +779,7 @@ function endGame(){
   intro: "A mafia game to practise word families: noun → verb → adjective → adverb, and opposites (un-, in-, dis-…). For 2–4 teams (\"families\"), levels A2 to C1.",
   steps: [
     ["🗺️", "<b>Take the City:</b> each family in turn picks a district. Each district wants one kind of word: <i>The Docks</i> -tion/-ment nouns, <i>Little Italy</i> other nouns, <i>The Factory</i> verbs, <i>Casino Row</i> adjectives, <i>Downtown</i> adverbs, <i>Uptown</i> opposites."],
-    ["✏️", "You get a sentence with a gap and a clue word (<b>DECIDE → a NOUN</b>). Right (<i>decision</i>)? A soldier goes into that district. The family with the most soldiers controls it."],
+    ["✏️", "You get a sentence with a gap and a clue word (<b>DECIDE</b>): work out what kind of word the sentence needs. Right (<i>decision</i>)? A soldier goes into that district. The family with the most soldiers controls it."],
     ["🔥", "Every wrong answer brings <b>heat</b>. At 3 🔥 the police raid you: you lose a soldier. Once per game: <b>🔫 The Hit</b> (a harder word in a rival district: right, and you take one of their soldiers) and <b>💵 The Bribe</b> (no heat for a wrong answer)."],
     ["🏆", "Points = soldiers + 3 for every district you control."],
     ["💰", "<b>The Laundry:</b> you get $1,000 of dirty money and a word (<b>SUCCESS</b>). Wash it through your fronts: the laundromat wants the noun, the pizzeria the verb, the casino the adjective, the taxi company the adverb."],

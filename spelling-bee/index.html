@@ -183,7 +183,11 @@
   .podium{display:flex;justify-content:center;align-items:flex-end;gap:14px;margin:26px auto;max-width:760px;flex-wrap:wrap}
   .pod{flex:1;min-width:150px;background:var(--card);border:2px solid var(--navy);border-top:12px solid var(--c);border-radius:20px 20px 10px 10px;padding:14px;box-shadow:6px 6px 0 var(--navy)}
   .pod .medal{font-size:44px}
-  .pod .pmon{width:110px;margin:0 auto 4px}
+  /* every monster the same height, so a tie stands on the same step */
+  .pod .pmon{width:130px;height:120px;margin:0 auto 4px;display:flex;align-items:flex-end;justify-content:center}
+  .pod .pmon .mon-art{width:auto;height:100%}
+  .pod .pmon .mon-art .mbody{height:100%}
+  .pod .pmon .mon-art img{width:auto;height:100%;max-width:130px;object-fit:contain;object-position:bottom}
   .pick-mon{position:relative;width:46px;flex:none;background:none;border:0;padding:0;cursor:pointer;transition:transform .15s}
   .pick-mon:hover{transform:scale(1.1) rotate(-5deg)}
   .pick-mon small{position:absolute;right:-6px;bottom:-2px;background:var(--navy);color:#fff;border-radius:50%;width:18px;height:18px;font-size:11px;display:grid;place-items:center}
@@ -826,7 +830,7 @@ function finish(){
   const medals = ["🥇","🥈","🥉","🏅"];
   let place = 0;
   ranked.forEach((t, k) => {
-    if (k > 0 && t.score < ranked[k - 1].score) place = k;
+    if (k > 0 && t.score < ranked[k - 1].score) place++;     // a tie shares the step, the next team gets the next medal
     const d = document.createElement("div");
     d.className = "pod"; d.style.setProperty("--c", t.color);
     d.style.paddingTop = (40 - place * 12) + "px";

@@ -731,10 +731,10 @@ function finish(){
   const pod = $("podium"); pod.innerHTML = "";
   const medals = ["🥇","🥈","🥉","🏅"]; let place = 0;
   ranked.forEach((t, k) => {
-    if (k > 0 && t.score < ranked[k - 1].score) place = k;
+    if (k > 0 && t.score < ranked[k - 1].score) place++;     // a tie shares the step, the next team gets the next medal
     const d = document.createElement("div");
     d.className = "pod"; d.style.setProperty("--c", MONSTERS[t.mon].color);
-    d.style.marginTop = (60 + place * 22) + "px";
+    d.style.marginTop = "60px"; d.style.paddingBottom = (12 + Math.max(0, 3 - place) * 26) + "px";   // 1st place = the tallest step
     d.innerHTML = locoHTML(t.mon, place === 0 ? "joy" : "happy") + `<div class="medal">${medals[Math.min(place, 3)]}</div><div class="n"></div><div class="s">${t.score} <small style="font-size:13px;letter-spacing:.12em">WORDS</small></div>`;
     d.querySelector(".n").textContent = t.name;
     pod.appendChild(d);

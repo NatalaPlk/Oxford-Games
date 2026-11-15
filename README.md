@@ -34,7 +34,7 @@ Play: https://natalaplk.github.io/Oxford-Games/spelling-bee/
 A picture-and-word race for children aged 6–12 with the **Super Minds** Starter–6 vocabulary.
 
 - Flashcards use real photos (free licences from Wikimedia Commons / Wikipedia, see `shared/photos/credits.json`); words without a clear photo use a drawing.
-- **Super Minds 1, 2 and 3** use their own flashcards (`shared/cards/`, one per word, listed in `shared/cards/cards.js`) in Monster Rush, Spelling Bee and Treasure Mountain. They are always shown, even with "Real photos" off. The numbers (one–one hundred) are colourful digits. To add a card, put the picture in that folder and add a line to `cards.js`.
+- **Super Minds 1 to 4** use their own flashcards (`shared/cards/`, one per word, listed in `shared/cards/cards.js`) in Monster Rush, Spelling Bee and Treasure Mountain. They are always shown, even with "Real photos" off. The numbers (one–one hundred) are colourful digits. To add a card, put the picture in that folder and add a line to `cards.js`.
 - 1–4 teams, each with its own monster: green Olly, blue Fran, purple Xia, orange Roo, yellow Sunny or grey Didi (pixel-art pictures in `monster-rush/monsters/`).
 - Choose the number of rounds, pictures per turn and the time per turn (e.g. 20–30 s).
 - On each turn a picture appears with three similar words (same unit and same kind of word, e.g. *leg · hand · hair*); the team clicks the right one (or keys 1 / 2 / 3).

@@ -655,125 +655,114 @@ raincoat 🧥
 boots 🥾
 `},
   sm4: { name: "Super Minds 4", text: `
-## Welcome: At Town Events
-parade 🎉
-fireworks 🎆
-festival 🎪
-band 🎺
-balloon 🎈
-costume 🦸
-crowd 👥
-stage 🎭
-flag 🚩
-prize 🏆
+## Welcome: Well Done, Ben And Lucy!
+big wheel 🎡
+rollercoaster 🎢
+roundabout 🎠
+mayor 🎩
+dodgem cars 🚗
+microphone 🎤
+band 🎸
+photographer 📸
+journalist 📰
 
 ## Unit 1: In The Museum
-knight 🛡️
 queen 👸
-king 🤴
-castle 🏰
-sword 🗡️
-shield 🛡️
+knight 🛡️
 crown 👑
-armour 🛡️
-princess 👸
-museum 🏛️
+helmet ⛑️
+necklace 📿
+bracelet 💍
+belt 👖
+shield 🛡️
+bow and arrow 🏹
+sword ⚔️
 
 ## Unit 2: The World Around Us
-hill ⛰️
-valley 🏞️
-field 🌾
-waterfall 💦
-cave 🕳️
-path 🥾
-village 🏘️
-countryside 🌳
-river 🏞️
+mountain ⛰️
 forest 🌲
+village 🏘️
+lake 🏞️
+island 🏝️
+field 🌾
+river 🏞️
+path 🥾
 
-## Unit 3: Danger
+## Unit 3: Danger!
 fire 🔥
-ambulance 🚑
-police 🚓
-emergency 🚨
-accident 💥
-helmet ⛑️
-rescue 🚁
-danger ⚠️
-alarm 🚨
+flood 🌊
+emergency services 🚨
+police car 🚓
+police officer 👮
+fire engine 🚒
 firefighter 👨‍🚒
+ambulance 🚑
+paramedic 🧑‍⚕️
 
 ## Unit 4: Two Return Tickets
-ticket 🎫
-platform 🚉
-timetable 🗓️
-luggage 🧳
-journey 🧳
-passenger 🧳
-carriage 🚃
 station 🚉
-single 🎫
-return 🔁
+platform 🚉
+escalator 🛗
+ticket office 🎫
+train driver 🚆
+stairs 🪜
+rucksack 🎒
+suitcase 🧳
+a cup of coffee ☕
+a cup of tea 🍵
 
-## Unit 5: Police
+## Unit 5: Police!
+dark 🟫
+blonde 👱
+fair 👱‍♀️
+moustache 👨
 curly 👩‍🦱
-straight 👩
-blond 👱
-moustache 🥸
 beard 🧔
-freckles 🧒
-fringe 💇
-ponytail 👧
-bald 👨‍🦲
-glasses 👓
+scar 🩹
+straight 💇
 
 ## Unit 6: Mythical Beasts
-wings 🪽
 tail 🐒
-claws 🐾
-horns 🦏
-beak 🦜
-scales 🐟
+horn 🦄
+back 🐉
+scales 🐉
+wing 🪽
+neck 🦒
 feathers 🪶
-fur 🐻
-dragon 🐉
-unicorn 🦄
+tongue 👅
 
 ## Unit 7: Orchestra Practice
-violin 🎻
-trumpet 🎺
-drums 🥁
-guitar 🎸
-piano 🎹
-flute 🎶
-saxophone 🎷
-recorder 🎶
-orchestra 🎻
+tambourine 🪘
 triangle 🔺
+trumpet 🎺
+trombone 🎺
+drums 🥁
+harp 🎵
+saxophone 🎷
+keyboard 🎹
+violin 🎻
 
 ## Unit 8: In The Planetarium
 planet 🪐
-star ⭐
-moon 🌙
 rocket 🚀
-astronaut 👨‍🚀
-Earth 🌍
+UFO 🛸
+star ⭐
 comet ☄️
 telescope 🔭
-galaxy 🌌
-space 🌌
+astronaut 👩‍🚀
+moon 🌙
+space station 🛰️
 
 ## Unit 9: At The Campsite
-tent ⛺
-torch 🔦
-campfire 🔥
-canoe 🛶
-fishing 🎣
-compass 🧭
-map 🗺️
-rucksack 🎒
-climbing 🧗
-campsite 🏕️
+sail a boat ⛵
+swing on a rope 🪢
+dive into the water 🤿
+row a boat 🚣
+dry your clothes 👕
+make a raft 🪵
+put up a tent ⛺
+make a fire 🔥
+collect wood 🪵
 `},
   sm5: { name: "Super Minds 5", text: `
 ## Welcome: The Science Lesson
@@ -1023,7 +1012,7 @@ prehistoric 🦖
 // Anything not listed here is a noun.
 const WORD_TYPE_LISTS = {
   verb: "dance sing swim run paint read jump wash clean tidy sweep measure survive ironing shopping camping swimming skating climbing fishing cycling rowing sailing boxing fencing",
-  adj: "big small new old long short beautiful ugly happy sad angry tired scared excited curly straight blond bald sunny cloudy rainy windy snowy foggy stormy delicious poisonous extinct prehistoric electric",
+  adj: "big small new old long short beautiful ugly happy sad angry tired scared excited curly straight blond blonde dark fair bald sunny cloudy rainy windy snowy foggy stormy delicious poisonous extinct prehistoric electric",
   colour: "red blue green yellow orange purple black white brown pink",
   prep: "in on under upstairs downstairs",
   number: "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million first second third",
@@ -1043,7 +1032,7 @@ Object.entries(WORD_TYPE_LISTS).forEach(([t, s]) => s.split(" ").forEach(w => { 
  "get up|get dressed|have breakfast|brush your teeth|go to school|have lunch|play in the park|have dinner|go to bed|" +
  "read a comic|go hiking|visit cousins|help in the garden|take riding lessons|build a tree house|keep a scrapbook|learn to swim|go camping").split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
 WORD_TYPES["one hundred"] = "number";
-"wash up|tidy up|feed the dog|dry the dishes|do the shopping|take the dog for a walk".split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
+"wash up|tidy up|feed the dog|dry the dishes|do the shopping|take the dog for a walk|sail a boat|swing on a rope|dive into the water|row a boat|dry your clothes|make a raft|put up a tent|make a fire|collect wood".split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
 // twenty-one … ninety-nine, and the times (quarter past one, half past one, quarter to two…)
 "twenty thirty forty fifty sixty seventy eighty ninety".split(" ").forEach(t => "one two three four five six seven eight nine".split(" ").forEach(o => { WORD_TYPES[t + "-" + o] = "number"; }));
 "one two three four five six seven eight nine ten eleven twelve".split(" ").forEach(n => ["quarter past ", "half past ", "quarter to "].forEach(p => { WORD_TYPES[p + n] = "time"; }));

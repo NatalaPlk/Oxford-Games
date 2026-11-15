@@ -128,7 +128,9 @@ Word families for teens, in a mafia story: noun → verb → adjective → adver
 - **🗺️ Take the City:** each family picks a district of the city, and each district wants one kind of word (the Docks: -tion/-ment nouns, Little Italy: other nouns, the Factory: verbs, Casino Row: adjectives, Downtown: adverbs, Uptown: opposites). A sentence with a gap and a clue word (DECIDE → a NOUN): right, and a soldier goes into that district. Wrong answers bring heat, and 3 🔥 is a police raid. Once per game: The Hit (a harder word to take a rival's soldier) and The Bribe (no heat). Points = soldiers + 3 for every district a family controls.
 - **💰 The Laundry:** $1,000 of dirty money and a word. Every front wants another form of it (the laundromat: the noun, the pizzeria: the verb, the casino: the adjective, the taxi company: the adverb), and every right word doubles the money. Cash out, or keep washing and risk it all. The richest family wins.
 
-The words and sentences are in `crime-families/families.js`: one line for each family (`decide | v decide | n decision`) and the sentences under it (`decision: The boss made an important ___.`).
+- **🪤 Trap words** (to level up, on by default at B2–C1): one of the three options can be a word that looks English but doesn't exist, the kind students invent: *incommon, unlegal, inmoral, happyness, successfull, responsable, confortable…* Typed traps get a "doesn't exist" warning too, and they are marked in the review list at the end.
+
+The words and sentences are in `crime-families/families.js`: one line for each family (`decide | v decide | n decision`) and the sentences under it (`decision: The boss made an important ___.`). Fake words that students really write go after `x` (`comfort | … | x confort confortable`). The game also makes its own: the wrong opposite prefix (*incommon*, *unlegal*) and typical spelling mistakes (*-full*, *-yness*, *-ance/-ence*).
 
 Play: https://natalaplk.github.io/Oxford-Games/crime-families/
 

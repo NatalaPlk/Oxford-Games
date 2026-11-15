@@ -201,6 +201,8 @@
   .rv{background:#fff;border:2px solid var(--navy);border-radius:14px;padding:10px 14px;font-size:17px;line-height:1.4}
   .rv .no{color:var(--brand);text-decoration:line-through;margin-right:6px}
   .rv .yes{color:var(--ok);font-weight:900}
+  .rv .fk{font-family:var(--mono);font-size:12px;font-weight:700;background:#fff0f1;color:var(--brand);border:1px solid var(--brand);border-radius:999px;padding:1px 8px;margin-right:8px}
+  .verdict .fk{display:block;margin-top:4px;font-weight:700}
   .rv small{display:block;font-family:var(--mono);font-size:12px;color:var(--muted)}
 
   /* small laptops / projectors: keep the whole game on one screen */
@@ -266,6 +268,8 @@
       <p class="eyebrow">03 · Answer help</p>
       <div class="choices" id="helps"></div>
       <p class="hint">With <b>Choose</b> they pick one of three words. With <b>Type it</b> they have to spell it too. You can change it during the game.</p>
+      <div class="choices" id="trapsRow" style="margin-top:14px"></div>
+      <p class="hint">🪤 <b>Trap words</b> look real, but they don't exist: <i>incommon, unlegal, happyness, successfull, responsable…</i> One of the three options can be a trap. Typed traps get a warning too.</p>
     </div>
   </div>
   <div class="panel">
@@ -291,6 +295,7 @@
     </div>
     <div class="actions">
       <span class="seg" id="helpSeg"></span>
+      <button class="btn btn-plain" id="trapBtn" title="Trap words: fake words like incommon or happyness"></button>
       <button class="btn btn-plain" id="endBtn">🏁 End the game</button>
     </div>
   </div>
@@ -376,19 +381,52 @@ function fakes(fam, notType, n){
   return shuffle(SUFFIX).concat(shuffle(SUFFIX2)).filter(([s, t]) => t !== notType).map(([s]) => (/^[aeiou]/.test(s) ? fam.root.replace(/e$/, "") : fam.root) + s)
     .filter(w => !real.has(w)).slice(0, n);
 }
-// Three options: the answer + two wrong members of the family (other word types)
-function optionsFor(fam, answer, type, opp){
+/* ---------- 🪤 trap words: they look real, but they don't exist (incommon, happyness, responsable) ---------- */
+const NOT_TRAPS = ["confidant", "inpatient", "disability", "disable", "unsatisfied", "dependant", "dishonour", "incomparable", "unorganised", "unmoral", "explication"];   // real words the rules could make
+const REAL = new Set(LV.flatMap(l => FAMILIES[l].flatMap(allForms)).concat(NOT_TRAPS));
+const negPrefix = b => /^[pbm]/.test(b) ? "im" : /^l/.test(b) ? "il" : /^r/.test(b) ? "ir" : "in";
+const SPELL = [[/fully$/, "fuly"], [/ful$/, "full"], [/ily$/, "yly"], [/iness$/, "yness"], [/ibly$/, "ably"], [/ably$/, "ibly"],
+  [/ible$/, "able"], [/able$/, "ible"], [/ance$/, "ence"], [/ence$/, "ance"], [/antly$/, "ently"], [/ently$/, "antly"],
+  [/ant$/, "ent"], [/([^m])ent$/, "$1ant"], [/ically$/, "icly"], [/ely$/, "ly"], [/ssion$/, "sion"], [/([^s])sion$/, "$1tion"],
+  [/anation$/, "aination"], [/ement$/, "ment"]];
+function lev(a, b){
+  const d = Array.from({ length: a.length + 1 }, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+function trapsFor(fam, w){
+  const out = new Set();
+  // the family's own list (families.js, "x"): each fake word goes with the real word it looks most like
+  fam.traps.forEach(t => { const d = lev(t, w); if (d <= 3 && allForms(fam).every(o => lev(t, o) >= d)) out.add(t); });
+  const m = isOpp(fam, w) && w.match(OPP_PREFIX);
+  if (m){ const base = w.slice(m[1].length);                                                   // the wrong opposite: incommon, unlegal, disunderstand
+    (m[1] === "mis" ? ["dis"] : ["un", negPrefix(base), "in"]).forEach(p => out.add(p + base)); }
+  SPELL.forEach(([re, to]) => { if (re.test(w) && !(/ible$/.test(to) && w.length < 8)) out.add(w.replace(re, to)); });   // the wrong ending: successfull, happyness
+  out.delete(w);
+  return [...out].filter(t => !REAL.has(t) && !/ii/.test(t));
+}
+// Did they write a word that doesn't exist?
+const isFake = (fam, given) => { const g = norm(given); return fam.traps.concat(allForms(fam).flatMap(w => trapsFor(fam, w))).some(t => norm(t) === g); };
+const fakeNote = given => `<span class="fk">🪤 “${esc(given.trim().toLowerCase())}” doesn't exist in English!</span>`;
+const qOpts = q => S.traps ? q.optsT : q.opts;
+
+// Three options: the answer + two wrong members of the family (other word types). With traps: one of them is a fake word.
+function optionsFor(fam, answer, type, opp, traps){
   const sameType = new Set(fam.forms[type] || []);
   let wrong = [];
   if (opp){ const m = answer.match(OPP_PREFIX); const pos = answer.slice(m[1].length); if (allForms(fam).includes(pos)) wrong.push(pos); }
   const others = shuffle([...new Set(allForms(fam))].filter(w => !sameType.has(w) && !isOpp(fam, w) && !wrong.includes(w) && w !== answer));
   wrong = wrong.concat(others).slice(0, 2);
   if (wrong.length < 2) wrong = wrong.concat(fakes(fam, type, 2 - wrong.length));
+  if (traps){ const t = trapsFor(fam, answer); if (t.length) wrong[1] = pick(t); }
   return shuffle([answer].concat(wrong));
 }
 
 /* ---------- setup ---------- */
-const S = { mode: "city", level: "B1", help: "choose", helpPicked: false, count: 3, names: ["", "", "", ""], len: { city: 8, laundry: 4 } };
+const TRAPS_FOR = { A2: false, B1: false, B2: true, C1: true };   // trap words make it harder: on by default at B2 and C1
+const S = { mode: "city", level: "B1", help: "choose", helpPicked: false, traps: false, trapsPicked: false, count: 3, names: ["", "", "", ""], len: { city: 8, laundry: 4 } };
 try { const p = JSON.parse(localStorage.getItem("crime-families-setup") || "null"); if (p) Object.assign(S, p); } catch (e) {}
 if (!LEVELS[S.level]) S.level = "B1";
 function saveSetup(){ try { localStorage.setItem("crime-families-setup", JSON.stringify(S)); } catch (e) {} }
@@ -406,12 +444,15 @@ function drawSetup(){
     C1: "Advanced: justify → justification, discreet → discretion, allege → allegedly." }[S.level];
   $("helps").innerHTML = [["choose", "🅰️ Choose", "Pick one of three words"], ["type", "⌨️ Type it", "Write the word"]]
     .map(([k, t, s]) => `<button class="chip${k === S.help ? " on" : ""}" data-h="${k}">${t}<small>${s}</small></button>`).join("");
+  $("trapsRow").innerHTML = [[true, "🪤 Trap words", "Harder: fake words too"], [false, "No traps", "Only real words"]]
+    .map(([k, t, s]) => `<button class="chip${k === S.traps ? " on" : ""}" data-t="${k ? 1 : 0}">${t}<small>${s}</small></button>`).join("");
   $("counts").innerHTML = [2, 3, 4].map(n => `<button class="chip${n === S.count ? " on" : ""}" data-n="${n}">${n} families</button>`).join("");
   $("names").innerHTML = FAM_STYLE.slice(0, S.count).map((f, i) => `<label style="--c:${f.color}"><span>${f.icon}</span><input data-i="${i}" maxlength="22" placeholder="${esc(f.name)}" value="${esc(S.names[i] || "")}"></label>`).join("");
   $("lens").innerHTML = LENS[S.mode].map(([n, t, s]) => `<button class="chip${n === S.len[S.mode] ? " on" : ""}" data-len="${n}">${t}<small>${s}</small></button>`).join("");
 }
 $("modes").onclick = e => { const b = e.target.closest("[data-m]"); if (b){ S.mode = b.dataset.m; drawSetup(); } };
-$("levels").onclick = e => { const b = e.target.closest("[data-l]"); if (b){ S.level = b.dataset.l; if (!S.helpPicked) S.help = HELP_FOR[S.level]; drawSetup(); } };
+$("levels").onclick = e => { const b = e.target.closest("[data-l]"); if (b){ S.level = b.dataset.l; if (!S.helpPicked) S.help = HELP_FOR[S.level]; if (!S.trapsPicked) S.traps = TRAPS_FOR[S.level]; drawSetup(); } };
+$("trapsRow").onclick = e => { const b = e.target.closest("[data-t]"); if (b){ S.traps = b.dataset.t === "1"; S.trapsPicked = true; drawSetup(); } };
 $("helps").onclick = e => { const b = e.target.closest("[data-h]"); if (b){ S.help = b.dataset.h; S.helpPicked = true; drawSetup(); } };
 $("counts").onclick = e => { const b = e.target.closest("[data-n]"); if (b){ S.count = +b.dataset.n; drawSetup(); } };
 $("lens").onclick = e => { const b = e.target.closest("[data-len]"); if (b){ S.len[S.mode] = +b.dataset.len; drawSetup(); } };
@@ -443,10 +484,13 @@ function nextTurn(){ G.turn++; newTurn(); }
 function render(){
   $("counter").innerHTML = `${G.mode === "city" ? "🗺️ Take the City" : "💰 The Laundry"} · ${G.level} · Turn <b>${Math.floor(G.turn / G.fams.length) + 1}</b> / ${G.rounds}`;
   $("helpSeg").innerHTML = [["choose", "🅰️ Choose"], ["type", "⌨️ Type"]].map(([k, t]) => `<button class="${k === S.help ? "on" : ""}" data-h="${k}">${t}</button>`).join("");
+  $("trapBtn").textContent = S.traps ? "🪤 Traps: on" : "🪤 Traps: off";
+  $("trapBtn").classList.toggle("hidden", S.help !== "choose");   // the traps are options: only in Choose mode
   if (G.mode === "city"){ renderCity(); renderCityDesk(); } else { renderBag(); renderLaundryDesk(); }
   renderBoard();
   const inp = $("answer"); if (inp) setTimeout(() => inp.focus(), 30);
 }
+$("trapBtn").onclick = () => { S.traps = !S.traps; S.trapsPicked = true; saveSetup(); render(); };
 $("helpSeg").onclick = e => { const b = e.target.closest("[data-h]"); if (!b) return; S.help = b.dataset.h; S.helpPicked = true; saveSetup(); render(); };
 $("quitBtn").onclick = () => { if (G && G.turn > 0 && !confirm("Leave this game? The scores will be lost.")) return; showSetup(); };
 $("endBtn").onclick = () => { if (confirm("End the game now and see who won?")) endGame(); };
@@ -546,11 +590,11 @@ function renderCityDesk(){
     const gap = G.phase === "ask" ? `<span class="gap">&nbsp;</span>`
       : `<span class="gap ${G.res.ok ? "good" : "bad"}">${esc(q.job.answer)}</span>`;
     h += `<div class="sentence">${esc(q.job.text).replace("___", gap)}</div>`;
-    if (G.phase === "ask") h += answerHtml(q.opts);
+    if (G.phase === "ask") h += answerHtml(qOpts(q));
     else {
       const r = G.res;
       if (r.ok) h += `<div class="verdict ok"><b class="t">✅ ${esc(q.job.answer)}!</b>${r.msg}</div>`;
-      else h += `<div class="verdict no"><b class="t">❌ Wrong</b>You said <b>${esc(r.given)}</b>. The answer is <b>${esc(q.job.answers.join(" / "))}</b>.${r.bribed ? " 💵 The cop took the money and looked the other way: no heat." : ` 🔥 <b>Heat +1</b>${f.heat + 1 >= RAID_AT ? ": the police are coming!" : "."}`}</div>`;
+      else h += `<div class="verdict no"><b class="t">${r.fake ? "🪤 Trap!" : "❌ Wrong"}</b>You said <b>${esc(r.given)}</b>.${r.fake ? fakeNote(r.given) : ""} The answer is <b>${esc(q.job.answers.join(" / "))}</b>.${r.bribed ? " 💵 The cop took the money and looked the other way: no heat." : ` 🔥 <b>Heat +1</b>${f.heat + 1 >= RAID_AT ? ": the police are coming!" : "."}`}</div>`;
       h += famFile(q.job.fam, q.job.answers);
       h += `<div class="row">${!r.ok && !r.bribed && f.bribe ? `<button class="btn btn-dark" id="bribeBtn">💵 Bribe the cop (once)</button>` : ""}<span class="grow"></span><button class="btn btn-red" id="nextBtn">Next family →</button></div>`;
     }
@@ -566,7 +610,7 @@ function renderCityDesk(){
 function ask(d){
   const hard = G.hitArmed, job = draw(d, hard), t = typeOf(job.fam, job.answer);
   if (hard) cur().hit = false;
-  G.q = { d, job, hard, clue: clueFor(job), opts: optionsFor(job.fam, job.answer, t, d === "uptown") };
+  G.q = { d, job, hard, clue: clueFor(job), opts: optionsFor(job.fam, job.answer, t, d === "uptown"), optsT: optionsFor(job.fam, job.answer, t, d === "uptown", true) };
   G.phase = "ask"; G.hitArmed = false; render();
 }
 function cityAnswer(given){
@@ -582,8 +626,10 @@ function cityAnswer(given){
       toast(`🔫 The Hit!<small>${esc(f.name)} strike in ${dn}</small>`, true);
     } else { f.men[q.d]++; msg = `+1 soldier in <b>${dn}</b>.`; }
     const c = controller(q.d); if (c === f) msg += ` 👑 ${esc(f.name)} control ${dn}.`;
-  } else G.missed.push({ text: q.job.text, answer: q.job.answers.join(" / "), given, fam: q.job.fam.root });
-  G.res = { ok, given, msg }; G.phase = "result"; render();
+  }
+  const fake = !ok && isFake(q.job.fam, given);
+  if (!ok) G.missed.push({ text: q.job.text, answer: q.job.answers.join(" / "), given, fam: q.job.fam.root, fake });
+  G.res = { ok, given, msg, fake }; G.phase = "result"; render();
   if (ok){ const el = document.querySelector(`.dist[data-d="${q.d}"]`); if (el) el.classList.add("pop"); }
 }
 function cityNext(){
@@ -619,7 +665,8 @@ function newJob(){
 }
 function makeLaundryQ(){
   const j = G.job, fr = j.fronts[j.step];
-  return { fr, opts: optionsFor(j.fam, pick(fr.words), fr.t, false) };
+  const w = pick(fr.words);
+  return { fr, opts: optionsFor(j.fam, w, fr.t, false), optsT: optionsFor(j.fam, w, fr.t, false, true) };
 }
 function renderBag(){
   const j = G.job, r = G.res;
@@ -640,7 +687,7 @@ function renderLaundryDesk(){
     const first = j.step === 0;
     h += `<p class="say">${first ? `You have <b>${money(j.money)}</b> of dirty money. ` : ""}Wash it through <b>${q.fr.icon} ${q.fr.name}</b>: change the word and the money <b>doubles</b>.</p>
       <div class="clue"><span class="w">${esc(j.fam.root)}</span><span class="arrow">→</span><span class="need"><small>change it into</small>${article(q.fr.t)}</span></div>`;
-    h += answerHtml(q.opts);
+    h += answerHtml(qOpts(q));
     h += `<p class="hint">❌ A wrong word and the police take <b>all</b> the money of this job.</p>`;
   } else if (G.phase === "choice"){
     const nx = j.fronts[j.step];
@@ -648,7 +695,7 @@ function renderLaundryDesk(){
       <p class="say">Cash out now, or risk it all in <b>${nx.icon} ${nx.name}</b> (${article(nx.t).toLowerCase()}) to make <b>${money(j.money * 2)}</b>?</p>
       <div class="row"><button class="btn btn-green" id="cashBtn">💼 Cash out ${money(j.money)}</button><button class="btn btn-red" id="washBtn">${nx.icon} Keep washing →</button></div>`;
   } else {
-    if (r.kind === "bust") h += `<div class="verdict no"><b class="t">🚨 Busted!</b>You said <b>${esc(r.given)}</b>${r.opp ? " (that's the opposite!)" : ""}. The ${WORD_TYPES[q.fr.t]} is <b>${esc(q.fr.words.join(" / "))}</b>. The police took ${money(j.money)}.</div>`;
+    if (r.kind === "bust") h += `<div class="verdict no"><b class="t">🚨 Busted!</b>You said <b>${esc(r.given)}</b>${r.opp ? " (that's the opposite!)" : ""}.${r.fake ? fakeNote(r.given) : ""} The ${WORD_TYPES[q.fr.t]} is <b>${esc(q.fr.words.join(" / "))}</b>. The police took ${money(j.money)}.</div>`;
     else if (r.kind === "full") h += `<div class="verdict gold"><b class="t">💎 Perfect laundry!</b>Every front, every word. ${money(j.money - FULL_BONUS)} + a bonus of ${money(FULL_BONUS)} go to the bank: <b>${money(j.money)}</b>.</div>`;
     else h += `<div class="verdict ok"><b class="t">💼 Cashed out</b><b>${money(j.money)}</b> goes safely into the bank.</div>`;
     h += famFile(j.fam, r.kind === "bust" ? q.fr.words : j.got);
@@ -664,8 +711,9 @@ function laundryAnswer(given){
   const j = G.job, q = G.q, ok = q.fr.words.find(w => norm(w) === norm(given));
   G.done++;
   if (!ok){
-    G.missed.push({ text: `${j.fam.root} → ${article(q.fr.t).toLowerCase()}`, answer: q.fr.words.join(" / "), given, fam: j.fam.root });
-    G.res = { kind: "bust", given, opp: allForms(j.fam).some(w => isOpp(j.fam, w) && norm(w) === norm(given)) };
+    const fake = isFake(j.fam, given);
+    G.missed.push({ text: `${j.fam.root} → ${article(q.fr.t).toLowerCase()}`, answer: q.fr.words.join(" / "), given, fam: j.fam.root, fake });
+    G.res = { kind: "bust", given, fake, opp:allForms(j.fam).some(w => isOpp(j.fam, w) && norm(w) === norm(given)) };
     G.phase = "result"; render(); toast(`🚨 Busted!<small>The police take ${money(j.money)}</small>`);
     return;
   }
@@ -699,7 +747,7 @@ function endGame(){
     <p class="sub">${G.right} of ${G.done} words right${G.done ? ` (${Math.round(100 * G.right / G.done)}%)` : ""}.</p>
     <div class="ranking">${ranked.map(x => `<div class="rank${x.place === 1 ? " first" : ""}"><span class="pos">${medal(x.place)}</span>
       <span class="n" style="--c:${x.f.color}">${x.f.icon} ${esc(x.f.name)}<small>${det(x.f)}</small></span><span class="p">${G.mode === "city" ? x.s : money(x.s)}</span></div>`).join("")}</div>`;
-  if (G.missed.length) h += `<div class="review"><h3>📁 Words to review</h3>${G.missed.map(m => `<div class="rv"><small>${esc(m.fam.toUpperCase())} family</small>${esc(m.text).replace("___", "<b>___</b>")}<br><span class="no">${esc(m.given)}</span> <span class="yes">${esc(m.answer)}</span></div>`).join("")}</div>`;
+  if (G.missed.length) h += `<div class="review"><h3>📁 Words to review</h3>${G.missed.map(m => `<div class="rv"><small>${esc(m.fam.toUpperCase())} family</small>${esc(m.text).replace("___", "<b>___</b>")}<br><span class="no">${esc(m.given)}</span>${m.fake ? `<span class="fk">🪤 not a word</span>` : ""} <span class="yes">${esc(m.answer)}</span></div>`).join("")}</div>`;
   h += `<div class="start-row"><button class="btn btn-red btn-big" id="eAgain">Play again</button><button class="btn btn-plain btn-big" id="eHome">Change the setup</button></div>`;
   G.phase = null;
   $("game").classList.add("hidden"); $("end").classList.remove("hidden"); $("endBox").innerHTML = h; window.scrollTo({ top: 0 });
@@ -720,6 +768,7 @@ function endGame(){
       ["🎲", "Cada acierto <b>duplica</b> el dinero. Después deciden: <b>cobrar</b> y guardarlo en el banco, o <b>seguir</b> arriesgándolo todo. Un error y la policía se lo lleva. Si pasan por todos los negocios, +$1,000 de premio. Gana la familia más rica."]
     ],
     tips: [
+      "🪤 <b>Palabras trampa</b> (para subir de nivel): una de las tres opciones puede ser una palabra que parece inglesa pero no existe: <i>incommon, unlegal, inmoral, happyness, successfull, responsable, confortable…</i> Si alguien escribe una, el juego avisa de que no existe. Vienen activadas en B2 y C1, y se pueden encender o apagar en el setup o durante la partida.",
       "<b>Choose</b> (elegir entre tres palabras) o <b>Type it</b> (escribirla, con ortografía). Se puede cambiar durante la partida. La ortografía americana (organize, honor) también vale.",
       "Después de cada respuesta sale la <b>ficha de la familia</b> con todas sus palabras: buen momento para repasarla en voz alta.",
       "Al final hay una lista de las palabras falladas para repasar en clase.",
@@ -738,6 +787,7 @@ function endGame(){
     ["🎲", "Every right word <b>doubles</b> the money. Then: <b>cash out</b> into the bank, or <b>keep washing</b> and risk it all. One wrong word and the police take it. All the fronts = +$1,000 bonus. The richest family wins."]
   ],
   tips: [
+    "🪤 <b>Trap words</b> (to level up): one of the three options can be a word that looks English but doesn't exist: <i>incommon, unlegal, inmoral, happyness, successfull, responsable…</i> Typed traps get a warning too. On by default at B2 and C1.",
     "<b>Choose</b> one of three words, or <b>Type it</b> with the right spelling. American spelling (organize, honor) is fine too.",
     "After every answer you see the <b>family file</b> with all the words of that family.",
     "Keyboard: 1, 2, 3 to choose, Enter for the next family.",

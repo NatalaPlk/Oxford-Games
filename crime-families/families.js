@@ -1,6 +1,7 @@
 // Crime Families: word families and the "jobs" (sentences with a gap), by level.
 //
-// A family line:   root | n nouns | v verbs | adj adjectives | adv adverbs      (n = noun, v = verb…)
+// A family line:   root | n nouns | v verbs | adj adjectives | adv adverbs | x fake words      (n = noun, v = verb…)
+// "x": words that don't exist but students write (confortable, incommon): the game uses them as traps.
 // A job (indented): answer: the sentence (answer/other: when two words both fit), with ___ where the word goes
 // The game shows the root (or another member of the family) as the clue, and puts each job in a district of
 // the city by its answer: -tion/-ment… nouns, other nouns, verbs, adjectives, adverbs, or opposites (un-, dis-…).
@@ -60,7 +61,7 @@ honest | adj honest dishonest | n honesty | adv honestly
   dishonest: Never trust him. He's completely ___.
   honestly: Tell me ___: where is the money?
   honesty: In this family, ___ is everything. Never lie to the Don.
-possible | adj possible impossible | adv possibly | n possibility
+possible | adj possible impossible | adv possibly | n possibility | x posible imposible inpossible
   impossible: Escaping from this prison is ___.
 tidy | adj tidy untidy | v tidy
   untidy: The boss's office is so ___! There are papers everywhere.
@@ -91,7 +92,7 @@ easy | adj easy | adv easily
   easily: He opened the safe ___. It wasn't even locked.
 `,
 B1: `
-explain | v explain | n explanation
+explain | v explain | n explanation | x explaination
   explanation: The boss wants a good ___ for the missing money.
   explain: You have to ___ where the money went.
 arrive | v arrive | n arrival
@@ -133,7 +134,7 @@ apology | n apology | v apologise
   apologise: You must ___ to the Don. Now!
 short | adj short | v shorten
   shorten: The judge decided to ___ his prison sentence.
-success | n success | adj successful unsuccessful | adv successfully unsuccessfully | v succeed
+success | n success | adj successful unsuccessful | adv successfully unsuccessfully | v succeed | x sucess succesful successfull succesfully
   successful: The family runs a very ___ business.
   successfully: They ___ opened the safe.
   succeed: If we work together, we will ___.
@@ -145,10 +146,10 @@ use | v use | n use user | adj useful useless | adv usefully
   useless: This old phone is ___. It doesn't work.
 attract | v attract | n attraction | adj attractive unattractive
   attractive: The Don made him an ___ offer.
-comfort | n comfort | adj comfortable uncomfortable | adv comfortably
+comfort | n comfort | adj comfortable uncomfortable | adv comfortably | x confort confortable inconfortable confortably
   comfortable: The boss's chair is big and ___.
   uncomfortable: The questions made him feel very ___.
-profession | n profession | adj professional | adv professionally
+profession | n profession | adj professional | adv professionally | x profesion profesional profesionally
   professional: He's a ___ thief. He never makes mistakes.
 secret | n secret | adv secretly
   secretly: The two families met ___ in the park.
@@ -159,9 +160,9 @@ fortune | n fortune | adj fortunate unfortunate | adv fortunately unfortunately
   unfortunately: ___, the police found the money.
 anger | n anger | adj angry | adv angrily
   angrily: "Who ate my cannoli?" the Don shouted ___.
-legal | adj legal illegal | adv legally illegally
+legal | adj legal illegal | adv legally illegally | x unlegal inlegal ilegal
   illegal: Selling fake watches is ___.
-patient | adj patient impatient | n patience impatience | adv patiently impatiently
+patient | adj patient impatient | n patience impatience | adv patiently impatiently | x unpatient impacient pacience
   impatient: Don't be so ___. The boss will see you soon.
   patiently: He waited ___ outside the Don's office.
 understand | v understand misunderstand | n understanding misunderstanding
@@ -169,6 +170,16 @@ understand | v understand misunderstand | n understanding misunderstanding
 usual | adj usual unusual | adv usually unusually
   unusual: It's ___ for the boss to be late.
   usually: The boss ___ eats at Luigi's on Sundays.
+common | adj common uncommon | adv commonly uncommonly | x incommon
+  uncommon: It's ___ to see the Don without his hat.
+  commonly: Cannoli are ___ eaten at family parties.
+regular | adj regular irregular | adv regularly irregularly | x unregular inregular regulary
+  irregular: The accountant found some ___ payments in the books.
+  regularly: The police ___ check the restaurant.
+employ | v employ | n employer employee employment unemployment | adj employed unemployed | x desemployed disemployed
+  unemployed: After the casino closed, Vinnie was ___ for a year.
+  employer: The Don is a generous ___. He pays well.
+  employee: Every ___ of the family gets a turkey at Christmas.
 `,
 B2: `
 investigate | v investigate | n investigation investigator
@@ -177,7 +188,7 @@ investigate | v investigate | n investigation investigator
 compete | v compete | n competition competitor | adj competitive | adv competitively
   competition: There's a lot of ___ between the two families.
   competitive: The pizza business in this city is very ___.
-describe | v describe | n description | adj descriptive
+describe | v describe | n description | adj descriptive | x discription descripcion
   description: The witness gave the police a ___ of the robber.
   describe: Can you ___ the man you saw?
 confident | adj confident | n confidence | adv confidently
@@ -204,7 +215,7 @@ grow | v grow | n growth
   growth: The business had incredible ___ last year.
 threat | n threat | v threaten | adj threatening
   threaten: Are you trying to ___ me?
-responsible | adj responsible irresponsible | n responsibility irresponsibility | adv responsibly irresponsibly
+responsible | adj responsible irresponsible | n responsibility irresponsibility | adv responsibly irresponsibly | x responsable irresponsable unresponsible responsability
   responsibility: Who takes ___ for this mess?
   irresponsible: Leaving the money in the car was totally ___!
   responsibly: Spend the money ___. Don't buy anything stupid.
@@ -240,6 +251,16 @@ polite | adj polite impolite | n politeness | adv politely
   politely: He ___ refused the Don's offer. Big mistake.
 understand | v understand misunderstand | n understanding misunderstanding
   misunderstanding: It was all a big ___. Nobody wanted to start a war.
+mature | adj mature immature | n maturity immaturity | x inmature unmature
+  immature: Don't be so ___. You're not a child any more.
+  maturity: The young boss showed great ___ in the meeting.
+logic | n logic | adj logical illogical | adv logically illogically | x unlogical inlogical logicaly
+  illogical: The plan is ___. It makes no sense at all.
+  logically: Think ___. Who had the key to the safe?
+able | adj able unable | n ability inability | v enable | x inable unability
+  inability: His ___ to keep a secret is a big problem.
+  ability: She has an amazing ___ to remember numbers.
+  unable: The police were ___ to find the money.
 `,
 C1: `
 justify | v justify | n justification | adj justified unjustified | adv justifiably
@@ -309,6 +330,15 @@ honour | n honour | adj honourable dishonourable | adv honourably
   dishonourable: Betraying the family is ___.
 interpret | v interpret misinterpret | n interpretation interpreter misinterpretation
   misinterpret: Don't ___ my silence.
+experience | n experience inexperience | v experience | adj experienced inexperienced | x unexperienced inexperimented experiencied
+  inexperienced: The new driver is young and ___.
+  inexperience: His ___ nearly cost the family everything.
+moral | adj moral immoral | n morality | adv morally | x inmoral unmoral moraly
+  immoral: Some people say the family business is ___.
+  morality: Nobody in this city talks about ___.
+satisfy | v satisfy | n satisfaction dissatisfaction | adj satisfied dissatisfied satisfactory | x insatisfied insatisfaction satisfation
+  dissatisfied: The Don was ___ with his new lawyer.
+  satisfaction: The job was done to the boss's complete ___.
 `,
 };
 
@@ -328,12 +358,13 @@ const FAMILIES = (() => {
         return;
       }
       const parts = line.split("|").map(s => s.trim());
+      const traps = [];
       const forms = { n: [], v: [], adj: [], adv: [] };
-      parts.slice(1).forEach(p => { const [t, ...ws] = p.split(/\s+/); if (forms[t]) forms[t].push(...ws.map(w => w.toLowerCase())); });
+      parts.slice(1).forEach(p => { const [t, ...ws] = p.split(/\s+/); if (forms[t]) forms[t].push(...ws.map(w => w.toLowerCase())); if (t === "x") traps.push(...ws.map(w => w.toLowerCase())); });
       const root = parts[0].toLowerCase();
       // the root's own type: the first one it is listed in (use | v use | n use user → a verb)
       const rootType = parts.slice(1).map(p => p.split(/\s+/)).find(([t, ...ws]) => ws.map(w => w.toLowerCase()).includes(root));
-      cur = { root, rootType: rootType ? rootType[0] : null, forms, jobs: [], level: lv };
+      cur = { root, rootType: rootType ? rootType[0] : null, forms, traps, jobs: [], level: lv };
       fams.push(cur);
     });
     out[lv] = fams;

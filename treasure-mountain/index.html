@@ -674,8 +674,10 @@ function choosePath(side){
   if (ok) G.known[camp][side === "L" ? "R" : "L"] = "trap";
   const el = $("tokens").children[i];
   if (ok) {
+    const other = side === "L" ? "right" : "left";
     t.camp++; sStep(); render();
-    later(() => nextTurn(t.camp >= CAMPS ? `⛰️ ${esc(t.name)} reached the dragon's cave!` : `✔ ${esc(t.name)} climbs to camp ${t.camp + 1}.`), 1100);
+    $("layer").innerHTML = `<div class="toast">🍀 Lucky! The ${side === "L" ? "left" : "right"} path is safe… the ${other} one was a rockslide!</div>`;
+    later(() => nextTurn(t.camp >= CAMPS ? `⛰️ ${esc(t.name)} reached the dragon's cave!` : `🍀 Lucky! The ${other} path was a rockslide. ${esc(t.name)} climbs to camp ${t.camp + 1}.`), 1600);
   } else {
     sFall(); $("layer").innerHTML = `<div class="toast">🪨 Rockslide! The ${side === "L" ? "left" : "right"} path was a trap…</div>`;
     t.camp = 0; el.classList.add("fall"); render(); $("layer").innerHTML = `<div class="toast">🪨 Rockslide! The ${side === "L" ? "left" : "right"} path was a trap…</div>`;

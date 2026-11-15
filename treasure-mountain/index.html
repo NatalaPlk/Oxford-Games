@@ -167,22 +167,28 @@
 
   /* ---------- Dragon boss ---------- */
   .boss{--heat:0;position:absolute;inset:0;z-index:12;background:#1b1430;overflow:hidden;user-select:none}
-  .cave,.cave .fire,.cave .glow{position:absolute;inset:0;background:url(img/cave.webp) 50% 50%/cover no-repeat}
+  .cave,.cave .burn,.cave .burn i,.cave .glow{position:absolute;inset:0;background:url(img/cave-calm.webp) 50% 50%/cover no-repeat}
+  .cave .burn{background:none;opacity:0;pointer-events:none}
+  .cave .burn i{background-image:url(img/cave.webp)}
+  .boss:has(.dragon.blast) .cave .burn{animation:burnShow 1.6s ease-out}
+  @keyframes burnShow{0%{opacity:0}8%,72%{opacity:1}100%{opacity:0}}
   .cave{animation:caveBreath 2.6s ease-in-out infinite}
   @keyframes caveBreath{50%{transform:scale(1.012)}}
-  .cave .fire{--m:radial-gradient(ellipse 46% 64% at 50% 100%,#000 55%,transparent 80%);-webkit-mask-image:var(--m);mask-image:var(--m);transform-origin:50% 45%;animation:fireA .38s steps(3) infinite alternate,fireB 1.3s ease-in-out infinite alternate;filter:brightness(calc(1.08 + var(--heat) * .35)) saturate(1.25)}
+  .cave .burn .fire{--m:radial-gradient(ellipse 46% 64% at 50% 100%,#000 55%,transparent 80%);-webkit-mask-image:var(--m);mask-image:var(--m);transform-origin:50% 45%;animation:fireA .38s steps(3) infinite alternate,fireB 1.3s ease-in-out infinite alternate;filter:brightness(calc(1.08 + var(--heat) * .35)) saturate(1.25)}
   @keyframes fireA{from{translate:0 0}to{translate:.6% -1.2%}}
   @keyframes fireB{from{transform:scale(1,1) skewX(-1.5deg)}to{transform:scale(1.04,calc(1.07 + var(--heat) * .08)) skewX(1.5deg)}}
-  .cave .glow{background:radial-gradient(ellipse 60% 55% at 50% 92%,rgba(255,170,40,.55),rgba(255,90,20,.15) 55%,transparent 75%);mix-blend-mode:screen;opacity:calc(.35 + var(--heat) * .6);animation:glow .5s ease-in-out infinite alternate}
-  @keyframes glow{to{opacity:calc(.6 + var(--heat) * .4)}}
-  .cave .emb{position:absolute;bottom:-3%;width:.7%;aspect-ratio:1;background:#ffd257;box-shadow:0 0 6px #ff9a3c;animation:ember 2.4s linear infinite;opacity:0}
+  .cave .glow{background:radial-gradient(ellipse 30% 30% at 50% 50%,rgba(255,170,40,.7),rgba(255,90,20,.25) 55%,transparent 80%);mix-blend-mode:screen;opacity:calc(var(--heat) * .5);animation:glow .5s ease-in-out infinite alternate}
+  @keyframes glow{to{opacity:calc(var(--heat) * .9)}}
+  .cave .emb{position:absolute;bottom:-3%;visibility:hidden;width:.7%;aspect-ratio:1;background:#ffd257;box-shadow:0 0 6px #ff9a3c;animation:ember 2.4s linear infinite;opacity:0}
   .cave .emb:nth-child(odd){background:#ff7a1a;animation-duration:3.1s}
   @keyframes ember{0%{transform:translate(0,0);opacity:0}15%{opacity:1}100%{transform:translate(var(--dx),-55cqw) rotate(180deg);opacity:0}}
   .boss:has(.dragon.hit) .cave{animation:caveHit .4s ease}
   @keyframes caveHit{30%{transform:translate(1.2%,-.8%) scale(1.03);filter:brightness(1.6) sepia(.4) hue-rotate(-20deg)}}
-  .boss:has(.dragon.blast) .cave .fire{animation-duration:.15s,.3s;filter:brightness(1.6) saturate(1.4)}
+  .boss:has(.dragon.blast) .cave .emb{visibility:visible}
+  .dragon .flame{display:none}
   .boss:has(.dragon.dead) .cave{animation:caveWin 1.4s ease-out forwards}
-  .boss:has(.dragon.dead) .cave .fire,.boss:has(.dragon.dead) .cave .glow{opacity:0;transition:opacity 1s}
+  .boss:has(.dragon.dead) .cave .glow{opacity:0;transition:opacity 1s}
+  .finale .lost{width:300px;border:4px solid var(--navy);border-radius:20px;box-shadow:6px 6px 0 var(--navy);display:block}
   @keyframes caveWin{to{filter:grayscale(.6) brightness(.7)}}
   .boss.shake{animation:quake .5s linear}
   @keyframes quake{20%{transform:translate(-8px,4px)}40%{transform:translate(7px,-5px)}60%{transform:translate(-6px,-3px)}80%{transform:translate(5px,4px)}}
@@ -440,7 +446,7 @@ const IMG = (x, y) => [Math.round(x * IMG_K), Math.round(y * IMG_K + IMG_Y)];
 // camps on the path, from the bottom (0) to the top (CAMPS = the dragon's cave)
 const PTS = [IMG(250, 1070), IMG(470, 790), IMG(880, 700), IMG(1230, 615), IMG(1010, 495)];
 const TOP = IMG(1330, 300);
-new Image().src = "img/mountain.webp"; new Image().src = "img/cave.webp";
+new Image().src = "img/mountain.webp"; new Image().src = "img/cave.webp"; new Image().src = "img/cave-calm.webp";
 function mapSVG(gobs){
   const camps = PTS.slice(0, CAMPS).map((p, i) => {
     const arrow = (side, x) => `<circle cx="${x}" cy="${p[1] - 56}" r="11" fill="#fff" stroke="${N}" stroke-width="3"/><path d="M${x + (side === "L" ? 5 : -5)} ${p[1] - 62} l${side === "L" ? -10 : 10} 6 l${side === "L" ? 10 : -10} 6" stroke="${N}" stroke-width="3.5" fill="none"/>`;
@@ -691,7 +697,7 @@ function startBoss(){
   const t = team();
   G.phase = "boss"; sRoar();
   const L = $("layer");
-  L.innerHTML = `<div class="boss" id="boss"><div class="cave"><div class="fire"></div><div class="glow"></div><i class="emb" style="left:8%;--dx:-6cqw;animation-delay:-0.00s"></i><i class="emb" style="left:61%;--dx:5cqw;animation-delay:-0.41s"></i><i class="emb" style="left:30%;--dx:3cqw;animation-delay:-0.82s"></i><i class="emb" style="left:83%;--dx:1cqw;animation-delay:-1.23s"></i><i class="emb" style="left:52%;--dx:-1cqw;animation-delay:-1.64s"></i><i class="emb" style="left:21%;--dx:-3cqw;animation-delay:-2.05s"></i><i class="emb" style="left:74%;--dx:-5cqw;animation-delay:-2.46s"></i><i class="emb" style="left:43%;--dx:6cqw;animation-delay:-2.87s"></i><i class="emb" style="left:12%;--dx:4cqw;animation-delay:-0.28s"></i><i class="emb" style="left:65%;--dx:2cqw;animation-delay:-0.69s"></i><i class="emb" style="left:34%;--dx:0cqw;animation-delay:-1.10s"></i><i class="emb" style="left:87%;--dx:-2cqw;animation-delay:-1.51s"></i><i class="emb" style="left:56%;--dx:-4cqw;animation-delay:-1.92s"></i><i class="emb" style="left:25%;--dx:-6cqw;animation-delay:-2.33s"></i><i class="emb" style="left:78%;--dx:5cqw;animation-delay:-2.74s"></i><i class="emb" style="left:47%;--dx:3cqw;animation-delay:-0.15s"></i></div>
+  L.innerHTML = `<div class="boss" id="boss"><div class="cave"><div class="burn"><i></i><i class="fire"></i></div><div class="glow"></div><i class="emb" style="left:8%;--dx:-6cqw;animation-delay:-0.00s"></i><i class="emb" style="left:61%;--dx:5cqw;animation-delay:-0.41s"></i><i class="emb" style="left:30%;--dx:3cqw;animation-delay:-0.82s"></i><i class="emb" style="left:83%;--dx:1cqw;animation-delay:-1.23s"></i><i class="emb" style="left:52%;--dx:-1cqw;animation-delay:-1.64s"></i><i class="emb" style="left:21%;--dx:-3cqw;animation-delay:-2.05s"></i><i class="emb" style="left:74%;--dx:-5cqw;animation-delay:-2.46s"></i><i class="emb" style="left:43%;--dx:6cqw;animation-delay:-2.87s"></i><i class="emb" style="left:12%;--dx:4cqw;animation-delay:-0.28s"></i><i class="emb" style="left:65%;--dx:2cqw;animation-delay:-0.69s"></i><i class="emb" style="left:34%;--dx:0cqw;animation-delay:-1.10s"></i><i class="emb" style="left:87%;--dx:-2cqw;animation-delay:-1.51s"></i><i class="emb" style="left:56%;--dx:-4cqw;animation-delay:-1.92s"></i><i class="emb" style="left:25%;--dx:-6cqw;animation-delay:-2.33s"></i><i class="emb" style="left:78%;--dx:5cqw;animation-delay:-2.74s"></i><i class="emb" style="left:47%;--dx:3cqw;animation-delay:-0.15s"></i></div>
     <div class="bars"><span>DRAGON</span><div class="bar hp"><div id="hpBar"></div></div><span>🔥 FIRE</span><div class="bar fire" id="fireWrap"><div id="fireBar"></div></div></div>
     <div class="bars r"><div class="who"><span id="bossHearts"></span><div class="face">${hero(t.mon, "happy")}</div></div><span id="bossName"></span></div>
     <div class="dragon" id="dragon"><div class="flame"></div></div>
@@ -830,7 +836,7 @@ function gameOver(){
   clearTimers(); stopBoss(); G.phase = "over"; $("layer").innerHTML = "";
   $("endTitle").textContent = "The dragon wins…";
   $("endSub").textContent = "No lives left. The treasure stays in the mountain. Try again!";
-  $("finale").innerHTML = `<div class="chest" style="width:240px">${dragonSVG()}</div>` + G.teams.map(o => `<div><div class="other">${hero(o.mon, "sad")}</div><div class="nm"></div></div>`).join("");
+  $("finale").innerHTML = `<div><img class="lost" src="img/cave.webp" alt="The dragon breathing fire"></div>` + G.teams.map(o => `<div><div class="other">${hero(o.mon, "sad")}</div><div class="nm"></div></div>`).join("");
   $("finale").querySelectorAll(".nm").forEach((n, k) => n.textContent = G.teams[k].name);
   show("end"); sLose();
 }

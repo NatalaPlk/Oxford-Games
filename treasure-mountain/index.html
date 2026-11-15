@@ -194,10 +194,28 @@
   @keyframes caveHit{30%{transform:translate(1.2%,-.8%) scale(1.03);filter:brightness(1.6) sepia(.4) hue-rotate(-20deg)}}
   .boss:has(.dragon.blast) .cave .emb{visibility:visible}
   .dragon .flame{display:none}
-  .boss:has(.dragon.dead) .cave{animation:caveWin 1.4s ease-out forwards}
+  .boss:has(.dragon.dead) .cave{background-image:url(img/dragon-dizzy.webp);animation:dizzy 1.6s ease-in-out infinite}
+  @keyframes dizzy{25%{transform:rotate(-1deg) scale(1.01)}75%{transform:rotate(1deg) scale(1.01)}}
   .boss:has(.dragon.dead) .cave .glow{opacity:0;transition:opacity 1s}
-  .finale .lost{width:300px;border:4px solid var(--navy);border-radius:20px;box-shadow:6px 6px 0 var(--navy);display:block}
-  @keyframes caveWin{to{filter:grayscale(.6) brightness(.7)}}
+  .finale{flex-wrap:wrap}
+  .finale .pic{flex-basis:100%;display:flex;justify-content:center;margin-bottom:6px}
+  .finale .pic img,.party{width:min(440px,100%);border:4px solid var(--navy);border-radius:20px;box-shadow:6px 6px 0 var(--navy);display:block}
+  .finale .pic img.knocked{animation:dizzy 1.6s ease-in-out infinite}
+  /* the dragon wins: it keeps the gold and throws a party */
+  .party{position:relative;aspect-ratio:946/639;overflow:hidden;background:#1b1430}
+  .party .drg{position:absolute;inset:0;background:url(img/cave-calm.webp) 50% 50%/cover;transform-origin:50% 90%;animation:laugh .5s ease-in-out infinite alternate}
+  @keyframes laugh{from{transform:translateY(0) scale(1)}to{transform:translateY(-3%) scale(1.03) rotate(-1deg)}}
+  .party .gold{position:absolute;left:50%;top:56%;width:34%;transform:translateX(-50%);animation:hug .5s ease-in-out infinite alternate}
+  .party .gold svg{width:100%;height:auto;display:block;overflow:visible}
+  .party .bag{position:absolute;top:58%;font-size:clamp(30px,6.5vw,56px);animation:bagUp .5s ease-in-out infinite alternate}
+  .party .bag.l{left:20%} .party .bag.r{right:20%;animation-delay:-.25s}
+  @keyframes bagUp{to{transform:translateY(-25%) rotate(-10deg)}}
+  @keyframes hug{to{transform:translateX(-50%) translateY(-6%) rotate(3deg)}}
+  .party .c{position:absolute;left:50%;top:62%;font-size:clamp(16px,3.4vw,28px);animation:fountain 1.4s ease-out infinite;opacity:0}
+  @keyframes fountain{0%{transform:translate(-50%,0) scale(.5);opacity:1}100%{transform:translate(var(--x),-170%) scale(1.1) rotate(var(--r));opacity:0}}
+  .party .say{position:absolute;left:62%;top:6%;background:#fff;border:3px solid var(--navy);border-radius:16px 16px 16px 2px;padding:4px 12px;font-family:var(--display);font-weight:900;font-size:clamp(14px,2.6vw,22px);text-transform:uppercase;color:var(--brand);box-shadow:3px 3px 0 var(--navy);transform-origin:0 100%;animation:sayMine 1s ease-in-out infinite alternate}
+  @keyframes sayMine{from{transform:rotate(-6deg) scale(.95)}to{transform:rotate(3deg) scale(1.08)}}
+  @media (prefers-reduced-motion:reduce){.party *,.finale .pic img{animation:none!important}}
   .boss.shake{animation:quake .5s linear}
   @keyframes quake{20%{transform:translate(-8px,4px)}40%{transform:translate(7px,-5px)}60%{transform:translate(-6px,-3px)}80%{transform:translate(5px,4px)}}
   .dragon{position:absolute;left:50%;top:14%;width:20%;aspect-ratio:1.4;transform:translateX(-50%);z-index:2}
@@ -462,6 +480,7 @@ function chestSVG(open){
 }
 // the mountain is a picture (img/mountain.webp, 1877×1247). IMG turns a point on the picture into map units (1000×600).
 const IMG_W = 1877, IMG_H = 1247, IMG_K = 1000 / IMG_W, IMG_Y = -30;
+["mountain", "cave", "cave-calm", "dragon-dizzy"].forEach(n => { new Image().src = "img/" + n + ".webp"; });
 const IMG = (x, y) => [Math.round(x * IMG_K), Math.round(y * IMG_K + IMG_Y)];
 // the path on the picture, in map units, from the bottom of the mountain to the dragon's cave
 const PATH = [[81,600],[77,576],[89,555],[113,535],[161,522],[210,510],[266,495],[323,485],[371,477],[399,461],[399,437],[379,421],[339,413],[282,409],[242,401],[222,381],[234,361],[266,349],[323,344],[387,340],[398,337],[535,335],[585,328],[642,316],[682,304],[692,288],[674,277],[642,276],[594,274],[553,268],[533,252],[535,231],[555,219],[611,210],[644,198],[648,182],[627,166],[571,162],[539,166],[531,154],[555,142],[611,138],[660,130],[690,120]];
@@ -889,16 +908,21 @@ function finish(winner){
   $("endSub").innerHTML = `<b></b> beat the dragon and won the treasure of the mountain!`;
   $("endSub").querySelector("b").textContent = winner.name;
   const others = G.teams.filter(x => x !== winner);
-  $("finale").innerHTML = `<div><div class="champ"><span class="crown">👑</span>${hero(winner.mon, "joy")}</div><div class="nm"></div></div><div class="chest">${chestSVG(true)}</div>` +
+  $("finale").innerHTML = `<div class="pic"><img class="knocked" src="img/dragon-dizzy.webp" alt="The dragon, knocked out"></div><div><div class="champ"><span class="crown">👑</span>${hero(winner.mon, "joy")}</div><div class="nm"></div></div><div class="chest">${chestSVG(true)}</div>` +
     others.map(o => `<div><div class="other">${hero(o.mon, "sad")}</div><div class="nm" data-o="1"></div></div>`).join("");
   const nms = $("finale").querySelectorAll(".nm"); nms[0].textContent = winner.name; others.forEach((o, k) => nms[k + 1].textContent = o.name);
   show("end"); confetti(70);
+}
+function partyCoins(){
+  let h = "";
+  for (let k = 0; k < 14; k++) h += `<i class="c" style="--x:calc(-50% + ${(k % 7 - 3) * 34}%);--r:${(k * 47) % 360}deg;animation-delay:-${(k * .1).toFixed(1)}s">${["🪙", "💎", "🪙", "👑"][k % 4]}</i>`;
+  return h;
 }
 function gameOver(){
   clearTimers(); stopBoss(); G.phase = "over"; $("layer").innerHTML = "";
   $("endTitle").textContent = "The dragon wins…";
   $("endSub").textContent = "No lives left. The treasure stays in the mountain. Try again!";
-  $("finale").innerHTML = `<div><img class="lost" src="img/cave.webp" alt="The dragon breathing fire"></div>` + G.teams.map(o => `<div><div class="other">${hero(o.mon, "sad")}</div><div class="nm"></div></div>`).join("");
+  $("finale").innerHTML = `<div class="pic"><div class="party" role="img" aria-label="The dragon celebrates with the treasure"><div class="drg"></div><div class="gold">${chestSVG(true)}</div>${partyCoins()}<span class="bag l">💰</span><span class="bag r">💰</span><span class="say">Mine! 💰</span></div></div>` + G.teams.map(o => `<div><div class="other">${hero(o.mon, "sad")}</div><div class="nm"></div></div>`).join("");
   $("finale").querySelectorAll(".nm").forEach((n, k) => n.textContent = G.teams[k].name);
   show("end"); sLose();
 }

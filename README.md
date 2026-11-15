@@ -89,6 +89,21 @@ A speaking game for teenagers (12–18), levels A1 to C1. One player sits in the
 
 Play: https://natalaplk.github.io/Oxford-Games/hot-seat/
 
+## Treasure Mountain
+
+An adventure game for one or two heroes (players or teams), with levels from Super Minds Starter to 6. The heroes climb a mountain, answer the goblins, choose the right path and fight a dragon to win the treasure.
+
+- Each hero chooses a monster and has 3 lives.
+- Five goblins guard the path. Each one asks something: a word from the level (with its picture), a spelling puzzle, grammar, a riddle, or maths with the answer written in letters ("two times two minus two" → "two").
+- Right answer: the goblin shows the safe path. Wrong answer: the hero loses a life and has to guess left or right.
+- The wrong path is a rockslide: back to the start. The map remembers the paths already tried.
+- At the top, the dragon: a flashcard shows a picture and ten words float around the screen. Click the right word to throw the flashcard at the dragon. A wrong click changes that word for a new one and heats up the fire bar; when the bar is full, the dragon burns the hero (one life).
+- The dragon needs 8 hits. With two heroes it keeps its wounds, so they take turns to finish it.
+- Starter and level 1 need no writing: the heroes choose from three answers. From level 2 they type.
+- The vocabulary comes from `shared/words.js`; grammar questions and riddles are in `treasure-mountain/riddles.js`.
+
+Play: https://natalaplk.github.io/Oxford-Games/treasure-mountain/
+
 ## Adding words to the word games
 
 Word Express and Hungry Hungry Caterpillar check words against the ENABLE list plus `shared/extra-words.js` (British spellings, modern words, days, months, countries). To accept a new word, add it to that file.

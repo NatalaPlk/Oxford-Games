@@ -95,8 +95,8 @@ An adventure game for one or two heroes (players or teams), with levels from Sup
 
 - Each hero chooses a monster and has 3 lives.
 - Five goblins guard the path. Each one asks something: a word from the level (with its picture), a spelling puzzle, grammar, a riddle, or maths with the answer written in letters ("two times two minus two" → "two").
-- Right answer: the goblin shows the safe path. Wrong answer: the hero loses a life and has to guess left or right.
-- The wrong path is a rockslide: back to the start. The map remembers the paths already tried.
+- Right answer: the goblin lets the hero pass. Wrong answer: the hero loses a life.
+- Then the hero chooses left or right. It is a lottery: nothing says which path is safe. The wrong path is a rockslide, back to the start. The paths stay the same for the whole game, so the heroes can remember them.
 - At the top, the dragon: a flashcard shows a picture and ten words float around the screen. Click the right word to throw the flashcard at the dragon. A wrong click changes that word for a new one and heats up the fire bar; when the bar is full, the dragon burns the hero (one life).
 - The dragon needs 8 hits. With two heroes it keeps its wounds, so they take turns to finish it.
 - Starter and level 1 need no writing: the heroes choose from three answers. From level 2 they type.

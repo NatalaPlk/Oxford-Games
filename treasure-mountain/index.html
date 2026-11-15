@@ -595,7 +595,7 @@ function render(opts = {}){
     hud.appendChild(d);
   });
   $("scene").style.setProperty("--c", t.color);
-  $("mapSvg").innerHTML = mapSVG(G.known);
+  $("mapSvg").innerHTML = mapSVG(null);
   const tk = $("tokens");
   G.teams.forEach((x, i) => {
     let el = tk.children[i];
@@ -654,23 +654,21 @@ function answer(v, btn){
   document.querySelectorAll(".ch-btn").forEach(b => { const mine = b === btn, right = isRight(q, b.textContent); b.classList.add(right ? "right" : mine ? "wrong" : "dim"); });
   if (q.solved) $("qtext").innerHTML = q.solved;
   const fb = $("fb"), gob = $("gob");
-  if (ok) { sOk(); gob.classList.add("happy"); fb.className = "fb ok"; fb.textContent = "✔ Right! The goblin is happy and shows you the safe path."; showFork(true); }
+  if (ok) { sOk(); gob.classList.add("happy"); fb.className = "fb ok"; fb.textContent = "✔ Right! The goblin lets you pass."; showFork(true); }
   else {
     sBad(); gob.classList.add("angry"); loseLife(t); render({ pop: G.turn });
     fb.className = "fb bad";
     fb.innerHTML = `✘ Wrong! The answer is <b>${esc(q.show)}</b>. You lose a life.` + (q.mode === "type" ? ` <button class="accept" id="acceptBtn">Teacher: count it as right</button>` : "");
     const ab = $("acceptBtn");
-    if (ab) ab.onclick = () => { t.lives = Math.min(LIVES, t.lives + 1); t.out = false; render(); gob.className = "goblin happy"; fb.className = "fb ok"; fb.textContent = "✔ Accepted! The goblin shows you the safe path."; sOk(); showFork(true); };
+    if (ab) ab.onclick = () => { t.lives = Math.min(LIVES, t.lives + 1); t.out = false; render(); gob.className = "goblin happy"; fb.className = "fb ok"; fb.textContent = "✔ Accepted! The goblin lets you pass."; sOk(); showFork(true); };
     if (t.out) { $("forkBox").innerHTML = `<div class="fork"><p>💔 No lives left. ${esc(t.name)} goes home…</p><button class="btn btn-red" id="outBtn">Continue ▶</button></div>`; $("outBtn").onclick = () => { $("layer").innerHTML = ""; nextTurn(`💔 ${esc(t.name)} is out of lives.`); }; }
     else showFork(false);
   }
 }
-function showFork(tip){
-  const t = team(), k = G.known[t.camp], safe = G.safe[t.camp];
-  const cls = side => (tip && side === safe) || k[side] === "safe" ? " tip" : k[side] === "trap" ? " trap" : "";
-  const note = side => (tip && side === safe) ? "the goblin says: this way!" : k[side] === "safe" ? "safe (you know it)" : k[side] === "trap" ? "rockslide! (you know it)" : "who knows?";
-  $("forkBox").innerHTML = `<div class="fork"><p>${tip ? "Which way?" : "The goblin won't help you. Left or right?"}</p><div class="signs">
-    <button class="sign${cls("L")}" data-s="L">← Left<small>${note("L")}</small></button><button class="sign${cls("R")}" data-s="R">Right →<small>${note("R")}</small></button></div></div>`;
+// Left or right? It's a lottery: nothing says which path is safe (the heroes have to remember what they tried).
+function showFork(){
+  $("forkBox").innerHTML = `<div class="fork"><p>Two paths… Which way? 🤔</p><div class="signs">
+    <button class="sign" data-s="L">← Left<small>who knows?</small></button><button class="sign" data-s="R">Right →<small>who knows?</small></button></div></div>`;
   $("forkBox").querySelectorAll(".sign").forEach(b => b.onclick = () => choosePath(b.dataset.s));
   $("bubble").scrollTop = 1e4;
 }
@@ -687,7 +685,7 @@ function choosePath(side){
   } else {
     sFall(); $("layer").innerHTML = `<div class="toast">🪨 Rockslide! The ${side === "L" ? "left" : "right"} path was a trap…</div>`;
     t.camp = 0; el.classList.add("fall"); render(); $("layer").innerHTML = `<div class="toast">🪨 Rockslide! The ${side === "L" ? "left" : "right"} path was a trap…</div>`;
-    later(() => { el.classList.remove("fall"); nextTurn(`🪨 ${esc(t.name)} fell back to the start. Remember the path!`); }, 1700);
+    later(() => { el.classList.remove("fall"); nextTurn(`🪨 ${esc(t.name)} fell back to the start.`); }, 1700);
   }
 }
 
@@ -867,8 +865,8 @@ renderSetup();
   steps: [
     ["⚙️", "<b>Set up:</b> choose 1 or 2 heroes (players or teams), their monsters and the level (Super Minds Starter to 6)."],
     ["👺", "On your turn, a <b>goblin</b> asks you something: a word, a spelling puzzle, grammar, a riddle or maths (write the number in letters: <b>two</b>)."],
-    ["✔", "<b>Right?</b> The goblin shows you the safe path. <b>Wrong?</b> You lose a life ❤️ and the goblin doesn't help: you have to guess."],
-    ["🪨", "Choose <b>left</b> or <b>right</b>. The wrong path is a rockslide: you fall back to the start! The map remembers the paths you have tried."],
+    ["✔", "<b>Right?</b> The goblin lets you pass. <b>Wrong?</b> You lose a life ❤️."],
+    ["🪨", "Then choose <b>left</b> or <b>right</b>. Nobody knows which path is safe! The wrong one is a rockslide: you fall back to the start. Try to remember the paths…"],
     ["🐉", "At the top, the <b>dragon</b> waits. A flashcard shows a picture: click its word, among the ten floating words, to throw the card at the dragon."],
     ["🔥", "Be quick: when the fire bar is full, the dragon burns you and you lose a life. Hit the dragon 8 times to win the treasure!"]
   ],

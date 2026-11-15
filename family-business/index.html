@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Family Business</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b0957; --navy2:#1a1873; --brand:#c8323c; --brand2:#a5242d;
+    --cream:#f3ead9; --paper:#faf6ee; --card:#ffffff; --yellow:#ffd257;
+    --ink:#0b0957; --muted:#55537e; --ok:#14a35a; --noir:#15132b;
+    --display:"Archivo","Arial Black",Impact,sans-serif; --mono:"Space Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden}
+  button{font:inherit;cursor:pointer;border:0;color:inherit}
+  .hidden{display:none!important}
+  .wrap{max-width:1240px;margin:0 auto;padding:22px 16px 48px}
+  .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
+  .home-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:2px solid var(--navy);border-radius:999px;padding:6px 14px;background:var(--card)}
+  .home-link:hover{background:var(--cream)}
+
+  /* ---------- Setup ---------- */
+  .hero{display:grid;grid-template-columns:1.15fr 1fr;border:2px solid var(--navy);border-radius:26px;overflow:hidden;margin-bottom:22px;box-shadow:6px 6px 0 var(--navy)}
+  .hero .l{background:var(--noir);color:#fff;padding:30px 30px 34px}
+  .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
+  .hero h1{margin:14px 0 6px;line-height:.88;font-family:var(--display);font-weight:900;font-size:clamp(44px,7vw,90px);letter-spacing:-.02em;text-transform:uppercase}
+  .hero h1 .w1{display:block;font-size:.5em;letter-spacing:.08em;color:#c9c6dd}
+  .hero h1 .w2{display:block;color:var(--yellow);font-stretch:70%}
+  .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:40ch}
+  .hero .r{position:relative;background:var(--brand) repeating-linear-gradient(45deg,transparent 0 18px,rgba(0,0,0,.1) 18px 36px);display:grid;place-items:center;padding:24px;min-height:250px;overflow:hidden}
+  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--yellow);color:var(--navy);border:2px solid var(--navy);box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
+  .dossier{background:#f7efd9;border:2px solid var(--navy);box-shadow:6px 6px 0 var(--navy);border-radius:6px;padding:16px 18px 14px;width:min(330px,100%);transform:rotate(2deg);font-family:var(--mono)}
+  .dossier .stamp{display:inline-block;border:3px solid var(--brand);color:var(--brand);font-weight:700;letter-spacing:.2em;padding:2px 8px;transform:rotate(-6deg);font-size:13px;margin-bottom:8px}
+  .dossier .boss{font-family:var(--display);font-weight:900;font-size:30px;text-transform:uppercase;letter-spacing:.02em}
+  .dossier .row{display:flex;justify-content:space-between;gap:10px;border-top:1px dashed #b9ac8a;padding:6px 0;font-size:15px}
+  .dossier .row b{font-family:"Archivo",sans-serif;font-size:18px}
+  .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
+  .marquee div{display:inline-block;padding:12px 0;animation:scroll 44s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
+  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px;color:var(--muted)}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
+  .modes{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .mode{background:var(--card);border:2px solid var(--navy);border-radius:20px;padding:18px 20px;text-align:left;display:grid;grid-template-columns:64px 1fr;gap:4px 14px;align-items:center;transition:transform .12s}
+  .mode:hover{transform:translateY(-3px)}
+  .mode .ic{grid-row:span 2;font-size:54px;line-height:1}
+  .mode .nm{font-family:var(--display);font-weight:900;font-size:26px;text-transform:uppercase}
+  .mode .ds{font-size:15px;line-height:1.4;color:var(--muted)}
+  .mode.on{background:var(--noir);color:#fff;box-shadow:5px 5px 0 var(--brand)} .mode.on .ds{color:#c9c6dd}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--card);border:2px solid var(--navy);color:var(--navy);padding:10px 18px;border-radius:18px;font-weight:700;font-size:16px;text-align:left}
+  .chip:hover{background:var(--cream)}
+  .chip.on{background:var(--navy);color:#fff}
+  .chip small{display:block;font-size:11px;font-weight:400;font-family:var(--mono);opacity:.8}
+  .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .names{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:14px}
+  .names label{display:flex;align-items:center;gap:8px;border:2px solid var(--navy);border-left:10px solid var(--c);border-radius:14px;padding:6px 10px;background:#fff}
+  .names label span{font-size:24px}
+  .names input{flex:1;min-width:0;font:inherit;font-weight:800;font-size:17px;border:0;outline:none;color:var(--navy);background:transparent}
+  .start-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .btn{padding:14px 26px;border-radius:999px;font-weight:800;font-size:17px;border:2px solid var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
+  .btn:active{transform:translate(3px,3px);box-shadow:none!important}
+  .btn-red{background:var(--brand);color:#fff;box-shadow:4px 4px 0 var(--navy)} .btn-red:hover{background:var(--brand2)}
+  .btn-plain{background:var(--card);color:var(--navy)} .btn-plain:hover{background:var(--cream)}
+  .btn-yellow{background:var(--yellow);color:var(--navy);box-shadow:4px 4px 0 var(--navy)}
+  .btn-green{background:var(--ok);color:#fff;box-shadow:4px 4px 0 var(--navy)}
+  .btn-dark{background:var(--noir);color:#fff;box-shadow:4px 4px 0 var(--brand)}
+  .btn-big{font-size:22px;padding:18px 40px}
+  .btn[disabled]{opacity:.4;cursor:default;box-shadow:none}
+
+  /* ---------- Game ---------- */
+  #game{padding-top:14px;padding-bottom:16px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+  .topbar .counter{font-family:var(--mono);font-weight:700;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--muted)}
+  .topbar .counter b{color:var(--brand)}
+  .topbar .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .topbar .btn{font-size:14px;padding:8px 16px}
+  .seg{display:inline-flex;border:2px solid var(--navy);border-radius:999px;overflow:hidden;background:#fff}
+  .seg button{padding:7px 12px;font-size:13px;font-weight:700;font-family:var(--mono)}
+  .seg button.on{background:var(--navy);color:#fff}
+  .stage{display:grid;grid-template-columns:1.05fr 1fr;gap:18px;align-items:start}
+
+  /* the city */
+  .city{background:var(--noir);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative}
+  .city::before{content:"THE CITY";position:absolute;top:-11px;left:22px;background:var(--yellow);color:var(--navy);border:2px solid var(--navy);border-radius:8px;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.2em;padding:1px 10px}
+  .dist{position:relative;background:#fff;border:3px solid #fff;border-radius:16px;padding:10px 8px 8px;text-align:center;min-height:var(--dh,150px);display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .12s,box-shadow .12s}
+  .dist .ic{font-size:clamp(30px,4.2vh,42px);line-height:1.1}
+  .dist .nm{font-family:var(--display);font-weight:900;font-size:17px;text-transform:uppercase;line-height:1}
+  .dist .ty{font-family:var(--mono);font-size:11px;color:var(--muted);line-height:1.25}
+  .dist .men{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;margin-top:auto;padding-top:6px;min-height:30px}
+  .dist .men i{font-style:normal;background:var(--f);color:#fff;border:2px solid var(--navy);border-radius:999px;font-weight:900;font-size:14px;padding:1px 8px;min-width:30px}
+  .dist .crown{position:absolute;top:-12px;right:-8px;font-size:24px;background:var(--f);border:2px solid var(--navy);border-radius:50%;width:38px;height:38px;display:grid;place-items:center}
+  .dist.owned{border-color:var(--f);background:color-mix(in srgb,var(--f) 16%,#fff)}
+  .city.picking .dist:not([disabled]):hover{transform:translateY(-3px);box-shadow:0 0 0 3px var(--yellow)}
+  .city.picking .dist:not([disabled]){cursor:pointer}
+  .city:not(.picking) .dist{cursor:default}
+  .dist[disabled]{opacity:.35;cursor:default}
+  .dist.now{box-shadow:0 0 0 4px var(--yellow);transform:scale(1.03)}
+  .dist.pop{animation:pop .5s}
+  @keyframes pop{40%{transform:scale(1.12)}}
+
+  /* the desk (the family on turn) */
+  .desk{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);overflow:hidden}
+  .desk .head{background:var(--f);color:#fff;padding:12px 18px;display:flex;align-items:center;gap:12px;border-bottom:2px solid var(--navy)}
+  .desk .head .fi{font-size:34px;background:#fff;border:2px solid var(--navy);border-radius:50%;width:52px;height:52px;display:grid;place-items:center;flex:none}
+  .desk .head .fn{font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase;line-height:1;text-shadow:2px 2px 0 rgba(0,0,0,.25)}
+  .desk .head .sub{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;opacity:.9}
+  .desk .head .heat{margin-left:auto;text-align:right;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .desk .head .heat b{display:block;font-size:22px;letter-spacing:2px}
+  .desk .head .heat .off{filter:grayscale(1);opacity:.35}
+  .desk .body{padding:16px 18px 18px}
+  .say{font-size:19px;line-height:1.45;margin:0 0 12px}
+  .tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+  .tag{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--navy);color:#fff;border-radius:999px;padding:5px 12px}
+  .tag.red{background:var(--brand)} .tag.yel{background:var(--yellow);color:var(--navy);border:2px solid var(--navy);padding:3px 10px}
+  .clue{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+  .clue .w{font-family:var(--display);font-weight:900;font-size:clamp(30px,4.6vh,44px);text-transform:uppercase;background:var(--yellow);border:2px solid var(--navy);border-radius:12px;padding:2px 14px;box-shadow:3px 3px 0 var(--navy);letter-spacing:.02em}
+  .clue .arrow{font-size:28px}
+  .clue .need{font-weight:800;font-size:19px;line-height:1.25}
+  .clue .need small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700}
+  .sentence{font-size:clamp(20px,2.9vh,25px);line-height:1.45;font-weight:700;background:var(--paper);border:2px solid var(--navy);border-radius:16px;padding:12px 16px;margin-bottom:12px}
+  .gap{display:inline-block;min-width:110px;border-bottom:3px solid var(--brand);text-align:center;color:var(--brand)}
+  .gap.good{color:var(--ok);border-color:var(--ok)} .gap.bad{color:var(--brand)}
+  .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .opt{background:#fff;border:2px solid var(--navy);border-radius:14px;padding:12px 10px;font-size:20px;font-weight:800;box-shadow:3px 3px 0 var(--navy);display:flex;gap:8px;align-items:center;justify-content:center}
+  .opt:hover{background:var(--cream)}
+  .opt kbd{font-family:var(--mono);font-weight:700;background:var(--navy);color:#fff;border-radius:6px;padding:0 6px;font-size:12px}
+  .opt.good{background:#eaf8ef;border-color:var(--ok);color:var(--ok)} .opt.bad{background:#ffe8ea;border-color:var(--brand);color:var(--brand);text-decoration:line-through}
+  .typebox{display:flex;gap:10px}
+  .typebox input{flex:1;min-width:0;font:inherit;font-size:22px;font-weight:800;border:2px solid var(--navy);border-radius:999px;padding:10px 18px;outline:none;background:#fff;color:var(--navy)}
+  .typebox input:focus{box-shadow:3px 3px 0 var(--navy)}
+  .verdict{border:2px solid var(--navy);border-radius:16px;padding:12px 16px;margin-bottom:12px;font-size:18px;line-height:1.4}
+  .verdict b.t{display:block;font-family:var(--display);font-weight:900;font-size:26px;text-transform:uppercase;line-height:1.05;margin-bottom:2px}
+  .verdict.ok{background:#eaf8ef;border-color:var(--ok)} .verdict.ok b.t{color:var(--ok)}
+  .verdict.no{background:#fff0f1;border-color:var(--brand)} .verdict.no b.t{color:var(--brand)}
+  .verdict.gold{background:#fff6d6;border-color:#d99a00} .verdict.gold b.t{color:#a46f00}
+  .file{border:2px dashed #b9ac8a;background:#f7efd9;border-radius:12px;padding:8px 12px;font-size:15px;margin-bottom:12px}
+  .file .ft{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--brand)}
+  .file .fr{display:flex;gap:6px 14px;flex-wrap:wrap;margin-top:4px}
+  .file .fr span{white-space:nowrap} .file .fr i{font-style:normal;font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase}
+  .file .fr b.me{background:var(--yellow);border-radius:4px;padding:0 4px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .row .btn{font-size:16px;padding:10px 18px}
+  .row .grow{flex:1}
+
+  /* the laundry */
+  .bag{background:var(--noir);color:#fff;border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:16px 18px;position:relative}
+  .bag .lb{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#c9c6dd}
+  .bag .money{font-family:var(--display);font-weight:900;font-size:clamp(44px,8vh,72px);line-height:1;color:var(--yellow);margin:2px 0 10px;transition:transform .2s}
+  .bag .money.dirty{color:#9bd3a8}
+  .bag .money.pop{animation:pop .5s}
+  .bag .root{display:inline-block;font-family:var(--display);font-weight:900;font-size:clamp(30px,5vh,46px);text-transform:uppercase;background:#fff;color:var(--navy);border:2px solid var(--navy);border-radius:12px;padding:0 14px;box-shadow:4px 4px 0 var(--brand)}
+  .bag .root small{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--muted);vertical-align:middle;margin-left:8px}
+  .fronts{display:grid;gap:10px;margin-top:14px}
+  .front{display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center;background:#24214a;border:2px solid #3a3670;border-radius:14px;padding:8px 12px}
+  .front .ic{font-size:30px;text-align:center}
+  .front .nm{font-weight:800;font-size:17px} .front .nm small{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#c9c6dd;font-weight:400}
+  .front .w{font-family:var(--display);font-weight:900;font-size:20px;text-transform:uppercase}
+  .front.done{background:#e9f8ee;border-color:var(--ok);color:var(--navy)} .front.done .nm small{color:var(--muted)} .front.done .w{color:var(--ok)}
+  .front.now{background:var(--yellow);border-color:var(--navy);color:var(--navy);box-shadow:0 0 0 3px #fff} .front.now .nm small{color:var(--navy)}
+  .front.bust{background:#ffe0e2;border-color:var(--brand);color:var(--brand)}
+  .front.locked{opacity:.55}
+
+  /* the families */
+  .board{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:12px;margin-top:16px}
+  .fam{background:#fff;border:2px solid var(--navy);border-left:12px solid var(--f);border-radius:16px;padding:8px 12px;display:flex;align-items:center;gap:10px}
+  .fam .fi{font-size:28px}
+  .fam .fn{font-weight:900;font-size:17px;line-height:1.1}
+  .fam .st{font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.4}
+  .fam .sc{margin-left:auto;font-family:var(--display);font-weight:900;font-size:28px;line-height:1;text-align:right}
+  .fam .sc small{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted);font-weight:700}
+  .fam.now{box-shadow:4px 4px 0 var(--f);transform:translateY(-2px)}
+  .fam .sp{font-size:15px;letter-spacing:2px} .fam .sp .used{filter:grayscale(1);opacity:.3}
+
+  .toast{position:fixed;inset:0;display:grid;place-items:center;z-index:60;pointer-events:none}
+  .toast div{background:var(--brand);color:#fff;border:3px solid var(--navy);box-shadow:8px 8px 0 var(--navy);border-radius:20px;padding:18px 34px;text-align:center;font-family:var(--display);font-weight:900;font-size:clamp(40px,8vw,84px);text-transform:uppercase;line-height:1;animation:toast 2.2s ease-out forwards}
+  .toast div small{display:block;font-family:"Archivo",sans-serif;font-size:20px;text-transform:none;font-weight:700;margin-top:8px}
+  .toast.gold div{background:var(--yellow);color:var(--navy)}
+  @keyframes toast{0%{transform:scale(.4);opacity:0}12%{transform:scale(1.08);opacity:1}20%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:scale(.96)}}
+  .confetti{position:fixed;top:-12px;width:10px;height:14px;z-index:70;animation:fall linear forwards;pointer-events:none}
+  @keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+
+  /* ---------- End ---------- */
+  .end{max-width:820px;margin:0 auto;text-align:center}
+  .end h2{font-family:var(--display);font-weight:900;font-size:clamp(38px,6vw,64px);text-transform:uppercase;margin:6px 0;line-height:.95}
+  .end p.sub{font-size:19px;color:var(--muted);margin:0 0 18px}
+  .ranking{background:var(--noir);border-radius:24px;padding:18px 22px;box-shadow:8px 8px 0 var(--brand);display:grid;gap:4px;text-align:left;margin:0 0 24px}
+  .rank{display:grid;grid-template-columns:52px 1fr auto;gap:14px;align-items:center;padding:12px 8px;border-bottom:1px solid rgba(255,255,255,.12);color:#fff}
+  .rank:last-child{border-bottom:0}
+  .rank.first{background:rgba(255,255,255,.08);border-left:4px solid var(--yellow);border-radius:6px}
+  .rank .pos{font-size:30px;text-align:center;font-family:var(--mono);font-weight:700}
+  .rank .n{font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase;border-left:8px solid var(--c);padding-left:10px}
+  .rank .n small{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:none;font-weight:400;color:#c9c6dd}
+  .rank .p{font-family:var(--display);font-weight:900;font-size:30px;color:var(--yellow)}
+  .review{text-align:left;display:grid;gap:10px;margin:0 0 22px}
+  .review h3{font-family:var(--mono);font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--brand);margin:0}
+  .rv{background:#fff;border:2px solid var(--navy);border-radius:14px;padding:10px 14px;font-size:17px;line-height:1.4}
+  .rv .no{color:var(--brand);text-decoration:line-through;margin-right:6px}
+  .rv .yes{color:var(--ok);font-weight:900}
+  .rv small{display:block;font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+  /* small laptops / projectors: keep the whole game on one screen */
+  @media (max-height:860px) and (min-width:861px){
+    #game{padding-top:8px}
+    .topbar{margin-bottom:8px}
+    .city{gap:9px;padding:12px} .dist{padding:7px 6px 6px} .dist .nm{font-size:15px}
+    .desk .head{padding:8px 14px} .desk .head .fi{width:42px;height:42px;font-size:26px}
+    .desk .body{padding:12px 14px 14px}
+    .say,.verdict{font-size:16px;margin-bottom:8px} .verdict b.t{font-size:21px}
+    .sentence,.clue,.tags,.file{margin-bottom:8px} .sentence{padding:8px 12px}
+    .opt{padding:8px;font-size:18px}
+    .board{margin-top:10px} .fam{padding:5px 10px} .fam .sc{font-size:24px}
+    .bag{padding:12px 14px} .fronts{gap:7px;margin-top:10px} .front{padding:5px 10px}
+  }
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr} .hero .r{min-height:200px}
+    .grid2,.modes{grid-template-columns:1fr}
+    .stage{grid-template-columns:1fr}
+    .city{grid-template-columns:repeat(2,1fr)}
+    .board{grid-template-columns:1fr 1fr}
+    .opts{grid-template-columns:1fr}
+  }
+  @media (max-width:540px){ .board{grid-template-columns:1fr} .fam{min-width:0} }
+</style>
+</head>
+<body>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="wrap">
+  <a class="home-link" href="../">← All games</a>
+  <div class="hero">
+    <div class="l">
+      <p class="eyebrow">Oxford Games · <b>Word families</b></p>
+      <h1><span class="w1">The Family</span><span class="w2">Business</span></h1>
+      <p>In this city, the families with the best words run the streets. Change nouns into verbs, adjectives and adverbs, take over the districts and keep away from the police.</p>
+    </div>
+    <div class="r">
+      <span class="sticker">A2 → C1</span>
+      <div class="dossier">
+        <span class="stamp">FAMILY FILE</span>
+        <div class="boss">Decide</div>
+        <div class="row"><span>noun</span><b>decision</b></div>
+        <div class="row"><span>adjective</span><b>decisive</b></div>
+        <div class="row"><span>adverb</span><b>decisively</b></div>
+        <div class="row"><span>opposite</span><b>indecisive</b></div>
+      </div>
+    </div>
+  </div>
+  <div class="marquee"><div id="marq"></div></div>
+
+  <div class="panel">
+    <p class="eyebrow">01 · Choose the game</p>
+    <div class="modes" id="modes"></div>
+  </div>
+  <div class="grid2">
+    <div class="panel">
+      <p class="eyebrow">02 · Level</p>
+      <div class="choices" id="levels"></div>
+      <p class="hint" id="levelHint"></p>
+    </div>
+    <div class="panel">
+      <p class="eyebrow">03 · Answer help</p>
+      <div class="choices" id="helps"></div>
+      <p class="hint">With <b>Choose</b> they pick one of three words. With <b>Type it</b> they have to spell it too. You can change it during the game.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <p class="eyebrow">04 · The families (teams)</p>
+    <div class="choices" id="counts"></div>
+    <div class="names" id="names"></div>
+  </div>
+  <div class="panel">
+    <p class="eyebrow">05 · How long?</p>
+    <div class="choices" id="lens"></div>
+  </div>
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="startBtn">Start the business →</button>
+  </div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="wrap hidden">
+  <div class="topbar">
+    <div class="actions">
+      <button class="btn btn-plain" id="quitBtn">← Setup</button>
+      <span class="counter" id="counter"></span>
+    </div>
+    <div class="actions">
+      <span class="seg" id="helpSeg"></span>
+      <button class="btn btn-plain" id="endBtn">🏁 End the game</button>
+    </div>
+  </div>
+  <div class="stage">
+    <div id="left"></div>
+    <div class="desk" id="desk"></div>
+  </div>
+  <div class="board" id="board"></div>
+</section>
+
+<!-- ================= END ================= -->
+<section id="end" class="wrap hidden">
+  <div class="end" id="endBox"></div>
+</section>
+
+<script src="families.js"></script>
+<script src="../shared/howto.js"></script>
+<script>
+const LEVELS = { A2: "Elementary", B1: "Intermediate", B2: "Upper-intermediate", C1: "Advanced" };
+const LV = Object.keys(LEVELS);
+const HELP_FOR = { A2: "choose", B1: "choose", B2: "type", C1: "type" };
+const FAM_STYLE = [
+  { name: "The Morettis", color: "#c8323c", icon: "🌹" }, { name: "The Carusos", color: "#2d8cf0", icon: "🎩" },
+  { name: "The Bellinis", color: "#14a35a", icon: "🍷" }, { name: "The Ferraros", color: "#f2a100", icon: "🃏" }];
+const LENS = { city: [[6, "Short", "6 turns each"], [8, "Normal", "8 turns each"], [10, "Long", "10 turns each"]],
+               laundry: [[3, "Short", "3 jobs each"], [4, "Normal", "4 jobs each"], [5, "Long", "5 jobs each"]] };
+// The districts of the city: each one wants one kind of word
+const DISTRICTS = [
+  { id: "docks", icon: "🚢", name: "The Docks", label: "nouns: -tion -ment -ance", need: "a NOUN" },
+  { id: "italy", icon: "🍝", name: "Little Italy", label: "nouns: -ness -ity -er…", need: "a NOUN" },
+  { id: "factory", icon: "🏭", name: "The Factory", label: "verbs", need: "a VERB" },
+  { id: "casino", icon: "🎰", name: "Casino Row", label: "adjectives", need: "an ADJECTIVE" },
+  { id: "downtown", icon: "🌃", name: "Downtown", label: "adverbs: -ly", need: "an ADVERB" },
+  { id: "uptown", icon: "🎩", name: "Uptown", label: "opposites: un- in- dis-…", need: "an OPPOSITE" }];
+// The fronts of the laundry: the dirty money goes through one business after another
+const FRONTS = [{ t: "n", icon: "🧺", name: "The Laundromat" }, { t: "v", icon: "🍕", name: "The Pizzeria" },
+                { t: "adj", icon: "🎰", name: "The Casino" }, { t: "adv", icon: "🚕", name: "The Taxi Company" }];
+const START_MONEY = 1000, FULL_BONUS = 1000, RAID_AT = 3, CONTROL_BONUS = 3;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const plural = (n, w) => n + " " + w + (n === 1 ? "" : "s");
+const money = n => "$" + n.toLocaleString("en-US");
+const article = t => (t === "adj" || t === "adv" ? "an " : "a ") + WORD_TYPES[t].toUpperCase();
+// Typed answers: capitals, spaces, American spelling (organize, honor) are fine
+const norm = s => String(s).toLowerCase().replace(/[^a-z]/g, "").replace(/iz/g, "is").replace(/our/g, "or");
+
+/* ---------- the words ---------- */
+// Which district a job belongs to, by its answer
+function districtOf(fam, w){
+  if (isOpp(fam, w)) return "uptown";
+  const t = typeOf(fam, w);
+  if (t === "n") return /(tion|sion|ment|ance|ence)$/.test(w) ? "docks" : "italy";
+  return { v: "factory", adj: "casino", adv: "downtown" }[t];
+}
+// Every job of a level, sorted into districts
+function jobsByDistrict(level){
+  const out = {}; DISTRICTS.forEach(d => out[d.id] = []);
+  FAMILIES[level].forEach(fam => fam.jobs.forEach(j => out[districtOf(fam, j.answer)].push(Object.assign({ fam, level }, j))));
+  return out;
+}
+const BY_LEVEL = {}; LV.forEach(l => BY_LEVEL[l] = jobsByDistrict(l));
+// A district with few jobs at this level borrows from the nearest levels (easier first)
+function districtPool(level, d){
+  let pool = BY_LEVEL[level][d].slice();
+  const i = LV.indexOf(level), near = [i - 1, i + 1, i - 2, i + 2, i - 3, i + 3].filter(k => k >= 0 && k < LV.length).map(k => LV[k]);
+  for (const l of near){ if (pool.length >= 5) break; pool = pool.concat(BY_LEVEL[l][d]); }
+  return pool;
+}
+// The clue word: the root, unless the root is the answer (then another member of the family)
+function clueFor(job){
+  const fam = job.fam;
+  if (!job.answers.includes(fam.root)) return fam.root;
+  for (const t of ["n", "adj", "v", "adv"]) { const w = fam.forms[t].find(x => !job.answers.includes(x) && !isOpp(fam, x)); if (w) return w; }
+  return fam.root;
+}
+// Made-up wrong words when the family is too small: root + a suffix of a different word type
+const SUFFIX = [["ful", "adj"], ["ness", "n"], ["ly", "adv"], ["ment", "n"]], SUFFIX2 = [["ive", "adj"], ["ity", "n"], ["ous", "adj"]];
+function fakes(fam, notType, n){
+  const real = new Set(allForms(fam));
+  return shuffle(SUFFIX).concat(shuffle(SUFFIX2)).filter(([s, t]) => t !== notType).map(([s]) => (/^[aeiou]/.test(s) ? fam.root.replace(/e$/, "") : fam.root) + s)
+    .filter(w => !real.has(w)).slice(0, n);
+}
+// Three options: the answer + two wrong members of the family (other word types)
+function optionsFor(fam, answer, type, opp){
+  const sameType = new Set(fam.forms[type] || []);
+  let wrong = [];
+  if (opp){ const m = answer.match(OPP_PREFIX); const pos = answer.slice(m[1].length); if (allForms(fam).includes(pos)) wrong.push(pos); }
+  const others = shuffle([...new Set(allForms(fam))].filter(w => !sameType.has(w) && !isOpp(fam, w) && !wrong.includes(w) && w !== answer));
+  wrong = wrong.concat(others).slice(0, 2);
+  if (wrong.length < 2) wrong = wrong.concat(fakes(fam, type, 2 - wrong.length));
+  return shuffle([answer].concat(wrong));
+}
+
+/* ---------- setup ---------- */
+const S = { mode: "city", level: "B1", help: "choose", helpPicked: false, count: 3, names: ["", "", "", ""], len: { city: 8, laundry: 4 } };
+try { const p = JSON.parse(localStorage.getItem("family-business-setup") || "null"); if (p) Object.assign(S, p); } catch (e) {}
+if (!LEVELS[S.level]) S.level = "B1";
+function saveSetup(){ try { localStorage.setItem("family-business-setup", JSON.stringify(S)); } catch (e) {} }
+
+$("marq").innerHTML = (["decide → decision", "care → careful", "luck → luckily", "loyal → loyalty", "strong → strengthen", "happy → unhappy", "suspect → suspicious", "rob → robbery"]
+  .map(s => `<b>${s.split(" → ")[0]}</b><i>→</i>${s.split(" → ")[1]}<i>·</i>`).join("")).repeat(4);
+const famName = i => (S.names[i] || "").trim() || FAM_STYLE[i].name;
+function drawSetup(){
+  $("modes").innerHTML = [["city", "🗺️", "Take the City", "Pick a district, change the word, win the street. Control the most districts. Watch out for the police!"],
+    ["laundry", "💰", "The Laundry", "Wash dirty money through your businesses: every new form of the word doubles it. Keep going… or cash out before the police come."]]
+    .map(([k, ic, nm, ds]) => `<button class="mode${k === S.mode ? " on" : ""}" data-m="${k}"><span class="ic">${ic}</span><span class="nm">${nm}</span><span class="ds">${ds}</span></button>`).join("");
+  $("levels").innerHTML = LV.map(l => `<button class="chip${l === S.level ? " on" : ""}" data-l="${l}">${l}<small>${LEVELS[l]}</small></button>`).join("");
+  $("levelHint").textContent = { A2: "Everyday words: care → careful, luck → luckily, decide → decision.",
+    B1: "-tion, -ment, -ness, -ful, -ous… and opposites: legal → illegal.", B2: "Harder families: suspect → suspicion, rely → reliable, threat → threaten.",
+    C1: "Advanced: justify → justification, discreet → discretion, allege → allegedly." }[S.level];
+  $("helps").innerHTML = [["choose", "🅰️ Choose", "Pick one of three words"], ["type", "⌨️ Type it", "Write the word"]]
+    .map(([k, t, s]) => `<button class="chip${k === S.help ? " on" : ""}" data-h="${k}">${t}<small>${s}</small></button>`).join("");
+  $("counts").innerHTML = [2, 3, 4].map(n => `<button class="chip${n === S.count ? " on" : ""}" data-n="${n}">${n} families</button>`).join("");
+  $("names").innerHTML = FAM_STYLE.slice(0, S.count).map((f, i) => `<label style="--c:${f.color}"><span>${f.icon}</span><input data-i="${i}" maxlength="22" placeholder="${esc(f.name)}" value="${esc(S.names[i] || "")}"></label>`).join("");
+  $("lens").innerHTML = LENS[S.mode].map(([n, t, s]) => `<button class="chip${n === S.len[S.mode] ? " on" : ""}" data-len="${n}">${t}<small>${s}</small></button>`).join("");
+}
+$("modes").onclick = e => { const b = e.target.closest("[data-m]"); if (b){ S.mode = b.dataset.m; drawSetup(); } };
+$("levels").onclick = e => { const b = e.target.closest("[data-l]"); if (b){ S.level = b.dataset.l; if (!S.helpPicked) S.help = HELP_FOR[S.level]; drawSetup(); } };
+$("helps").onclick = e => { const b = e.target.closest("[data-h]"); if (b){ S.help = b.dataset.h; S.helpPicked = true; drawSetup(); } };
+$("counts").onclick = e => { const b = e.target.closest("[data-n]"); if (b){ S.count = +b.dataset.n; drawSetup(); } };
+$("lens").onclick = e => { const b = e.target.closest("[data-len]"); if (b){ S.len[S.mode] = +b.dataset.len; drawSetup(); } };
+$("names").oninput = e => { if (e.target.dataset.i) S.names[+e.target.dataset.i] = e.target.value; };
+$("startBtn").onclick = () => { saveSetup(); startGame(); };
+drawSetup();
+
+/* ---------- the game ---------- */
+let G = null;
+function startGame(){
+  G = { mode: S.mode, level: S.level, turn: 0, rounds: S.len[S.mode], missed: [], done: 0, right: 0,
+        fams: FAM_STYLE.slice(0, S.count).map((f, i) => ({ name: famName(i), color: f.color, icon: f.icon, heat: 0, hit: true, bribe: true, men: {}, bank: 0 })) };
+  G.total = G.rounds * G.fams.length;
+  G.fams.forEach(f => DISTRICTS.forEach(d => f.men[d.id] = 0));
+  if (G.mode === "city"){ G.decks = {}; G.hard = {}; }
+  else G.deck = [];
+  $("setup").classList.add("hidden"); $("end").classList.add("hidden"); $("game").classList.remove("hidden");
+  window.scrollTo({ top: 0 });
+  newTurn();
+}
+const cur = () => G.fams[G.turn % G.fams.length];
+function newTurn(){
+  if (G.turn >= G.total) return endGame();
+  G.phase = G.mode === "city" ? "pick" : "ask"; G.hitArmed = false; G.q = null; G.res = null;
+  if (G.mode === "laundry") newJob();
+  render();
+}
+function nextTurn(){ G.turn++; newTurn(); }
+function render(){
+  $("counter").innerHTML = `${G.mode === "city" ? "🗺️ Take the City" : "💰 The Laundry"} · ${G.level} · Turn <b>${Math.floor(G.turn / G.fams.length) + 1}</b> / ${G.rounds}`;
+  $("helpSeg").innerHTML = [["choose", "🅰️ Choose"], ["type", "⌨️ Type"]].map(([k, t]) => `<button class="${k === S.help ? "on" : ""}" data-h="${k}">${t}</button>`).join("");
+  if (G.mode === "city"){ renderCity(); renderCityDesk(); } else { renderBag(); renderLaundryDesk(); }
+  renderBoard();
+  const inp = $("answer"); if (inp) setTimeout(() => inp.focus(), 30);
+}
+$("helpSeg").onclick = e => { const b = e.target.closest("[data-h]"); if (!b) return; S.help = b.dataset.h; S.helpPicked = true; saveSetup(); render(); };
+$("quitBtn").onclick = () => { if (G && G.turn > 0 && !confirm("Leave this game? The scores will be lost.")) return; showSetup(); };
+$("endBtn").onclick = () => { if (confirm("End the game now and see who won?")) endGame(); };
+function showSetup(){ $("game").classList.add("hidden"); $("end").classList.add("hidden"); $("setup").classList.remove("hidden"); drawSetup(); window.scrollTo({ top: 0 }); }
+
+/* the scores */
+function controller(d){
+  const best = Math.max(...G.fams.map(f => f.men[d]));
+  if (!best) return null;
+  const top = G.fams.filter(f => f.men[d] === best);
+  return top.length === 1 ? top[0] : null;
+}
+const soldiers = f => Object.values(f.men).reduce((a, b) => a + b, 0);
+const owned = f => DISTRICTS.filter(d => controller(d.id) === f).length;
+const score = f => G.mode === "city" ? soldiers(f) + CONTROL_BONUS * owned(f) : f.bank;
+function renderBoard(){
+  $("board").style.setProperty("--n", G.fams.length);
+  $("board").innerHTML = G.fams.map(f => {
+    const st = G.mode === "city"
+      ? `🕴️ ${plural(soldiers(f), "soldier")} · 🏙️ ${plural(owned(f), "district")}<br><span class="sp" title="Heat (police)">${"🔥".repeat(f.heat)}<span class="used">${"🔥".repeat(RAID_AT - f.heat)}</span></span> <span class="sp"><span class="${f.hit ? "" : "used"}" title="The Hit">🔫</span><span class="${f.bribe ? "" : "used"}" title="The Bribe">💵</span></span>`
+      : `in the bank`;
+    return `<div class="fam${f === cur() && G.phase ? " now" : ""}" style="--f:${f.color}"><span class="fi">${f.icon}</span><div><div class="fn">${esc(f.name)}</div><div class="st">${st}</div></div>
+      <div class="sc">${G.mode === "city" ? score(f) : money(f.bank)}<small>${G.mode === "city" ? "POINTS" : ""}</small></div></div>`;
+  }).join("");
+}
+function famFile(fam, hi){
+  const rows = Object.keys(WORD_TYPES).filter(t => fam.forms[t].length)
+    .map(t => `<span><i>${WORD_TYPES[t]}</i> ${fam.forms[t].map(w => hi.includes(w) ? `<b class="me">${esc(w)}</b>` : esc(w)).join(", ")}</span>`);
+  return `<div class="file"><div class="ft">📁 The ${esc(fam.root.toUpperCase())} family</div><div class="fr">${rows.join("")}</div></div>`;
+}
+function answerHtml(opts, done){
+  if (done) return "";
+  if (S.help === "choose") return `<div class="opts" id="opts">${opts.map((w, i) => `<button class="opt" data-w="${esc(w)}"><kbd>${i + 1}</kbd>${esc(w)}</button>`).join("")}</div>`;
+  return `<form class="typebox" id="typeForm" autocomplete="off"><input id="answer" placeholder="Type the word…" autocapitalize="off" spellcheck="false"><button class="btn btn-red">Check</button></form>`;
+}
+function wireAnswer(onAnswer){
+  const o = $("opts"); if (o) o.onclick = e => { const b = e.target.closest(".opt"); if (b) onAnswer(b.dataset.w); };
+  const f = $("typeForm"); if (f) f.onsubmit = e => { e.preventDefault(); const v = $("answer").value.trim(); if (v) onAnswer(v); };
+}
+function toast(html, gold){
+  const t = document.createElement("div"); t.className = "toast" + (gold ? " gold" : ""); t.innerHTML = `<div>${html}</div>`;
+  document.body.appendChild(t); setTimeout(() => t.remove(), 2300);
+}
+function confetti(color, n = 60){
+  const colors = [color, "#ffd257", "#ffffff", "#14a35a", "#9db7ff"];
+  for (let i = 0; i < n; i++){
+    const c = document.createElement("div"); c.className = "confetti";
+    c.style.left = Math.random() * 100 + "vw"; c.style.background = colors[i % colors.length];
+    c.style.animationDuration = 1.8 + Math.random() * 2 + "s"; c.style.animationDelay = Math.random() * .4 + "s";
+    c.style.borderRadius = Math.random() > .5 ? "50%" : "2px";
+    document.body.appendChild(c); setTimeout(() => c.remove(), 4500);
+  }
+}
+
+/* ===================== 🗺️ TAKE THE CITY ===================== */
+function draw(d, hard){
+  const lv = hard ? LV[Math.min(LV.indexOf(G.level) + 1, LV.length - 1)] : G.level, box = hard ? G.hard : G.decks;
+  if (!box[d] || !box[d].length){
+    const used = G.usedTexts || (G.usedTexts = new Set());
+    let pool = districtPool(lv, d); const fresh = pool.filter(j => !used.has(j.text));
+    box[d] = shuffle(fresh.length ? fresh : pool);
+  }
+  const j = box[d].pop(); G.usedTexts.add(j.text); return j;
+}
+const rivalsIn = d => G.fams.filter(f => f !== cur() && f.men[d] > 0);
+function renderCity(){
+  const f = cur(), picking = G.phase === "pick";
+  $("left").innerHTML = `<div class="city${picking ? " picking" : ""}" id="city">${DISTRICTS.map(d => {
+    const c = controller(d.id), men = G.fams.filter(x => x.men[d.id] > 0).map(x => `<i style="--f:${x.color}" title="${esc(x.name)}">${x.icon} ${x.men[d.id]}</i>`).join("");
+    const off = picking && G.hitArmed && !rivalsIn(d.id).length;
+    return `<button class="dist${c ? " owned" : ""}${G.q && G.q.d === d.id ? " now" : ""}" data-d="${d.id}" ${off ? "disabled" : ""} style="${c ? "--f:" + c.color : ""}">
+      ${c ? `<span class="crown" title="${esc(c.name)} control it">${c.icon}</span>` : ""}
+      <span class="ic">${d.icon}</span><span class="nm">${d.name}</span><span class="ty">${d.label}</span><span class="men">${men}</span></button>`;
+  }).join("")}</div>`;
+  $("city").onclick = e => { const b = e.target.closest(".dist"); if (b && !b.disabled && G.phase === "pick") ask(b.dataset.d); };
+}
+function heatHtml(f){ return `<div class="heat">Heat<b>${"🔥".repeat(f.heat)}<span class="off">${"🔥".repeat(RAID_AT - f.heat)}</span></b></div>`; }
+function renderCityDesk(){
+  const f = cur(), q = G.q, d = q && DISTRICTS.find(x => x.id === q.d);
+  let h = `<div class="head" style="--f:${f.color}"><span class="fi">${f.icon}</span><div><div class="fn">${esc(f.name)}</div><div class="sub">your turn</div></div>${heatHtml(f)}</div><div class="body">`;
+  if (G.phase === "pick"){
+    const targets = DISTRICTS.filter(x => rivalsIn(x.id).length).length;
+    if (G.hitArmed){
+      h += `<p class="say"><b>🔫 The Hit.</b> Pick a district where a rival family has soldiers. The word is <b>harder</b>, but if you get it right, you take one of their soldiers!</p>
+        <div class="row"><button class="btn btn-plain" id="cancelHit">Cancel</button></div>`;
+    } else {
+      h += `<p class="say">Pick a <b>district</b> on the map. Get the word right and you send a soldier there. The family with the most soldiers in a district controls it.</p>
+        <div class="row"><button class="btn btn-yellow" id="randomD">🎲 Random district</button>
+        <button class="btn btn-dark" id="hitBtn" ${f.hit && targets ? "" : "disabled"} title="Once per game">🔫 The Hit ${f.hit ? "" : "(used)"}</button></div>
+        <p class="hint">🔥 Wrong answers bring <b>heat</b>. ${RAID_AT} 🔥 = a police raid: you lose a soldier. Each family can use <b>🔫 The Hit</b> and <b>💵 The Bribe</b> once.</p>`;
+    }
+  } else {
+    const t = typeOf(q.job.fam, q.job.answer);
+    const need = q.d === "uptown" ? `an OPPOSITE ${WORD_TYPES[t].toUpperCase()}` : article(t);
+    h += `<div class="tags"><span class="tag">${d.icon} ${d.name}</span>${q.hard ? `<span class="tag red">🔫 The Hit · ${q.job.level}</span>` : ""}</div>
+      <div class="clue"><span class="w">${esc(q.clue)}</span><span class="arrow">→</span><span class="need"><small>you need</small>${need}</span></div>`;
+    const gap = G.phase === "ask" ? `<span class="gap">&nbsp;</span>`
+      : `<span class="gap ${G.res.ok ? "good" : "bad"}">${esc(q.job.answer)}</span>`;
+    h += `<div class="sentence">${esc(q.job.text).replace("___", gap)}</div>`;
+    if (G.phase === "ask") h += answerHtml(q.opts);
+    else {
+      const r = G.res;
+      if (r.ok) h += `<div class="verdict ok"><b class="t">✅ ${esc(q.job.answer)}!</b>${r.msg}</div>`;
+      else h += `<div class="verdict no"><b class="t">❌ Wrong</b>You said <b>${esc(r.given)}</b>. The answer is <b>${esc(q.job.answers.join(" / "))}</b>.${r.bribed ? " 💵 The cop took the money and looked the other way: no heat." : ` 🔥 <b>Heat +1</b>${f.heat + 1 >= RAID_AT ? ": the police are coming!" : "."}`}</div>`;
+      h += famFile(q.job.fam, q.job.answers);
+      h += `<div class="row">${!r.ok && !r.bribed && f.bribe ? `<button class="btn btn-dark" id="bribeBtn">💵 Bribe the cop (once)</button>` : ""}<span class="grow"></span><button class="btn btn-red" id="nextBtn">Next family →</button></div>`;
+    }
+  }
+  $("desk").innerHTML = h + "</div>";
+  if ($("randomD")) $("randomD").onclick = () => ask(pick(DISTRICTS).id);
+  if ($("hitBtn")) $("hitBtn").onclick = () => { G.hitArmed = true; render(); };
+  if ($("cancelHit")) $("cancelHit").onclick = () => { G.hitArmed = false; render(); };
+  if ($("bribeBtn")) $("bribeBtn").onclick = () => { f.bribe = false; G.res.bribed = true; render(); };
+  if ($("nextBtn")) $("nextBtn").onclick = cityNext;
+  if (G.phase === "ask") wireAnswer(cityAnswer);
+}
+function ask(d){
+  const hard = G.hitArmed, job = draw(d, hard), t = typeOf(job.fam, job.answer);
+  if (hard) cur().hit = false;
+  G.q = { d, job, hard, clue: clueFor(job), opts: optionsFor(job.fam, job.answer, t, d === "uptown") };
+  G.phase = "ask"; G.hitArmed = false; render();
+}
+function cityAnswer(given){
+  const f = cur(), q = G.q, ok = q.job.answers.some(a => norm(a) === norm(given));
+  G.done++; const dn = DISTRICTS.find(x => x.id === q.d).name;
+  let msg = "";
+  if (ok){
+    G.right++;
+    if (q.hard){
+      const victim = rivalsIn(q.d).sort((a, b) => b.men[q.d] - a.men[q.d])[0];
+      if (victim){ victim.men[q.d]--; msg = `🔫 You took a soldier from <b>${esc(victim.name)}</b> in ${dn}!`; }
+      f.men[q.d]++; msg += ` +1 soldier in ${dn}.`;
+      toast(`🔫 The Hit!<small>${esc(f.name)} strike in ${dn}</small>`, true);
+    } else { f.men[q.d]++; msg = `+1 soldier in <b>${dn}</b>.`; }
+    const c = controller(q.d); if (c === f) msg += ` 👑 ${esc(f.name)} control ${dn}.`;
+  } else G.missed.push({ text: q.job.text, answer: q.job.answers.join(" / "), given, fam: q.job.fam.root });
+  G.res = { ok, given, msg }; G.phase = "result"; render();
+  if (ok){ const el = document.querySelector(`.dist[data-d="${q.d}"]`); if (el) el.classList.add("pop"); }
+}
+function cityNext(){
+  const f = cur(), r = G.res;
+  if (r && !r.ok && !r.bribed){
+    f.heat++;
+    if (f.heat >= RAID_AT){
+      f.heat = 0;
+      const d = DISTRICTS.map(x => x.id).filter(x => f.men[x] > 0).sort((a, b) => f.men[b] - f.men[a])[0];
+      if (d){ f.men[d]--; toast(`🚨 Raid!<small>The police arrest a ${esc(f.name)} soldier in ${DISTRICTS.find(x => x.id === d).name}</small>`); }
+      else toast(`🚨 Raid!<small>The police found nothing… this time</small>`);
+    }
+  }
+  nextTurn();
+}
+
+/* ===================== 💰 THE LAUNDRY ===================== */
+// The fronts a family can go through: one for each word type it has (but not the root's own type)
+function frontsFor(fam){
+  const rt = fam.rootType || typeOf(fam, fam.root);
+  return FRONTS.filter(fr => fr.t !== rt).map(fr => Object.assign({ words: fam.forms[fr.t].filter(w => w !== fam.root && !isOpp(fam, w)) }, fr)).filter(fr => fr.words.length);
+}
+const LAUNDRY = {}; LV.forEach(l => LAUNDRY[l] = FAMILIES[l].filter(f => frontsFor(f).length >= 2));
+function newJob(){
+  if (!G.deck.length){
+    const seen = G.seenRoots || (G.seenRoots = new Set());
+    const fresh = LAUNDRY[G.level].filter(f => !seen.has(f.root));
+    G.deck = shuffle(fresh.length ? fresh : LAUNDRY[G.level]);
+  }
+  const fam = G.deck.pop(); G.seenRoots.add(fam.root);
+  G.job = { fam, fronts: frontsFor(fam), step: 0, money: START_MONEY, got: [] };
+  G.q = makeLaundryQ();
+}
+function makeLaundryQ(){
+  const j = G.job, fr = j.fronts[j.step];
+  return { fr, opts: optionsFor(j.fam, pick(fr.words), fr.t, false) };
+}
+function renderBag(){
+  const j = G.job, r = G.res;
+  const rt = j.fam.rootType || typeOf(j.fam, j.fam.root);
+  $("left").innerHTML = `<div class="bag"><div class="lb">${G.phase === "result" && r.kind !== "bust" ? "Clean money" : "Dirty money"}</div>
+    <div class="money${G.phase === "result" ? "" : " dirty"}" id="money">${money(r && r.kind === "bust" ? 0 : j.money)}</div>
+    <div class="lb">The word</div><span class="root">${esc(j.fam.root)}<small>${WORD_TYPES[rt]}</small></span>
+    <div class="fronts">${j.fronts.map((fr, i) => {
+      const st = i < j.step ? "done" : i === j.step && G.phase !== "result" ? "now" : i === j.step && r && r.kind === "bust" ? "bust" : "locked";
+      const w = i < j.step ? esc(j.got[i]) : st === "bust" ? "🚨" : st === "now" ? "?" : "🔒";
+      return `<div class="front ${st}"><span class="ic">${fr.icon}</span><span class="nm">${fr.name}<small>needs ${article(fr.t).toLowerCase()}</small></span><span class="w">${w}</span></div>`;
+    }).join("")}</div></div>`;
+}
+function renderLaundryDesk(){
+  const f = cur(), j = G.job, q = G.q, r = G.res;
+  let h = `<div class="head" style="--f:${f.color}"><span class="fi">${f.icon}</span><div><div class="fn">${esc(f.name)}</div><div class="sub">your turn · bank ${money(f.bank)}</div></div></div><div class="body">`;
+  if (G.phase === "ask"){
+    const first = j.step === 0;
+    h += `<p class="say">${first ? `You have <b>${money(j.money)}</b> of dirty money. ` : ""}Wash it through <b>${q.fr.icon} ${q.fr.name}</b>: change the word and the money <b>doubles</b>.</p>
+      <div class="clue"><span class="w">${esc(j.fam.root)}</span><span class="arrow">→</span><span class="need"><small>change it into</small>${article(q.fr.t)}</span></div>`;
+    h += answerHtml(q.opts);
+    h += `<p class="hint">❌ A wrong word and the police take <b>all</b> the money of this job.</p>`;
+  } else if (G.phase === "choice"){
+    const nx = j.fronts[j.step];
+    h += `<div class="verdict ok"><b class="t">✅ ${esc(j.got[j.step - 1])}!</b>Clean! The money doubled: <b>${money(j.money)}</b>.</div>
+      <p class="say">Cash out now, or risk it all in <b>${nx.icon} ${nx.name}</b> (${article(nx.t).toLowerCase()}) to make <b>${money(j.money * 2)}</b>?</p>
+      <div class="row"><button class="btn btn-green" id="cashBtn">💼 Cash out ${money(j.money)}</button><button class="btn btn-red" id="washBtn">${nx.icon} Keep washing →</button></div>`;
+  } else {
+    if (r.kind === "bust") h += `<div class="verdict no"><b class="t">🚨 Busted!</b>You said <b>${esc(r.given)}</b>${r.opp ? " (that's the opposite!)" : ""}. The ${WORD_TYPES[q.fr.t]} is <b>${esc(q.fr.words.join(" / "))}</b>. The police took ${money(j.money)}.</div>`;
+    else if (r.kind === "full") h += `<div class="verdict gold"><b class="t">💎 Perfect laundry!</b>Every front, every word. ${money(j.money - FULL_BONUS)} + a bonus of ${money(FULL_BONUS)} go to the bank: <b>${money(j.money)}</b>.</div>`;
+    else h += `<div class="verdict ok"><b class="t">💼 Cashed out</b><b>${money(j.money)}</b> goes safely into the bank.</div>`;
+    h += famFile(j.fam, r.kind === "bust" ? q.fr.words : j.got);
+    h += `<div class="row"><span class="grow"></span><button class="btn btn-red" id="nextBtn">Next family →</button></div>`;
+  }
+  $("desk").innerHTML = h + "</div>";
+  if (G.phase === "ask") wireAnswer(laundryAnswer);
+  if ($("cashBtn")) $("cashBtn").onclick = () => bank("cash");
+  if ($("washBtn")) $("washBtn").onclick = () => { G.q = makeLaundryQ(); G.phase = "ask"; render(); };
+  if ($("nextBtn")) $("nextBtn").onclick = nextTurn;
+}
+function laundryAnswer(given){
+  const j = G.job, q = G.q, ok = q.fr.words.find(w => norm(w) === norm(given));
+  G.done++;
+  if (!ok){
+    G.missed.push({ text: `${j.fam.root} → ${article(q.fr.t).toLowerCase()}`, answer: q.fr.words.join(" / "), given, fam: j.fam.root });
+    G.res = { kind: "bust", given, opp: allForms(j.fam).some(w => isOpp(j.fam, w) && norm(w) === norm(given)) };
+    G.phase = "result"; render(); toast(`🚨 Busted!<small>The police take ${money(j.money)}</small>`);
+    return;
+  }
+  G.right++; j.got.push(ok); j.step++; j.money *= 2;
+  if (j.step >= j.fronts.length){ j.money += FULL_BONUS; bank("full"); }
+  else { G.phase = "choice"; render(); }
+  const m = $("money"); if (m) m.classList.add("pop");
+}
+function bank(kind){
+  const f = cur(); f.bank += G.job.money; G.res = { kind }; G.phase = "result"; render();
+  if (kind === "full"){ toast(`💎 ${money(G.job.money)}<small>Perfect laundry!</small>`, true); confetti(f.color, 40); }
+}
+
+/* keyboard: 1 2 3 to choose, Enter for the next family */
+document.addEventListener("keydown", e => {
+  if (!G || $("game").classList.contains("hidden") || e.target.tagName === "INPUT") return;
+  if (G.phase === "ask" && /^[1-3]$/.test(e.key)){ const b = document.querySelectorAll("#opts .opt")[+e.key - 1]; if (b) b.click(); }
+  if (e.key === "Enter" && $("nextBtn")){ e.preventDefault(); $("nextBtn").click(); }
+});
+
+/* ===================== END ===================== */
+function endGame(){
+  const scores = G.fams.map(f => ({ f, s: score(f) }));
+  const levels = [...new Set(scores.map(x => x.s))].sort((a, b) => b - a);   // equal scores share a place
+  const ranked = scores.sort((a, b) => b.s - a.s).map(x => Object.assign(x, { place: levels.indexOf(x.s) + 1 }));
+  const winners = ranked.filter(x => x.place === 1);
+  const medal = p => ["🥇", "🥈", "🥉"][p - 1] || p;
+  const det = f => G.mode === "city" ? `🕴️ ${plural(soldiers(f), "soldier")} · 🏙️ ${plural(owned(f), "district")} × ${CONTROL_BONUS}` : "clean money in the bank";
+  let h = `<p class="eyebrow">${G.mode === "city" ? "🗺️ Take the City" : "💰 The Laundry"} · ${G.level}</p>
+    <h2>${winners.length > 1 ? "It's a tie!" : `${esc(winners[0].f.name)} ${G.mode === "city" ? "run the city" : "are the richest"}`}</h2>
+    <p class="sub">${G.right} of ${G.done} words right${G.done ? ` (${Math.round(100 * G.right / G.done)}%)` : ""}.</p>
+    <div class="ranking">${ranked.map(x => `<div class="rank${x.place === 1 ? " first" : ""}"><span class="pos">${medal(x.place)}</span>
+      <span class="n" style="--c:${x.f.color}">${x.f.icon} ${esc(x.f.name)}<small>${det(x.f)}</small></span><span class="p">${G.mode === "city" ? x.s : money(x.s)}</span></div>`).join("")}</div>`;
+  if (G.missed.length) h += `<div class="review"><h3>📁 Words to review</h3>${G.missed.map(m => `<div class="rv"><small>${esc(m.fam.toUpperCase())} family</small>${esc(m.text).replace("___", "<b>___</b>")}<br><span class="no">${esc(m.given)}</span> <span class="yes">${esc(m.answer)}</span></div>`).join("")}</div>`;
+  h += `<div class="start-row"><button class="btn btn-red btn-big" id="eAgain">Play again</button><button class="btn btn-plain btn-big" id="eHome">Change the setup</button></div>`;
+  G.phase = null;
+  $("game").classList.add("hidden"); $("end").classList.remove("hidden"); $("endBox").innerHTML = h; window.scrollTo({ top: 0 });
+  $("eAgain").onclick = startGame; $("eHome").onclick = showSetup;
+  confetti(winners[0].f.color);
+}
+</script>
+<script>setHowTo({
+  es: {
+    title: "The Family Business",
+    intro: "Un juego de mafiosos para practicar las familias de palabras (word families): pasar de sustantivo a verbo, adjetivo y adverbio, y los contrarios (un-, in-, dis-…). Por equipos (2–4 \"familias\"), niveles A2 a C1. Pensado para adolescentes.",
+    steps: [
+      ["🗺️", "<b>Take the City:</b> por turnos, cada familia elige un barrio de la ciudad. Cada barrio pide un tipo de palabra: <i>The Docks</i> sustantivos en -tion/-ment, <i>Little Italy</i> otros sustantivos, <i>The Factory</i> verbos, <i>Casino Row</i> adjetivos, <i>Downtown</i> adverbios y <i>Uptown</i> contrarios."],
+      ["✏️", "Sale una frase con un hueco y una palabra pista (por ejemplo <b>DECIDE → a NOUN</b>). Si aciertan (<i>decision</i>), mandan un soldado a ese barrio. La familia con más soldados controla el barrio."],
+      ["🔥", "Cada error da <b>calor</b> (la policía). Con 3 🔥 hay una <b>redada</b>: pierden un soldado. Una vez por partida pueden usar <b>🔫 The Hit</b> (una palabra más difícil en un barrio rival: si aciertan, le quitan un soldado) y <b>💵 The Bribe</b> (sobornar al policía para que no suba el calor)."],
+      ["🏆", "Puntos = soldados + 3 por cada barrio controlado."],
+      ["💰", "<b>The Laundry:</b> cada familia recibe $1,000 de dinero sucio y una palabra (por ejemplo <b>SUCCESS</b>). Para blanquearlo tiene que pasarlo por sus negocios: la lavandería pide el sustantivo, la pizzería el verbo, el casino el adjetivo y la compañía de taxis el adverbio."],
+      ["🎲", "Cada acierto <b>duplica</b> el dinero. Después deciden: <b>cobrar</b> y guardarlo en el banco, o <b>seguir</b> arriesgándolo todo. Un error y la policía se lo lleva. Si pasan por todos los negocios, +$1,000 de premio. Gana la familia más rica."]
+    ],
+    tips: [
+      "<b>Choose</b> (elegir entre tres palabras) o <b>Type it</b> (escribirla, con ortografía). Se puede cambiar durante la partida. La ortografía americana (organize, honor) también vale.",
+      "Después de cada respuesta sale la <b>ficha de la familia</b> con todas sus palabras: buen momento para repasarla en voz alta.",
+      "Al final hay una lista de las palabras falladas para repasar en clase.",
+      "Teclado: 1, 2, 3 para elegir y Enter para pasar a la siguiente familia.",
+      "Para añadir palabras y frases, editad <b>family-business/families.js</b>."
+    ]
+  },
+  title: "The Family Business",
+  intro: "A mafia game to practise word families: noun → verb → adjective → adverb, and opposites (un-, in-, dis-…). For 2–4 teams (\"families\"), levels A2 to C1.",
+  steps: [
+    ["🗺️", "<b>Take the City:</b> each family in turn picks a district. Each district wants one kind of word: <i>The Docks</i> -tion/-ment nouns, <i>Little Italy</i> other nouns, <i>The Factory</i> verbs, <i>Casino Row</i> adjectives, <i>Downtown</i> adverbs, <i>Uptown</i> opposites."],
+    ["✏️", "You get a sentence with a gap and a clue word (<b>DECIDE → a NOUN</b>). Right (<i>decision</i>)? A soldier goes into that district. The family with the most soldiers controls it."],
+    ["🔥", "Every wrong answer brings <b>heat</b>. At 3 🔥 the police raid you: you lose a soldier. Once per game: <b>🔫 The Hit</b> (a harder word in a rival district: right, and you take one of their soldiers) and <b>💵 The Bribe</b> (no heat for a wrong answer)."],
+    ["🏆", "Points = soldiers + 3 for every district you control."],
+    ["💰", "<b>The Laundry:</b> you get $1,000 of dirty money and a word (<b>SUCCESS</b>). Wash it through your fronts: the laundromat wants the noun, the pizzeria the verb, the casino the adjective, the taxi company the adverb."],
+    ["🎲", "Every right word <b>doubles</b> the money. Then: <b>cash out</b> into the bank, or <b>keep washing</b> and risk it all. One wrong word and the police take it. All the fronts = +$1,000 bonus. The richest family wins."]
+  ],
+  tips: [
+    "<b>Choose</b> one of three words, or <b>Type it</b> with the right spelling. American spelling (organize, honor) is fine too.",
+    "After every answer you see the <b>family file</b> with all the words of that family.",
+    "Keyboard: 1, 2, 3 to choose, Enter for the next family.",
+    "To add words and sentences, edit <b>family-business/families.js</b>."
+  ]
+});</script>
+</body>
+</html>

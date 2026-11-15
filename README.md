@@ -121,6 +121,17 @@ Real-life conversations for adults, levels A1 to B2: at the café, the restauran
 
 Play: https://natalaplk.github.io/Oxford-Games/act-natural/
 
+## The Family Business
+
+Word families for teens, in a mafia story: noun → verb → adjective → adverb, and opposites (un-, in-, dis-…). 2–4 teams ("families"), levels A2 to C1, answers by choosing one of three words or typing them. Two games:
+
+- **🗺️ Take the City:** each family picks a district of the city, and each district wants one kind of word (the Docks: -tion/-ment nouns, Little Italy: other nouns, the Factory: verbs, Casino Row: adjectives, Downtown: adverbs, Uptown: opposites). A sentence with a gap and a clue word (DECIDE → a NOUN): right, and a soldier goes into that district. Wrong answers bring heat, and 3 🔥 is a police raid. Once per game: The Hit (a harder word to take a rival's soldier) and The Bribe (no heat). Points = soldiers + 3 for every district a family controls.
+- **💰 The Laundry:** $1,000 of dirty money and a word. Every front wants another form of it (the laundromat: the noun, the pizzeria: the verb, the casino: the adjective, the taxi company: the adverb), and every right word doubles the money. Cash out, or keep washing and risk it all. The richest family wins.
+
+The words and sentences are in `family-business/families.js`: one line for each family (`decide | v decide | n decision`) and the sentences under it (`decision: The boss made an important ___.`).
+
+Play: https://natalaplk.github.io/Oxford-Games/family-business/
+
 ## Adding words to the word games
 
 Word Express and Hungry Hungry Caterpillar check words against the ENABLE list plus `shared/extra-words.js` (British spellings, modern words, days, months, countries). To accept a new word, add it to that file.

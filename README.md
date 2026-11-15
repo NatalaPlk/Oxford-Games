@@ -111,6 +111,7 @@ Play: https://natalaplk.github.io/Oxford-Games/treasure-mountain/
 Real-life conversations for adults, levels A1 to B2: at the café, the restaurant, the doctor's, the airport, the hotel, asking the way, shopping for clothes and the train station. Each conversation has 4 turns: the student answers the other person, or has to ask a question (marked **ASK**).
 
 - **Real life** mode: every mistake costs the other person's patience (a real mistake −35, a spelling mistake −10, forgetting *please* in a request −15). At zero they walk away and you lose.
+- **Your role**: the customer (the student answers the barista, the doctor, the receptionist…) or **the worker**: the student is the barista, the doctor, the receptionist… starts the conversation and asks the questions, and the computer is the customer. The worker conversations are in `situationship/staff.js`.
 - **Just for fun** mode: nobody gets angry. A mistake shows the correction and a model answer, and the student tries again.
 - Answer help: **Choose** the right sentence (A1), **Fill the gaps** in a ready-made sentence (A2) or **Type it** (B1–B2). It can be changed during the conversation.
 - Typed answers are checked with key words, tolerant of small spelling mistakes, plus a list of typical mistakes of Spanish speakers (*I have 30 years, How much costs, since three days, explain me…*).

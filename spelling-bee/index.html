@@ -399,6 +399,7 @@
 
 <script src="../shared/words.js"></script>
 <script src="../shared/photos/photos.js"></script>
+<script src="../shared/cards/cards.js"></script>
 <script src="../monster-rush/monsters.js"></script>
 <script>
 const TEAM_COLORS = [
@@ -685,11 +686,12 @@ function render(newWord = false){
   $("counter").textContent = `Word ${G.idx + 1} of ${G.deck.length} · ${w.unit}`;
   const pic = $("picture");
   const picHidden = !cfg.picture && G.phase !== "done";
-  const photo = typeof PHOTOS !== "undefined" && (cfg.photos !== false || photoAlways(PHOTOS[slug(w.w)], w.pic)) && wordType(w.w, w.pic) !== "colour" && PHOTOS[slug(w.w)];
+  const card = typeof cardOf === "function" && cardOf(w.w, w.pic, cfg.book);   // Super Minds 1 flashcards first
+  const photo = card || (typeof PHOTOS !== "undefined" && (cfg.photos !== false || photoAlways(PHOTOS[slug(w.w)], w.pic)) && wordType(w.w, w.pic) !== "colour" && PHOTOS[slug(w.w)] && "../shared/photos/" + PHOTOS[slug(w.w)]);
   $("wtype").textContent = cfg.showType !== false ? wordTypeLabel(w.w, w.pic) : ""; $("wtype").className = "wtype " + wordType(w.w, w.pic);
   if (photo && !picHidden) {
     pic.className = "picture photo"; pic.style.fontSize = ""; pic.innerHTML = "";
-    const im = document.createElement("img"); im.alt = ""; im.src = "../shared/photos/" + photo;
+    const im = document.createElement("img"); im.alt = ""; im.src = photo;
     im.onerror = () => { pic.className = "picture"; pic.textContent = w.pic || "🐝"; };
     pic.appendChild(im);
   } else if (w.pic && !picHidden) {

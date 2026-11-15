@@ -337,6 +337,7 @@
 <script src="../shared/words.js"></script>
 <script src="monsters.js"></script>
 <script src="../shared/photos/photos.js"></script>
+<script src="../shared/cards/cards.js"></script>
 <script>
 const STORE_KEY = "monster-rush-v1";
 const $ = id => document.getElementById(id);
@@ -351,7 +352,9 @@ for (const t of MONSTER_ORDER) if (cfg.mons.length < 4 && !cfg.mons.includes(t))
 const PHOTO_FILES = typeof PHOTOS !== "undefined" ? PHOTOS : {};
 const slugOf = w => w.toLowerCase().replace(/[^a-z]+/g, "-");
 // c = { w, pic }; colours keep their coloured drawing (the "orange" photo is the fruit)
-const photoOf = c => (cfg.photos || photoAlways(PHOTO_FILES[slugOf(c.w)], c.pic)) && wordType(c.w, c.pic) !== "colour" && PHOTO_FILES[slugOf(c.w)] ? "../shared/photos/" + PHOTO_FILES[slugOf(c.w)] : null;
+// the Super Minds 1 flashcards (shared/cards) come first, colours included
+const cardFor = c => typeof cardOf === "function" ? cardOf(c.w, c.pic, cfg.book) : null;
+const photoOf = c => cardFor(c) || ((cfg.photos || photoAlways(PHOTO_FILES[slugOf(c.w)], c.pic)) && wordType(c.w, c.pic) !== "colour" && PHOTO_FILES[slugOf(c.w)] ? "../shared/photos/" + PHOTO_FILES[slugOf(c.w)] : null);
 const preloaded = {};
 function preload(w){ const src = w && photoOf(w); if (src && !preloaded[src]) { const im = new Image(); im.src = src; preloaded[src] = im; } }
 cfg.off = cfg.off || {};

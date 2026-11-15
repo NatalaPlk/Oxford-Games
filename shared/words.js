@@ -124,10 +124,86 @@ football ⚽
   sm1: { name: "Super Minds 1", text: `
 ## Welcome: Friends
 hello 👋
-goodbye 👋
-friend 👫
+blue 🔵
+green 🟢
+yellow 🟡
+orange 🟠
+red 🔴
+purple 🟣
+one 1️⃣
+two 2️⃣
+three 3️⃣
+four 4️⃣
+five 5️⃣
+six 6️⃣
+seven 7️⃣
+eight 8️⃣
+nine 9️⃣
+ten 🔟
+
+## Unit 1: At School
+ruler 📏
+pen 🖊️
+book 📕
+rubber 🧽
+pencil case 👝
+pencil ✏️
+desk 🪑
+notebook 📓
+bag 🎒
+paper 📄
+
+## Unit 2: Let's Play
+train 🚂
+plane ✈️
+monster 👾
+kite 🪁
+bike 🚲
+ball ⚽
+doll 🪆
+car 🚗
+computer game 🎮
+go-kart 🏎️
+big 🐘
+small 🐭
+long 📏
+short ✂️
+old 🧸
+new 🆕
+beautiful 🌸
+ugly 👹
+black ⚫
+white ⚪
+pink 🎀
+
+## Unit 3: Pet Show
+donkey 🐴
+elephant 🐘
+spider 🕷️
+cat 🐱
+rat 🐀
+frog 🐸
+duck 🦆
+lizard 🦎
+dog 🐶
+in 📥
+on 🔛
+under ⬇️
+
+## Unit 4: Lunchtime
+apple 🍎
+banana 🍌
+cake 🍰
+pizza 🍕
+sausage 🌭
+cheese sandwich 🥪
+fish 🐟
+chicken 🍗
+peas 🥣
+steak 🥩
+carrots 🥕
 eleven 1️⃣1️⃣
-twelve 🕛
+twelve 1️⃣2️⃣
 thirteen 1️⃣3️⃣
 fourteen 1️⃣4️⃣
 fifteen 1️⃣5️⃣
@@ -137,57 +213,6 @@ eighteen 1️⃣8️⃣
 nineteen 1️⃣9️⃣
 twenty 2️⃣0️⃣
 
-## Unit 1: At School
-pencil ✏️
-rubber 🧽
-ruler 📏
-book 📕
-bag 🎒
-crayon 🖍️
-desk 🖥️
-board 👩‍🏫
-chair 🪑
-computer 💻
-
-## Unit 2: Let's Play
-ball ⚽
-doll 🪆
-kite 🪁
-train 🚂
-bike 🚲
-robot 🤖
-teddy 🧸
-plane ✈️
-car 🚗
-big 🐘
-small 🐭
-new 🆕
-old 👴
-
-## Unit 3: Pet Show
-dog 🐶
-cat 🐱
-rabbit 🐰
-mouse 🐭
-fish 🐟
-bird 🐦
-horse 🐴
-frog 🐸
-spider 🕷️
-tortoise 🐢
-
-## Unit 4: Lunchtime
-sandwich 🥪
-rice 🍚
-chicken 🍗
-salad 🥗
-water 💧
-orange 🍊
-tomato 🍅
-potato 🥔
-chocolate 🍫
-sausage 🌭
-
 ## Unit 5: Free Time
 Monday 📅
 Tuesday 📅
@@ -196,54 +221,49 @@ Thursday 📅
 Friday 📅
 Saturday 📅
 Sunday 📅
-week 📅
 
 ## Unit 6: The Old House
-kitchen 🍳
 bedroom 🛏️
 bathroom 🛁
-garden 🌻
+living room 🛋️
+kitchen 🍳
+hall 🚪
 stairs 🪜
-sofa 🛋️
-bed 🛏️
-lamp 💡
-house 🏠
+cellar 🕯️
+dining room 🍽️
 
 ## Unit 7: Get Dressed
-shirt 👔
-jeans 👖
-jumper 🧶
+sweater 🧶
+skirt 👗
 shorts 🩳
-boots 🥾
-scarf 🧣
-gloves 🧤
-cap 🧢
 trousers 👖
+jacket 🧥
 socks 🧦
+jeans 👖
+shoes 👟
+baseball cap 🧢
+T-shirt 👕
 
 ## Unit 8: The Robot
-head 🙂
-shoulders 🤷
-knees 🦵
-toes 🦶
+arm 💪
+hand ✋
+knee 🦵
 fingers 🖐️
-arms 💪
-legs 🦵
-feet 🦶
-neck 🦒
-body 🧍
+leg 🦵
+foot 🦶
+toes 🦶
+head 🙂
 
 ## Unit 9: At The Beach
-sea 🌊
-sand 🏖️
-shell 🐚
-sun ☀️
-boat ⛵
-beach 🏖️
-holiday 🧳
-sandcastle 🏰
-crab 🦀
-towel 🛁
+paint a picture 🎨
+listen to music 🎧
+catch a fish 🎣
+take a photo 📷
+eat ice cream 🍦
+play the guitar 🎸
+read a book 📖
+make a sandcastle 🏰
+look for shells 🐚
 `},
   sm2: { name: "Super Minds 2", text: `
 ## Welcome: Back To School
@@ -853,8 +873,9 @@ prehistoric 🦖
 // Anything not listed here is a noun.
 const WORD_TYPE_LISTS = {
   verb: "dance sing swim run paint read jump wash clean tidy sweep measure survive ironing shopping camping swimming skating climbing fishing cycling rowing sailing boxing fencing",
-  adj: "big small new old curly straight blond bald sunny cloudy rainy windy snowy foggy stormy delicious poisonous extinct prehistoric electric",
-  colour: "red blue green yellow orange purple black white brown",
+  adj: "big small new old long short beautiful ugly curly straight blond bald sunny cloudy rainy windy snowy foggy stormy delicious poisonous extinct prehistoric electric",
+  colour: "red blue green yellow orange purple black white brown pink",
+  prep: "in on under",
   number: "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty hundred thousand million first second third",
   day: "Monday Tuesday Wednesday Thursday Friday Saturday Sunday",
   month: "January February March April May June July August September October November December",
@@ -863,10 +884,12 @@ const WORD_TYPE_LISTS = {
 };
 const WORD_TYPE_LABELS = {
   noun: "🧸 Noun · thing, person or place", verb: "🏃 Verb · action", adj: "🎨 Adjective · describing word",
-  colour: "🌈 Colour", number: "🔢 Number", day: "📅 Day of the week", month: "🗓️ Month", greeting: "👋 Greeting", country: "🌍 Country",
+  colour: "🌈 Colour", prep: "📍 Preposition · where it is", number: "🔢 Number", day: "📅 Day of the week", month: "🗓️ Month", greeting: "👋 Greeting", country: "🌍 Country",
 };
 const WORD_TYPES = {};
 Object.entries(WORD_TYPE_LISTS).forEach(([t, s]) => s.split(" ").forEach(w => { WORD_TYPES[w] = t; }));
+// actions of more than one word
+"paint a picture|listen to music|catch a fish|take a photo|eat ice cream|play the guitar|read a book|make a sandcastle|look for shells".split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
 // "orange" is a colour in Starter (🟠) but the fruit in the food unit (🍊)
 function wordType(word, pic){ if (word === "orange" && pic && pic.includes("🍊")) return "noun"; return WORD_TYPES[word] || "noun"; }
 function wordTypeLabel(word, pic){ return WORD_TYPE_LABELS[wordType(word, pic)]; }

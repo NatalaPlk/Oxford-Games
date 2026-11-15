@@ -362,6 +362,7 @@
 
 <script src="../shared/words.js"></script>
 <script src="../shared/photos/photos.js"></script>
+<script src="../shared/cards/cards.js"></script>
 <script src="../monster-rush/monsters.js"></script>
 <script src="riddles.js"></script>
 <script src="../shared/howto.js"></script>
@@ -404,14 +405,15 @@ function levelWords(id){
   return wordCache[id] = all.filter(c => {
     const k = c.w.toLowerCase();
     if (seen.has(k) || FAMILY_WORDS.includes(k)) return false;
-    const photo = typeof PHOTOS !== "undefined" && PHOTOS[slugOf(c.w)];
+    const photo = (typeof cardOf === "function" && cardOf(c.w, c.pic, id)) || (typeof PHOTOS !== "undefined" && PHOTOS[slugOf(c.w)]);
     if (count[c.pic] > 1 && !photo) return false;      // the same drawing for two words: skip
     seen.add(k); return true;
   });
 }
 function picHTML(c){
-  const file = typeof PHOTOS !== "undefined" && !COLOUR_PICS.includes(c.pic) && PHOTOS[slugOf(c.w)];
-  return file ? `<img src="../shared/photos/${file}" alt="" draggable="false">` : esc(c.pic);
+  const card = typeof cardOf === "function" && cardOf(c.w, c.pic, cfg.level);      // Super Minds 1 flashcards first
+  const file = card || (typeof PHOTOS !== "undefined" && !COLOUR_PICS.includes(c.pic) && PHOTOS[slugOf(c.w)] && "../shared/photos/" + PHOTOS[slugOf(c.w)]);
+  return file ? `<img src="${file}" alt="" draggable="false">` : esc(c.pic);
 }
 
 // the monsters dressed as mountain hikers (pictures in ./heroes/)

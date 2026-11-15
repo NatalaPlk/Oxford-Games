@@ -8,6 +8,7 @@ blue 🔵
 green 🟢
 yellow 🟡
 orange 🟠
+pink 🩷
 purple 🟣
 black ⚫
 white ⚪

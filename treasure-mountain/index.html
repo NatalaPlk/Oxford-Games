@@ -247,6 +247,10 @@
   @keyframes wbNo{to{transform:translate(-50%,-50%) scale(0) rotate(40deg)}}
   @keyframes wbNew{from{transform:translate(-50%,-50%) scale(0)}}
   .card{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);z-index:5;width:clamp(90px,19cqw,200px);text-align:center}
+  .card{transition:width .25s cubic-bezier(.2,1.3,.4,1)}
+  .card .fc{cursor:zoom-in}
+  .card.big{width:clamp(200px,46cqw,460px);z-index:7}
+  .card.big .fc{cursor:zoom-out}
   .card .lbl{display:inline-block;font-family:var(--mono);font-weight:700;font-size:clamp(9px,1.25cqw,13px);letter-spacing:.14em;color:#fff;background:var(--navy);border:2px solid #fff;border-radius:999px;padding:2px 12px;margin-bottom:5px}
   .fc{display:grid;place-items:center;width:100%;aspect-ratio:4/3;background:#fff;border:4px solid var(--navy);border-radius:18px;box-shadow:6px 6px 0 rgba(0,0,0,.45);overflow:hidden;font-size:clamp(44px,10cqw,104px);line-height:1}
   .fc img{width:100%;height:100%;object-fit:cover;display:block}
@@ -790,6 +794,7 @@ function startBoss(){
   boss = { pool, at: 0, bubbles: [], target: null, heat: 0, last: 0, running: false, raf: 0, iv: 0, busy: false, lastSec: 99 };
   for (let k = 0; k < BUBBLES; k++) addBubble();
   newTarget(); paintBoss();
+  $("fc").onclick = () => { $("fc").parentElement.classList.toggle("big"); sClick(); };   // click the flashcard: bigger / normal
   $("fightBtn").onclick = () => { $("bossMsg").remove(); runBoss(); };
   $("fightBtn").focus({ preventScroll: true });
 }
@@ -856,6 +861,7 @@ function stopBoss(){
 function clickBubble(bub){
   const b = boss;
   if (!b || !b.running || b.busy || bub.dead) return;
+  document.querySelector(".card .lbl")?.remove();   // the hint goes away after the first word
   if (bub.c.w === b.target.w) {
     b.busy = true; bub.dead = true; bub.el.classList.add("yes"); sOk();
     throwCard(() => {
@@ -963,6 +969,7 @@ renderSetup();
   tips: [
     "Starter and level 1 don't need writing: the heroes choose the answer from three.",
     "If a typed answer is right but spelled another way, press <b>Teacher: count it as right</b>.",
+    "Can't see the picture well? Click the flashcard to make it bigger, and click it again to make it normal.",
     "With two heroes, the dragon keeps its wounds: the second hero can finish the job!",
     "To add questions, edit <b>treasure-mountain/riddles.js</b>."
   ]

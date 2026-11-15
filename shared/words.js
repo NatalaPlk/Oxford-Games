@@ -766,124 +766,137 @@ collect wood 🪵
 `},
   sm5: { name: "Super Minds 5", text: `
 ## Welcome: The Science Lesson
-experiment 🧪
-scientist 👩‍🔬
-magnet 🧲
-microscope 🔬
+goggles 🥽
+shelf 📚
+apron 🧑‍🍳
+explosion 💥
+bubbles 🫧
 liquid 💧
-solid 🧊
-gas 💨
-temperature 🌡️
-result
-measure 📏
+instructions 📋
+test tube 🧪
+powder 🧂
+gloves 🧤
 
-## Unit 1: Disaster
+## Unit 1: Disaster!
+smoke 💨
 volcano 🌋
-earthquake 🌍
-flood 🌊
-ash 🌋
-lava 🌋
-eruption 🌋
-disaster 🌪️
-tsunami 🌊
-damage 🏚️
-survive 💪
+temple 🛕
+theatre 🎭
+statue 🗽
+columns 🏛️
+horse and cart 🐴
+vase 🏺
+servant 🙇
+fountain ⛲
 
 ## Unit 2: In The Rainforest
-rainforest 🌳
-jaguar 🐆
+beak 🦜
+toucan 🐦
+creeper 🌿
 sloth 🦥
-butterfly 🦋
-leaves 🍃
-insect 🐜
-poisonous ☠️
-hundred 💯
-thousand 🔢
-million 💰
+anaconda 🐍
+branch 🌳
+jaguar 🐆
+anteater 🐜
+beetle 🪲
+pool 💧
+one hundred 💯
+two hundred 2️⃣0️⃣0️⃣
+five hundred 5️⃣0️⃣0️⃣
+one thousand 1️⃣0️⃣0️⃣0️⃣
+ten thousand 🔟
+one hundred thousand 💯
+one million 💰
 
-## Unit 3: The Rock And Roll Show
-concert 🎤
-singer 🎤
-audience 👏
-guitarist 🎸
-drummer 🥁
-microphone 🎤
+## Unit 3: The Rock 'n' Roll Show
+spotlight 🔦
+backing singers 🎤
+electric guitar 🎸
+fans 🙌
+dancer 💃
+bass guitar 🎸
+drum kit 🥁
+bodyguards 🕶️
 stage 🎭
-speakers 🔊
-fans 📣
-ticket 🎫
 
 ## Unit 4: Space Restaurant
-menu 📋
-waiter 🍽️
-starter 🥗
-dessert 🍨
-bill 🧾
-order 📝
-delicious 😋
-first 🥇
-second 🥈
-third 🥉
+waiter 🤵
+strawberries 🍓
+biscuits 🍪
+spoon 🥄
+napkin 🧻
+fork 🍴
+knife 🔪
+pepper 🌶️
+salt 🧂
+chopsticks 🥢
+first 1️⃣
+second 2️⃣
+third 3️⃣
+fourth 4️⃣
+fifth 5️⃣
+sixth 6️⃣
+seventh 7️⃣
+eighth 8️⃣
+ninth 9️⃣
+tenth 🔟
 
 ## Unit 5: The Wild West
-cowboy 🤠
-horse 🐴
-sheriff ⭐
-saloon 🤠
-desert 🏜️
-cactus 🌵
-gold 🪙
-ranch 🐴
-wagon 🛒
-lasso 🤠
+robbers 🦹
+jail 🔒
+wagon 🛻
+sheriff 🤠
+saddle 🐎
+pistol 🔫
+handcuffs ⛓️
+rope 🪢
+barrel 🛢️
 
 ## Unit 6: In Istanbul
-souvenir 🎁
+flag 🚩
+plate 🍽️
 carpet 🟥
-bracelet 💍
-necklace 📿
-postcard 📮
-keyring 🔑
-jewellery 💍
-pottery 🏺
-scarf 🧣
-spices 🌶️
+sunglasses 🕶️
+cup and saucer ☕
+cushion 🛋️
+rings 💍
+comb 🪮
+soap 🧼
+basket 🧺
+earrings 💎
 
 ## Unit 7: The Story Teller
-theatre 🎭
+lute 🪕
+candles 🕯️
+mask 🎭
+wig 💇
 actor 🎭
-audience 👏
+tights 🩰
 costume 🦸
-script 📜
-scene 🎬
-curtain 🎭
-playwright ✍️
-applause 👏
-story 📖
+audience 👏
 
 ## Unit 8: Museum Of The Future
+farmer 👨‍🌾
+cleaner 🧹
 engineer 👷
-architect 📐
-scientist 👩‍🔬
-journalist 📰
+dentist 🦷
+artist 🎨
 designer ✏️
-photographer 📸
-programmer 💻
+computer programmer 💻
 mechanic 🔧
-inventor 💡
-future 🔮
+businesswoman 👩‍💼
+businessman 👨‍💼
 
 ## Unit 9: Mystery At Sea
+sail ⛵
+sailor 👨‍✈️
 captain 👨‍✈️
-deck 🚢
-cabin 🛏️
-anchor ⚓
-sailor ⚓
-island 🏝️
-lighthouse 🗼
-storm ⛈️
-wave 🌊
+barometer 🌡️
+mast ⛵
+rat 🐀
 lifeboat 🛟
+porthole ⭕
+cabin 🛏️
 `},
   sm6: { name: "Super Minds 6", text: `
 ## Welcome: Outside At School
@@ -1015,7 +1028,7 @@ const WORD_TYPE_LISTS = {
   adj: "big small new old long short beautiful ugly happy sad angry tired scared excited curly straight blond blonde dark fair bald sunny cloudy rainy windy snowy foggy stormy delicious poisonous extinct prehistoric electric",
   colour: "red blue green yellow orange purple black white brown pink",
   prep: "in on under upstairs downstairs",
-  number: "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million first second third",
+  number: "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million first second third fourth fifth sixth seventh eighth ninth tenth",
   day: "Monday Tuesday Wednesday Thursday Friday Saturday Sunday",
   month: "January February March April May June July August September October November December",
   greeting: "hello goodbye",
@@ -1031,7 +1044,7 @@ Object.entries(WORD_TYPE_LISTS).forEach(([t, s]) => s.split(" ").forEach(w => { 
 ("paint a picture|listen to music|catch a fish|take a photo|eat ice cream|play the guitar|read a book|make a sandcastle|look for shells|" +
  "get up|get dressed|have breakfast|brush your teeth|go to school|have lunch|play in the park|have dinner|go to bed|" +
  "read a comic|go hiking|visit cousins|help in the garden|take riding lessons|build a tree house|keep a scrapbook|learn to swim|go camping").split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
-WORD_TYPES["one hundred"] = "number";
+"one hundred|two hundred|five hundred|one thousand|ten thousand|one hundred thousand|one million".split("|").forEach(w => { WORD_TYPES[w] = "number"; });
 "wash up|tidy up|feed the dog|dry the dishes|do the shopping|take the dog for a walk|sail a boat|swing on a rope|dive into the water|row a boat|dry your clothes|make a raft|put up a tent|make a fire|collect wood".split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
 // twenty-one … ninety-nine, and the times (quarter past one, half past one, quarter to two…)
 "twenty thirty forty fifty sixty seventy eighty ninety".split(" ").forEach(t => "one two three four five six seven eight nine".split(" ").forEach(o => { WORD_TYPES[t + "-" + o] = "number"; }));

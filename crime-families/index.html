@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Family Business</title>
+<title>Crime Families</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -29,7 +29,6 @@
   .hero .l{background:var(--noir);color:#fff;padding:30px 30px 34px}
   .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
   .hero h1{margin:14px 0 6px;line-height:.88;font-family:var(--display);font-weight:900;font-size:clamp(44px,7vw,90px);letter-spacing:-.02em;text-transform:uppercase}
-  .hero h1 .w1{display:block;font-size:.5em;letter-spacing:.08em;color:#c9c6dd}
   .hero h1 .w2{display:block;color:var(--yellow);font-stretch:70%}
   .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:40ch}
   .hero .r{position:relative;background:var(--brand) repeating-linear-gradient(45deg,transparent 0 18px,rgba(0,0,0,.1) 18px 36px);display:grid;place-items:center;padding:24px;min-height:250px;overflow:hidden}
@@ -236,7 +235,7 @@
   <div class="hero">
     <div class="l">
       <p class="eyebrow">Oxford Games · <b>Word families</b></p>
-      <h1><span class="w1">The Family</span><span class="w2">Business</span></h1>
+      <h1>Crime<span class="w2">Families</span></h1>
       <p>In this city, the families with the best words run the streets. Change nouns into verbs, adjectives and adverbs, take over the districts and keep away from the police.</p>
     </div>
     <div class="r">
@@ -390,9 +389,9 @@ function optionsFor(fam, answer, type, opp){
 
 /* ---------- setup ---------- */
 const S = { mode: "city", level: "B1", help: "choose", helpPicked: false, count: 3, names: ["", "", "", ""], len: { city: 8, laundry: 4 } };
-try { const p = JSON.parse(localStorage.getItem("family-business-setup") || "null"); if (p) Object.assign(S, p); } catch (e) {}
+try { const p = JSON.parse(localStorage.getItem("crime-families-setup") || "null"); if (p) Object.assign(S, p); } catch (e) {}
 if (!LEVELS[S.level]) S.level = "B1";
-function saveSetup(){ try { localStorage.setItem("family-business-setup", JSON.stringify(S)); } catch (e) {} }
+function saveSetup(){ try { localStorage.setItem("crime-families-setup", JSON.stringify(S)); } catch (e) {} }
 
 $("marq").innerHTML = (["decide → decision", "care → careful", "luck → luckily", "loyal → loyalty", "strong → strengthen", "happy → unhappy", "suspect → suspicious", "rob → robbery"]
   .map(s => `<b>${s.split(" → ")[0]}</b><i>→</i>${s.split(" → ")[1]}<i>·</i>`).join("")).repeat(4);
@@ -710,7 +709,7 @@ function endGame(){
 </script>
 <script>setHowTo({
   es: {
-    title: "The Family Business",
+    title: "Crime Families",
     intro: "Un juego de mafiosos para practicar las familias de palabras (word families): pasar de sustantivo a verbo, adjetivo y adverbio, y los contrarios (un-, in-, dis-…). Por equipos (2–4 \"familias\"), niveles A2 a C1. Pensado para adolescentes.",
     steps: [
       ["🗺️", "<b>Take the City:</b> por turnos, cada familia elige un barrio de la ciudad. Cada barrio pide un tipo de palabra: <i>The Docks</i> sustantivos en -tion/-ment, <i>Little Italy</i> otros sustantivos, <i>The Factory</i> verbos, <i>Casino Row</i> adjetivos, <i>Downtown</i> adverbios y <i>Uptown</i> contrarios."],
@@ -725,10 +724,10 @@ function endGame(){
       "Después de cada respuesta sale la <b>ficha de la familia</b> con todas sus palabras: buen momento para repasarla en voz alta.",
       "Al final hay una lista de las palabras falladas para repasar en clase.",
       "Teclado: 1, 2, 3 para elegir y Enter para pasar a la siguiente familia.",
-      "Para añadir palabras y frases, editad <b>family-business/families.js</b>."
+      "Para añadir palabras y frases, editad <b>crime-families/families.js</b>."
     ]
   },
-  title: "The Family Business",
+  title: "Crime Families",
   intro: "A mafia game to practise word families: noun → verb → adjective → adverb, and opposites (un-, in-, dis-…). For 2–4 teams (\"families\"), levels A2 to C1.",
   steps: [
     ["🗺️", "<b>Take the City:</b> each family in turn picks a district. Each district wants one kind of word: <i>The Docks</i> -tion/-ment nouns, <i>Little Italy</i> other nouns, <i>The Factory</i> verbs, <i>Casino Row</i> adjectives, <i>Downtown</i> adverbs, <i>Uptown</i> opposites."],
@@ -742,7 +741,7 @@ function endGame(){
     "<b>Choose</b> one of three words, or <b>Type it</b> with the right spelling. American spelling (organize, honor) is fine too.",
     "After every answer you see the <b>family file</b> with all the words of that family.",
     "Keyboard: 1, 2, 3 to choose, Enter for the next family.",
-    "To add words and sentences, edit <b>family-business/families.js</b>."
+    "To add words and sentences, edit <b>crime-families/families.js</b>."
   ]
 });</script>
 </body>

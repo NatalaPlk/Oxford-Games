@@ -433,7 +433,7 @@ function parseWords(txt){
     const line = raw.trim();
     if (line.startsWith("##")) { cur = { name: line.replace(/^#+/, "").trim() || "Words", words: [] }; units.push(cur); return; }
     if (!line || line.startsWith("#")) return;
-    const m = line.match(/^([A-Za-z][A-Za-z'’\- ]*[A-Za-z]|[A-Za-z])\s*(.*)$/);
+    const m = line.match(/^([A-Za-z][A-Za-z'’.\- ]*[A-Za-z.]|[A-Za-z])\s*(.*)$/);
     if (!m) return;
     if (!cur) { cur = { name: "Words", words: [] }; units.push(cur); }
     cur.words.push({ w: m[1].trim(), pic: m[2].trim() });

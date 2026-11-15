@@ -424,114 +424,235 @@ learn to swim 🏊
 go camping ⛺
 `},
   sm3: { name: "Super Minds 3", text: `
+## Welcome: Meet The Explorers
+upstairs ⬆️
+downstairs ⬇️
+cellar 🕯️
+twenty-one 2️⃣1️⃣
+twenty-two 2️⃣2️⃣
+twenty-three 2️⃣3️⃣
+twenty-four 2️⃣4️⃣
+twenty-five 2️⃣5️⃣
+twenty-six 2️⃣6️⃣
+twenty-seven 2️⃣7️⃣
+twenty-eight 2️⃣8️⃣
+twenty-nine 2️⃣9️⃣
+thirty 3️⃣0️⃣
+thirty-one 3️⃣1️⃣
+thirty-two 3️⃣2️⃣
+thirty-three 3️⃣3️⃣
+thirty-four 3️⃣4️⃣
+thirty-five 3️⃣5️⃣
+thirty-six 3️⃣6️⃣
+thirty-seven 3️⃣7️⃣
+thirty-eight 3️⃣8️⃣
+thirty-nine 3️⃣9️⃣
+forty 4️⃣0️⃣
+forty-one 4️⃣1️⃣
+forty-two 4️⃣2️⃣
+forty-three 4️⃣3️⃣
+forty-four 4️⃣4️⃣
+forty-five 4️⃣5️⃣
+forty-six 4️⃣6️⃣
+forty-seven 4️⃣7️⃣
+forty-eight 4️⃣8️⃣
+forty-nine 4️⃣9️⃣
+fifty 5️⃣0️⃣
+fifty-one 5️⃣1️⃣
+fifty-two 5️⃣2️⃣
+fifty-three 5️⃣3️⃣
+fifty-four 5️⃣4️⃣
+fifty-five 5️⃣5️⃣
+fifty-six 5️⃣6️⃣
+fifty-seven 5️⃣7️⃣
+fifty-eight 5️⃣8️⃣
+fifty-nine 5️⃣9️⃣
+sixty 6️⃣0️⃣
+sixty-one 6️⃣1️⃣
+sixty-two 6️⃣2️⃣
+sixty-three 6️⃣3️⃣
+sixty-four 6️⃣4️⃣
+sixty-five 6️⃣5️⃣
+sixty-six 6️⃣6️⃣
+sixty-seven 6️⃣7️⃣
+sixty-eight 6️⃣8️⃣
+sixty-nine 6️⃣9️⃣
+seventy 7️⃣0️⃣
+seventy-one 7️⃣1️⃣
+seventy-two 7️⃣2️⃣
+seventy-three 7️⃣3️⃣
+seventy-four 7️⃣4️⃣
+seventy-five 7️⃣5️⃣
+seventy-six 7️⃣6️⃣
+seventy-seven 7️⃣7️⃣
+seventy-eight 7️⃣8️⃣
+seventy-nine 7️⃣9️⃣
+eighty 8️⃣0️⃣
+eighty-one 8️⃣1️⃣
+eighty-two 8️⃣2️⃣
+eighty-three 8️⃣3️⃣
+eighty-four 8️⃣4️⃣
+eighty-five 8️⃣5️⃣
+eighty-six 8️⃣6️⃣
+eighty-seven 8️⃣7️⃣
+eighty-eight 8️⃣8️⃣
+eighty-nine 8️⃣9️⃣
+ninety 9️⃣0️⃣
+ninety-one 9️⃣1️⃣
+ninety-two 9️⃣2️⃣
+ninety-three 9️⃣3️⃣
+ninety-four 9️⃣4️⃣
+ninety-five 9️⃣5️⃣
+ninety-six 9️⃣6️⃣
+ninety-seven 9️⃣7️⃣
+ninety-eight 9️⃣8️⃣
+ninety-nine 9️⃣9️⃣
+one hundred 💯
+
 ## Unit 1: Our School
 English 🇬🇧
-maths ➗
-science 🔬
-history 🏛️
-geography 🌍
-art 🎨
-music 🎵
-subject
-timetable 🗓️
-before
-after
+Maths ➗
+Geography 🌍
+Science 🔬
+I.T. 💻
+Music 🎵
+Art 🎨
+P.E. 🤸
+History 🏛️
 
 ## Unit 2: The Picnic
-picnic 🧺
-biscuits 🍪
-crisps 🥔
+apple juice 🧃
+cheese 🧀
 lemonade 🍋
-blanket 🛏️
-strawberries 🍓
-sausages 🌭
-yoghurt 🥛
-cucumber 🥒
-sandwiches 🥪
+salad 🥗
+rolls 🥖
+soup 🍲
+vegetables 🥦
+water 💧
 
 ## Unit 3: Daily Tasks
-wash 🧼
-clean 🧹
-tidy 🧹
+wash up 🍽️
+tidy up 🧹
 sweep 🧹
-dishes 🍽️
-rubbish 🗑️
-shopping 🛒
-ironing 👕
-homework 📝
-minutes 🕒
+cook 🍳
+feed the dog 🐕
+dry the dishes 🍽️
+do the shopping 🛒
+take the dog for a walk 🦮
+one o'clock 🕐
+two o'clock 🕑
+three o'clock 🕒
+four o'clock 🕓
+five o'clock 🕔
+six o'clock 🕕
+seven o'clock 🕖
+eight o'clock 🕗
+nine o'clock 🕘
+ten o'clock 🕙
+eleven o'clock 🕚
+twelve o'clock 🕛
+quarter past one 🕐
+half past one 🕜
+quarter to two 🕑
+quarter past two 🕑
+half past two 🕝
+quarter to three 🕒
+quarter past three 🕒
+half past three 🕞
+quarter to four 🕓
+quarter past four 🕓
+half past four 🕟
+quarter to five 🕔
+quarter past five 🕔
+half past five 🕠
+quarter to six 🕕
+quarter past six 🕕
+half past six 🕡
+quarter to seven 🕖
+quarter past seven 🕖
+half past seven 🕢
+quarter to eight 🕗
+quarter past eight 🕗
+half past eight 🕣
+quarter to nine 🕘
+quarter past nine 🕘
+half past nine 🕤
+quarter to ten 🕙
+quarter past ten 🕙
+half past ten 🕥
+quarter to eleven 🕚
+quarter past eleven 🕚
+half past eleven 🕦
+quarter to twelve 🕛
+quarter past twelve 🕛
+half past twelve 🕧
+quarter to one 🕐
 
 ## Unit 4: Around Town
-bridge 🌉
-square ⬛
-statue 🗽
-castle 🏰
-church ⛪
-theatre 🎭
-factory 🏭
-restaurant 🍽️
-hotel 🏨
-market 🛒
+map 🗺️
+bank 🏦
+bus station 🚏
+tower 🗼
+library 📚
+market square 🏬
+sports centre 🏟️
+supermarket 🛒
+funfair 🎡
+car park 🅿️
 
 ## Unit 5: Under The Sea
-octopus 🐙
-shark 🦈
-whale 🐳
-dolphin 🐬
-jellyfish 🪼
-crab 🦀
-starfish ⭐
 seahorse 🐠
+dolphin 🐬
+seal 🦭
+shell 🐚
+octopus 🐙
+anchor ⚓
+starfish ⭐
 turtle 🐢
-squid 🦑
 
 ## Unit 6: Gadgets
-camera 📷
-laptop 💻
-phone 📱
+games console 🎮
+electric fan 🌀
+walkie-talkie 📻
+electric toothbrush 🪥
 tablet 📱
-headphones 🎧
-keyboard ⌨️
-printer 🖨️
-battery 🔋
-television 📺
-remote 📺
+torch 🔦
+mobile phone 📱
+lift 🛗
+laptop 💻
 
 ## Unit 7: In The Hospital
-headache 🤕
-cough 😷
+doctor 👨‍⚕️
+nurse 👩‍⚕️
 cold 🤧
-temperature 🌡️
+cough 😷
+headache 🤕
 toothache 🦷
 earache 👂
-nurse 👩‍⚕️💉
-medicine 💊
-ambulance 🚑
-plaster 🩹
+stomach-ache 🤢
 
 ## Unit 8: Around The World
-Spain 🌍
-France 🌍
-Italy 🌍
-Germany 🌍
-Brazil 🌍
-China 🌍
-Japan 🌍
-Mexico 🌍
-Australia 🌍
-Egypt 🌍
+Mexico 🇲🇽
+Spain 🇪🇸
+Argentina 🇦🇷
+Egypt 🇪🇬
+Chile 🇨🇱
+China 🇨🇳
+Turkey 🇹🇷
+Brazil 🇧🇷
+Australia 🇦🇺
+India 🇮🇳
 
 ## Unit 9: Holiday Plans
-sunny ☀️
-cloudy ☁️
-rainy 🌧️
-windy 💨
-snowy ❄️
-foggy 🌫️
-stormy ⛈️
+thunderstorm ⛈️
+lightning ⚡
+rain 🌧️
+wind 💨
+cloud ☁️
+fog 🌫️
 umbrella ☂️
-sunglasses 🕶️
-weather 🌦️
+raincoat 🧥
+boots 🥾
 `},
   sm4: { name: "Super Minds 4", text: `
 ## Welcome: At Town Events
@@ -904,12 +1025,12 @@ const WORD_TYPE_LISTS = {
   verb: "dance sing swim run paint read jump wash clean tidy sweep measure survive ironing shopping camping swimming skating climbing fishing cycling rowing sailing boxing fencing",
   adj: "big small new old long short beautiful ugly happy sad angry tired scared excited curly straight blond bald sunny cloudy rainy windy snowy foggy stormy delicious poisonous extinct prehistoric electric",
   colour: "red blue green yellow orange purple black white brown pink",
-  prep: "in on under",
+  prep: "in on under upstairs downstairs",
   number: "one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen twenty thirty forty fifty sixty seventy eighty ninety hundred thousand million first second third",
   day: "Monday Tuesday Wednesday Thursday Friday Saturday Sunday",
   month: "January February March April May June July August September October November December",
   greeting: "hello goodbye",
-  country: "Spain France Italy Germany Brazil China Japan Mexico Australia Egypt",
+  country: "Spain France Italy Germany Brazil China Japan Mexico Australia Egypt Argentina Chile Turkey India",
 };
 const WORD_TYPE_LABELS = {
   noun: "🧸 Noun · thing, person or place", verb: "🏃 Verb · action", adj: "🎨 Adjective · describing word",
@@ -922,7 +1043,11 @@ Object.entries(WORD_TYPE_LISTS).forEach(([t, s]) => s.split(" ").forEach(w => { 
  "get up|get dressed|have breakfast|brush your teeth|go to school|have lunch|play in the park|have dinner|go to bed|" +
  "read a comic|go hiking|visit cousins|help in the garden|take riding lessons|build a tree house|keep a scrapbook|learn to swim|go camping").split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
 WORD_TYPES["one hundred"] = "number";
+"wash up|tidy up|feed the dog|dry the dishes|do the shopping|take the dog for a walk".split("|").forEach(w => { WORD_TYPES[w] = "verb"; });
+// twenty-one … ninety-nine, and the times (quarter past one, half past one, quarter to two…)
+"twenty thirty forty fifty sixty seventy eighty ninety".split(" ").forEach(t => "one two three four five six seven eight nine".split(" ").forEach(o => { WORD_TYPES[t + "-" + o] = "number"; }));
+"one two three four five six seven eight nine ten eleven twelve".split(" ").forEach(n => ["quarter past ", "half past ", "quarter to "].forEach(p => { WORD_TYPES[p + n] = "time"; }));
 "one two three four five six seven eight nine ten eleven twelve".split(" ").forEach(n => { WORD_TYPES[n + " o'clock"] = "time"; });
 // "orange" is a colour in Starter (🟠) but the fruit in the food unit (🍊)
-function wordType(word, pic){ if (word === "orange" && pic && pic.includes("🍊")) return "noun"; return WORD_TYPES[word] || "noun"; }
+function wordType(word, pic){ if (word === "orange" && pic && pic.includes("🍊")) return "noun"; if (word === "cook" && pic === "🍳") return "verb"; return WORD_TYPES[word] || "noun"; }
 function wordTypeLabel(word, pic){ return WORD_TYPE_LABELS[wordType(word, pic)]; }

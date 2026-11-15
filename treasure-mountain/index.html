@@ -404,7 +404,7 @@ function levelWords(id){
   if (wordCache[id]) return wordCache[id];
   const all = [];
   BOOKS[id].text.split(/\r?\n/).forEach(raw => {
-    const m = raw.trim().match(/^([A-Za-z][A-Za-z'’\- ]*[A-Za-z]|[A-Za-z])\s+(\S.*)$/);
+    const m = raw.trim().match(/^([A-Za-z][A-Za-z'’.\- ]*[A-Za-z.]|[A-Za-z])\s+(\S.*)$/);
     if (m && !raw.trim().startsWith("#")) all.push({ w: m[1].trim(), pic: m[2].trim() });
   });
   const count = {}; all.forEach(c => count[c.pic] = (count[c.pic] || 0) + 1);

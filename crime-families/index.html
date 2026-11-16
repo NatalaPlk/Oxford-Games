@@ -29,10 +29,10 @@
   .hero .l{background:var(--noir);color:#fff;padding:30px 30px 34px}
   .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
   .hero h1{margin:14px 0 6px;line-height:.88;font-family:var(--display);font-weight:900;font-size:clamp(44px,7vw,90px);letter-spacing:-.02em;text-transform:uppercase}
-  .hero h1 .w2{display:block;color:var(--yellow);font-stretch:70%}
+  .hero h1 .w2{display:block;color:var(--brand);font-stretch:70%}
   .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:40ch}
   .hero .r{position:relative;background:var(--brand) repeating-linear-gradient(45deg,transparent 0 18px,rgba(0,0,0,.1) 18px 36px);display:grid;place-items:center;padding:24px;min-height:250px;overflow:hidden}
-  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--yellow);color:var(--navy);border:2px solid var(--navy);box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
+  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
   .dossier{background:#f7efd9;border:2px solid var(--navy);box-shadow:6px 6px 0 var(--navy);border-radius:6px;padding:16px 18px 14px;width:min(330px,100%);transform:rotate(2deg);font-family:var(--mono)}
   .dossier .stamp{display:inline-block;border:3px solid var(--brand);color:var(--brand);font-weight:700;letter-spacing:.2em;padding:2px 8px;transform:rotate(-6deg);font-size:13px;margin-bottom:8px}
   .dossier .boss{font-family:var(--display);font-weight:900;font-size:30px;text-transform:uppercase;letter-spacing:.02em}
@@ -40,7 +40,7 @@
   .dossier .row b{font-family:"Archivo",sans-serif;font-size:18px}
   .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
   .marquee div{display:inline-block;padding:12px 0;animation:scroll 44s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
-  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px;color:var(--muted)}
+  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px}
   @keyframes scroll{to{transform:translateX(-50%)}}
   .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
   .modes{display:grid;grid-template-columns:1fr 1fr;gap:16px}
@@ -86,7 +86,7 @@
 
   /* the city */
   .city{background:var(--noir);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:14px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative}
-  .city::before{content:"THE CITY";position:absolute;top:-11px;left:22px;background:var(--yellow);color:var(--navy);border:2px solid var(--navy);border-radius:8px;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.2em;padding:1px 10px}
+  .city::before{content:"THE CITY";position:absolute;top:-11px;left:22px;background:var(--brand);color:#fff;border:2px solid #fff;border-radius:8px;font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.2em;padding:1px 10px}
   .dist{position:relative;background:#fff;border:3px solid #fff;border-radius:16px;padding:10px 8px 8px;text-align:center;min-height:var(--dh,150px);display:flex;flex-direction:column;align-items:center;gap:2px;transition:transform .12s,box-shadow .12s}
   .dist .ic{font-size:clamp(30px,4.2vh,42px);line-height:1.1}
   .dist .nm{font-family:var(--display);font-weight:900;font-size:17px;text-transform:uppercase;line-height:1}
@@ -115,7 +115,7 @@
   .say{font-size:19px;line-height:1.45;margin:0 0 12px}
   .tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
   .tag{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;background:var(--navy);color:#fff;border-radius:999px;padding:5px 12px}
-  .tag.red{background:var(--brand)} .tag.yel{background:var(--yellow);color:var(--navy);border:2px solid var(--navy);padding:3px 10px}
+  .tag.red{background:var(--brand)} .tag.yel{background:var(--brand);color:#fff;border:2px solid #fff;padding:3px 10px}
   .clue{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:12px}
   .clue .w{font-family:var(--display);font-weight:900;font-size:clamp(30px,4.6vh,44px);text-transform:uppercase;background:var(--yellow);border:2px solid var(--navy);border-radius:12px;padding:2px 14px;box-shadow:3px 3px 0 var(--navy);letter-spacing:.02em}
   .clue .arrow{font-size:28px}
@@ -431,7 +431,7 @@ if (!LEVELS[S.level]) S.level = "B1";
 function saveSetup(){ try { localStorage.setItem("crime-families-setup", JSON.stringify(S)); } catch (e) {} }
 
 $("marq").innerHTML = (["decide → decision", "care → careful", "luck → luckily", "loyal → loyalty", "strong → strengthen", "happy → unhappy", "suspect → suspicious", "rob → robbery"]
-  .map(s => `<b>${s.split(" → ")[0]}</b><i>→</i>${s.split(" → ")[1]}<i>·</i>`).join("")).repeat(4);
+  .map(s => `<i>${s.split(" → ")[0]} <b>→</b> ${s.split(" → ")[1]}</i><i>·</i>`).join("")).repeat(4);
 const famName = i => (S.names[i] || "").trim() || FAM_STYLE[i].name;
 function drawSetup(){
   $("modes").innerHTML = [["city", "🗺️", "Take the City", "Pick a district, change the word, win the street. Control the most districts. Watch out for the police!"],

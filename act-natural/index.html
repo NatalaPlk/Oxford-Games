@@ -30,10 +30,10 @@
   .hero .l{background:var(--navy);color:#fff;padding:30px 30px 34px}
   .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
   .hero h1{margin:14px 0 6px;line-height:.88;font-family:var(--display);font-weight:900;font-size:clamp(46px,7.6vw,96px);letter-spacing:-.02em;text-transform:uppercase}
-  .hero h1 .w2{display:block;color:var(--yellow);font-stretch:70%}
+  .hero h1 .w2{display:block;color:var(--brand);font-stretch:70%}
   .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:38ch}
   .hero .r{position:relative;background:var(--brand) repeating-linear-gradient(45deg,transparent 0 18px,rgba(0,0,0,.08) 18px 36px);display:grid;place-items:center;padding:24px;min-height:250px;overflow:hidden}
-  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--yellow);color:var(--navy);border:2px solid var(--navy);box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
+  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
   .bubbles{display:grid;gap:12px;width:min(340px,100%)}
   .bub{background:#fff;border:2px solid var(--navy);border-radius:20px;padding:12px 16px;font-weight:700;font-size:17px;box-shadow:4px 4px 0 var(--navy);max-width:85%}
   .bub.a{justify-self:start;border-bottom-left-radius:4px} .bub.b{justify-self:end;background:var(--yellow);border-bottom-right-radius:4px}
@@ -298,7 +298,8 @@ if (!LIST().some(s => s.id === S.scene)) S.scene = LIST()[0].id;
 function saveSetup(){ try { localStorage.setItem("situationship-setup", JSON.stringify(S)); } catch (e) {} }
 
 /* ---------- setup screen ---------- */
-$("marq").innerHTML = (SCENES.map(s => `<i>${s.icon}</i><b>${s.name}</b>`).join("") + "<i>·</i>").repeat(4);
+const SCENE_ES = {"cafe":"En la cafetería","restaurant":"En el restaurante","doctor":"En el médico","airport":"En el aeropuerto","hotel":"En el hotel","directions":"Preguntar el camino","shop":"De compras","train":"En la estación de tren"};
+$("marq").innerHTML = (SCENES.map(s => `<i>${s.icon} ${s.name} <b>→</b> ${SCENE_ES[s.id]}</i><i>·</i>`).join("")).repeat(4);
 function starsHtml(n){ return "★★★".split("").map((c, i) => i < n ? `<b>${c}</b>` : c).join(""); }
 const bestKey = id => id + LV() + (S.role === "staff" ? "-staff" : "");   // stars are kept per role
 function drawSetup(){

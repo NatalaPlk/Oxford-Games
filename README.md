@@ -118,7 +118,7 @@ Real-life conversations for adults, levels A1 to B2: at the café, the restauran
 - The other person's lines are read aloud (British English, if the browser has the voice).
 - At the end: stars, and a list of the mistakes with their corrections.
 - The situations and conversations are in `act-natural/scenes.js`: one line per turn.
-- **📘 The Oxford Method · Book 2** (A1+): a second set of situations, one for each of the 21 units of the book (*What have you got?, What time is it?, At the shops, Where were you yesterday?, Finding your way…*), with the unit's dialogue and partner task, in both roles. At the end, a **Unit N →** button goes to the next unit. They are in `act-natural/book2.js`.
+- **📘 The Oxford Method · Book 2** (A1+): a second set of situations, one for each of the 21 units of the book (*What have you got?, What time is it?, At the shops, Where were you yesterday?, Finding your way…*), with the unit's dialogue and partner task, in both roles. The instructions are in Spanish (*Di que sí. Pregunta dónde está la oficina de correos.*), so they don't give away the English words. At the end, a **Unit N →** button goes to the next unit. They are in `act-natural/book2.js`.
 
 Play: https://natalaplk.github.io/Oxford-Games/act-natural/
 

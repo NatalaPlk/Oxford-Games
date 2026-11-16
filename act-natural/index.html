@@ -57,6 +57,8 @@
   .scene:hover{transform:translateY(-3px)}
   .scene .ic{font-size:44px;line-height:1.1;display:block}
   .scene .nm{display:block;font-weight:800;font-size:16px;margin-top:6px}
+  .scene .nm small{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;opacity:.65}
+  .sources{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 16px}
   .scene .st{display:block;font-size:14px;letter-spacing:2px;margin-top:4px;color:#c9c6dd}
   .scene .st b{color:#f2a100;font-weight:400}
   .scene.on{background:var(--navy);color:#fff;box-shadow:5px 5px 0 var(--c)}
@@ -197,6 +199,7 @@
 
   <div class="panel">
     <p class="eyebrow">01 · Choose a situation</p>
+    <div class="sources" id="sources"></div>
     <div class="scenes" id="scenes"></div>
   </div>
 
@@ -269,34 +272,42 @@
 
 <script src="scenes.js"></script>
 <script src="staff.js"></script>
+<script src="book2.js"></script>
 <script src="../shared/howto.js"></script>
 <script>
 const LEVELS = { A1: "Beginner", A2: "Elementary", B1: "Intermediate", B2: "Upper-intermediate" };
 const HELPS = { choose: ["🅰️ Choose", "Pick the right sentence"], gaps: ["✏️ Fill the gaps", "Part of the answer is written"], type: ["⌨️ Type it", "Write the whole answer"] };
-const HELP_FOR = { A1: "choose", A2: "gaps", B1: "type", B2: "type" };
+const HELP_FOR = { A1: "choose", "A1+": "choose", A2: "gaps", B1: "type", B2: "type" };
 const COST = { wrong: 35, rude: 15, typo: 10, hint: 5 };
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
 
-const S = { scene: SCENES[0].id, level: "A1", mode: "real", role: "client", help: "choose", helpPicked: false, voice: true };
+const S = { scene: SCENES[0].id, level: "A1", source: "life", mode: "real", role: "client", help: "choose", helpPicked: false, voice: true };
 let best = {};
 // the saved data keeps the game's first name (Situationship), so nobody loses their stars
 try { best = JSON.parse(localStorage.getItem("situationship-best") || "{}"); } catch (e) {}
 try { const p = JSON.parse(localStorage.getItem("situationship-setup") || "null"); if (p) Object.assign(S, p); } catch (e) {}
-if (!SCENES.some(s => s.id === S.scene)) S.scene = SCENES[0].id;
+// two sets of situations: everyday life (A1–B2) and The Oxford Method Book 2 (A1+, one per unit, in book2.js)
+const isBook = () => S.source === "book";
+const LIST = () => isBook() ? BOOK : SCENES;
+const ALL = SCENES.concat(BOOK);
+const LV = () => isBook() ? "A1+" : S.level;   // the level of the conversation
+if (!LIST().some(s => s.id === S.scene)) S.scene = LIST()[0].id;
 function saveSetup(){ try { localStorage.setItem("situationship-setup", JSON.stringify(S)); } catch (e) {} }
 
 /* ---------- setup screen ---------- */
 $("marq").innerHTML = (SCENES.map(s => `<i>${s.icon}</i><b>${s.name}</b>`).join("") + "<i>·</i>").repeat(4);
 function starsHtml(n){ return "★★★".split("").map((c, i) => i < n ? `<b>${c}</b>` : c).join(""); }
-const bestKey = id => id + S.level + (S.role === "staff" ? "-staff" : "");   // stars are kept per role
+const bestKey = id => id + LV() + (S.role === "staff" ? "-staff" : "");   // stars are kept per role
 function drawSetup(){
-  $("scenes").innerHTML = SCENES.map(s => `<button class="scene${s.id === S.scene ? " on" : ""}" style="--c:${s.color}" data-id="${s.id}">
-    <span class="ic">${s.icon}</span><span class="nm">${s.name}</span><span class="st" title="Best at ${S.level}">${starsHtml(best[bestKey(s.id)] || 0)}</span></button>`).join("")
+  $("sources").innerHTML = [["life", "🌍 Everyday situations", "A1 → B2"], ["book", "📘 The Oxford Method · Book 2", "A1+ · 21 units"]]
+    .map(([k, t, s]) => `<button class="chip big${k === S.source ? " on" : ""}" data-src="${k}">${t}<small>${s}</small></button>`).join("");
+  $("scenes").innerHTML = LIST().map(s => `<button class="scene${s.id === S.scene ? " on" : ""}" style="--c:${s.color}" data-id="${s.id}">
+    <span class="ic">${s.icon}</span><span class="nm">${s.book ? `<small>Unit ${s.unit}</small>` : ""}${s.name}</span><span class="st" title="Best at ${LV()}">${starsHtml(best[bestKey(s.id)] || 0)}</span></button>`).join("")
     + `<button class="scene" style="--c:#ffd257" data-id="random"><span class="ic">🎲</span><span class="nm">Surprise me</span><span class="st">random</span></button>`;
-  $("levels").innerHTML = Object.keys(LEVELS).map(l => `<button class="chip big${l === S.level ? " on" : ""}" data-l="${l}">${l}<small>${LEVELS[l]}</small></button>`).join("");
+  $("levels").innerHTML = isBook() ? `<button class="chip big on">A1+<small>Book 2</small></button>` : Object.keys(LEVELS).map(l => `<button class="chip big${l === S.level ? " on" : ""}" data-l="${l}">${l}<small>${LEVELS[l]}</small></button>`).join("");
   $("modes").innerHTML = [["real", "😠 Real life", "They lose patience"], ["fun", "😄 Just for fun", "Nobody gets angry"]]
     .map(([k, t, s]) => `<button class="chip big${k === S.mode ? " on" : ""}" data-m="${k}">${t}<small>${s}</small></button>`).join("");
   $("modeHint").innerHTML = S.mode === "real"
@@ -305,18 +316,21 @@ function drawSetup(){
   $("levelHint").textContent = { A1: "Short, simple sentences: ordering, saying yes / no, simple questions.",
     A2: "Everyday requests, questions with do / does, can / could.", B1: "Problems and explanations: allergies, delays, complaints.",
     B2: "Polite complaints, negotiating, softening what you say." }[S.level];
-  const sc = SCENES.find(s => s.id === S.scene), cl = STAFF[sc.id].client.toLowerCase(), wk = sc.who.toLowerCase();
+  if (isBook()) $("levelHint").textContent = "The conversations of the book: the dialogue and the partner task of each unit.";
+  const sc = ALL.find(s => s.id === S.scene), cl = STAFF[sc.id].client.toLowerCase(), wk = sc.who.toLowerCase();
   $("roles").innerHTML = [["client", "🙋 " + STAFF[sc.id].client, "You answer the " + wk], ["staff", sc.face + " " + sc.who, "You ask the questions"]]
     .map(([k, t, s]) => `<button class="chip big${k === S.role ? " on" : ""}" data-r="${k}">${t}<small>${s}</small></button>`).join("");
   $("roleHint").innerHTML = S.role === "staff"
-    ? `You are the <b>${esc(wk)}</b>: you start the conversation, ask the questions and serve the ${esc(cl)}.`
+    ? `You are the <b>${esc(wk)}</b>: you start the conversation and ask the questions${sc.book ? "" : ` and serve the ${esc(cl)}`}.`
     : `You are the <b>${esc(cl)}</b>: you answer the ${esc(wk)} and ask for what you need.`;
   $("helps").innerHTML = Object.entries(HELPS).map(([k, [t, s]]) => `<button class="chip big${k === S.help ? " on" : ""}" data-h="${k}">${t}<small>${s}</small></button>`).join("");
   $("voice").checked = S.voice;
 }
 $("scenes").onclick = e => { const b = e.target.closest(".scene"); if (!b) return;
-  if (b.dataset.id === "random") { S.scene = pick(SCENES.filter(s => s.id !== S.scene)).id; } else S.scene = b.dataset.id; drawSetup(); };
-$("levels").onclick = e => { const b = e.target.closest("[data-l]"); if (!b) return; S.level = b.dataset.l; if (!S.helpPicked) S.help = HELP_FOR[S.level]; drawSetup(); };
+  if (b.dataset.id === "random") { S.scene = pick(LIST().filter(s => s.id !== S.scene)).id; } else S.scene = b.dataset.id; drawSetup(); };
+$("levels").onclick = e => { const b = e.target.closest("[data-l]"); if (!b || isBook()) return; S.level = b.dataset.l; if (!S.helpPicked) S.help = HELP_FOR[S.level]; drawSetup(); };
+$("sources").onclick = e => { const b = e.target.closest("[data-src]"); if (!b) return; S.source = b.dataset.src;
+  if (!LIST().some(s => s.id === S.scene)) S.scene = LIST()[0].id; if (!S.helpPicked) S.help = HELP_FOR[LV()]; drawSetup(); };
 $("modes").onclick = e => { const b = e.target.closest("[data-m]"); if (!b) return; S.mode = b.dataset.m; drawSetup(); };
 $("roles").onclick = e => { const b = e.target.closest("[data-r]"); if (!b) return; S.role = b.dataset.r; drawSetup(); };
 $("helps").onclick = e => { const b = e.target.closest("[data-h]"); if (!b) return; S.help = b.dataset.h; S.helpPicked = true; drawSetup(); };
@@ -331,7 +345,7 @@ function findVoice(){ const v = (window.speechSynthesis && speechSynthesis.getVo
 if (window.speechSynthesis){ findVoice(); speechSynthesis.onvoiceschanged = findVoice; }
 function speak(t){
   if (!S.voice || !window.speechSynthesis) return;
-  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = "en-GB"; if (VOICE) u.voice = VOICE; u.rate = S.level === "A1" ? .85 : .95; speechSynthesis.speak(u); } catch (e) {}
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = "en-GB"; if (VOICE) u.voice = VOICE; u.rate = LV().startsWith("A1") ? .85 : .95; speechSynthesis.speak(u); } catch (e) {}
 }
 function drawVoiceBtn(){ $("voiceBtn").textContent = S.voice ? "🔊" : "🔇"; }
 $("voiceBtn").onclick = () => { S.voice = !S.voice; drawVoiceBtn(); if (!S.voice && window.speechSynthesis) speechSynthesis.cancel(); saveSetup(); };
@@ -413,19 +427,19 @@ function checkTyped(turn, text){
 
 /* ---------- the game ---------- */
 let G = null;
-const scene = () => SCENES.find(s => s.id === S.scene);
+const scene = () => ALL.find(s => s.id === S.scene);
 function startGame(){
-  const sc = scene(), lv = sc.levels[S.level], st = STAFF[sc.id], staff = S.role === "staff";
+  const sc = scene(), lv = sc.levels[LV()], st = STAFF[sc.id], staff = S.role === "staff";
   // the other person: the worker (normal role) or the customer ("You're the worker" role)
   const other = staff ? { name: st.client, face: st.face, leave: st.leave } : { name: sc.who, face: sc.face, leave: sc.leave };
   // as the worker, the student says the worker's lines, and the customer answers with the model answers of the normal role
-  const turns = staff ? st[S.level].map((w, k) => Object.assign({}, w, { npc: k ? lv.turns[k - 1].say[0] : "" })) : lv.turns;
-  G = { sc, other, turns, endLine: staff ? st.bye[S.level] : lv.end, i: 0, patience: 100, mistakes: [], wrongs: 0, over: false, token: 0, opts: null, gaps: null, struck: new Set() };
+  const turns = staff ? st[LV()].map((w, k) => Object.assign({}, w, { npc: k ? lv.turns[k - 1].say[0] : "" })) : lv.turns;
+  G = { sc, other, turns, endLine: staff ? st.bye[LV()] : lv.end, i: 0, patience: 100, mistakes: [], wrongs: 0, over: false, token: 0, opts: null, gaps: null, struck: new Set() };
   $("setup").classList.add("hidden"); $("end").classList.add("hidden"); $("game").classList.remove("hidden");
   $("npc").style.setProperty("--c", sc.color);
   $("face").textContent = other.face; $("who").textContent = other.name;
   $("where").textContent = sc.icon + " " + sc.name + (staff ? " · you're the " + sc.who.toLowerCase() : "");
-  $("counter").innerHTML = `<b>${S.level}</b> · ${S.mode === "real" ? "Real life" : "Just for fun"}${staff ? " · " + esc(sc.face + " " + sc.who) : ""}`;
+  $("counter").innerHTML = `<b>${sc.book ? "Book 2 · Unit " + sc.unit : LV()}</b> · ${S.mode === "real" ? "Real life" : "Just for fun"}${staff ? " · " + esc(sc.face + " " + sc.who) : ""}`;
   $("chat").innerHTML = ""; $("you").innerHTML = "";
   drawVoiceBtn(); drawHelpSeg(); drawPatience(); drawProgress();
   window.scrollTo({ top: 0 });
@@ -627,33 +641,35 @@ function fixesHtml(){
   return `<p class="eyebrow" style="text-align:left">Learn from your mistakes</p><div class="fixes">${G.mistakes.map(m => `<div class="fix"><div class="q">${esc(m.task)}</div>
     <div class="no">${esc(m.said)}</div><div class="why">${m.why}</div><div class="yes">✓ ${esc(m.model)}</div></div>`).join("")}</div>`;
 }
-const nextLevel = () => { const ks = Object.keys(LEVELS); return ks[ks.indexOf(S.level) + 1]; };
+const nextLevel = () => { if (isBook()) return null; const ks = Object.keys(LEVELS); return ks[ks.indexOf(S.level) + 1]; };
+const nextUnit = () => isBook() ? BOOK[BOOK.findIndex(b => b.id === S.scene) + 1] : null;
 function win(){
   if (G.over) return; G.over = true;
   const st = starsFor(), key = bestKey(S.scene);
   if (st > (best[key] || 0)){ best[key] = st; try { localStorage.setItem("situationship-best", JSON.stringify(best)); } catch (e) {} }
-  const nl = nextLevel();
-  showEnd(`<div class="big">${G.other.face}</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${S.level}</p>
+  const nl = nextLevel(), nu = nextUnit();
+  showEnd(`<div class="big">${G.other.face}</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${G.sc.book ? "Book 2 · Unit " + G.sc.unit : LV()}</p>
     <h2>${st === 3 ? "Perfect conversation!" : st === 2 ? "Well done!" : "You made it!"}</h2>
     <div class="stars">${[0, 1, 2].map(i => `<span class="${i < st ? "" : "off"}">⭐</span>`).join("")}</div>
     <p class="sub">${S.mode === "real" ? `The ${esc(G.other.name.toLowerCase())} still had <b>${Math.max(0, G.patience)}%</b> patience left.` : `Mistakes: <b>${G.mistakes.length}</b>.`}</p>
     ${fixesHtml()}
-    <div class="start-row">${nl ? `<button class="btn btn-red" id="eNext">Try ${nl} →</button>` : ""}<button class="btn btn-yellow" id="eAgain">↻ Play again</button><button class="btn btn-plain" id="eHome">Another situation</button></div>`);
-  if (nl) $("eNext").onclick = () => { S.level = nl; if (!S.helpPicked) S.help = HELP_FOR[nl]; saveSetup(); startGame(); };
+    <div class="start-row">${nl ? `<button class="btn btn-red" id="eNext">Try ${nl} →</button>` : ""}${nu ? `<button class="btn btn-red" id="eUnit">Unit ${nu.unit} →</button>` : ""}<button class="btn btn-yellow" id="eAgain">↻ Play again</button><button class="btn btn-plain" id="eHome">Another situation</button></div>`, () => {
+    if (nu) $("eUnit").onclick = () => { S.scene = nu.id; saveSetup(); startGame(); };
+    if (nl) $("eNext").onclick = () => { S.level = nl; if (!S.helpPicked) S.help = HELP_FOR[nl]; saveSetup(); startGame(); };
+  });
 }
 function lose(){
   if (G.over) return; G.over = true;
-  showEnd(`<div class="big">🤬</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${S.level}</p>
+  showEnd(`<div class="big">🤬</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${G.sc.book ? "Book 2 · Unit " + G.sc.unit : LV()}</p>
     <h2>They walked away!</h2>
     <p class="sub">The ${esc(G.other.name.toLowerCase())} lost their patience. Look at your mistakes and try again.</p>
     ${fixesHtml()}
-    <div class="start-row"><button class="btn btn-red" id="eAgain">↻ Try again</button><button class="btn btn-yellow" id="eFun">😄 Try it just for fun</button><button class="btn btn-plain" id="eHome">Another situation</button></div>`);
-  $("eFun").onclick = () => { S.mode = "fun"; saveSetup(); startGame(); };
+    <div class="start-row"><button class="btn btn-red" id="eAgain">↻ Try again</button><button class="btn btn-yellow" id="eFun">😄 Try it just for fun</button><button class="btn btn-plain" id="eHome">Another situation</button></div>`, () => { $("eFun").onclick = () => { S.mode = "fun"; saveSetup(); startGame(); }; });
 }
-function showEnd(html){
+function showEnd(html, after){
   setTimeout(() => {
     $("game").classList.add("hidden"); $("end").classList.remove("hidden"); $("endBox").innerHTML = html; window.scrollTo({ top: 0 });
-    $("eAgain").onclick = () => startGame(); $("eHome").onclick = showSetup;
+    $("eAgain").onclick = () => startGame(); $("eHome").onclick = showSetup; if (after) after();
   }, 700);
 }
 </script>
@@ -664,6 +680,7 @@ function showEnd(html){
     intro: "Conversaciones de la vida real en inglés: pedir en una cafetería o un restaurante, ir al médico, el aeropuerto, el hotel, preguntar el camino, comprar ropa y la estación de tren. Niveles A1 a B2, pensado sobre todo para adultos.",
     steps: [
       ["🗺️", "<b>Elige una situación</b> y el nivel (A1–B2). Cada conversación tiene 4 turnos."],
+      ["📘", "<b>The Oxford Method · Book 2:</b> las conversaciones del libro (A1+), una por unidad: el diálogo y la tarea con el compañero de cada unidad, en los dos papeles."],
       ["😠", "<b>Real life:</b> cada error le quita <b>paciencia</b> a la otra persona (un error gordo −35, una falta de ortografía −10, no decir <i>please</i> −15). Si llega a cero, se va… ¡y pierdes!"],
       ["🔄", "<b>Tu papel:</b> cliente (respondes al camarero, al médico…) o <b>trabajador</b>: eres el camarero, el médico, el recepcionista… y tú haces las preguntas al cliente."],
       ["😄", "<b>Just for fun:</b> nadie se enfada. Si te equivocas, ves la corrección y la respuesta buena, y lo intentas otra vez."],
@@ -682,6 +699,7 @@ function showEnd(html){
   intro: "Real-life conversations in English: ordering at a café or restaurant, seeing a doctor, the airport, the hotel, asking the way, buying clothes and the train station. Levels A1 to B2, mainly for adults.",
   steps: [
     ["🗺️", "<b>Choose a situation</b> and a level (A1–B2). Each conversation has 4 turns."],
+    ["📘", "<b>The Oxford Method · Book 2:</b> the conversations of the book (A1+), one for each unit: its dialogue and partner task, in both roles."],
     ["😠", "<b>Real life:</b> every mistake costs the other person's <b>patience</b> (a real mistake −35, a spelling mistake −10, forgetting <i>please</i> −15). At zero they walk away… and you lose!"],
     ["🔄", "<b>Your role:</b> the customer (you answer the waiter, the doctor…) or the <b>worker</b>: you are the waiter, the doctor, the receptionist… and you ask the customer the questions."],
     ["😄", "<b>Just for fun:</b> nobody gets angry. When you make a mistake you see the correction and the right answer, and try again."],

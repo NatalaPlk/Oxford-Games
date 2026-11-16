@@ -61,7 +61,7 @@ A word-chain game for all levels. The caterpillar starts very small, with one le
 - 1–4 teams (or the whole class together, trying to beat the record). Points = letters in the word.
 - Hard letter such as X or Q? The teacher presses **New letter** to get a random one.
 - Words are checked against the ENABLE word list (public domain). If a word isn't in it, the teacher decides: real word or wrong.
-- The game ends when a team gives a wrong word or one that was already used: the caterpillar eats it, gets sick and… makes a stinky poop. That team also loses double the points of the bad word (a 4-letter word costs 8 points), so a mistake can cost the win.
+- The game ends when a team gives a wrong word or one that was already used: the caterpillar eats it, gets sick and… makes a stinky poop. That team also loses double the points of the bad word (a 4-letter word costs 8 points), so a mistake can cost the win. Then the teacher chooses **Game over** or **It was a mistake, but keep playing**: the team keeps the penalty and it's the next team's turn.
 
 Play: https://natalaplk.github.io/Oxford-Games/hungry-caterpillar/
 

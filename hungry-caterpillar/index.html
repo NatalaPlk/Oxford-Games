@@ -316,8 +316,8 @@
   <h1>Yuck!</h1>
   <p id="yuckWhy"></p>
   <div class="start-row">
-    <button class="btn btn-red btn-big" id="yuckNext">See the scores ➜</button>
-    <button class="btn btn-plain" id="yuckUndo">↩ It was a mistake, keep playing</button>
+    <button class="btn btn-red btn-big" id="yuckNext">Game over ➜</button>
+    <button class="btn btn-plain" id="yuckKeep">It was a mistake, but keep playing ➜</button>
   </div>
 </div>
 
@@ -632,6 +632,16 @@ function finish(){
   show("end");
   if (!bad || G.teams.length > 1) { confetti(bad ? 30 : 60); sWin(); }
 }
+// the teacher lets the game go on: the team keeps the penalty, the caterpillar doesn't eat the word and it's the next team's turn
+function keepPlaying(){
+  if (!G || G.phase !== "over" || !G.bad || $("yuck").classList.contains("hidden")) return;
+  clearTimers(); busy = false;
+  const bad = G.bad, t = G.teams[bad.team];
+  G.bad = null; G.phase = "play"; G.judging = null;
+  G.turn = (bad.team + 1) % G.teams.length;
+  show("game"); render();
+  setMsg(`−${bad.pen} points${G.teams.length > 1 ? " for " + t.name + ". Now it's " + team().name + "'s turn" : ""}. Keep going: a word with ${G.letter.toUpperCase()}`, "bad");
+}
 function undo(){
   if (!undoStack.length || (busy && G.phase !== "over")) return;
   clearTimers(); busy = false;
@@ -662,7 +672,7 @@ $("judgeYes").onclick = () => { if (G.phase !== "judge") return; const w = G.jud
 $("judgeNo").onclick = () => { if (G.phase !== "judge") return; const w = G.judging; G.phase = "play"; G.judging = null; gameOver(w, "notword"); };
 $("judgeBack").onclick = () => { if (G.phase !== "judge") return; G.phase = "play"; G.judging = null; render(); };
 $("undoBtn").onclick = undo;
-$("yuckUndo").onclick = undo;
+$("yuckKeep").onclick = keepPlaying;
 $("yuckNext").onclick = finish;
 $("endBtn").onclick = () => { if (!busy && confirm("Finish the game now?")) finish(); };
 $("againBtn").onclick = startGame;
@@ -703,7 +713,7 @@ renderSetup();
       ],
       [
         "💩",
-        "Una palabra incorrecta o repetida termina la partida: la oruga se pone mala y… ¡ya veréis! Ese equipo <b>pierde el doble de puntos</b> de esa palabra: una de 4 letras le quita 8 puntos."
+        "Una palabra incorrecta o repetida: la oruga se pone mala y… ¡ya veréis! Ese equipo <b>pierde el doble de puntos</b> de esa palabra: una de 4 letras le quita 8 puntos. Luego elegid: <b>Game over</b> (se acaba la partida) o <b>It was a mistake, but keep playing</b> (se siguen restando los puntos y le toca al siguiente equipo)."
       ]
     ],
     "tips": [
@@ -721,7 +731,7 @@ renderSetup();
     ["🍃", "Type the rest of the word and press <b>Feed it!</b> (or <kbd>Enter</kbd>). The caterpillar eats the word and grows."],
     ["🔁", "The next team needs a word that starts with the <b>last letter</b>: wol<b>f</b> → <b>f</b>amily → <b>y</b>ellow…"],
     ["⭐", "<b>Points = letters in the word.</b> Wolf = 4 points, family = 6 points. Long words are better!"],
-    ["💩", "A word that is wrong or was already used ends the game: the caterpillar gets sick and… you'll see! That team <b>loses double the points</b> of the bad word: a 4-letter word costs 8 points."]
+    ["💩", "A word that is wrong or was already used: the caterpillar gets sick and… you'll see! That team <b>loses double the points</b> of the bad word: a 4-letter word costs 8 points. Then choose: <b>Game over</b> or <b>It was a mistake, but keep playing</b> (the team still loses the points, and it's the next team's turn)."]
   ],
   tips: [
     "Hard letter like <b>X</b> or <b>Q</b>? The teacher can press <b>🎲 New letter</b>.",

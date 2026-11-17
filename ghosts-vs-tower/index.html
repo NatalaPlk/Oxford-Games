@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ghosts vs Tower</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b0957; --brand:#c8323c; --brand2:#a5242d;
+    --cream:#f3ead9; --paper:#faf6ee; --card:#ffffff; --yellow:#ffd257;
+    --ink:#0b0957; --muted:#55537e; --ok:#14a35a;
+    --display:"Archivo","Arial Black",Impact,sans-serif; --mono:"Space Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden}
+  button{font:inherit;cursor:pointer;border:0;color:inherit}
+  a{color:var(--navy);text-decoration-color:var(--brand);text-underline-offset:3px}
+  .hidden{display:none!important}
+  .wrap{max-width:1180px;margin:0 auto;padding:22px 16px 48px}
+  .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 14px}
+  .home-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:2px solid var(--navy);border-radius:999px;padding:6px 14px;background:var(--card)}
+  .home-link:hover{background:var(--cream)}
+  a.btn{text-decoration:none;display:inline-flex;align-items:center}
+  img.px{image-rendering:pixelated;image-rendering:crisp-edges;image-rendering:pixelated;display:block}
+
+  /* ---------- Hero ---------- */
+  .hero{display:grid;grid-template-columns:1.15fr 1fr;border:2px solid var(--navy);border-radius:26px;overflow:hidden;margin-bottom:22px;box-shadow:6px 6px 0 var(--navy)}
+  .hero .l{background:var(--navy);color:#fff;padding:30px 30px 34px}
+  .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
+  .hero h1{margin:14px 0 6px;line-height:.86;font-family:var(--display);font-weight:900;font-size:clamp(58px,10vw,118px);letter-spacing:-.02em;text-transform:uppercase}
+  .hero h1 .w2{display:block;color:var(--brand);font-stretch:70%}
+  .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:34ch}
+  .hero .r{position:relative;background:linear-gradient(#bfe6ff 0 66%,#7fd6a6 66% 100%);min-height:260px;overflow:hidden}
+  .hero .r .ground{position:absolute;left:0;right:0;bottom:0;height:34%;border-top:3px solid var(--navy);background:repeating-linear-gradient(90deg,#6cc796 0 16px,#7fd6a6 16px 32px)}
+  .hero .r .htower{position:absolute;left:8%;bottom:20%;height:74%}
+  .hero .r .hghost{position:absolute;width:44px;animation:hbob 2.2s ease-in-out infinite}
+  .hero .r .hplate{position:absolute;animation:hdrift 7s linear infinite}
+  @keyframes hbob{50%{transform:translateY(-8px)}}
+  @keyframes hdrift{from{transform:translateX(0)}to{transform:translateX(-90px)}}
+  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px}
+  .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
+  .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
+  .marquee b{color:var(--brand)} .marquee i{font-style:normal;margin:0 18px}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+
+  .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--card);border:2px solid var(--navy);color:var(--navy);padding:10px 18px;border-radius:999px;font-weight:700;font-size:16px}
+  .chip:hover{background:var(--cream)}
+  .chip.on{background:var(--navy);color:#fff}
+  .chip.num{min-width:58px;font-size:22px;font-family:var(--mono)}
+  .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
+  .opts{display:grid;gap:10px;margin-top:6px}
+  .opt{display:flex;align-items:center;gap:10px;font-weight:700;cursor:pointer}
+  .opt input{width:20px;height:20px;accent-color:var(--navy)}
+  .start-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px}
+  .btn{padding:14px 26px;border-radius:999px;font-weight:800;font-size:17px;border:2px solid var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
+  .btn:active{transform:translate(3px,3px);box-shadow:none!important}
+  .btn-red{background:var(--brand);color:#fff;box-shadow:4px 4px 0 var(--navy)}
+  .btn-red:hover{background:var(--brand2)}
+  .btn-plain{background:var(--card);color:var(--navy)}
+  .btn-plain:hover{background:var(--cream)}
+  .btn-big{font-size:22px;padding:18px 40px}
+
+  /* ---------- game ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .pill{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--navy);border-radius:999px;padding:8px 16px;background:var(--card);display:inline-flex;align-items:center;gap:8px}
+  .pill.legend{background:var(--yellow);font-size:15px}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .topbar .actions{display:flex;gap:8px;flex-wrap:wrap}
+  .topbar .btn{font-size:14px;padding:8px 16px}
+  .slots{display:inline-flex;gap:3px;align-items:center}
+  .slots img{width:22px;height:22px;opacity:.22;filter:grayscale(1);transition:opacity .2s}
+  .slots img.on{opacity:1;filter:none}
+
+  .scene{position:relative;height:clamp(380px,64vh,580px);border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);overflow:hidden;background:linear-gradient(#9fd8ff 0,#cdeeff 70%,#e8f8ff 100%);touch-action:manipulation;user-select:none;-webkit-user-select:none}
+  .scene .ground{position:absolute;left:0;right:0;bottom:0;height:11%;border-top:3px solid var(--navy);background:repeating-linear-gradient(90deg,#6cc796 0 20px,#7fd6a6 20px 40px)}
+  .scene .cl{position:absolute;opacity:.8;animation:cdrift linear infinite}
+  @keyframes cdrift{from{transform:translateX(0)}to{transform:translateX(-120vw)}}
+  .tower{position:absolute;left:14px;bottom:10%;height:82%;aspect-ratio:56/100;z-index:2}
+  .tower>img.tb{position:absolute;inset:0;width:100%;height:100%}
+  .tower img.tg{position:absolute;animation:gin .45s cubic-bezier(.3,1.6,.5,1) both;z-index:3}
+  .tower img.tg.away{animation:gout .7s ease-in forwards}
+  @keyframes gin{from{transform:scale(0) rotate(-40deg)}to{transform:scale(1)}}
+  @keyframes gout{to{transform:translate(70px,-70px) scale(1.3);opacity:0}}
+  .tower.hit{animation:tshake .45s}
+  @keyframes tshake{20%{transform:translateX(-7px) rotate(-1.2deg)}45%{transform:translateX(6px) rotate(1deg)}70%{transform:translateX(-3px)}}
+  .ent{position:absolute;left:0;top:0;z-index:4;filter:drop-shadow(3px 3px 0 rgba(11,9,87,.35));will-change:transform}
+  .ent.bonk{opacity:0;transition:opacity .35s}
+  .w{display:block;background:var(--navy);padding:3px;cursor:pointer;touch-action:manipulation;
+     clip-path:polygon(0 6px,3px 6px,3px 3px,6px 3px,6px 0,calc(100% - 6px) 0,calc(100% - 6px) 3px,calc(100% - 3px) 3px,calc(100% - 3px) 6px,100% 6px,100% calc(100% - 6px),calc(100% - 3px) calc(100% - 6px),calc(100% - 3px) calc(100% - 3px),calc(100% - 6px) calc(100% - 3px),calc(100% - 6px) 100%,6px 100%,6px calc(100% - 3px),3px calc(100% - 3px),3px calc(100% - 6px),0 calc(100% - 6px))}
+  .w span{display:block;background:var(--p,#fff);padding:7px 14px 8px;font-family:var(--mono);font-weight:700;font-size:clamp(17px,2.1vw,23px);color:var(--navy);white-space:nowrap;
+     clip-path:polygon(0 3px,3px 3px,3px 0,calc(100% - 3px) 0,calc(100% - 3px) 3px,100% 3px,100% calc(100% - 3px),calc(100% - 3px) calc(100% - 3px),calc(100% - 3px) 100%,3px 100%,3px calc(100% - 3px),0 calc(100% - 3px))}
+  .w:hover span{filter:brightness(1.08)}
+  .ent.isghost img{width:44px;animation:hbob .5s ease-in-out infinite}
+  .puff{position:absolute;z-index:6;pointer-events:none;text-align:center;animation:ppuff .75s ease-out forwards}
+  .puff img{width:64px;margin:0 auto}
+  .puff b{display:block;font-family:var(--mono);font-size:20px;color:var(--navy);text-shadow:0 0 4px #fff,0 0 4px #fff;margin-top:-6px}
+  .puff.grey img{filter:grayscale(1) brightness(.85)}
+  @keyframes ppuff{0%{transform:scale(.4);opacity:1}35%{transform:scale(1.15)}100%{transform:translateY(-30px) scale(1.3);opacity:0}}
+  .banner,.msg{position:absolute;left:50%;transform:translateX(-50%);z-index:7;pointer-events:none;text-align:center;opacity:0}
+  .banner{top:30%;font-family:var(--display);font-weight:900;font-size:clamp(34px,6vw,68px);text-transform:uppercase;color:#fff;-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:5px 5px 0 var(--navy);white-space:nowrap}
+  .banner.show{animation:bshow 1.8s ease-out}
+  @keyframes bshow{0%{opacity:0;transform:translateX(-50%) scale(.6)}15%{opacity:1;transform:translateX(-50%) scale(1.05)}75%{opacity:1}100%{opacity:0;transform:translateX(-50%) scale(1)}}
+  .msg{top:12px;background:var(--navy);color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;padding:8px 16px;border-radius:999px;white-space:nowrap}
+  .msg.show{animation:mshow 2.2s ease-out}
+  @keyframes mshow{0%{opacity:0}10%,80%{opacity:1}100%{opacity:0}}
+  .pause-ov{position:absolute;inset:0;z-index:9;background:rgba(11,9,87,.55);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:14px;color:#fff;font-family:var(--display);font-weight:900;font-size:56px;text-transform:uppercase}
+  .pause-ov small{font-family:var(--mono);font-size:14px;letter-spacing:.1em}
+  .tip{color:var(--muted);font-size:14px;margin-top:12px;text-align:center}
+  kbd{font-family:var(--mono);font-size:13px;background:#fff;border:1.5px solid var(--navy);border-radius:6px;padding:0 6px}
+
+  /* ---------- end ---------- */
+  .end{text-align:center}
+  .end h1{font-family:var(--display);font-weight:900;font-size:clamp(46px,8vw,96px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;margin:10px 0}
+  .end .stars{font-size:54px;letter-spacing:6px;margin:6px 0}
+  .stats{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:20px auto;max-width:900px}
+  .stat{flex:1;min-width:150px;background:var(--card);border:2px solid var(--navy);border-radius:18px;box-shadow:5px 5px 0 var(--navy);padding:14px}
+  .stat b{display:block;font-family:var(--mono);font-size:34px}
+  .stat span{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .lists{max-width:760px;margin:0 auto 18px;display:grid;gap:10px;text-align:left}
+  .lists div{background:var(--card);border:2px solid var(--navy);border-radius:16px;padding:12px 16px;line-height:1.5}
+  .lists b{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:2px}
+  .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
+
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr}
+    .hero .l{padding:24px 22px 26px}
+    .hero .r{min-height:200px}
+    .topbar .actions .btn{padding:6px 12px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= SETUP ================= -->
+<section id="setup" class="wrap">
+  <a class="home-link" href="../">← All games</a>
+  <div class="hero">
+    <div class="l">
+      <p class="eyebrow">Oxford Games <b>•</b> Vocabulary · Solo</p>
+      <h1>Ghosts<span class="w2">vs Tower</span></h1>
+      <p>Words fly towards your tower. Pop the ones from the family before they get in, and let the others fly by!</p>
+    </div>
+    <div class="r" id="heroArt"><span class="sticker">1 PLAYER</span></div>
+  </div>
+  <div class="marquee"><div id="marq"></div></div>
+
+  <div class="panel">
+    <p class="eyebrow">01 · Word family</p>
+    <div class="choices" id="topicChoices"></div>
+    <div class="hint">The words of this family are the dangerous ones. All the other words are harmless, so leave them alone!</div>
+  </div>
+  <div class="panel">
+    <p class="eyebrow">02 · Level</p>
+    <div class="choices" id="levelChoices"></div>
+    <div class="hint" id="levelHint"></div>
+  </div>
+  <div class="panel">
+    <p class="eyebrow">03 · Ghosts the tower can hold</p>
+    <div class="choices" id="limitChoices"></div>
+    <div class="hint">When this many ghosts move in, the tower is lost. Fewer ghosts = harder.</div>
+  </div>
+  <div class="panel">
+    <p class="eyebrow">04 · Words in the game</p>
+    <div class="choices" id="lenChoices"></div>
+    <div class="opts" style="margin-top:16px">
+      <label class="opt"><input type="checkbox" id="optGhost"> Clicking a harmless word lets a ghost in too</label>
+      <label class="opt"><input type="checkbox" id="optSay"> Say the word aloud when it is popped</label>
+    </div>
+  </div>
+  <div class="start-row"><button class="btn btn-red btn-big" id="startBtn">Defend the tower!</button></div>
+</section>
+
+<!-- ================= GAME ================= -->
+<section id="game" class="wrap hidden">
+  <div class="topbar">
+    <div class="pills">
+      <span class="pill legend" id="legend"></span>
+      <span class="pill" id="pWave"></span>
+      <span class="pill" id="pWords"></span>
+      <span class="pill">⭐ <span id="pScore">0</span></span>
+      <span class="pill"><span class="slots" id="slots"></span></span>
+    </div>
+    <div class="actions">
+      <button class="btn btn-plain" id="pauseBtn">⏸ Pause</button>
+      <button class="btn btn-plain" id="muteBtn">🔊</button>
+      <button class="btn btn-plain" id="quitBtn">✕ Stop</button>
+    </div>
+  </div>
+  <div class="scene" id="scene">
+    <div class="ground"></div>
+    <div class="tower" id="tower"></div>
+    <div class="banner" id="banner"></div>
+    <div class="msg" id="msg"></div>
+    <div class="pause-ov hidden" id="pauseOv">Paused<small>Press <kbd>Space</kbd> to go on</small></div>
+  </div>
+  <div class="tip">Click the family words to pop them. Every 5 in a row: ×2 · every 10: ×3 · every 8 in a row a ghost runs away. <kbd>Space</kbd> = pause</div>
+</section>
+
+<!-- ================= END ================= -->
+<section id="end" class="wrap end hidden">
+  <p class="eyebrow" id="endEyebrow"></p>
+  <h1 id="endTitle"></h1>
+  <div class="stars" id="endStars"></div>
+  <div class="stats" id="endStats"></div>
+  <div class="lists" id="endLists"></div>
+  <div class="start-row">
+    <button class="btn btn-red btn-big" id="againBtn">Play again</button>
+    <button class="btn btn-plain" id="changeBtn">Change topic or level</button>
+    <a class="btn btn-plain" href="../">🏠 All games</a>
+  </div>
+</section>
+
+<script src="topics.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const pick = a => a[Math.floor(Math.random() * a.length)];
+function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+const CAP = new Set(); TOPICS.forEach(t => { if (t.cap) t.words.forEach(w => CAP.add(w)); });
+const label = w => CAP.has(w) ? w[0].toUpperCase() + w.slice(1) : w;
+
+/* ---------- sound ---------- */
+let actx = null, muted = false;
+function tone(freqs, dur = .12, type = "sine", slide = 0, vol = .2){ if (muted) return; try { actx = actx || new (window.AudioContext || window.webkitAudioContext)(); freqs.forEach((f, i) => { const o = actx.createOscillator(), g = actx.createGain(), t = actx.currentTime + i * dur; o.type = type; o.frequency.setValueAtTime(f, t); if (slide) o.frequency.exponentialRampToValueAtTime(f * slide, t + dur); g.gain.setValueAtTime(.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + .02); g.gain.exponentialRampToValueAtTime(.0001, t + dur); o.connect(g).connect(actx.destination); o.start(t); o.stop(t + dur + .02); }); } catch(e){} }
+function say(w){ if (!S.say || muted || !window.speechSynthesis) return; try { const u = new SpeechSynthesisUtterance(w); u.lang = "en-GB"; u.rate = .9; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch(e){} }
+
+/* ---------- pixel art made in code ---------- */
+function sprite(rows, pal, scale){
+  const h = rows.length, w = rows[0].length, c = document.createElement("canvas");
+  c.width = w * scale; c.height = h * scale; const x = c.getContext("2d");
+  rows.forEach((r, j) => [...r].forEach((ch, i) => { if (pal[ch]){ x.fillStyle = pal[ch]; x.fillRect(i * scale, j * scale, scale, scale); } }));
+  return c.toDataURL();
+}
+const GHOST = sprite([
+  "....OOOO....",
+  "..OOWWWWOO..",
+  ".OWWWWWWWWO.",
+  ".OWWWWWWWWO.",
+  "OWWKKWWKKWWO",
+  "OWWKKWWKKWWO",
+  "OWWWWWWWWWWO",
+  "OWWWWKKWWWSO",
+  "OWWWWWWWWWSO",
+  "OWWWWWWWWSSO",
+  "OWWOWWWWOWSO",
+  ".OO.OWWO.OO."
+], { O: "#0b0957", W: "#ffffff", K: "#0b0957", S: "#cfd0f0" }, 5);
+const CLOUD = sprite([
+  "...OOOO.....",
+  "..OWWWWOOO..",
+  ".OWWWWWWWWO.",
+  "OWWWWWWWWWWO",
+  "OWWWWWWWWSSO",
+  ".OOOOOOOOOO."
+], { O: "#0b0957", W: "#ffffff", S: "#cfd0f0" }, 5);
+const SKYCLOUD = sprite([
+  "....WWWW......",
+  "..WWWWWWWW.WW.",
+  ".WWWWWWWWWWWWW",
+  "WWWWWWWWWWWWWW"
+], { W: "#ffffff" }, 8);
+
+// the tower: 56 x 100 pixels, one window for every ghost it can hold
+function windowPos(L){
+  const out = [];
+  for (let i = 0; i < L; i++){
+    const row = Math.floor(i / 2), alone = (i === L - 1 && i % 2 === 0);
+    out.push({ x: alone ? 23 : (i % 2 ? 29 : 17), y: 28 + row * 14, w: 10, h: 10 });
+  }
+  return out;
+}
+function drawTower(L){
+  const c = document.createElement("canvas"); c.width = 56; c.height = 100; const x = c.getContext("2d");
+  const R = (col, a, b, w, h) => { x.fillStyle = col; x.fillRect(a, b, w, h); };
+  const NAVY = "#0b0957";
+  // body
+  R(NAVY, 11, 22, 34, 78); R("#c9c5e6", 12, 22, 32, 78);
+  for (let y = 22; y < 100; y += 6){
+    R("#a9a4d1", 12, y, 32, 1);
+    const off = (Math.floor(y / 6) % 2) * 8;
+    for (let bx = 12 + off; bx < 44; bx += 16) R("#a9a4d1", bx, y, 1, 6);
+  }
+  R("#e4e1f6", 12, 22, 2, 78); R("#9d98c6", 40, 22, 4, 78);
+  // base
+  R(NAVY, 7, 92, 42, 8); R("#b0abd6", 8, 93, 40, 7);
+  // door
+  R(NAVY, 22, 82, 12, 18); R("#7a4a24", 23, 84, 10, 16); R("#5e3818", 27, 84, 1, 16); R(NAVY, 23, 83, 10, 1); R("#ffd257", 30, 92, 2, 2);
+  // windows
+  windowPos(L).forEach(p => { R(NAVY, p.x - 1, p.y - 1, p.w + 2, p.h + 2); R("#2a2570", p.x, p.y, p.w, p.h); R("#4b45a0", p.x, p.y + p.h - 2, p.w, 2); });
+  // eaves and roof
+  R(NAVY, 7, 19, 42, 4); R("#c8323c", 8, 20, 40, 2);
+  for (let i = 0; i < 14; i++){
+    const hw = 1 + Math.floor(i * 1.15), y = 6 + i;
+    R(NAVY, 28 - hw - 1, y, 2 * hw + 2, 1); R("#c8323c", 28 - hw, y, 2 * hw, 1);
+    if (i > 2) R("#a5242d", 28 + Math.floor(hw / 2), y, Math.ceil(hw / 2), 1);
+  }
+  R(NAVY, 27, 0, 2, 7); R("#ffd257", 29, 0, 7, 4); R(NAVY, 29, 4, 7, 1);
+  return c.toDataURL();
+}
+
+/* ---------- settings ---------- */
+const STORE_KEY = "ghosts-vs-tower.v1";
+let store = { s: {}, best: {} };
+try { store = Object.assign(store, JSON.parse(localStorage.getItem(STORE_KEY) || "{}")); } catch(e){}
+function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){} }
+const S = Object.assign({ topic: "colours", level: "medium", limit: 5, len: 20, ghostOnWrong: true, say: false }, store.s);
+if (S.topic !== "random" && !TOPICS.some(t => t.id === S.topic)) S.topic = "colours";
+
+const LEVELS = {
+  easy:   { name: "Easy",   v: 70,  gap: 2.0, ratio: .60, near: 0,   hint: "Slow words and plenty of family words. Good for a first go." },
+  medium: { name: "Medium", v: 100, gap: 1.5, ratio: .55, near: .25, hint: "A good speed. Some harmless words are related to the topic." },
+  hard:   { name: "Hard",   v: 140, gap: 1.1, ratio: .50, near: .5,  hint: "Fast! Half of the harmless words are related to the topic (paint, rainbow…), so read carefully." }
+};
+
+function chips(id, items, key, after){
+  const box = $(id); box.innerHTML = "";
+  items.forEach(it => {
+    const b = document.createElement("button");
+    b.className = "chip" + (typeof it.v === "number" ? " num" : "") + (S[key] === it.v ? " on" : "");
+    b.innerHTML = it.t; b.onclick = () => { S[key] = it.v; store.s = S; saveStore(); [...box.children].forEach(x => x.classList.remove("on")); b.classList.add("on"); if (after) after(); };
+    box.appendChild(b);
+  });
+}
+function buildSetup(){
+  chips("topicChoices", TOPICS.map(t => ({ v: t.id, t: t.icon + " " + t.name })).concat([{ v: "random", t: "🎲 Surprise me" }]), "topic");
+  chips("levelChoices", Object.keys(LEVELS).map(k => ({ v: k, t: LEVELS[k].name })), "level", () => $("levelHint").textContent = LEVELS[S.level].hint);
+  $("levelHint").textContent = LEVELS[S.level].hint;
+  chips("limitChoices", [3, 5, 8].map(n => ({ v: n, t: n })), "limit");
+  chips("lenChoices", [20, 40, 60].map(n => ({ v: n, t: n })), "len");
+  $("optGhost").checked = S.ghostOnWrong; $("optSay").checked = S.say;
+  $("optGhost").onchange = e => { S.ghostOnWrong = e.target.checked; store.s = S; saveStore(); };
+  $("optSay").onchange = e => { S.say = e.target.checked; store.s = S; saveStore(); };
+  const pairs = [["GHOST", "FANTASMA"], ["TOWER", "TORRE"], ["WORD", "PALABRA"], ["HAUNTED", "EMBRUJADA"], ["SAFE", "A SALVO"], ["POP!", "¡PUM!"], ["FLY", "VOLAR"], ["CLOUD", "NUBE"]];
+  $("marq").innerHTML = pairs.map(p => `<i>${p[0]} <b>→</b> ${p[1]}</i><i>·</i>`).join("").repeat(4);
+  // hero picture
+  const tw = drawTower(5);
+  const plates = [["blue", "#bfe0ff", "46%", "18%"], ["dog", "#ffe3a3", "62%", "46%"], ["pink", "#ffc2d6", "78%", "26%"]];
+  $("heroArt").insertAdjacentHTML("beforeend",
+    `<div class="ground"></div>` +
+    `<div style="position:absolute;left:8%;bottom:20%;height:74%;aspect-ratio:56/100"><img class="px" src="${tw}" style="width:100%;height:100%">` +
+    `<img class="px tg" src="${GHOST}" style="position:absolute;left:${16/56*100}%;top:${27/100*100}%;width:${12/56*100}%"></div>` +
+    plates.map((p, i) => `<div class="hplate" style="left:${p[2]};top:${p[3]};animation-delay:-${i * 2}s"><div class="ent" style="position:static;filter:drop-shadow(3px 3px 0 rgba(11,9,87,.35))"><div class="w" style="cursor:default"><span style="--p:${p[1]}">${p[0]}</span></div></div></div>`).join("") +
+    [["40%", "58%", 0], ["56%", "12%", .6], ["70%", "64%", 1.2]].map(g => `<img class="px hghost" src="${GHOST}" style="left:${g[0]};top:${g[1]};animation-delay:${g[2]}s">`).join(""));
+}
+
+/* ---------- screens ---------- */
+function show(id){ ["setup", "game", "end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0, 0); }
+
+/* ---------- the game ---------- */
+let G = null, raf = 0, paused = false, last = 0;
+const scene = $("scene"), tower = $("tower");
+const PLATES = ["#bfe0ff", "#ffe3a3", "#ffc2d6", "#c9f2c7", "#e1d4ff", "#ffd2b8", "#fff3a8", "#ffffff"];
+
+function deck(arr){ let q = [], prev = null; return () => { if (!q.length){ q = shuffle(arr.slice()); if (q.length > 1 && q[q.length - 1] === prev) q.unshift(q.pop()); } prev = q.pop(); return prev; }; }
+function buildSeq(topic, N, lv){
+  const fam = topic.words, famSet = new Set(fam), alsoSet = new Set(topic.also);
+  const others = [];
+  TOPICS.forEach(t => { if (t !== topic) t.words.forEach(w => { if (!famSet.has(w) && !alsoSet.has(w) && !others.includes(w)) others.push(w); }); });
+  const near = topic.near.filter(w => !famSet.has(w) && !alsoSet.has(w));
+  const nFam = Math.round(N * lv.ratio);
+  const flags = shuffle([...Array(N)].map((_, i) => i < nFam));
+  const f = deck(fam), d = deck(others), n = near.length ? deck(near) : d;
+  return { nFam, seq: flags.map(isFam => isFam ? { w: f(), fam: true } : { w: Math.random() < lv.near ? n() : d(), fam: false }) };
+}
+
+function startGame(){
+  const topic = S.topic === "random" ? pick(TOPICS) : TOPICS.find(t => t.id === S.topic);
+  const lv = LEVELS[S.level], N = S.len, b = buildSeq(topic, N, lv);
+  clearInterval(G && G.timer);
+  scene.querySelectorAll(".ent,.puff").forEach(e => e.remove());
+  G = { topic, lv, N, seq: b.seq, nFam: b.nFam, idx: 0, ents: [], t: 0, nextSpawn: 1.3, score: 0, streak: 0, bestStreak: 0, popped: 0,
+        missed: [], wrong: [], ghosts: 0, L: S.limit, wave: 0, over: false, lanes: [], gEls: [], wp: windowPos(S.limit) };
+  paused = false; $("pauseOv").classList.add("hidden"); $("pauseBtn").textContent = "⏸ Pause";
+  tower.innerHTML = `<img class="px tb" src="${drawTower(G.L)}">`; tower.classList.remove("hit");
+  scene.querySelectorAll(".cl").forEach(e => e.remove());
+  for (let i = 0; i < 4; i++) scene.insertAdjacentHTML("afterbegin", `<img class="px cl" src="${SKYCLOUD}" style="left:${15 + i * 24}%;top:${6 + (i * 17) % 34}%;width:${70 + (i * 23) % 50}px;animation-duration:${150 + i * 40}s;animation-delay:-${i * 30}s">`);
+  $("legend").innerHTML = `Pop the <b>${topic.icon} ${topic.name.toUpperCase()}</b> words`;
+  show("game"); hud(); slots();
+  banner("Get ready!");
+  cancelAnimationFrame(raf); last = performance.now(); raf = requestAnimationFrame(loop);
+}
+
+function hud(){
+  $("pScore").textContent = G.score;
+  $("pWords").textContent = `Words ${Math.min(G.idx, G.N)}/${G.N}`;
+  $("pWave").textContent = `Wave ${Math.max(1, G.wave)}/${Math.ceil(G.N / 10)}`;
+}
+function slots(){
+  $("slots").innerHTML = Array.from({ length: G.L }, (_, i) => `<img class="px${i < G.ghosts ? " on" : ""}" src="${GHOST}" alt="">`).join("");
+}
+function banner(t){ const b = $("banner"); b.textContent = t; b.classList.remove("show"); void b.offsetWidth; b.classList.add("show"); }
+function msg(t){ const m = $("msg"); m.textContent = t; m.classList.remove("show"); void m.offsetWidth; m.classList.add("show"); }
+
+function spawn(W, H, k){
+  const item = G.seq[G.idx];
+  if (G.idx % 10 === 0){ G.wave = G.idx / 10 + 1; banner(G.wave === 1 ? "Wave 1" : `Wave ${G.wave} · faster!`); }
+  G.idx++;
+  const el = document.createElement("div"); el.className = "ent";
+  el.innerHTML = `<button class="w"><span style="--p:${pick(PLATES)}">${label(item.w)}</span></button>`;
+  scene.appendChild(el);
+  // lane: six heights, never the same one twice in a row
+  let lane; do { lane = Math.floor(Math.random() * 6); } while (G.lanes.slice(-2).includes(lane));
+  G.lanes.push(lane);
+  const top = H * .12, bottom = H * .86 - 44;
+  const e = { el, w: item.w, fam: item.fam, x: W + 20, y0: top + (bottom - top) * lane / 5, ph: Math.random() * 6.28,
+             v: G.lv.v * k * Math.pow(1.06, G.wave - 1) * (.88 + Math.random() * .24), state: "fly", y: 0 };
+  el._e = e; G.ents.push(e);
+  hud();
+}
+function removeEnt(e, cls){
+  G.ents.splice(G.ents.indexOf(e), 1); e.state = "dead";
+  if (cls){ e.el.classList.add(cls); setTimeout(() => e.el.remove(), 380); } else e.el.remove();
+}
+function puff(e, text, grey){
+  const p = document.createElement("div"); p.className = "puff" + (grey ? " grey" : "");
+  p.style.left = (e.x - 8) + "px"; p.style.top = (e.y - 14) + "px";
+  p.innerHTML = `<img class="px" src="${CLOUD}"><b>${text}</b>`;
+  scene.appendChild(p); setTimeout(() => p.remove(), 800);
+}
+function addGhost(){
+  G.ghosts++;
+  const p = G.wp[G.ghosts - 1];
+  if (p){
+    const g = document.createElement("img"); g.className = "px tg"; g.src = GHOST;
+    g.style.cssText = `left:${(p.x - 1) / 56 * 100}%;top:${(p.y - 1) / 100 * 100}%;width:${12 / 56 * 100}%`;
+    tower.appendChild(g); G.gEls.push(g);
+  }
+  tower.classList.remove("hit"); void tower.offsetWidth; tower.classList.add("hit");
+  tone([320, 240, 170], .12, "triangle", .8, .22);
+  slots();
+  if (G.ghosts >= G.L) finish(false);
+}
+function chase(){
+  const g = G.gEls.pop(); if (!g) return;
+  G.ghosts--; g.classList.add("away"); setTimeout(() => g.remove(), 700);
+  msg("👻 A ghost ran away! (8 in a row)"); tone([440, 660, 880], .08, "square", 1, .12); slots();
+}
+function clickWord(e){
+  if (e.fam){
+    G.popped++; G.streak++; G.bestStreak = Math.max(G.bestStreak, G.streak);
+    const m = G.streak >= 10 ? 3 : G.streak >= 5 ? 2 : 1, pts = 10 * m;
+    G.score += pts; puff(e, "+" + pts + (m > 1 ? " ×" + m : "")); removeEnt(e);
+    tone([660, 990], .06, "square", 1, .1); say(e.w);
+    if (G.streak % 8 === 0 && G.ghosts > 0) chase();
+  } else {
+    G.streak = 0; G.score = Math.max(0, G.score - 5); if (!G.wrong.includes(e.w)) G.wrong.push(e.w);
+    tone([200, 140], .14, "sawtooth", .7, .14);
+    if (S.ghostOnWrong){
+      e.state = "ghost"; e.el.classList.add("isghost");
+      e.el.innerHTML = `<img class="px" src="${GHOST}" alt="">`;
+      msg(`✗ "${label(e.w)}" is not ${G.topic.name.toLowerCase()}: it turned into a ghost!`);
+    } else { puff(e, "−5", true); removeEnt(e); msg(`✗ "${label(e.w)}" is not ${G.topic.name.toLowerCase()}`); }
+  }
+  hud();
+}
+scene.addEventListener("pointerdown", ev => {
+  const b = ev.target.closest(".w"); if (!b || !G || G.over || paused) return;
+  const e = b.parentNode._e; if (!e || e.state !== "fly") return;
+  ev.preventDefault(); clickWord(e);
+});
+
+function loop(now){
+  raf = requestAnimationFrame(loop);
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  if (!G || G.over || paused) return;
+  G.t += dt;
+  const W = scene.clientWidth, H = scene.clientHeight, k = Math.max(.7, Math.min(1.3, W / 1000));
+  const hitX = tower.offsetLeft + tower.offsetWidth * .72;
+  G.nextSpawn -= dt;
+  if (G.idx < G.N && G.nextSpawn <= 0 && G.ents.length < 9){
+    spawn(W, H, k);
+    G.nextSpawn = G.lv.gap * Math.pow(.94, G.wave - 1) * (.8 + Math.random() * .4);
+  }
+  for (const e of G.ents.slice()){
+    if (e.state === "ghost") e.x -= e.v * 3.4 * dt; else e.x -= e.v * dt;
+    e.y = e.state === "ghost" ? e.y0 + Math.sin(G.t * 9 + e.ph) * 5 : e.y0 + Math.sin(G.t * 2.2 + e.ph) * 9;
+    e.el.style.transform = `translate(${e.x}px,${e.y}px)`;
+    if (e.x <= hitX){
+      if (e.state === "ghost"){ removeEnt(e); addGhost(); }
+      else if (e.fam){ G.streak = 0; if (!G.missed.includes(e.w)) G.missed.push(e.w); removeEnt(e, "bonk"); addGhost(); msg(`👻 "${label(e.w)}" got in!`); }
+      else removeEnt(e, "bonk");
+      hud(); if (G.over) return;
+    }
+  }
+  if (G.idx >= G.N && !G.ents.length) finish(true);
+}
+
+function finish(win){
+  if (G.over) return;
+  G.over = true;
+  if (win){ tone([523, 659, 784, 1047], .14, "square", 1, .14); banner("Tower safe!"); }
+  else { tone([300, 250, 200, 150], .2, "sawtooth", .8, .16); banner("Haunted!"); }
+  setTimeout(() => showEnd(win), 1300);
+}
+function showEnd(win){
+  cancelAnimationFrame(raf);
+  const key = G.topic.id + "." + S.level;
+  const prev = store.best[key] || 0;
+  if (win && G.score > prev){ store.best[key] = G.score; saveStore(); }
+  const ratio = G.missed.length / G.nFam;
+  const stars = !win ? 0 : ratio <= .1 ? 3 : ratio <= .25 ? 2 : 1;
+  $("endEyebrow").textContent = `Ghosts vs Tower · ${G.topic.icon} ${G.topic.name} · ${G.lv.name}`;
+  $("endTitle").textContent = win ? "The tower is safe!" : "The tower is haunted!";
+  $("endStars").textContent = win ? "⭐".repeat(stars) + "☆".repeat(3 - stars) : "👻👻👻";
+  const newBest = win && G.score > prev;
+  $("endStats").innerHTML =
+    `<div class="stat"><b>${G.score}</b><span>Score${newBest ? " · new best!" : prev ? " · best " + prev : ""}</span></div>` +
+    `<div class="stat"><b>${G.popped}/${G.nFam}</b><span>Family words popped</span></div>` +
+    `<div class="stat"><b>${G.bestStreak}</b><span>Best streak</span></div>` +
+    `<div class="stat"><b>${G.ghosts}/${G.L}</b><span>Ghosts left in the tower</span></div>`;
+  const lists = [];
+  if (G.missed.length) lists.push(`<div><b>👻 These words got in (they are ${G.topic.name.toLowerCase()}!)</b>${G.missed.map(label).join(" · ")}</div>`);
+  if (G.wrong.length) lists.push(`<div><b>🚫 You clicked these, but they are not ${G.topic.name.toLowerCase()}</b>${G.wrong.map(label).join(" · ")}</div>`);
+  if (!lists.length) lists.push(`<div><b>⭐ Perfect</b>You popped every word of the family and left the others alone.</div>`);
+  $("endLists").innerHTML = lists.join("");
+  show("end");
+  if (win){ for (let i = 0; i < 26; i++){ const s = document.createElement("span"); s.className = "confetti"; s.textContent = pick(["👻", "⭐", "🎉", "🏰"]); s.style.left = Math.random() * 100 + "vw"; s.style.animationDuration = (2.5 + Math.random() * 2.5) + "s"; s.style.animationDelay = Math.random() * .8 + "s"; document.body.appendChild(s); setTimeout(() => s.remove(), 6500); } }
+}
+
+/* ---------- buttons ---------- */
+function setPause(p){
+  if (!G || G.over || $("game").classList.contains("hidden")) return;
+  paused = p; $("pauseOv").classList.toggle("hidden", !p); $("pauseBtn").textContent = p ? "▶ Go on" : "⏸ Pause";
+  last = performance.now();
+}
+$("startBtn").onclick = startGame;
+$("againBtn").onclick = startGame;
+$("changeBtn").onclick = () => show("setup");
+$("pauseBtn").onclick = () => setPause(!paused);
+$("pauseOv").onclick = () => setPause(false);
+$("muteBtn").onclick = () => { muted = !muted; $("muteBtn").textContent = muted ? "🔇" : "🔊"; };
+$("quitBtn").onclick = () => { if (G) G.over = true; cancelAnimationFrame(raf); show("setup"); };
+document.addEventListener("keydown", e => {
+  if ($("game").classList.contains("hidden")) return;
+  if (e.code === "Space" || e.key === "Escape"){ e.preventDefault(); setPause(!paused); }
+});
+document.addEventListener("visibilitychange", () => { if (document.hidden) setPause(true); });
+
+buildSetup();
+</script>
+<script src="../shared/howto.js"></script>
+<script>setHowTo({
+  es: {
+    title: "Ghosts vs Tower",
+    intro: "Las palabras vuelan hacia vuestra torre. Pinchad solo las de la familia que os toca y dejad pasar las demás.",
+    steps: [
+      ["🎯", "Elegid una <b>familia de palabras</b> (colores, animales, ropa…), el nivel, cuántos fantasmas aguanta la torre y cuántas palabras tendrá la partida."],
+      ["💥", "Las palabras de la familia (<i>blue, pink, yellow…</i>) son peligrosas: <b>pinchadlas</b> antes de que lleguen a la torre. Se convierten en una nube y desaparecen."],
+      ["👻", "Si una palabra de la familia <b>llega a la torre</b>, se convierte en un fantasma que se queda a vivir en ella. Cuando se llena de fantasmas, perdéis."],
+      ["🙏", "Las demás palabras (<i>two, leg, dog…</i>) no hacen daño: <b>dejadlas pasar</b>. Si pincháis una por error, se convierte en fantasma y entra en la torre (podéis quitar esta opción)."],
+      ["🔥", "Cada 5 aciertos seguidos puntúan ×2 y cada 10, ×3. Cada 8 aciertos seguidos, un fantasma se va de la torre."],
+      ["🏆", "Ganáis si ninguna oleada llena la torre. Al final veréis las palabras que se colaron y las que pinchasteis sin ser de la familia."]
+    ],
+    tips: ["En <b>Difícil</b> hay palabras muy parecidas al tema (<i>paint, rainbow</i> con los colores): leed bien antes de pinchar.", "<kbd>Espacio</kbd> pausa el juego."]
+  },
+  title: "Ghosts vs Tower",
+  intro: "Words fly towards your tower. Pop only the ones from the word family and let all the others pass.",
+  steps: [
+    ["🎯", "Choose a <b>word family</b> (colours, animals, clothes…), the level, how many ghosts the tower can hold and how many words the game has."],
+    ["💥", "The words of the family (<i>blue, pink, yellow…</i>) are dangerous: <b>click them</b> before they reach the tower. They turn into a cloud and disappear."],
+    ["👻", "If a word of the family <b>reaches the tower</b>, it turns into a ghost and moves in. When the tower is full of ghosts, you lose."],
+    ["🙏", "The other words (<i>two, leg, dog…</i>) are harmless: <b>let them pass</b>. If you click one by mistake, it turns into a ghost and goes into the tower (you can switch this off)."],
+    ["🔥", "5 in a row score ×2 and 10 in a row score ×3. Every 8 in a row, one ghost runs away from the tower."],
+    ["🏆", "You win if the tower survives every wave. At the end you see the words that got in and the ones you clicked by mistake."]
+  ],
+  tips: ["On <b>Hard</b> some harmless words are close to the topic (<i>paint, rainbow</i> with colours): read carefully before you click.", "<kbd>Space</kbd> pauses the game."]
+});</script>
+</body>
+</html>

@@ -174,19 +174,33 @@
   .turnend .missed span{display:inline-block;margin:3px 4px;font-family:var(--mono);font-weight:700;font-size:14px;background:#fff;border:1.5px solid #c9c6dd;border-radius:8px;padding:2px 8px}
 
   /* engine room */
-  .engine{background:#2a1a24;border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--brand);padding:44px 14px 14px;position:relative;overflow:hidden}
+  .engine{background:#0e0c3f;border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--brand);padding:44px 14px 14px;position:relative;overflow:hidden}
   .engine h3{position:absolute;top:12px;left:16px;margin:0;font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--yellow)}
   .engine .count{position:absolute;top:6px;right:14px;font-family:var(--display);font-weight:900;font-size:30px;color:#fff}
   .engine .count small{font-family:var(--mono);font-size:11px;letter-spacing:.14em;font-weight:700;color:var(--yellow)}
   .furnace{position:relative}
-  .furnace svg{display:block;width:100%;height:auto;overflow:visible}
-  .furnace .fire{transform-box:fill-box;transform-origin:50% 100%;animation:flicker .3s ease-in-out infinite alternate}
-  .furnace .fire2{transform-box:fill-box;transform-origin:50% 100%;animation:flicker .22s ease-in-out infinite alternate-reverse}
-  .furnace .glow{opacity:.75;transition:opacity .2s}
-  .furnace.roar .fire,.furnace.roar .fire2{animation:roar .8s ease-out}
-  .furnace.roar .glow{opacity:1}
-  .furnace.roar svg{animation:rumble .4s ease 2}
-  @keyframes rumble{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+  .furnace .fpic{position:relative;aspect-ratio:660/650;transform-origin:50% 88%}
+  .furnace .fpic img{display:block;width:100%;height:100%}
+  .furnace .fireov{position:absolute;left:48.2%;top:60.8%;width:36.4%;aspect-ratio:1;transform:translate(-50%,-50%)}
+  .furnace .fireov svg{display:block;width:100%;height:100%}
+  .furnace .fireov .fl{transform-box:fill-box;transform-origin:50% 100%;animation:flick .8s ease-in-out infinite alternate}
+  .furnace .fireov .f2{animation-duration:.6s;animation-delay:-.3s} .furnace .fireov .f3{animation-duration:.45s;animation-delay:-.15s}
+  .furnace .fireov .glow{opacity:.55;animation:glow 1.1s ease-in-out infinite alternate}
+  /* a word is swallowed: the furnace swells and shakes, the fire roars */
+  .furnace.roar .fpic{animation:gulp .8s ease-out}
+  .furnace.roar .fireov .fl{animation:roar .8s ease-out}
+  .furnace.roar .fireov .glow{animation:none;opacity:1}
+  @keyframes gulp{
+    0%{transform:scale(1)}
+    12%{transform:scale(1.09,1.06) translateX(-5px) rotate(-1.2deg)}
+    24%{transform:scale(1.07,1.1) translateX(5px) rotate(1.2deg)}
+    36%{transform:scale(1.1,1.07) translateX(-4px) rotate(-1deg)}
+    48%{transform:scale(1.06,1.08) translateX(4px) rotate(.8deg)}
+    62%{transform:scale(1.04,1.04) translateX(-2px)}
+    78%{transform:scale(1.02) translateX(1px)}
+    100%{transform:scale(1)}
+  }
+  @media (prefers-reduced-motion:reduce){.furnace .fireov .fl,.furnace .fireov .glow{animation:none} .furnace.roar .fpic{animation:none}}
   .spark{position:absolute;width:8px;height:8px;border-radius:50%;background:#ffd257;box-shadow:0 0 8px 2px #ff9a1a;pointer-events:none;animation:spark .9s ease-out forwards}
   @keyframes spark{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
 
@@ -411,32 +425,18 @@ function puffs(loco, n = 3, grey = false, at = [237 / 300, 30 / 190]){
 }
 
 /* ---------- the open furnace (words are its coal) ---------- */
-const FURNACE_MOUTH = [150 / 300, 178 / 260], FURNACE_CHIMNEY = [150 / 300, 2 / 260];
+const FURNACE_MOUTH = [316 / 660, 365 / 650], FURNACE_CHIMNEY = [335 / 660, 0.01];
+// the fire: three flames and a glow clipped to a round window (used in the furnace and in the home picture); coals at the bottom when asked
+function fireSVG(id, coals){
+  return `<svg viewBox="0 0 100 100"><defs><clipPath id="glass${id}"><circle cx="50" cy="50" r="50"/></clipPath><radialGradient id="glassBg${id}" cx="50%" cy="70%" r="75%"><stop offset="0" stop-color="#7a3a2a"/><stop offset="1" stop-color="#3b2358"/></radialGradient></defs><g clip-path="url(#glass${id})"><rect width="100" height="100" fill="url(#glassBg${id})"/><circle class="glow" cx="50" cy="78" r="46" fill="#ffb02e"/>`
+  + '<path class="fl f1" fill="#ff7a1a" d="M50 6C57 26 80 36 77 63 75 83 62 98 50 98 38 98 25 83 23 63 21 46 37 38 40 22 45 28 47 17 50 6Z"/>'
+  + '<path class="fl f2" fill="#ffb02e" d="M50 26C56 40 70 48 68 66 67 82 59 96 50 96 41 96 33 82 32 66 31 54 43 46 45 36 48 40 49 33 50 26Z"/>'
+  + '<path class="fl f3" fill="#ffe27a" d="M50 52C54 60 62 64 61 76 60 88 55 96 50 96 45 96 40 88 39 76 38 66 47 62 50 52Z"/>'
+  + (coals ? '<g fill="#2b2a3a" stroke="#0b0957" stroke-width="2"><circle cx="27" cy="88" r="10"/><circle cx="45" cy="93" r="9"/><circle cx="64" cy="93" r="9"/><circle cx="80" cy="87" r="10"/></g>' : '')
+  + '</g></svg>';
+}
 function furnaceHTML(){
-  const o = "#0b0957";
-  const rivets = [[72, 104], [228, 104], [72, 220], [228, 220]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="5" fill="#8d8aa8" stroke="${o}" stroke-width="2"/>`).join("");
-  return `<svg viewBox="0 0 300 260" aria-label="An open furnace">
-    <defs>
-      <radialGradient id="fireGlow" cx="50%" cy="75%" r="65%"><stop offset="0" stop-color="#fff3a0"/><stop offset=".45" stop-color="#ffb000"/><stop offset="1" stop-color="#e2420f"/></radialGradient>
-      <pattern id="brick" width="40" height="20" patternUnits="userSpaceOnUse"><rect width="40" height="20" fill="#b04a33"/><path d="M0 1H40M0 11H40M20 1V11M2 11V21M38 11V21" stroke="#7a2e1f" stroke-width="2"/></pattern>
-    </defs>
-    <rect x="126" y="0" width="48" height="70" fill="#3a3950" stroke="${o}" stroke-width="5"/>
-    <rect x="118" y="-6" width="64" height="14" rx="4" fill="#4b4a66" stroke="${o}" stroke-width="5"/>
-    <rect x="28" y="54" width="244" height="200" rx="22" fill="url(#brick)" stroke="${o}" stroke-width="5"/>
-    <rect x="58" y="90" width="184" height="144" rx="18" fill="#2b2a3a" stroke="${o}" stroke-width="5"/>
-    ${rivets}
-    <rect x="104" y="60" width="92" height="22" rx="6" fill="#ffd257" stroke="${o}" stroke-width="3"/>
-    <text x="150" y="76" text-anchor="middle" font-family="Space Mono, monospace" font-weight="700" font-size="11" fill="${o}" letter-spacing="1">WORD EXPRESS</text>
-    <path d="M90 214 V170 a60 52 0 0 1 120 0 V214 Z" fill="#1a0f12" stroke="${o}" stroke-width="5"/>
-    <ellipse class="glow" cx="150" cy="184" rx="56" ry="38" fill="url(#fireGlow)"/>
-    <path class="fire" d="M100 212 q-6 -30 14 -48 q-2 18 10 22 q-2 -32 22 -52 q-2 32 14 38 q4 -18 20 -26 q-4 26 8 36 q8 12 -2 30 Z" fill="#ff7a1a" stroke="#ffd257" stroke-width="3" stroke-linejoin="round"/>
-    <path class="fire2" d="M122 212 q-2 -18 10 -28 q0 10 8 14 q0 -18 14 -30 q0 18 10 24 q8 10 2 20 Z" fill="#ffd257"/>
-    <g fill="#3a2a2a" stroke="${o}" stroke-width="2"><circle cx="108" cy="210" r="8"/><circle cx="126" cy="213" r="7"/><circle cx="174" cy="213" r="7"/><circle cx="192" cy="210" r="8"/></g>
-    <path d="M58 108 L20 94 L20 230 L58 216 Z" fill="#4b4a66" stroke="${o}" stroke-width="5" stroke-linejoin="round"/>
-    <circle cx="30" cy="162" r="6" fill="#ffd257" stroke="${o}" stroke-width="3"/>
-    <rect x="52" y="112" width="12" height="16" rx="3" fill="#8d8aa8" stroke="${o}" stroke-width="2"/><rect x="52" y="196" width="12" height="16" rx="3" fill="#8d8aa8" stroke="${o}" stroke-width="2"/>
-    <g fill="#2b2a3a" stroke="${o}" stroke-width="2"><circle cx="246" cy="246" r="9"/><circle cx="262" cy="244" r="8"/><circle cx="254" cy="234" r="8"/><circle cx="272" cy="248" r="7"/></g>
-  </svg>`;
+  return '<div class="fpic"><img src="furnace.webp" alt="A furnace with a fire inside" width="660" height="650"><div class="fireov" aria-hidden="true">' + fireSVG("F", true) + '</div></div>';
 }
 function sparks(host, n = 10){
   for (let i = 0; i < n; i++) {
@@ -450,10 +450,7 @@ function sparks(host, n = 10){
 /* ---------- setup ---------- */
 // the home picture: the locomotive (loco.webp, without its cloud) + three smoke puffs rising from the chimney + a flickering fire in the furnace window
 const PUFF = '<svg class="puff" viewBox="0 0 100 72" aria-hidden="true"><g fill="#fff" stroke="#1b1740" stroke-width="9"><circle cx="28" cy="46" r="20"/><circle cx="52" cy="32" r="27"/><circle cx="76" cy="47" r="19"/><circle cx="50" cy="50" r="21"/></g><g fill="#fff"><circle cx="28" cy="46" r="20"/><circle cx="52" cy="32" r="27"/><circle cx="76" cy="47" r="19"/><circle cx="50" cy="50" r="21"/></g><path d="M30 38c8-10 18-14 30-12" stroke="#e6e9f5" stroke-width="5" stroke-linecap="round" fill="none"/></svg>';
-const FIRE = '<div class="fire" aria-hidden="true"><svg viewBox="0 0 100 100"><defs><clipPath id="glass"><circle cx="50" cy="50" r="50"/></clipPath><radialGradient id="glassBg" cx="50%" cy="70%" r="75%"><stop offset="0" stop-color="#7a3a2a"/><stop offset="1" stop-color="#3b2358"/></radialGradient></defs><g clip-path="url(#glass)"><rect width="100" height="100" fill="url(#glassBg)"/><circle class="glow" cx="50" cy="78" r="46" fill="#ffb02e"/>'
-  + '<path class="fl f1" fill="#ff7a1a" d="M50 6C57 26 80 36 77 63 75 83 62 98 50 98 38 98 25 83 23 63 21 46 37 38 40 22 45 28 47 17 50 6Z"/>'
-  + '<path class="fl f2" fill="#ffb02e" d="M50 26C56 40 70 48 68 66 67 82 59 96 50 96 41 96 33 82 32 66 31 54 43 46 45 36 48 40 49 33 50 26Z"/>'
-  + '<path class="fl f3" fill="#ffe27a" d="M50 52C54 60 62 64 61 76 60 88 55 96 50 96 45 96 40 88 39 76 38 66 47 62 50 52Z"/></g></svg></div>';
+const FIRE = '<div class="fire" aria-hidden="true">' + fireSVG("H", false) + '</div>';
 const HERO_PIC = '<div class="pic"><img src="loco.webp" alt="A green monster driving a train through the city" width="948" height="626">' + PUFF + PUFF + PUFF + FIRE + '</div>';
 function renderSetup(){
   $("heroTrain").innerHTML = '<span class="sticker">ALL ABOARD!</span>' + HERO_PIC;

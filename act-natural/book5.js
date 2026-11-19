@@ -1,0 +1,430 @@
+// Act Natural!: The Oxford Method, Book 5 (B1). One conversation for each of the 17 units of the book,
+// made from the unit's model questions and answers and its pair practice ("change the details").
+// The tasks are in Spanish, so they don't give away the English words: the student has to find them.
+// The situations are invented (fictional prices, appointments and organisations), as in the book.
+//
+// Same format as book2.js: each unit has the two roles of the game.
+//   turns + end   the other person speaks first and the student answers (same format as T in scenes.js)
+//   staff + bye   the student starts and says the other person's lines (same format as W in staff.js),
+//                 and the other person answers with the model answers.
+
+const BOOK5 = [];
+function UNIT5(o){
+  BOOK5.push({ id: "b5u" + o.unit, unit: o.unit, book: true, label: "Book 5", name: o.name, icon: o.icon, who: o.who, face: o.face,
+    color: BOOK_COLORS[(o.unit - 1) % BOOK_COLORS.length], leave: o.leave || "Sorry, I have to go now. Bye!",
+    levels: { B1: { turns: o.turns, end: o.end } } });
+  STAFF["b5u" + o.unit] = { client: o.client, face: o.cface, leave: o.cleave || "Never mind. I'll ask someone else.",
+    bye: { B1: o.bye }, B1: o.staff };
+}
+
+/* ===================== MODULE 1 / Ideas, people and places ===================== */
+UNIT5({ unit: 1, name: "What can a headline tell us?", icon: "📰", who: "Volunteer", face: "🧑", client: "Neighbour", cface: "👩",
+  turns: [
+    T("Hi! Have you seen the notice about the new community centre?", "Di que sí. Pregunta de dónde viene esta información.", "Yes, I have. Where did this update come from?|Yes. Where did this notice come from?", "yes ; where ; come/came ; from",
+      "Yes, I have. Where this update came from? :: In a question use 'did': Where did this update come from?", "Yes, I have. From where came this update? :: Question order: Where did this update come from?", "q"),
+    T("It came from the noticeboard at reception. But there's no opening date.", "Pregunta cuándo abrirá el centro nuevo.", "When will the new centre open?|When will the centre open?", "when ; open ; centre/center",
+      "When opens the new centre? :: For the future use 'will': When will the new centre open?", "When will opens the new centre? :: After 'will' use the base verb: When will the new centre open?", "q"),
+    T("Nobody knows. It might open in May, or it might be later.", "Pregunta cómo podrías comprobar la fecha de apertura (usa could).", "How could I check the opening date?|How could I check the date?", "how ; could ; check ; date",
+      "How I could check the date? :: A modal goes before the subject: How could I check the date?", "How could I to check the date? :: After 'could' use the base verb, no 'to'.", "q"),
+    T("You could ask at reception. They must know.", "Da las gracias y di que irás a recepción esta tarde.", "Thanks, I'll ask at reception this afternoon.|Thank you. I'll go to reception this afternoon.", "thank/thanks ; reception ; afternoon",
+      "Thanks, I ask at reception this afternoon. :: A decision now uses 'will': I'll ask.", "Thank you, I will to ask at reception this afternoon. :: After 'will' use the base verb: I'll ask."),
+  ], end: "Good idea. Tell me what they say!",
+  staff: [
+    W("Saluda y pregunta si ha visto el aviso sobre el nuevo centro comunitario.", "Hi! Have you seen the notice about the new community centre?|Hello! Have you seen the notice about the new centre?", "seen ; notice ; centre/center",
+      "Hi! You have seen the notice about the new centre? :: In questions put 'have' first: Have you seen…?", "Hi! Have you see the notice about the new centre? :: After 'have' use the past participle: seen.", "q"),
+    W("Di que viene del tablón de recepción, pero que no da una fecha de apertura.", "It came from the noticeboard at reception. But there's no opening date.|It came from the noticeboard at reception, but it doesn't give an opening date.", "noticeboard/notice board ; reception ; date",
+      "It came of the noticeboard at reception. But there is not opening date. :: Say 'from', and 'there's no opening date'.", "It comes from the noticeboard in reception. But no has opening date. :: It came (past), and 'there's no opening date'."),
+    W("Di que nadie lo sabe: quizás abra en mayo, o quizás más tarde (might).", "Nobody knows. It might open in May, or it might be later.|No one knows. It might open in May, or later.", "nobody/no one ; might ; may ; later",
+      "Nobody don't know. It might to open in May, or later. :: 'Nobody knows' (no double negative), and 'might open' (no 'to').", "Nobody knows. It can open in May, or it can be later. :: For a possibility say 'might'."),
+    W("Sugiérele que pregunte en recepción: seguro que lo saben (must).", "You could ask at reception. They must know.|You could ask at reception. They must know the date.", "could ; ask ; reception ; must",
+      "You could to ask at reception. They must to know. :: After a modal use the base verb, no 'to'.", "You can asking at reception. They must knows. :: After a modal use the base verb: could ask, must know."),
+    W("Dile que es buena idea y que te cuente lo que digan.", "Good idea. Tell me what they say!|Good idea. Let me know what they say.", "good ; tell/let ; what ; say",
+      "Good idea. Say me what they say! :: Say 'tell me', not 'say me'.", "Good idea. Tell me what do they say! :: After 'what' keep normal order: what they say."),
+  ], bye: "Of course. See you soon!" });
+
+UNIT5({ unit: 2, name: "Can you describe it clearly?", icon: "🖼️", who: "Colleague", face: "👩", client: "Colleague", cface: "👨",
+  turns: [
+    T("Can you describe the new meeting room for me?", "Di que es luminosa y tranquila, con mesas cerca de las ventanas.", "It's bright and quiet, with tables near the windows.|It's bright and quiet. There are tables near the windows.", "bright ; quiet ; table ; window",
+      "Is bright and quiet, with tables near of the windows. :: It needs a subject (It's), and 'near the windows' without 'of'.", "It's brightly and quiet, with table near the windows. :: Use the adjective 'bright', and the plural: tables."),
+    T("Nice! Which detail will help me find the entrance?", "Di que la puerta azul junto a la biblioteca es un detalle útil.", "The blue door beside the library is a useful detail.|The blue door next to the library is useful.", "blue ; door ; library",
+      "The door blue beside the library is a useful detail. :: The adjective goes before the noun: the blue door.", "The blue door beside of the library is a useful detail. :: Say 'beside the library', no 'of'."),
+    T("Thanks. Who drew the plan of the building?", "Di que un miembro del grupo dibujó el plano.", "A member of the group drew the plan.|One of the group drew the plan.", "group ; drew ; plan",
+      "A member of the group drawed the plan. :: Irregular verb: draw - drew - drawn.", "A member of the group has drew the plan. :: After 'has' use the participle 'drawn', or just say: drew."),
+    T("I see. Could a sketch make the route clearer?", "Di que sí: un dibujo sencillo podría mostrar los dos giros.", "Yes, a simple sketch could show the two turns.|Yes, it could. A simple sketch could show the two turns.", "yes ; sketch/drawing ; turn",
+      "Yes, a simple sketch could shows the two turns. :: After 'could' use the base verb: show.", "Yes, a sketch simple could show the two turns. :: The adjective goes before the noun: a simple sketch."),
+  ], end: "Perfect. Let's draw it now!",
+  staff: [
+    W("Pide a tu compañero que te describa la nueva sala de reuniones.", "Can you describe the new meeting room for me?|Could you describe the new meeting room for me?", "describe ; meeting room/room",
+      "You can describe me the new meeting room? :: In questions the modal goes first: Can you describe…?", "Can you describe the new room of meetings for me? :: Say: the new meeting room.", "q"),
+    W("Di que es bonito y pregunta qué detalle te ayudará a encontrar la entrada.", "Nice! Which detail will help me find the entrance?|Nice! Which detail will help me to find the entrance?", "which ; detail ; help ; entrance",
+      "Nice! Which detail will helps me find the entrance? :: After 'will' use the base verb: help.", "Nice! What detail will help me find the entrance? :: With a limited choice we say 'which'; and keep the order: Which detail will help me…?", "q"),
+    W("Da las gracias y pregunta quién dibujó el plano del edificio.", "Thanks. Who drew the plan of the building?|Thank you. Who drew the plan of the building?", "thank/thanks ; who ; drew ; plan",
+      "Thanks. Who did draw the plan of the building? :: With 'Who' as the subject don't add 'did': Who drew…?", "Thanks. Who drawed the plan of the building? :: Irregular verb: draw - drew.", "q"),
+    W("Di que ya lo ves y pregunta si un dibujo podría hacer la ruta más clara.", "I see. Could a sketch make the route clearer?|I see. Could a simple sketch make the route clearer?", "could ; sketch/drawing ; route ; clearer",
+      "I see. Could a sketch make the route more clear? :: Short adjectives use -er: clearer.", "I see. A sketch could make the route clearer? :: In questions the modal goes first: Could a sketch…?", "q"),
+    W("Di que perfecto y propón dibujarlo ahora (Let's…).", "Perfect. Let's draw it now!|Perfect. Let's draw it now.", "perfect ; lets ; draw ; now",
+      "Perfect. Let's to draw it now! :: After 'let's' use the base verb, no 'to'.", "Perfect. We draw it now! :: To suggest something use: Let's draw it."),
+  ], bye: "Great idea. Thanks!" });
+
+UNIT5({ unit: 3, name: "What has changed in this place?", icon: "🌳", who: "Guide", face: "🧑", client: "Visitor", cface: "👩",
+  turns: [
+    T("Welcome to the garden! A lot has changed since your last visit.", "Pregunta qué ha cambiado desde la última visita.", "What has changed since my last visit?|What has changed since the last visit?", "what ; changed ; since ; visit",
+      "What has change since the last visit? :: Present perfect: has changed.", "What changed has since the last visit? :: Question order: What has changed…?", "q"),
+    T("A new path has been built near the entrance. The old gate was repaired by a local group.", "Pregunta cuándo se reparó la verja.", "When was the gate repaired?|When was the old gate repaired?", "when ; was ; gate ; repaired",
+      "When the gate was repaired? :: In a question the verb goes first: When was the gate repaired?", "When did the gate repaired? :: Passive: was + participle: When was the gate repaired?", "q"),
+    T("It was repaired at the beginning of the month. Most of the work has been completed.", "Pregunta si ya han cambiado los bancos rotos.", "Have the broken benches been replaced?|Have the broken chairs been replaced?", "have ; broken ; replaced",
+      "Have been the broken benches replaced? :: Passive question: Have the benches been replaced?", "Has the broken benches been replaced? :: Plural: Have the benches been replaced?", "q"),
+    T("Yes, they have been replaced with stronger ones. The information board has not been finished yet.", "Di que el aviso se podría mejorar añadiendo una fecha de apertura clara.", "The notice could be improved by adding a clear opening date.|It could be improved by adding a clear opening date.", "improved ; adding ; clear ; date",
+      "The notice could improved by adding a clear opening date. :: Modal passive: could be improved.", "The notice could be improved by add a clear opening date. :: After 'by' use -ing: by adding."),
+  ], end: "Good idea. I'll tell the organisers.",
+  staff: [
+    W("Da la bienvenida al jardín y di que ha cambiado mucho desde su última visita.", "Welcome to the garden! A lot has changed since your last visit.|Welcome to the garden! A lot has changed since the last time.", "welcome ; garden ; changed ; since",
+      "Welcome to the garden! A lot has change since your last visit. :: Present perfect: has changed.", "Welcome in the garden! A lot has changed since your last visit. :: We say 'Welcome to…'."),
+    W("Di que se ha construido un camino nuevo cerca de la entrada y que la verja vieja la reparó un grupo local.", "A new path has been built near the entrance. The old gate was repaired by a local group.|A new path has been built near the entrance, and the old gate was repaired by a local group.", "path ; built ; gate ; repaired",
+      "A new path has built near the entrance. The old gate was repaired by a local group. :: Passive: has been built.", "A new path has been built near the entrance. The old gate repaired by a local group. :: Passive needs 'was': was repaired."),
+    W("Di que se reparó a principios de mes y que la mayor parte del trabajo ya está terminada.", "It was repaired at the beginning of the month. Most of the work has been completed.|It was repaired at the beginning of the month. Most of the work is complete.", "repaired ; beginning ; month ; work ; completed/complete",
+      "It was repaired in the beginning of the month. Most of the work has been completed. :: We say 'at the beginning of the month'.", "It repaired at the beginning of the month. Most of the work has been completed. :: Passive: It was repaired."),
+    W("Di que sí, que los han cambiado por otros más fuertes, pero que el panel de información aún no está terminado.", "Yes, they have been replaced with stronger ones. The information board has not been finished yet.|Yes, they have been replaced with stronger ones. The information board hasn't been finished yet.", "replaced ; stronger ; board ; finished ; yet",
+      "Yes, they have replaced with stronger ones. The information board has not been finished yet. :: Passive: have been replaced.", "Yes, they have been replaced with more strong ones. The information board has not been finished yet. :: Short adjective: stronger."),
+    W("Di que es buena idea y que se lo dirás a los organizadores.", "Good idea. I'll tell the organisers.|Good idea. I'll tell the organizers.", "good ; tell ; organisers/organizers",
+      "Good idea. I tell the organisers. :: A decision now uses 'will': I'll tell.", "Good idea. I'll say the organisers. :: We say 'tell someone'."),
+  ], bye: "Thanks. Enjoy the visit!" });
+
+UNIT5({ unit: 4, name: "How can we test an idea?", icon: "🧪", who: "Organiser", face: "👩", client: "Colleague", cface: "👨",
+  turns: [
+    T("Have you compared the two notices?", "Di que sí, y que el que tiene el título más grande es más claro.", "Yes, I have. The one with the larger heading is clearer.|Yes, I have. The notice with the bigger heading is clearer.", "yes ; heading/title ; clearer",
+      "Yes, I did. The one with the larger heading is more clear. :: A short answer repeats the auxiliary: Yes, I have. And: clearer.", "Yes, I have. The one with the larger heading is more clearer. :: Don't use 'more' with -er: clearer."),
+    T("Could your partner see the difference?", "Di que sí, y que más gente encontró la hora correcta.", "Yes, she could. More people found the right time.|Yes, they could. More people found the right time.", "yes ; more ; people ; time",
+      "Yes, she can. More people found the right time. :: A short answer matches the question: Yes, she could.", "Yes, she could. More people has found the right time. :: 'People' is plural and it's the past: found."),
+    T("Was every answer the same?", "Di que no: algunas personas prefirieron otro diseño.", "No, it wasn't. Some people preferred another layout.|No, it wasn't. Some people preferred a different layout.", "no ; some ; people ; prefer ; layout",
+      "No, they weren't. Some people preferred another layout. :: 'Every answer' is singular: No, it wasn't.", "No, it wasn't. Some people prefered another layout. :: Spelling: preferred (two r)."),
+    T("What conclusion did the group reach?", "Di que decidieron que la fecha debería ser más fácil de encontrar.", "They decided that the date should be easier to find.|They decided the date should be easier to find.", "decided ; date ; easier ; find",
+      "They decided that the date should be more easy to find. :: Short adjective: easier.", "They decide that the date should be easier to find. :: Past simple: decided."),
+  ], end: "Thanks. That's very useful.",
+  staff: [
+    W("Pregunta si ha comparado los dos avisos.", "Have you compared the two notices?|Have you compared the two notices yet?", "have ; compared ; two ; notices",
+      "You have compared the two notices? :: In questions put 'have' first: Have you compared…?", "Have you compare the two notices? :: After 'have' use the participle: compared.", "q"),
+    W("Pregunta si su compañero pudo ver la diferencia.", "Could your partner see the difference?|Could your partner see the difference between them?", "could ; partner ; see ; difference",
+      "Could your partner to see the difference? :: After 'could' use the base verb, no 'to'.", "Your partner could see the difference? :: In questions the modal goes first: Could your partner…?", "q"),
+    W("Pregunta si todas las respuestas fueron iguales.", "Was every answer the same?|Was every answer the same or different?", "was ; every ; answer ; same",
+      "Were every answer the same? :: 'Every answer' is singular: Was every answer the same?", "Was the same every answer? :: Order: Was every answer the same?", "q"),
+    W("Pregunta qué conclusión sacó el grupo.", "What conclusion did the group reach?|What conclusion did the group come to?", "what ; conclusion ; group ; reach/come",
+      "What conclusion the group reached? :: Use 'did' and the base verb: What conclusion did the group reach?", "What conclusion did the group reached? :: After 'did' use the base verb: reach.", "q"),
+    W("Da las gracias y di que es muy útil.", "Thanks. That's very useful.|Thank you. That's very useful.", "thank/thanks ; useful",
+      "Thanks. That's very usefull. :: Spelling: useful (one l).", "Thanks. It is very utility. :: The adjective is 'useful'."),
+  ], bye: "My pleasure!" });
+
+UNIT5({ unit: 5, name: "How do we work well together?", icon: "🤝", who: "Organiser", face: "🧑", client: "Volunteer", cface: "👩",
+  turns: [
+    T("Welcome to the team! Who is responsible for the room key?", "Di que tú eres el responsable de la llave de la sala.", "I'm responsible for the room key.|I am responsible for the key.", "responsible ; key",
+      "I am responsable for the room key. :: Spelling: responsible.", "I'm responsible of the room key. :: We say 'responsible for'."),
+    T("Good. Could you give the visitors one clear instruction?", "Pide a los visitantes (con please) que esperen en la entrada.", "Please wait by the entrance.|Please wait at the entrance.", "please ; wait ; entrance",
+      "Please, you wait by the entrance. :: An instruction has no subject: Please wait…", "Please to wait by the entrance. :: Use the base verb: Please wait."),
+    T("It's getting late. Shall we take a short break?", "Di que sí: sugiere hacer una pausa corta (Let's…).", "Yes, let's take a short break.|Yes. Let's take a break.", "yes ; lets ; break",
+      "Yes, let's to take a short break. :: After 'let's' use the base verb, no 'to'.", "Yes, we take a short break. :: To make a suggestion say: Let's take a break."),
+    T("One more thing. Should we change the date?", "Di que todavía no: sugiere no cambiar la fecha aún (Let's not…).", "Let's not change the date yet.|No, let's not change it yet.", "lets not ; change ; yet",
+      "Don't we change the date yet. :: A negative suggestion: Let's not change the date.", "Let's don't change the date yet. :: The negative is 'let's not'."),
+  ], end: "Fine. Thanks for your help today!",
+  staff: [
+    W("Da la bienvenida al equipo y pregunta quién es el responsable de la llave de la sala.", "Welcome to the team! Who is responsible for the room key?|Welcome to the team! Who is responsible for the key?", "welcome ; who ; responsible ; key",
+      "Welcome to the team! Who is responsible of the room key? :: We say 'responsible for'.", "Welcome to the team! Who has responsible for the room key? :: Use 'is': Who is responsible…?", "q"),
+    W("Di que bien y pide si puede dar una instrucción clara a los visitantes.", "Good. Could you give the visitors one clear instruction?|Good. Could you give the visitors a clear instruction?", "could ; give ; visitors ; instruction",
+      "Good. Could you to give the visitors one clear instruction? :: After 'could' use the base verb, no 'to'.", "Good. Could you give to visitors one instruction clear? :: Adjective before noun: one clear instruction.", "q"),
+    W("Di que se hace tarde y propón hacer una pausa corta (Shall we…?).", "It's getting late. Shall we take a short break?|It's late. Shall we take a short break?", "late ; shall ; break",
+      "It's getting late. Shall we to take a short break? :: After 'shall we' use the base verb.", "It's getting late. Do we take a short break? :: To suggest use: Shall we take a short break?", "q"),
+    W("Di que una cosa más y pregunta si deberíais cambiar la fecha.", "One more thing. Should we change the date?|One more thing. Should we change the date?", "one more ; should ; change ; date",
+      "One more thing. We should change the date? :: In questions the modal goes first: Should we change…?", "One more thing. Should we to change the date? :: After 'should' use the base verb, no 'to'.", "q"),
+    W("Di que bien y da las gracias por la ayuda de hoy.", "Fine. Thanks for your help today!|Fine. Thank you for your help today.", "thank/thanks ; help ; today",
+      "Fine. Thanks by your help today! :: We say 'thanks for'.", "Fine. Thanks for your helps today! :: 'Help' has no plural here."),
+  ], bye: "No problem. See you tomorrow!" });
+
+/* ===================== MODULE 2 / Everyday choices ===================== */
+UNIT5({ unit: 6, name: "Could we check the appointment?", icon: "📅", who: "Receptionist", face: "👩", client: "Caller", cface: "👨",
+  turns: [
+    T("Good morning, reception. How can I help?", "Pregunta si podrías cambiar tu cita a otro día.", "Could I change my appointment, please?|Could I change my appointment to another day, please?", "could ; change ; appointment",
+      "I can change my appointment, please? :: Ask with 'Could I…?'", "Could I to change my appointment, please? :: After 'could' use the base verb, no 'to'.", "pq"),
+    T("Of course. What day would you prefer?", "Pide el jueves, porque el viernes no estás disponible.", "Thursday, please. I'm not available on Friday.|Thursday, please, because I'm not available on Friday.", "thursday ; not ; available ; friday",
+      "Thursday, please. I no am available on Friday. :: The negative of 'be': I'm not available.", "Thursday, please. I'm not available the Friday. :: Days need 'on': on Friday."),
+    T("There's an appointment available at half past ten on Thursday.", "Acepta, y comprueba con una question tag que es el jueves por la mañana.", "That's fine. It's on Thursday morning, isn't it?|Perfect. It's Thursday morning, isn't it?", "thursday ; morning ; isnt it",
+      "That's fine. It's on Thursday morning, is it? :: A positive statement takes a negative tag: isn't it?", "That's fine. It's on Thursday morning, doesn't it? :: Match the auxiliary: it IS - isn't it?", "q"),
+    T("Yes, that's right. I'll send a confirmation this afternoon.", "Da las gracias y pide que te envíen un recordatorio el día antes.", "Thank you. Could you send me a reminder the day before?|Thanks a lot. Could you send a reminder the day before?", "thank ; reminder ; day before",
+      "Thank you. You could send me a reminder the day before? :: For a polite request use: Could you send me…?", "Thank you. Could you to send me a reminder the day before? :: After 'could' use the base verb, no 'to'.", "pq"),
+  ], end: "Of course. See you on Thursday!",
+  staff: [
+    W("Saluda como recepcionista y pregunta cómo puedes ayudar.", "Good morning, reception. How can I help?|Good morning, reception. How can I help you?", "morning ; reception ; how ; help",
+      "Good morning, reception. How I can help? :: In questions the modal goes first: How can I help?", "Good morning, reception. How can I to help? :: After 'can' use the base verb, no 'to'.", "q"),
+    W("Di que por supuesto y pregunta qué día prefiere.", "Of course. What day would you prefer?|Of course. Which day would you prefer?", "course ; day ; prefer",
+      "Of course. What day you would prefer? :: In questions the modal goes before the subject: What day would you prefer?", "Of course. What day would you prefer it? :: No 'it': What day would you prefer?", "q"),
+    W("Di que hay una cita disponible a las diez y media el jueves.", "There's an appointment available at half past ten on Thursday.|There is an appointment available on Thursday at half past ten.", "appointment ; available ; half past ten/ten thirty ; thursday",
+      "There's an appointment available in half past ten on Thursday. :: Times need 'at': at half past ten.", "There's one appointment available at half past ten the Thursday. :: Days need 'on': on Thursday."),
+    W("Confirma que sí, y di que enviarás una confirmación esta tarde.", "Yes, that's right. I'll send a confirmation this afternoon.|Yes, that's correct. I'll send a confirmation this afternoon.", "yes ; send ; confirmation ; afternoon",
+      "Yes, that's right. I send a confirmation this afternoon. :: A decision or promise uses 'will': I'll send.", "Yes, that's right. I'll send you a confirmation in this afternoon. :: Say 'this afternoon', no 'in'."),
+    W("Dile que por supuesto y que le ves el jueves.", "Of course. See you on Thursday!|Of course. See you on Thursday.", "course ; see ; thursday",
+      "Of course. See you the Thursday! :: Days need 'on': on Thursday.", "Of course. I see you on Thursday! :: Say: See you on Thursday."),
+  ], bye: "Thanks. Goodbye!" });
+
+UNIT5({ unit: 7, name: "What do you enjoy doing?", icon: "🎭", who: "Friend", face: "👩", client: "Classmate", cface: "👨",
+  turns: [
+    T("Would you like to come to the reading group on Friday?", "Acepta con educación y pregunta dónde y cuándo se reúne el grupo.", "Thank you, I'd be pleased to come. Where and when does the group meet?|Yes, I'd love to. Where does the group meet, and when?", "thank/yes ; where ; when ; meet",
+      "Thank you, I'd be pleased to come. Where and when meets the group? :: In questions use 'does': Where and when does the group meet?", "Thank you, I'd be pleased to come. Where and when do the group meet? :: 'The group' is singular: does.", "q"),
+    T("It meets at six in the library. You enjoy short stories, don't you?", "Di que sí, que te gusta leer cuentos cortos, y que prefieres un evento tranquilo donde podáis hablar.", "Yes, I do. I enjoy reading short stories, and I'd prefer a quiet event where we can talk.|Yes, I do. I'd prefer a quiet event where we could talk easily.", "yes ; stories ; quiet ; talk",
+      "Yes, I enjoy. I would prefer a quiet event where we can to talk. :: A short answer repeats the auxiliary: Yes, I do. And 'can talk'.", "Yes, I do. I prefer a quiet event where we can talks. :: After 'can' use the base verb: talk."),
+    T("We'd love you to come. Is there anything you'd like to ask?", "Pregunta si puedes llevar a un amigo.", "Can I bring a friend?|Can I bring a friend too?", "can ; bring ; friend",
+      "I can bring a friend? :: In questions the verb goes first: Can I bring a friend?", "Can bring I a friend? :: Order: Can + I + bring…", "q"),
+    T("Yes, the invitation includes one friend.", "Da las gracias y comprueba con una question tag que la sesión empieza a las seis.", "Thank you. The session starts at six, doesn't it?|Great, thanks. The session starts at six, doesn't it?", "thank/thanks ; session/meeting ; six ; doesnt it",
+      "Thank you. The session starts at six, isn't it? :: With a present simple verb the tag uses do/does: doesn't it?", "Thank you. The session start at six, doesn't it? :: With 'it' the verb needs -s: starts.", "q"),
+  ], end: "Yes, it does. See you there!",
+  staff: [
+    W("Invita a tu compañero al grupo de lectura del viernes.", "Would you like to come to the reading group on Friday?|Would you like to come to the reading group on Friday?", "would ; like ; reading group ; friday",
+      "Do you like come to the reading group on Friday? :: To invite use: Would you like to come…?", "Would you like to come to the reading group the Friday? :: Days need 'on': on Friday.", "q"),
+    W("Di que se reúne a las seis en la biblioteca y pregunta con una tag si le gustan los cuentos cortos.", "It meets at six in the library. You enjoy short stories, don't you?|It meets at six in the library. You like short stories, don't you?", "six ; library ; stories ; dont you",
+      "It meets at six in the library. You enjoy short stories, aren't you? :: With 'enjoy' the tag uses do: don't you?", "It meets at six in library. You enjoy short stories, don't you? :: Say 'in the library'.", "q"),
+    W("Di que os encantaría que viniera y pregunta si quiere preguntar algo.", "We'd love you to come. Is there anything you'd like to ask?|We'd love you to come. Is there anything you want to ask?", "love ; come ; anything ; ask",
+      "We'd love you come. Is there anything you'd like to ask? :: After 'love you' use 'to + verb': to come.", "We'd love you to come. Is there something you'd like ask? :: 'like to ask' needs 'to'.", "q"),
+    W("Di que sí, que la invitación incluye a un amigo.", "Yes, the invitation includes one friend.|Yes, the invitation includes a friend.", "yes ; invitation ; includes/include ; friend",
+      "Yes, the invitation include one friend. :: With 'the invitation' the verb needs -s: includes.", "Yes, the invitation includes one friends. :: After 'one' use the singular: friend."),
+    W("Confirma con un 'yes, it does' que empieza a las seis y di que os veis allí.", "Yes, it does. See you there!|Yes, it does. See you there.", "yes ; does ; see ; there",
+      "Yes, it starts. See you there! :: A short answer repeats the auxiliary: Yes, it does.", "Yes, it does. I see you there! :: Say: See you there!"),
+  ], bye: "Great. See you on Friday!" });
+
+UNIT5({ unit: 8, name: "What makes a useful service?", icon: "🧾", who: "Assistant", face: "🧑", client: "Customer", cface: "👩",
+  turns: [
+    T("Hello! Can I help you?", "Pregunta qué incluye la entrada.", "What does the ticket include?|What does this ticket include?", "what ; include ; ticket",
+      "What includes the ticket? :: Use 'does': What does the ticket include?", "What does the ticket includes? :: After 'does' use the base verb: include.", "q"),
+    T("It includes entry and a short guided visit. There's an extra fee for the workshop.", "Pregunta cuánto cuestan dos entradas en total.", "How much are two tickets in total?|How much is the total for two tickets?", "how much ; two ; total",
+      "How much cost two tickets in total? :: Use 'are': How much are two tickets?", "How many are two tickets in total? :: For prices use: How much…?", "q"),
+    T("Two tickets cost sixteen euros in total. Would you like to pay now?", "Di que antes de pagar te gustaría comparar las opciones.", "Before paying, I'd like to compare the options.|I'd like to compare the options before paying.", "before ; paying ; compare ; option",
+      "Before to pay, I'd like to compare the options. :: After a preposition use -ing: Before paying.", "Before pay, I would like compare the options. :: Before + -ing, and 'would like to + verb'."),
+    T("Of course. Take your time. Do you want a receipt?", "Di que has decidido comprar dos entradas y que te gustaría un recibo impreso.", "I've decided to buy two tickets, and I'd like a printed receipt, please.|I've decided to buy the two tickets. Could I have a printed receipt, please?", "decided ; buy ; two ; receipt",
+      "I've decided buy two tickets, and I'd like a printed receipt. :: After 'decide' use 'to + verb': decided to buy.", "I decided to buying two tickets, and a receipt printed please. :: Decide + to + base verb. Adjective before noun: a printed receipt."),
+  ], end: "Here you are. Enjoy your visit!",
+  staff: [
+    W("Saluda y pregunta si puedes ayudar al cliente.", "Hello! Can I help you?|Hello! How can I help you?", "hello/hi ; help",
+      "Hello! I can help you? :: In questions the modal goes first: Can I help you?", "Hello! Can I to help you? :: After 'can' use the base verb, no 'to'.", "q"),
+    W("Explica que incluye la entrada y una visita guiada corta, y que el taller cuesta aparte.", "It includes entry and a short guided visit. There's an extra fee for the workshop.|It includes entry and a short guided visit. The workshop has an extra fee.", "includes ; entry ; visit ; extra ; fee/workshop",
+      "It include entry and a short guided visit. There's an extra fee for the workshop. :: With 'it' the verb needs -s: includes.", "It includes entry and a short visit guided. There's an extra fee for the workshop. :: Adjectives before the noun: a short guided visit."),
+    W("Di que dos entradas cuestan dieciséis euros en total y pregunta si quiere pagar ahora.", "Two tickets cost sixteen euros in total. Would you like to pay now?|Two tickets are sixteen euros in total. Would you like to pay now?", "two ; sixteen/16 ; total ; pay",
+      "Two tickets costs sixteen euros in total. Would you like to pay now? :: Plural subject: tickets cost.", "Two tickets cost sixteen euros in total. You would like pay now? :: In questions: Would you like to pay now?"),
+    W("Di que por supuesto, que se tome su tiempo, y pregunta si quiere un recibo.", "Of course. Take your time. Do you want a receipt?|Of course. Take your time. Would you like a receipt?", "course ; time ; receipt",
+      "Of course. Take you time. Do you want a receipt? :: Possessive: take your time.", "Of course. Take your time. You want a receipt? :: In questions use 'do': Do you want a receipt?", "q"),
+    W("Entrega la entrada y desea que disfrute de la visita.", "Here you are. Enjoy your visit!|Here you are. Enjoy your visit.", "here ; enjoy ; visit",
+      "Here you have. Enjoy your visit! :: When you give something say: Here you are.", "Here you are. Enjoy the your visit! :: Say 'your visit', no 'the'."),
+  ], bye: "Thank you very much!" });
+
+UNIT5({ unit: 9, name: "Which journey would you choose?", icon: "🚌", who: "Traveller", face: "👨", client: "Traveller", cface: "👩",
+  turns: [
+    T("We have two options: the direct bus or the train with a connection. Which route looks more convenient?", "Di que el autobús directo parece más conveniente.", "The direct bus looks more convenient.|I think the direct bus is more convenient.", "direct ; bus ; convenient",
+      "The direct bus looks more convenient that the train. :: After a comparative use 'than': more convenient than the train.", "The direct bus looks the more convenient. :: Say 'more convenient', without 'the'."),
+    T("I haven't booked my ticket yet.", "Di que tú tampoco (neither).", "Neither have I.|No, neither have I.", "neither ; have ; i",
+      "Me neither have. :: Say: Neither have I.", "Neither I have. :: The auxiliary goes before the subject: Neither have I."),
+    T("I can't find the platform number, and I have a heavy bag.", "Ofrece ayuda: pregunta si necesita que alguien lleve su equipaje.", "Do you need someone to carry your luggage?|Would you like me to carry your luggage?", "carry ; luggage/bag",
+      "Do you need someone carry your luggage? :: After 'need someone' use 'to + verb': to carry.", "You need someone to carry your luggage? :: In questions use 'Do you need…?'", "q"),
+    T("Yes, please. If the train is late, what will you do?", "Di que si el tren llega tarde, comprobarás la próxima salida y avisarás a quien os espera.", "If the train is late, I'll check the next departure and contact the person who is meeting us.|If it's late, I'll check the next departure and call our friend.", "late ; check ; next ; departure",
+      "If the train will be late, I'll check the next departure. :: After 'if' use the present simple: If the train is late.", "If the train is late, I check the next departure. :: Use 'will' in the result: I'll check."),
+  ], end: "Good plan. Thank you for your help!",
+  staff: [
+    W("Explica que tenéis dos opciones, el autobús directo o el tren con transbordo, y pregunta qué ruta parece más conveniente.", "We have two options: the direct bus or the train with a connection. Which route looks more convenient?|There are two options: the direct bus or the train with a connection. Which route looks more convenient?", "two ; options ; bus ; train ; which ; convenient",
+      "We have two options: the direct bus or the train with a connection. Which route looks more convenient that? :: Order: Which route looks more convenient?", "We have two options: the bus direct or the train with a connection. Which route looks more convenient? :: Adjective before noun: the direct bus.", "q"),
+    W("Di que todavía no has reservado tu billete.", "I haven't booked my ticket yet.|I haven't booked a ticket yet.", "havent ; booked ; ticket ; yet",
+      "I don't booked my ticket yet. :: Present perfect: I haven't booked.", "I haven't book my ticket yet. :: After 'haven't' use the participle: booked."),
+    W("Di que no encuentras el número del andén y que llevas una bolsa pesada.", "I can't find the platform number, and I have a heavy bag.|I can't find the platform number, and my bag is heavy.", "cant ; find ; platform ; heavy ; bag",
+      "I can't to find the platform number, and I have a bag heavy. :: After 'can't' use the base verb. Adjective before noun: a heavy bag.", "I no can find the platform number, and I have a heavy bag. :: The negative is: I can't find."),
+    W("Acepta la ayuda y pregunta qué hará si el tren llega tarde.", "Yes, please. If the train is late, what will you do?|Yes, please. If the train is late, what will we do?", "yes ; please ; if ; late ; what ; will",
+      "Yes, please. If the train will be late, what will you do? :: After 'if' use the present simple: If the train is late.", "Yes, please. If the train is late, what do you do? :: Use 'will' for the future: what will you do?", "q"),
+    W("Di que es un buen plan y da las gracias por la ayuda.", "Good plan. Thank you for your help!|Good plan. Thanks for your help!", "good ; plan ; thank/thanks ; help",
+      "Good plan. Thank you by your help! :: We say 'thank you for'.", "Good plan. Thank you for your helps! :: 'Help' has no plural here."),
+  ], bye: "No problem. Let's go!" });
+
+/* ===================== MODULE 3 / Learning and making plans ===================== */
+UNIT5({ unit: 10, name: "How can a group make a decision?", icon: "🗳️", who: "Chair", face: "👩", client: "Member", cface: "👨",
+  turns: [
+    T("Welcome to the committee meeting. We're discussing how to use the shared room. What's your view?", "Di que estás a favor de un grupo de lectura por la mañana porque la sala está disponible.", "I'm in favour of a morning reading group because the room is available then.|I am in favour of a morning reading group, because the room is available.", "favour/favor ; morning ; reading ; because ; available",
+      "I'm in favour to a morning reading group because the room is available. :: We say 'in favour of'.", "I'm in favour of morning reading group because is available. :: Use 'a', and a subject: because the room is available."),
+    T("I have a concern about the early start. Some members can't get the bus.", "Di que entiendes su punto de vista, pero que un comienzo más tarde podría ser un compromiso.", "I see your point, but a later start could be a compromise.|I see your point. A later start could be a compromise.", "see ; point ; later ; compromise",
+      "I see your point, but a later start could to be a compromise. :: After 'could' use the base verb, no 'to'.", "I see your point, but a start later could be a compromise. :: Adjective before the noun: a later start."),
+    T("That might work for the bus times. This room used to be a small office, you know.", "Pregunta si la gente solía reunirse aquí.", "Did people use to meet here?|Did people use to meet here before?", "did ; use to ; meet ; here",
+      "Did people used to meet here? :: After 'did' use 'use to' (no -d).", "People used to meet here? :: In a question say: Did people use to meet here?", "q"),
+    T("No, they didn't use to meet here. Shall we vote? Who is in favour of the later start?", "Vota a favor y pide un resumen escrito de la decisión.", "I'm in favour. Could we have a short written summary of the decision?|I'm in favour. Could someone write a summary of the decision?", "favour/favor ; summary ; decision",
+      "I'm in favour. Could we have a short summary of decision? :: Say 'of the decision'.", "I'm in favour. Could we to have a written summary of the decision? :: After 'could' use the base verb, no 'to'.", "q"),
+  ], end: "Seven of ten agree. The outcome is clear. Thank you!",
+  staff: [
+    W("Da la bienvenida a la reunión del comité, explica que habláis de la sala compartida y pregunta qué opina.", "Welcome to the committee meeting. We're discussing how to use the shared room. What's your view?|Welcome to the meeting. We're discussing how to use the shared room. What's your view?", "welcome ; discussing ; shared room/room ; view",
+      "Welcome to the committee meeting. We discuss how to use the shared room. What's your view? :: For something happening now use: We're discussing.", "Welcome in the committee meeting. We're discussing how to use the shared room. What's your view? :: We say 'Welcome to…'.", "q"),
+    W("Di que tienes una preocupación sobre el comienzo temprano: algunos miembros no pueden coger el autobús.", "I have a concern about the early start. Some members can't get the bus.|I have a concern about the early start. Some members can't take the bus.", "concern ; early start/early ; members ; bus",
+      "I have a concern of the early start. Some members can't get the bus. :: We say 'a concern about'.", "I have a concern about the early start. Some members no can get the bus. :: The negative is: can't get."),
+    W("Di que eso podría funcionar con los horarios del autobús y que esta sala solía ser una oficina pequeña.", "That might work for the bus times. This room used to be a small office, you know.|That might work for the bus times. This room used to be a small office.", "might ; work ; room ; used to ; office",
+      "That might to work for the bus times. This room used to be a small office. :: After 'might' use the base verb, no 'to'.", "That might work for the bus times. This room use to be a small office. :: In the affirmative say 'used to'."),
+    W("Responde que no solían reunirse allí, propón votar y pregunta quién está a favor del comienzo más tarde.", "No, they didn't use to meet here. Shall we vote? Who is in favour of the later start?|No, they didn't use to meet here. Shall we vote? Who is in favor of the later start?", "no ; didnt ; use to ; vote ; favour/favor ; later",
+      "No, they didn't used to meet here. Shall we vote? Who is in favour of the later start? :: After 'didn't' use 'use to'.", "No, they didn't use to meet here. Shall we to vote? Who is in favour of the later start? :: After 'shall we' use the base verb, no 'to'."),
+    W("Informa de que siete de diez están de acuerdo, que el resultado es claro, y da las gracias.", "Seven of ten agree. The outcome is clear. Thank you!|Seven out of ten agree. The outcome is clear. Thank you!", "seven ; ten ; agree ; outcome ; thank",
+      "Seven of ten agrees. The outcome is clear. Thank you! :: Plural: seven agree.", "Seven of ten agree. The outcome are clear. Thank you! :: Singular: The outcome is clear."),
+  ], bye: "Thank you all. We'll review it in a month." });
+
+UNIT5({ unit: 11, name: "What helps us keep learning?", icon: "📚", who: "Teacher", face: "👩", client: "Learner", cface: "👨",
+  turns: [
+    T("Hi! What would you like to learn this term?", "Di que te gustaría explicar situaciones cotidianas en inglés con más confianza.", "I'd like to explain everyday situations more confidently in English.|I'd like to explain everyday situations in English with more confidence.", "explain ; everyday ; situations ; english",
+      "I would like explain everyday situations more confident in English. :: 'Would like TO explain', and use the adverb: confidently.", "I'd like to explain situations everyday with more confidence in English. :: Adjective before noun: everyday situations."),
+    T("Good goal. The deadline for the first task is Friday. What had we better do before the talk?", "Di que más vale comprobar la sala y la hora de inicio (had better).", "We had better check the room and the start time.|We'd better check the room and the start time.", "better ; check ; room ; time",
+      "We had better to check the room and the start time. :: After 'had better' use the base verb, no 'to'.", "We better check the room and the start time. :: Say: We'd better / We had better."),
+    T("Exactly. Was the last explanation confusing for you?", "Di que sí, que al principio estabas confundido, pero que el ejemplo ayudó.", "Yes, I was confused at first, but the example helped.|Yes, I felt confused at first, but an example helped.", "confused ; first ; example ; help",
+      "Yes, I was confusing at first, but the example helped. :: Feelings use -ed: confused.", "Yes, I was confused at the first, but the example helped. :: Say 'at first'."),
+    T("I'm glad. Is there anything you'd like to check next lesson?", "Pregunta si podéis ver un ejemplo más.", "Could we look at one more example?|Could we look at another example, please?", "could ; look ; one more/another ; example",
+      "Could we look one more example? :: We 'look at' something.", "We could look at one more example? :: In questions the modal goes first: Could we look at…?", "q"),
+  ], end: "Of course. Bring one useful phrase and one question next time.",
+  staff: [
+    W("Saluda y pregunta qué le gustaría aprender este trimestre.", "Hi! What would you like to learn this term?|Hello! What would you like to learn this term?", "what ; would ; like ; learn ; term",
+      "Hi! What you would like to learn this term? :: In questions the modal goes before the subject: What would you like…?", "Hi! What would you like learn this term? :: 'Would like TO learn'.", "q"),
+    W("Di que es un buen objetivo, que el plazo de la primera tarea es el viernes, y pregunta qué más vale hacer antes de la charla.", "Good goal. The deadline for the first task is Friday. What had we better do before the talk?|Good goal. The deadline for the first task is Friday. What had we better do before the talk?", "goal ; deadline ; friday ; had ; better ; before ; talk",
+      "Good goal. The deadline for the first task is on Friday. What we had better do before the talk? :: In questions put 'had' first: What had we better do?", "Good goal. The deadline of the first task is Friday. What had we better to do before the talk? :: 'The deadline for…', and no 'to' after 'had better'.", "q"),
+    W("Di que exacto y pregunta si la última explicación le resultó confusa.", "Exactly. Was the last explanation confusing for you?|Exactly. Was the last explanation confusing?", "exactly ; explanation ; confusing",
+      "Exactly. Was the last explanation confused for you? :: The explanation is 'confusing' (-ing); you feel 'confused' (-ed).", "Exactly. The last explanation was confusing for you? :: In questions the verb goes first: Was the last explanation…?", "q"),
+    W("Di que te alegras y pregunta si quiere comprobar algo la próxima clase.", "I'm glad. Is there anything you'd like to check next lesson?|I'm glad. Is there anything you want to check next lesson?", "glad ; anything ; check ; next lesson",
+      "I'm glad. Is there something you'd like to check the next lesson? :: Say 'next lesson', no 'the'.", "I'm glad. Is there anything you'd like check next lesson? :: 'Would like TO check'.", "q"),
+    W("Di que claro y que traiga una frase útil y una pregunta la próxima vez.", "Of course. Bring one useful phrase and one question next time.|Of course. Please bring one useful phrase and one question next time.", "course ; bring ; phrase ; question ; next time",
+      "Of course. Bring one phrase useful and one question the next time. :: Adjective before noun, and 'next time' (no 'the').", "Of course. Brings one useful phrase and one question next time. :: An instruction uses the base verb: Bring."),
+  ], bye: "I will. Thank you!" });
+
+UNIT5({ unit: 12, name: "What have you arranged?", icon: "🗓️", who: "Coordinator", face: "👨", client: "Volunteer", cface: "👩",
+  turns: [
+    T("Hi! What are you doing tomorrow afternoon?", "Di que te reúnes con el equipo de voluntarios en el centro.", "I'm meeting the volunteer team at the centre.|I'm meeting the volunteers at the centre.", "meeting ; volunteer ; centre/center",
+      "I meet the volunteer team at the centre tomorrow. :: For an arrangement use the present continuous: I'm meeting.", "I'm going meeting the volunteer team at the centre. :: Say: I'm meeting the volunteer team."),
+    T("Good. When does the first session begin?", "Di que, según el programa, empieza a las dos.", "According to the programme, it begins at two.|It begins at two, according to the programme.", "programme/program/schedule ; begins/starts ; two",
+      "According the programme, it begins at two. :: Say 'according to'.", "According to the programme, it is beginning at two. :: For a fixed programme use the present simple: it begins."),
+    T("Are you staying for the whole event?", "Di que no: te vas después de la discusión final.", "No, I'm leaving after the final discussion.|No, I'm leaving after the last discussion.", "no ; leaving ; after ; discussion",
+      "No, I'm leave after the final discussion. :: Present continuous: I'm leaving.", "No, I'm leaving after of the final discussion. :: Say 'after the final discussion', no 'of'."),
+    T("Could you confirm when we are meeting at the main desk?", "Confirma: os reunís el jueves en el mostrador principal.", "Yes, we're meeting at the main desk on Thursday.|Yes. We're meeting on Thursday at the main desk.", "thursday ; main ; desk",
+      "Yes, we meet at the main desk the Thursday. :: Days need 'on', and an arrangement uses: we're meeting.", "Yes, we're meeting at main desk on Thursday. :: Say 'at the main desk'."),
+  ], end: "Perfect. I'll update the note and send the final programme.",
+  staff: [
+    W("Saluda y pregunta qué hace mañana por la tarde.", "Hi! What are you doing tomorrow afternoon?|Hello! What are you doing tomorrow afternoon?", "what ; doing ; tomorrow ; afternoon",
+      "Hi! What you are doing tomorrow afternoon? :: In questions the verb goes before the subject: What are you doing?", "Hi! What do you doing tomorrow afternoon? :: Present continuous: What are you doing?", "q"),
+    W("Di que bien y pregunta cuándo empieza la primera sesión.", "Good. When does the first session begin?|Good. When does the first session start?", "when ; first ; session ; begin/start",
+      "Good. When begins the first session? :: Use 'does': When does the first session begin?", "Good. When does the first session begins? :: After 'does' use the base verb: begin.", "q"),
+    W("Pregunta si se queda todo el evento.", "Are you staying for the whole event?|Are you staying for the entire event?", "staying ; whole/entire ; event",
+      "Are you stay for the whole event? :: Present continuous: Are you staying…?", "Do you are staying for the whole event? :: Use just 'are': Are you staying…?", "q"),
+    W("Pide que confirme cuándo os reunís en el mostrador principal.", "Could you confirm when we are meeting at the main desk?|Could you confirm when we're meeting at the main desk?", "could ; confirm ; when ; meeting ; desk",
+      "Could you confirm when are we meeting at the main desk? :: After 'confirm when' keep normal order: when we are meeting.", "Could you to confirm when we are meeting at the main desk? :: After 'could' use the base verb, no 'to'.", "q"),
+    W("Di que perfecto, que actualizarás la nota y enviarás el programa final.", "Perfect. I'll update the note and send the final programme.|Perfect. I'll update the note and send the final program.", "perfect ; update ; note ; send ; final ; programme/program",
+      "Perfect. I update the note and send the final programme. :: A decision uses 'will': I'll update.", "Perfect. I'll update the note and send the programme final. :: Adjective before noun: the final programme."),
+  ], bye: "Thank you. See you on Thursday!" });
+
+UNIT5({ unit: 13, name: "Where can we find the information?", icon: "🔍", who: "Librarian", face: "👩", client: "Reader", cface: "👨",
+  turns: [
+    T("Good morning. How can I help?", "Di que buscas un libro sobre historia local y pregunta si tienen una lista impresa.", "I'm looking for a book about local history. Do you have a printed list?|I am looking for a book about local history. Do you have a printed catalogue?", "looking ; book ; local history ; list/catalogue",
+      "I'm looking a book about local history. Do you have a printed list? :: We 'look FOR' something.", "I'm looking for a book about local history. You have a printed list? :: In questions use 'do': Do you have…?", "q"),
+    T("Yes, there's a catalogue on the shelf. It's organised by name, date or topic.", "Pregunta si hay una sala tranquila cerca.", "Is there a quiet room nearby?|Is there a quiet room near here?", "is there ; quiet ; room ; nearby/near",
+      "There is a quiet room nearby? :: In questions the verb goes first: Is there…?", "Have a quiet room nearby? :: Say: Is there a quiet room nearby?", "q"),
+    T("Yes, there is. It's about two hundred metres from this point on the map.", "Pide, con educación, que te lo enseñe en el mapa.", "Could you show me on the map, please?|Could you show it to me on the map, please?", "could ; show ; map",
+      "Could you to show me on the map, please? :: After 'could' use the base verb, no 'to'.", "Could you show me in the map, please? :: We say 'on the map'.", "pq"),
+    T("Of course. Here, it's a quarter past eleven, so the room is free until twelve.", "Da las gracias y pregunta si hay otra copia del libro disponible.", "Thank you. Is there another copy available?|Thanks. Is there another copy of the book available?", "thank ; another ; copy ; available",
+      "Thank you. Has another copy available? :: Say: Is there another copy available?", "Thank you. There is another copy available? :: In questions the verb goes first: Is there…?", "q"),
+  ], end: "Yes, there is one at the information desk.",
+  staff: [
+    W("Saluda por la mañana y pregunta cómo puedes ayudar.", "Good morning. How can I help?|Good morning. How can I help you?", "morning ; how ; help",
+      "Good morning. How I can help? :: In questions the modal goes first: How can I help?", "Good morning. How can I helping? :: After 'can' use the base verb: help.", "q"),
+    W("Di que sí, que hay un catálogo en la estantería organizado por nombre, fecha o tema.", "Yes, there's a catalogue on the shelf. It's organised by name, date or topic.|Yes, there's a catalogue on the shelf. It's organized by name, date or topic.", "catalogue/catalog ; shelf ; organised/organized ; name ; date ; topic",
+      "Yes, there's a catalogue in the shelf. It's organised by name, date or topic. :: We say 'on the shelf'.", "Yes, there's a catalogue on the shelf. It organised by name, date or topic. :: Passive: It's organised.", "q"),
+    W("Di que sí, que está a unos doscientos metros de este punto en el mapa.", "Yes, there is. It's about two hundred metres from this point on the map.|Yes, there is. It's about two hundred meters from this point on the map.", "yes ; about ; two hundred/200 ; metres/meters ; map",
+      "Yes, there is. It's about two hundred metres of this point on the map. :: Distance 'from': from this point.", "Yes, there is. There are about two hundred metres from this point on the map. :: For distance use 'it': It's about two hundred metres."),
+    W("Di que por supuesto, que son las once y cuarto y que la sala está libre hasta las doce.", "Of course. Here, it's a quarter past eleven, so the room is free until twelve.|Of course. It's a quarter past eleven, so the room is free until twelve.", "course ; quarter past eleven/11:15 ; free ; until/till ; twelve",
+      "Of course. Here, is a quarter past eleven, so the room is free until twelve. :: It needs a subject: it's.", "Of course. Here, it's a quarter to eleven, so the room is free until twelve. :: 'A quarter past eleven' = 11:15."),
+    W("Responde que sí, que hay una copia en el mostrador de información.", "Yes, there is one at the information desk.|Yes, there is one at the information desk.", "yes ; there ; one ; information desk/desk",
+      "Yes, it has one at the information desk. :: Say: Yes, there is one…", "Yes, there is one in the information desk. :: We say 'at the desk'."),
+  ], bye: "Thank you very much!" });
+
+/* ===================== MODULE 4 / Stories and experiences ===================== */
+UNIT5({ unit: 14, name: "What was happening at the time?", icon: "☕", who: "Friend", face: "👨", client: "Friend", cface: "👩",
+  turns: [
+    T("You look surprised! What happened at the cafe yesterday?", "Cuenta: estabas esperando en la cafetería a las once cuando apareció un viejo amigo en la puerta.", "I was waiting in the cafe at eleven when an old friend appeared at the door.|I was waiting in the cafe at eleven when an old friend appeared in the doorway.", "waiting ; cafe ; eleven ; friend ; appeared",
+      "I waited in the cafe at eleven when an old friend appeared at the door. :: For the situation in progress use the past continuous: I was waiting.", "I was waiting in the cafe at eleven when an old friend was appearing at the door. :: The sudden event uses the past simple: appeared."),
+    T("Wow! What did you do next?", "Di que os sentasteis y comparasteis vuestros planes de viaje mientras el camarero limpiaba la mesa.", "We sat down and compared our travel plans while the assistant was clearing the table.|We sat down and compared our travel plans. Meanwhile, the assistant was clearing the table.", "sat ; compared ; travel ; while/meanwhile ; clearing/cleaning",
+      "We sat down and compared our travel plans while the assistant cleared the table. :: For an action in progress use the past continuous: was clearing.", "We sit down and compared our travel plans while the assistant was clearing the table. :: Past simple: sat down."),
+    T("Did you notice anything missing?", "Di que sí: la nota faltaba cuando estabais listos para marcharos.", "Yes, the note was missing when we were ready to leave.|Yes, a note was missing when we were ready to leave.", "note ; missing/disappeared ; ready ; leave",
+      "Yes, the note was missing when we was ready to leave. :: 'We' needs 'were'.", "Yes, the note was missing when we were ready for leave. :: Say 'ready to leave'."),
+    T("Oh no! Did you find it?", "Di que sí, que por fin la encontrasteis junto a la caja y que le dierais las gracias al camarero.", "Yes, we eventually found it beside the till, and we thanked the assistant.|Yes, we finally found it beside the till, and we thanked the assistant.", "found ; till/cash ; thanked/thank",
+      "Yes, we eventually find it beside the till, and we thanked the assistant. :: Past simple: found.", "Yes, we eventually found it besides the till, and we thanked to the assistant. :: 'Beside' (no -s), and 'thanked the assistant'."),
+  ], end: "What a story! What a surprise!",
+  staff: [
+    W("Dile que parece sorprendido y pregunta qué pasó ayer en la cafetería.", "You look surprised! What happened at the cafe yesterday?|You look surprised! What happened in the cafe yesterday?", "surprised ; what ; happened ; cafe ; yesterday",
+      "You look surprising! What happened at the cafe yesterday? :: A feeling uses -ed: surprised.", "You look surprised! What did happen at the cafe yesterday? :: Say: What happened…?", "q"),
+    W("Expresa asombro y pregunta qué hizo después.", "Wow! What did you do next?|Wow! What did you do after that?", "wow ; what ; did ; next/after",
+      "Wow! What you did next? :: Use the auxiliary first: What did you do next?", "Wow! What did you did next? :: After 'did' use the base verb: do.", "q"),
+    W("Pregunta si notó que faltaba algo.", "Did you notice anything missing?|Did you notice something missing?", "did ; notice ; anything/something ; missing",
+      "Did you noticed anything missing? :: After 'did' use the base verb: notice.", "You noticed anything missing? :: In questions use 'did': Did you notice…?", "q"),
+    W("Muestra preocupación y pregunta si la encontró.", "Oh no! Did you find it?|Oh no! Did you find the note?", "oh no ; did ; find",
+      "Oh no! Did you found it? :: After 'did' use the base verb: find.", "Oh no! You found it? :: Use 'did' for the question: Did you find it?", "q"),
+    W("Di que menuda historia y menuda sorpresa.", "What a story! What a surprise!|What a story! What a surprise.", "what a story ; what a surprise",
+      "What story! What surprise! :: In exclamations with a singular noun use 'a': What a story!", "How a story! How a surprise! :: With a noun say 'What a…!'"),
+  ], bye: "It really was. Thanks for listening!" });
+
+UNIT5({ unit: 15, name: "How has digital life changed?", icon: "📱", who: "Friend", face: "👩", client: "Friend", cface: "👨",
+  turns: [
+    T("How do you keep in touch with your friends? Have you ever sent a voice note?", "Di que sí, que has enviado una nota de voz cuando una explicación escrita era difícil.", "Yes, I have. I've sent a voice note when a written explanation felt difficult.|Yes, I have. I sent one when writing felt difficult.", "yes ; voice note ; difficult",
+      "Yes, I did. I've sent a voice note when a written explanation felt difficult. :: A short answer repeats the auxiliary: Yes, I have.", "Yes, I have. I have send a voice note when a written explanation felt difficult. :: The present perfect uses the participle: sent."),
+    T("Interesting. When did you send the last one?", "Di que la enviaste ayer por la tarde.", "I sent it yesterday afternoon.|I sent one yesterday afternoon.", "sent ; yesterday ; afternoon",
+      "I have sent it yesterday afternoon. :: Don't use the present perfect with 'yesterday': I sent it.", "I send it yesterday afternoon. :: Past simple: sent."),
+    T("Have you downloaded the programme for Saturday yet?", "Di que sí, que ya lo has descargado y que también tienes una copia impresa.", "Yes, I've already downloaded it, and I have a printed copy too.|Yes, I've already downloaded it. I also have a printed copy.", "already ; downloaded ; printed ; copy",
+      "Yes, I already have downloaded it, and I have a printed copy too. :: Word order: I've already downloaded it.", "Yes, I've downloaded already it, and I have a copy printed. :: Order: I've already downloaded it, and a printed copy."),
+    T("A message says the event has moved to another place. Do you recognise the sender?", "Di que no conoces al remitente y que comprobarás los detalles antes de compartirlo.", "No, I don't recognise the sender. I'll check the details before sharing it.|No, I don't. I'm going to check the details before sharing it.", "no ; sender/name ; check ; details ; before",
+      "No, I don't recognise the sender. I check the details before to share it. :: After 'before' use -ing: before sharing.", "No, I haven't recognise the sender. I'll check the details before sharing it. :: Present simple: No, I don't recognise…"),
+  ], end: "Good idea. Let's ask the organiser.",
+  staff: [
+    W("Pregunta cómo mantiene el contacto con sus amigos y si alguna vez ha enviado una nota de voz.", "How do you keep in touch with your friends? Have you ever sent a voice note?|How do you keep in touch with your friends? Have you ever sent a voice message?", "how ; keep in touch ; ever ; sent ; voice",
+      "How you keep in touch with your friends? Have you ever sent a voice note? :: Use 'do': How do you keep in touch?", "How do you keep in touch with your friends? Have you ever send a voice note? :: After 'have' use the participle: sent.", "q"),
+    W("Di que es interesante y pregunta cuándo envió la última.", "Interesting. When did you send the last one?|Interesting. When did you send the last one?", "interesting ; when ; send ; last",
+      "Interesting. When have you sent the last one? :: With 'When' use the past simple: When did you send…?", "Interesting. When did you sent the last one? :: After 'did' use the base verb: send.", "q"),
+    W("Pregunta si ya se ha descargado el programa del sábado.", "Have you downloaded the programme for Saturday yet?|Have you downloaded the programme for Saturday already?", "have ; downloaded ; programme/program ; saturday",
+      "Did you downloaded the programme for Saturday yet? :: Use the present perfect with 'yet': Have you downloaded…?", "Have you download the programme for Saturday yet? :: After 'have' use the participle: downloaded.", "q"),
+    W("Di que un mensaje dice que el evento se ha trasladado a otro sitio y pregunta si reconoce al remitente.", "A message says the event has moved to another place. Do you recognise the sender?|A message says the event has moved to another place. Do you recognize the sender?", "message ; event ; moved ; another place/place ; recognise/recognize ; sender",
+      "A message says the event has moved to other place. Do you recognise the sender? :: Say 'another place'.", "A message says the event moved to another place. You recognise the sender? :: In questions use 'do': Do you recognise the sender?", "q"),
+    W("Di que es buena idea y propón preguntar al organizador (Let's…).", "Good idea. Let's ask the organiser.|Good idea. Let's ask the organizer.", "good ; lets ; ask ; organiser/organizer",
+      "Good idea. Let's to ask the organiser. :: After 'let's' use the base verb, no 'to'.", "Good idea. We ask the organiser. :: To suggest say: Let's ask the organiser."),
+  ], bye: "Yes, let's call her. Thanks!" });
+
+UNIT5({ unit: 16, name: "How long have you been travelling?", icon: "🧳", who: "Guide", face: "👩", client: "Traveller", cface: "👨",
+  turns: [
+    T("Welcome! Have you been waiting long?", "Di que no, que solo llevas esperando unos minutos.", "No, I've only been waiting for a few minutes.|No, I've been waiting for just a few minutes.", "no ; waiting ; few ; minutes",
+      "No, I only wait for a few minutes. :: For something that began in the past and continues use: I've been waiting.", "No, I've only been waiting since a few minutes. :: Use 'for' with a period of time: for a few minutes."),
+    T("How long have you been planning the visit?", "Di que lleváis dos semanas planeándola y que habéis estado comparando dos itinerarios.", "We've been planning it for two weeks. We've been comparing two itineraries.|We've been planning it for two weeks and comparing two itineraries.", "planning ; two weeks ; comparing ; itinerary/itineraries",
+      "We're planning it since two weeks. :: Say: We've been planning it for two weeks.", "We have been planning it from two weeks. :: Use 'for' with a period of time."),
+    T("The train is delayed. They've announced a new departure time. What could we do?", "Sugiere hacer una parada corta y di que el plan de la tarde es flexible.", "We could have a short stop. The afternoon plan is flexible.|We could stop for a short break. The afternoon plan is flexible.", "could ; short ; afternoon ; flexible",
+      "We could to have a short stop. The afternoon plan is flexible. :: After 'could' use the base verb, no 'to'.", "We could have a short stop. The afternoon plan are flexible. :: 'Plan' is singular: is flexible."),
+    T("Good idea. Shall I call the museum? What shall I say?", "Pide que expliquen el retraso y que digan que llegaréis más tarde de lo previsto.", "Please explain the delay and say we'll arrive later than planned.|Please explain the delay and say that we'll arrive a little later than planned.", "delay ; arrive ; later ; planned",
+      "Please explain the delay and say that we arrive later than planned. :: A future prediction uses 'will': we'll arrive.", "Please explain the delay and say we'll arrive more later than planned. :: Say 'later than', no 'more'."),
+  ], end: "Of course. Thanks for staying calm!",
+  staff: [
+    W("Da la bienvenida y pregunta si lleva mucho esperando.", "Welcome! Have you been waiting long?|Welcome! Have you been waiting for a long time?", "welcome ; have ; been ; waiting ; long",
+      "Welcome! Are you waiting long? :: For a period up to now use: Have you been waiting long?", "Welcome! Have you been wait long? :: After 'been' use -ing: waiting.", "q"),
+    W("Pregunta cuánto tiempo lleva planeando la visita.", "How long have you been planning the visit?|How long have you been planning this visit?", "how long ; have ; been ; planning ; visit",
+      "How long you have been planning the visit? :: In questions the auxiliary goes first: How long have you been planning…?", "How long are you planning the visit? :: Use the present perfect continuous: How long have you been planning…?", "q"),
+    W("Di que el tren va con retraso, que han anunciado una nueva hora de salida, y pregunta qué podríais hacer.", "The train is delayed. They've announced a new departure time. What could we do?|The train is delayed. They've announced a new departure time. What can we do?", "train ; delayed ; announced ; departure ; what ; could/can",
+      "The train is delay. They've announced a new departure time. What could we do? :: The adjective is 'delayed'.", "The train is delayed. They've announce a new departure time. What could we do? :: Present perfect: They've announced.", "q"),
+    W("Di que es buena idea y pregunta si debes llamar al museo y qué debes decir.", "Good idea. Shall I call the museum? What shall I say?|Good idea. Shall I call the museum? What should I say?", "good ; shall ; call ; museum ; what ; say",
+      "Good idea. Shall I to call the museum? What shall I say? :: After 'shall I' use the base verb, no 'to'.", "Good idea. I shall call the museum? What shall I say? :: In offers use: Shall I call…?", "q"),
+    W("Dile que por supuesto y da las gracias por mantener la calma.", "Of course. Thanks for staying calm!|Of course. Thank you for staying calm!", "course ; thank/thanks ; staying/keeping ; calm",
+      "Of course. Thanks for stay calm! :: After 'for' use -ing: for staying.", "Of course. Thanks by staying calm! :: We say 'thanks for'."),
+  ], bye: "No problem. See you at the museum!" });
+
+UNIT5({ unit: 17, name: "What is on the menu?", icon: "🍽️", who: "Waiter", face: "🧑‍🍳", client: "Guest", cface: "👩",
+  turns: [
+    T("Good evening, welcome. Here's the menu. What would you like to drink?", "Pide, con educación, un vaso de agua y un trozo de pan.", "Could I have a glass of water and a piece of bread, please?|A glass of water and a piece of bread, please.", "glass ; water ; piece ; bread",
+      "Could I have a water and a bread, please? :: Uncountable nouns need a measure: a glass of water, a piece of bread.", "I want a glass of water and a piece of bread. :: Too direct. Say: Could I have…?", "p"),
+    T("Of course. The soup is smooth and the pie is crisp. What would you like to know?", "Pregunta, con educación, qué hay en este plato.", "Could you tell me what is in this dish?|Could you tell me which ingredients it contains?", "could ; tell ; ingredients/dish",
+      "Could you tell me what has this dish? :: After 'tell me' keep normal order: what is in this dish.", "Could you to tell me what is in this dish? :: After 'could' use the base verb, no 'to'.", "pq"),
+    T("It has vegetables, cheese and a little cream. Would you like a large or a small portion?", "Di que hoy preferirías una ración pequeña.", "I'd prefer a small portion today.|I'd like a small portion today, please.", "small ; portion ; today",
+      "I prefer a portion small today. :: Adjective before noun: a small portion.", "I'd prefer small portion today. :: Use 'a': a small portion."),
+    T("Certainly. Would you like to order a dessert, or shall I bring the bill?", "Pide la cuenta de vuestra mesa y felicita al cocinero por la comida.", "The bill for our table, please. The meal was very enjoyable. Thank you!|Could we have the bill for our table, please? The meal was very enjoyable.", "bill ; table ; meal ; enjoyable",
+      "The bill of our table, please. The meal was very enjoyable. :: Say 'the bill for our table'.", "A bill for our table, please. The meal was very enjoyable. :: We mean a particular bill: the bill."),
+  ], end: "Thank you! I'll tell the chef. Have a lovely evening.",
+  staff: [
+    W("Da la bienvenida por la tarde, entrega la carta y pregunta qué quiere beber.", "Good evening, welcome. Here's the menu. What would you like to drink?|Good evening, welcome. Here is the menu. What would you like to drink?", "evening ; welcome ; menu ; what ; drink",
+      "Good evening, welcome. Here's the menu. What you would like to drink? :: In questions the modal goes before the subject: What would you like…?", "Good evening, welcome. Here you have the menu. What would you like to drink? :: When you give something say: Here's the menu.", "q"),
+    W("Di que por supuesto, que la sopa es suave y el pastel crujiente, y pregunta qué quiere saber.", "Of course. The soup is smooth and the pie is crisp. What would you like to know?|Of course. The soup is smooth and the pie is crisp. What would you like to know?", "course ; soup ; smooth ; pie ; crisp ; know",
+      "Of course. The soup is smooth and the pie is crispy. What would you like know? :: 'Would you like TO know'.", "Of course. The soup is smooth and the pie are crisp. What would you like to know? :: Singular: the pie is crisp.", "q"),
+    W("Explica que lleva verduras, queso y un poco de nata, y pregunta si quiere una ración grande o pequeña.", "It has vegetables, cheese and a little cream. Would you like a large or a small portion?|It has vegetables, cheese and a little cream. Would you like a large or small portion?", "vegetables ; cheese ; cream ; large ; small ; portion",
+      "It has vegetables, cheese and a little of cream. Would you like a large or a small portion? :: Say 'a little cream', no 'of'.", "It has vegetables, cheese and a few cream. Would you like a large or a small portion? :: 'Cream' is uncountable: a little cream.", "q"),
+    W("Di que por supuesto y pregunta si quiere pedir un postre o si traes la cuenta.", "Certainly. Would you like to order a dessert, or shall I bring the bill?|Certainly. Would you like a dessert, or shall I bring the bill?", "certainly ; dessert ; shall ; bring ; bill",
+      "Certainly. Would you like order a dessert, or shall I bring the bill? :: 'Would you like TO order'.", "Certainly. Would you like to order a dessert, or I bring the bill? :: To offer use: shall I bring the bill?", "q"),
+    W("Da las gracias, di que se lo dirás al cocinero y desea una buena noche.", "Thank you! I'll tell the chef. Have a lovely evening.|Thank you! I'll tell the chef. Have a nice evening.", "thank ; tell ; chef ; evening",
+      "Thank you! I tell the chef. Have a lovely evening. :: A promise uses 'will': I'll tell.", "Thank you! I'll say the chef. Have a lovely evening. :: We say 'tell the chef'."),
+  ], bye: "Thank you. Goodbye!" });

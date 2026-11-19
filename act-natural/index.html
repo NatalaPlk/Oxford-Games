@@ -273,6 +273,7 @@
 <script src="scenes.js"></script>
 <script src="staff.js"></script>
 <script src="book2.js"></script>
+<script src="book5.js"></script>
 <script src="../shared/howto.js"></script>
 <script>
 const LEVELS = { A1: "Beginner", A2: "Elementary", B1: "Intermediate", B2: "Upper-intermediate" };
@@ -289,11 +290,13 @@ let best = {};
 // the saved data keeps the game's first name (Situationship), so nobody loses their stars
 try { best = JSON.parse(localStorage.getItem("situationship-best") || "{}"); } catch (e) {}
 try { const p = JSON.parse(localStorage.getItem("situationship-setup") || "null"); if (p) Object.assign(S, p); } catch (e) {}
-// two sets of situations: everyday life (A1–B2) and The Oxford Method Book 2 (A1+, one per unit, in book2.js)
-const isBook = () => S.source === "book";
-const LIST = () => isBook() ? BOOK : SCENES;
-const ALL = SCENES.concat(BOOK);
-const LV = () => isBook() ? "A1+" : S.level;   // the level of the conversation
+// three sets of situations: everyday life (A1–B2), The Oxford Method Book 2 (A1+, one per unit, in book2.js) and Book 5 (B1, in book5.js)
+const BOOKS = { book: { list: BOOK, level: "A1+", label: "Book 2" }, book5: { list: BOOK5, level: "B1", label: "Book 5" } };
+const isBook = () => !!BOOKS[S.source];
+const LIST = () => isBook() ? BOOKS[S.source].list : SCENES;
+const ALL = SCENES.concat(BOOK, BOOK5);
+const LV = () => isBook() ? BOOKS[S.source].level : S.level;   // the level of the conversation
+const bookLabel = sc => sc.label || "Book 2";
 if (!LIST().some(s => s.id === S.scene)) S.scene = LIST()[0].id;
 function saveSetup(){ try { localStorage.setItem("situationship-setup", JSON.stringify(S)); } catch (e) {} }
 
@@ -303,12 +306,12 @@ $("marq").innerHTML = (SCENES.map(s => `<i>${s.icon} ${s.name} <b>→</b> ${SCEN
 function starsHtml(n){ return "★★★".split("").map((c, i) => i < n ? `<b>${c}</b>` : c).join(""); }
 const bestKey = id => id + LV() + (S.role === "staff" ? "-staff" : "");   // stars are kept per role
 function drawSetup(){
-  $("sources").innerHTML = [["life", "🌍 Everyday situations", "A1 → B2"], ["book", "📘 The Oxford Method · Book 2", "A1+ · 21 units"]]
+  $("sources").innerHTML = [["life", "🌍 Everyday situations", "A1 → B2"], ["book", "📘 The Oxford Method · Book 2", "A1+ · 21 units"], ["book5", "📗 The Oxford Method · Book 5", "B1 · 17 units"]]
     .map(([k, t, s]) => `<button class="chip big${k === S.source ? " on" : ""}" data-src="${k}">${t}<small>${s}</small></button>`).join("");
   $("scenes").innerHTML = LIST().map(s => `<button class="scene${s.id === S.scene ? " on" : ""}" style="--c:${s.color}" data-id="${s.id}">
     <span class="ic">${s.icon}</span><span class="nm">${s.book ? `<small>Unit ${s.unit}</small>` : ""}${s.name}</span><span class="st" title="Best at ${LV()}">${starsHtml(best[bestKey(s.id)] || 0)}</span></button>`).join("")
     + `<button class="scene" style="--c:#ffd257" data-id="random"><span class="ic">🎲</span><span class="nm">Surprise me</span><span class="st">random</span></button>`;
-  $("levels").innerHTML = isBook() ? `<button class="chip big on">A1+<small>Book 2</small></button>` : Object.keys(LEVELS).map(l => `<button class="chip big${l === S.level ? " on" : ""}" data-l="${l}">${l}<small>${LEVELS[l]}</small></button>`).join("");
+  $("levels").innerHTML = isBook() ? `<button class="chip big on">${LV()}<small>${BOOKS[S.source].label}</small></button>` : Object.keys(LEVELS).map(l => `<button class="chip big${l === S.level ? " on" : ""}" data-l="${l}">${l}<small>${LEVELS[l]}</small></button>`).join("");
   $("modes").innerHTML = [["real", "😠 Real life", "They lose patience"], ["fun", "😄 Just for fun", "Nobody gets angry"]]
     .map(([k, t, s]) => `<button class="chip big${k === S.mode ? " on" : ""}" data-m="${k}">${t}<small>${s}</small></button>`).join("");
   $("modeHint").innerHTML = S.mode === "real"
@@ -317,7 +320,7 @@ function drawSetup(){
   $("levelHint").textContent = { A1: "Short, simple sentences: ordering, saying yes / no, simple questions.",
     A2: "Everyday requests, questions with do / does, can / could.", B1: "Problems and explanations: allergies, delays, complaints.",
     B2: "Polite complaints, negotiating, softening what you say." }[S.level];
-  if (isBook()) $("levelHint").textContent = "The conversations of the book: the dialogue and the partner task of each unit.";
+  if (isBook()) $("levelHint").textContent = S.source === "book5" ? "The questions and topics of each unit of the book, as a conversation: a notice, an appointment, an invitation, a delay, a menu…" : "The conversations of the book: the dialogue and the partner task of each unit.";
   const sc = ALL.find(s => s.id === S.scene), cl = STAFF[sc.id].client.toLowerCase(), wk = sc.who.toLowerCase();
   $("roles").innerHTML = [["client", "🙋 " + STAFF[sc.id].client, "You answer the " + wk], ["staff", sc.face + " " + sc.who, "You ask the questions"]]
     .map(([k, t, s]) => `<button class="chip big${k === S.role ? " on" : ""}" data-r="${k}">${t}<small>${s}</small></button>`).join("");
@@ -440,7 +443,7 @@ function startGame(){
   $("npc").style.setProperty("--c", sc.color);
   $("face").textContent = other.face; $("who").textContent = other.name;
   $("where").textContent = sc.icon + " " + sc.name + (staff ? " · you're the " + sc.who.toLowerCase() : "");
-  $("counter").innerHTML = `<b>${sc.book ? "Book 2 · Unit " + sc.unit : LV()}</b> · ${S.mode === "real" ? "Real life" : "Just for fun"}${staff ? " · " + esc(sc.face + " " + sc.who) : ""}`;
+  $("counter").innerHTML = `<b>${sc.book ? bookLabel(sc) + " · Unit " + sc.unit : LV()}</b> · ${S.mode === "real" ? "Real life" : "Just for fun"}${staff ? " · " + esc(sc.face + " " + sc.who) : ""}`;
   $("chat").innerHTML = ""; $("you").innerHTML = "";
   drawVoiceBtn(); drawHelpSeg(); drawPatience(); drawProgress();
   window.scrollTo({ top: 0 });
@@ -643,13 +646,13 @@ function fixesHtml(){
     <div class="no">${esc(m.said)}</div><div class="why">${m.why}</div><div class="yes">✓ ${esc(m.model)}</div></div>`).join("")}</div>`;
 }
 const nextLevel = () => { if (isBook()) return null; const ks = Object.keys(LEVELS); return ks[ks.indexOf(S.level) + 1]; };
-const nextUnit = () => isBook() ? BOOK[BOOK.findIndex(b => b.id === S.scene) + 1] : null;
+const nextUnit = () => isBook() ? LIST()[LIST().findIndex(b => b.id === S.scene) + 1] : null;
 function win(){
   if (G.over) return; G.over = true;
   const st = starsFor(), key = bestKey(S.scene);
   if (st > (best[key] || 0)){ best[key] = st; try { localStorage.setItem("situationship-best", JSON.stringify(best)); } catch (e) {} }
   const nl = nextLevel(), nu = nextUnit();
-  showEnd(`<div class="big">${G.other.face}</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${G.sc.book ? "Book 2 · Unit " + G.sc.unit : LV()}</p>
+  showEnd(`<div class="big">${G.other.face}</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${G.sc.book ? bookLabel(G.sc) + " · Unit " + G.sc.unit : LV()}</p>
     <h2>${st === 3 ? "Perfect conversation!" : st === 2 ? "Well done!" : "You made it!"}</h2>
     <div class="stars">${[0, 1, 2].map(i => `<span class="${i < st ? "" : "off"}">⭐</span>`).join("")}</div>
     <p class="sub">${S.mode === "real" ? `The ${esc(G.other.name.toLowerCase())} still had <b>${Math.max(0, G.patience)}%</b> patience left.` : `Mistakes: <b>${G.mistakes.length}</b>.`}</p>
@@ -661,7 +664,7 @@ function win(){
 }
 function lose(){
   if (G.over) return; G.over = true;
-  showEnd(`<div class="big">🤬</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${G.sc.book ? "Book 2 · Unit " + G.sc.unit : LV()}</p>
+  showEnd(`<div class="big">🤬</div><p class="eyebrow">${G.sc.icon} ${esc(G.sc.name)} · ${G.sc.book ? bookLabel(G.sc) + " · Unit " + G.sc.unit : LV()}</p>
     <h2>They walked away!</h2>
     <p class="sub">The ${esc(G.other.name.toLowerCase())} lost their patience. Look at your mistakes and try again.</p>
     ${fixesHtml()}
@@ -682,6 +685,7 @@ function showEnd(html, after){
     steps: [
       ["🗺️", "<b>Elige una situación</b> y el nivel (A1–B2). Cada conversación tiene 4 turnos."],
       ["📘", "<b>The Oxford Method · Book 2:</b> las conversaciones del libro (A1+), una por unidad: el diálogo y la tarea con el compañero de cada unidad, en los dos papeles."],
+      ["📗", "<b>The Oxford Method · Book 5:</b> una conversación (B1) por cada unidad del libro, con sus preguntas y temas: un aviso, una cita, una invitación, un retraso, un menú… en los dos papeles."],
       ["😠", "<b>Real life:</b> cada error le quita <b>paciencia</b> a la otra persona (un error gordo −35, una falta de ortografía −10, no decir <i>please</i> −15). Si llega a cero, se va… ¡y pierdes!"],
       ["🔄", "<b>Tu papel:</b> cliente (respondes al camarero, al médico…) o <b>trabajador</b>: eres el camarero, el médico, el recepcionista… y tú haces las preguntas al cliente."],
       ["😄", "<b>Just for fun:</b> nadie se enfada. Si te equivocas, ves la corrección y la respuesta buena, y lo intentas otra vez."],
@@ -701,6 +705,7 @@ function showEnd(html, after){
   steps: [
     ["🗺️", "<b>Choose a situation</b> and a level (A1–B2). Each conversation has 4 turns."],
     ["📘", "<b>The Oxford Method · Book 2:</b> the conversations of the book (A1+), one for each unit: its dialogue and partner task, in both roles."],
+    ["📗", "<b>The Oxford Method · Book 5:</b> one conversation (B1) for each unit of the book, with its questions and topics: a notice, an appointment, an invitation, a delay, a menu… in both roles."],
     ["😠", "<b>Real life:</b> every mistake costs the other person's <b>patience</b> (a real mistake −35, a spelling mistake −10, forgetting <i>please</i> −15). At zero they walk away… and you lose!"],
     ["🔄", "<b>Your role:</b> the customer (you answer the waiter, the doctor…) or the <b>worker</b>: you are the waiter, the doctor, the receptionist… and you ask the customer the questions."],
     ["😄", "<b>Just for fun:</b> nobody gets angry. When you make a mistake you see the correction and the right answer, and try again."],

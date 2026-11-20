@@ -90,6 +90,12 @@
   @keyframes gin{from{transform:scale(0) rotate(-40deg)}to{transform:scale(1)}}
   @keyframes gout{to{transform:translate(70px,-70px) scale(1.3);opacity:0}}
   .tower.hit{animation:tshake .45s}
+  /* the ghost that moves in says something */
+  .tower .bubble{position:absolute;z-index:6;background:#fff;color:var(--navy);border:3px solid var(--navy);border-radius:16px;padding:2px 12px 4px;font-family:var(--display);font-weight:900;font-size:clamp(18px,2.9vw,30px);line-height:1.15;white-space:nowrap;box-shadow:3px 3px 0 var(--navy);transform-origin:0 70%;animation:bpop 1.7s ease-out forwards;pointer-events:none}
+  .tower .bubble::before,.tower .bubble::after{content:"";position:absolute;top:50%;border-style:solid;border-color:transparent;border-left-width:0}
+  .tower .bubble::before{left:-14px;margin-top:-8px;border-width:8px 14px 8px 0;border-right-color:var(--navy)}
+  .tower .bubble::after{left:-8px;margin-top:-5px;border-width:5px 9px 5px 0;border-right-color:#fff}
+  @keyframes bpop{0%{transform:scale(0) rotate(-6deg);opacity:0}12%{transform:scale(1.18) rotate(3deg);opacity:1}22%{transform:scale(1) rotate(0)}78%{opacity:1}100%{transform:translateY(-10px);opacity:0}}
   @keyframes tshake{20%{transform:translate(2px,-4px) scale(1.012)}45%{transform:translate(-2px,3px) scale(1.01)}70%{transform:translate(1px,-1px)}}
   .ent{position:absolute;left:0;top:0;z-index:4;filter:drop-shadow(3px 3px 0 rgba(11,9,87,.35));will-change:transform}
   .ent.bonk{opacity:0;transition:opacity .35s}
@@ -119,6 +125,14 @@
   /* ---------- end ---------- */
   .end{text-align:center}
   .end h1{font-family:var(--display);font-weight:900;font-size:clamp(46px,8vw,96px);line-height:.9;text-transform:uppercase;letter-spacing:-.02em;margin:10px 0}
+  .titlewrap{position:relative;display:inline-block;max-width:100%}
+  /* the BOO! sticker: slapped onto the title two seconds after the "haunted" screen appears */
+  .boo{position:absolute;left:76%;top:68%;z-index:3;font-family:var(--display);font-weight:900;font-size:clamp(44px,9vw,118px);line-height:.9;letter-spacing:.02em;color:#fff;background:var(--brand);padding:.06em .3em .1em;border-radius:.16em;border:.07em solid #fff;box-shadow:0 0 0 3px var(--navy),.06em .09em 0 3px var(--navy),.12em .18em .3em rgba(11,9,87,.35);transform:translate(-50%,-50%) scale(0);opacity:0;pointer-events:none}
+  .boo.on{animation:slap .42s cubic-bezier(.2,.9,.3,1) forwards}
+  @keyframes slap{0%{opacity:0;transform:translate(-50%,-50%) rotate(-28deg) scale(3.4)}45%{opacity:1;transform:translate(-50%,-50%) rotate(-7deg) scale(.88)}70%{transform:translate(-50%,-50%) rotate(-10deg) scale(1.07)}100%{opacity:1;transform:translate(-50%,-50%) rotate(-9deg) scale(1)}}
+  .titlewrap.thud{animation:thud .35s}
+  @keyframes thud{20%{transform:translate(-6px,5px)}40%{transform:translate(6px,-4px)}60%{transform:translate(-3px,3px)}80%{transform:translate(2px,-1px)}}
+  @media (prefers-reduced-motion:reduce){.boo.on{animation:none;opacity:1;transform:translate(-50%,-50%) rotate(-9deg)} .titlewrap.thud{animation:none}}
   .end .stars{font-size:54px;letter-spacing:6px;margin:6px 0}
   .stats{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:20px auto;max-width:900px}
   .stat{flex:1;min-width:150px;background:var(--card);border:2px solid var(--navy);border-radius:18px;box-shadow:5px 5px 0 var(--navy);padding:14px}
@@ -207,7 +221,7 @@
 <!-- ================= END ================= -->
 <section id="end" class="wrap end hidden">
   <p class="eyebrow" id="endEyebrow"></p>
-  <h1 id="endTitle"></h1>
+  <div class="titlewrap" id="titlewrap"><h1 id="endTitle"></h1><div class="boo" id="boo" aria-hidden="true">BOO!</div></div>
   <div class="stars" id="endStars"></div>
   <div class="stats" id="endStats"></div>
   <div class="lists" id="endLists"></div>
@@ -219,11 +233,13 @@
 </section>
 
 <script src="topics.js"></script>
+<script src="typos.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 const pick = a => a[Math.floor(Math.random() * a.length)];
 function shuffle(a){ for (let i = a.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 const CAP = new Set(); TOPICS.forEach(t => { if (t.cap) t.words.forEach(w => CAP.add(w)); });
+TOPICS.forEach(t => { if (t.cap) t.words.forEach(w => (TYPOS[w] || []).forEach(x => CAP.add(x))); });
 const label = w => CAP.has(w) ? w[0].toUpperCase() + w.slice(1) : w;
 
 /* ---------- sound ---------- */
@@ -287,7 +303,8 @@ if (S.topic !== "random" && !TOPICS.some(t => t.id === S.topic)) S.topic = "colo
 const LEVELS = {
   easy:   { name: "Easy",   v: 70,  gap: 2.0, ratio: .60, near: 0,   hint: "Slow words and plenty of family words. Good for a first go." },
   medium: { name: "Medium", v: 100, gap: 1.5, ratio: .55, near: .25, hint: "A good speed. Some harmless words are related to the topic." },
-  hard:   { name: "Hard",   v: 140, gap: 1.1, ratio: .50, near: .5,  hint: "Fast! Half of the harmless words are related to the topic (paint, rainbow…), so read carefully." }
+  hard:   { name: "Hard",   v: 140, gap: 1.1, ratio: .50, near: .5,  hint: "Fast! Half of the harmless words are related to the topic (paint, rainbow…), so read carefully." },
+  expert: { name: "Spelling trap", v: 140, gap: 1.1, ratio: .50, near: .25, typo: .45, hint: "As fast as Hard, and many of the harmless words are the family words spelt WRONG (blu, pinks, grean…). They cannot hurt the tower, but if you click one it counts as a mistake!" }
 };
 
 function chips(id, items, key, after){
@@ -315,7 +332,7 @@ function buildSetup(){
 }
 
 /* ---------- screens ---------- */
-function show(id){ ["setup", "game", "end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0, 0); }
+function show(id){ clearTimeout(window._boo); ["setup", "game", "end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0, 0); }
 
 /* ---------- the game ---------- */
 let G = null, raf = 0, paused = false, last = 0;
@@ -331,7 +348,9 @@ function buildSeq(topic, N, lv){
   const nFam = Math.round(N * lv.ratio);
   const flags = shuffle([...Array(N)].map((_, i) => i < nFam));
   const f = deck(fam), d = deck(others), n = near.length ? deck(near) : d;
-  return { nFam, seq: flags.map(isFam => isFam ? { w: f(), fam: true } : { w: Math.random() < lv.near ? n() : d(), fam: false }) };
+  const ty = deck(fam.filter(w => TYPOS[w] && TYPOS[w].length));   // misspelt family words (Spelling trap level)
+  const typo = () => { const src = ty(); return { w: pick(TYPOS[src]), fam: false, typo: true, src }; };
+  return { nFam, seq: flags.map(isFam => isFam ? { w: f(), fam: true } : (lv.typo && Math.random() < lv.typo) ? typo() : { w: Math.random() < lv.near ? n() : d(), fam: false }) };
 }
 
 function startGame(){
@@ -340,7 +359,7 @@ function startGame(){
   clearInterval(G && G.timer);
   scene.querySelectorAll(".ent,.puff").forEach(e => e.remove());
   G = { topic, lv, N, seq: b.seq, nFam: b.nFam, idx: 0, ents: [], t: 0, nextSpawn: 1.3, score: 0, streak: 0, bestStreak: 0, popped: 0,
-        missed: [], wrong: [], ghosts: 0, L: S.limit, wave: 0, over: false, lanes: [], gEls: [], wp: TOWERS[S.limit].win };
+        missed: [], wrong: [], typos: [], ghosts: 0, L: S.limit, wave: 0, over: false, lanes: [], gEls: [], wp: TOWERS[S.limit].win };
   paused = false; $("pauseOv").classList.add("hidden"); $("pauseBtn").textContent = "⏸ Pause";
   tower.innerHTML = `<img class="tb" src="${TOWERS[G.L].img}" alt="">`; tower.classList.remove("hit");
   $("legend").innerHTML = `Pop the <b>${topic.icon} ${topic.name.toUpperCase()}</b> words`;
@@ -394,6 +413,9 @@ function addGhost(){
     const g = document.createElement("img"); g.className = "tg"; g.src = T.ghost; g.alt = "";
     g.style.cssText = `left:${(p[0] - gw / 2) / ART_W * 100}%;top:${(p[1] + 3 - gh) / ART_H * 100}%;width:${gw / ART_W * 100}%`;
     tower.appendChild(g); G.gEls.push(g);
+    const bub = document.createElement("div"); bub.className = "bubble"; bub.textContent = pick(["Hihi!", "I'm in!", "Boo!"]);
+    bub.style.cssText = `left:${(T.hit + 16) / ART_W * 100}%;top:${(p[1] - 62) / ART_H * 100}%`;
+    tower.appendChild(bub); setTimeout(() => bub.remove(), 1750);
   }
   tower.classList.remove("hit"); void tower.offsetWidth; tower.classList.add("hit");
   tone([320, 240, 170], .12, "triangle", .8, .22);
@@ -413,13 +435,14 @@ function clickWord(e){
     tone([660, 990], .06, "square", 1, .1); say(e.w);
     if (G.streak % 8 === 0 && G.ghosts > 0) chase();
   } else {
-    G.streak = 0; G.score = Math.max(0, G.score - 5); if (!G.wrong.includes(e.w)) G.wrong.push(e.w);
+    G.streak = 0; G.score = Math.max(0, G.score - 5);
+    if (e.typo){ if (!G.typos.some(t => t[0] === e.w)) G.typos.push([e.w, e.src]); } else if (!G.wrong.includes(e.w)) G.wrong.push(e.w);
     tone([200, 140], .14, "sawtooth", .7, .14);
     if (S.ghostOnWrong){
       e.state = "ghost"; e.el.classList.add("isghost");
       e.el.innerHTML = `<img class="px" src="${GHOST}" alt="">`;
-      msg(`✗ "${label(e.w)}" is not ${G.topic.name.toLowerCase()}: it turned into a ghost!`);
-    } else { puff(e, "−5", true); removeEnt(e); msg(`✗ "${label(e.w)}" is not ${G.topic.name.toLowerCase()}`); }
+      msg(e.typo ? `✗ "${label(e.w)}" is spelt wrong (${label(e.src)}): it turned into a ghost!` : `✗ "${label(e.w)}" is not ${G.topic.name.toLowerCase()}: it turned into a ghost!`);
+    } else { puff(e, "−5", true); removeEnt(e); msg(e.typo ? `✗ "${label(e.w)}" is spelt wrong (${label(e.src)})` : `✗ "${label(e.w)}" is not ${G.topic.name.toLowerCase()}`); }
   }
   hud();
 }
@@ -481,9 +504,16 @@ function showEnd(win){
   const lists = [];
   if (G.missed.length) lists.push(`<div><b>👻 These words got in (they are ${G.topic.name.toLowerCase()}!)</b>${G.missed.map(label).join(" · ")}</div>`);
   if (G.wrong.length) lists.push(`<div><b>🚫 You clicked these, but they are not ${G.topic.name.toLowerCase()}</b>${G.wrong.map(label).join(" · ")}</div>`);
+  if (G.typos.length) lists.push(`<div><b>✏️ You clicked these, but they are spelt wrong</b>${G.typos.map(t => label(t[0]) + " → " + label(t[1])).join(" · ")}</div>`);
   if (!lists.length) lists.push(`<div><b>⭐ Perfect</b>You popped every word of the family and left the others alone.</div>`);
   $("endLists").innerHTML = lists.join("");
   show("end");
+  clearTimeout(window._boo); $("boo").classList.remove("on"); $("titlewrap").classList.remove("thud");
+  if (!win) window._boo = setTimeout(() => {   // two seconds later somebody slaps a BOO! sticker on the title
+    if ($("end").classList.contains("hidden")) return;
+    $("boo").classList.add("on"); $("titlewrap").classList.add("thud"); tone([190, 70], .22, "sawtooth", .8, .25);
+    setTimeout(() => $("titlewrap").classList.remove("thud"), 400);
+  }, 2000);
   if (win){ for (let i = 0; i < 26; i++){ const s = document.createElement("span"); s.className = "confetti"; s.textContent = pick(["👻", "⭐", "🎉", "🏰"]); s.style.left = Math.random() * 100 + "vw"; s.style.animationDuration = (2.5 + Math.random() * 2.5) + "s"; s.style.animationDelay = Math.random() * .8 + "s"; document.body.appendChild(s); setTimeout(() => s.remove(), 6500); } }
 }
 
@@ -521,7 +551,7 @@ buildSetup();
       ["🔥", "Cada 5 aciertos seguidos puntúan ×2 y cada 10, ×3. Cada 8 aciertos seguidos, un fantasma se va de la torre."],
       ["🏆", "Ganáis si ninguna oleada llena la torre. Al final veréis las palabras que se colaron y las que pinchasteis sin ser de la familia."]
     ],
-    tips: ["En <b>Difícil</b> hay palabras muy parecidas al tema (<i>paint, rainbow</i> con los colores): leed bien antes de pinchar.", "<kbd>Espacio</kbd> pausa el juego."]
+    tips: ["En <b>Difícil</b> hay palabras muy parecidas al tema (<i>paint, rainbow</i> con los colores): leed bien antes de pinchar.", "En <b>Spelling trap</b> vuelan también las palabras de la familia con <b>faltas de ortografía</b> (<i>blu, pinks, grean…</i>): no hacen daño a la torre, pero si las pincháis cuenta como error.", "<kbd>Espacio</kbd> pausa el juego."]
   },
   title: "Ghosts vs Tower",
   intro: "Words fly towards your tower. Pop only the ones from the word family and let all the others pass.",
@@ -533,7 +563,7 @@ buildSetup();
     ["🔥", "5 in a row score ×2 and 10 in a row score ×3. Every 8 in a row, one ghost runs away from the tower."],
     ["🏆", "You win if the tower survives every wave. At the end you see the words that got in and the ones you clicked by mistake."]
   ],
-  tips: ["On <b>Hard</b> some harmless words are close to the topic (<i>paint, rainbow</i> with colours): read carefully before you click.", "<kbd>Space</kbd> pauses the game."]
+  tips: ["On <b>Hard</b> some harmless words are close to the topic (<i>paint, rainbow</i> with colours): read carefully before you click.", "On <b>Spelling trap</b> the family words also fly past <b>spelt wrong</b> (<i>blu, pinks, grean…</i>): they cannot hurt the tower, but clicking one counts as a mistake.", "<kbd>Space</kbd> pauses the game."]
 });</script>
 </body>
 </html>

@@ -147,7 +147,7 @@ A solo vocabulary game for any level, made for one student at the computer (not 
 - Clicking a harmless word turns it into a ghost too (this can be switched off). 5 hits in a row score ×2, 10 in a row ×3, and every 8 in a row a ghost runs away.
 - Levels: Easy, Medium and Hard (faster, and on Hard half of the harmless words are related to the topic: *paint, rainbow* with colours). 20, 40 or 60 words, in waves of 10 that get faster.
 - At the end: stars, score, the words that got in and the harmless ones that were clicked. The best score of each topic and level is kept in the browser.
-- All the pixel art (tower, ghost, clouds) is drawn in code. The topics are in `ghosts-vs-tower/topics.js`: `words` is the family, `near` are related words that are not in it (Hard level), `also` are words that could belong too, so they never appear as harmless.
+- The scene is a picture of the tower (`tower3.webp`, `tower5.webp`, `tower8.webp`: one for each number of windows, the ghosts that move in appear in its windows; `cover.webp` is the home picture). The word clouds and the small ghosts in the counter are pixel art drawn in code. The topics are in `ghosts-vs-tower/topics.js`: `words` is the family, `near` are related words that are not in it (Hard level), `also` are words that could belong too, so they never appear as harmless.
 
 Play: https://natalaplk.github.io/Oxford-Games/ghosts-vs-tower/
 

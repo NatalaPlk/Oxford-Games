@@ -36,6 +36,8 @@
   .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:34ch}
   .hero .r{position:relative;background:linear-gradient(#bfe6ff 0 66%,#7fd6a6 66% 100%);min-height:260px;overflow:hidden}
   .hero .r .ground{position:absolute;left:0;right:0;bottom:0;height:34%;border-top:3px solid var(--navy);background:repeating-linear-gradient(90deg,#6cc796 0 16px,#7fd6a6 16px 32px)}
+  .hero .r img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%}
+  .hero .r .sticker{z-index:2}
   .hero .r .htower{position:absolute;left:8%;bottom:20%;height:74%}
   .hero .r .hghost{position:absolute;width:44px;animation:hbob 2.2s ease-in-out infinite}
   .hero .r .hplate{position:absolute;animation:hdrift 7s linear infinite}
@@ -77,18 +79,18 @@
   .slots img{width:22px;height:22px;opacity:.22;filter:grayscale(1);transition:opacity .2s}
   .slots img.on{opacity:1;filter:none}
 
-  .scene{position:relative;height:clamp(380px,64vh,580px);border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);overflow:hidden;background:linear-gradient(#9fd8ff 0,#cdeeff 70%,#e8f8ff 100%);touch-action:manipulation;user-select:none;-webkit-user-select:none}
+  .scene{position:relative;height:clamp(380px,64vh,580px);width:min(100%,calc(clamp(380px,64vh,580px)*2.1));margin:0 auto;border:3px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);overflow:hidden;background:#8fc9fb;touch-action:manipulation;user-select:none;-webkit-user-select:none}
   .scene .ground{position:absolute;left:0;right:0;bottom:0;height:11%;border-top:3px solid var(--navy);background:repeating-linear-gradient(90deg,#6cc796 0 20px,#7fd6a6 20px 40px)}
   .scene .cl{position:absolute;opacity:.8;animation:cdrift linear infinite}
   @keyframes cdrift{from{transform:translateX(0)}to{transform:translateX(-120vw)}}
-  .tower{position:absolute;left:14px;bottom:10%;height:82%;aspect-ratio:56/100;z-index:2}
-  .tower>img.tb{position:absolute;inset:0;width:100%;height:100%}
+  .tower{position:absolute;left:0;bottom:0;height:100%;aspect-ratio:1294/616;z-index:2;transform-origin:0 100%}   /* the whole picture of the tower: its windows are placed in the picture's own pixels (see TOWERS) */
+  .tower>img.tb{position:absolute;inset:0;width:100%;height:100%;display:block}
   .tower img.tg{position:absolute;animation:gin .45s cubic-bezier(.3,1.6,.5,1) both;z-index:3}
   .tower img.tg.away{animation:gout .7s ease-in forwards}
   @keyframes gin{from{transform:scale(0) rotate(-40deg)}to{transform:scale(1)}}
   @keyframes gout{to{transform:translate(70px,-70px) scale(1.3);opacity:0}}
   .tower.hit{animation:tshake .45s}
-  @keyframes tshake{20%{transform:translateX(-7px) rotate(-1.2deg)}45%{transform:translateX(6px) rotate(1deg)}70%{transform:translateX(-3px)}}
+  @keyframes tshake{20%{transform:translate(2px,-4px) scale(1.012)}45%{transform:translate(-2px,3px) scale(1.01)}70%{transform:translate(1px,-1px)}}
   .ent{position:absolute;left:0;top:0;z-index:4;filter:drop-shadow(3px 3px 0 rgba(11,9,87,.35));will-change:transform}
   .ent.bonk{opacity:0;transition:opacity .35s}
   .w{display:block;background:var(--navy);padding:3px;cursor:pointer;touch-action:manipulation;
@@ -194,7 +196,6 @@
     </div>
   </div>
   <div class="scene" id="scene">
-    <div class="ground"></div>
     <div class="tower" id="tower"></div>
     <div class="banner" id="banner"></div>
     <div class="msg" id="msg"></div>
@@ -266,43 +267,14 @@ const SKYCLOUD = sprite([
   "WWWWWWWWWWWWWW"
 ], { W: "#ffffff" }, 8);
 
-// the tower: 56 x 100 pixels, one window for every ghost it can hold
-function windowPos(L){
-  const out = [];
-  for (let i = 0; i < L; i++){
-    const row = Math.floor(i / 2), alone = (i === L - 1 && i % 2 === 0);
-    out.push({ x: alone ? 23 : (i % 2 ? 29 : 17), y: 28 + row * 14, w: 10, h: 10 });
-  }
-  return out;
-}
-function drawTower(L){
-  const c = document.createElement("canvas"); c.width = 56; c.height = 100; const x = c.getContext("2d");
-  const R = (col, a, b, w, h) => { x.fillStyle = col; x.fillRect(a, b, w, h); };
-  const NAVY = "#0b0957";
-  // body
-  R(NAVY, 11, 22, 34, 78); R("#c9c5e6", 12, 22, 32, 78);
-  for (let y = 22; y < 100; y += 6){
-    R("#a9a4d1", 12, y, 32, 1);
-    const off = (Math.floor(y / 6) % 2) * 8;
-    for (let bx = 12 + off; bx < 44; bx += 16) R("#a9a4d1", bx, y, 1, 6);
-  }
-  R("#e4e1f6", 12, 22, 2, 78); R("#9d98c6", 40, 22, 4, 78);
-  // base
-  R(NAVY, 7, 92, 42, 8); R("#b0abd6", 8, 93, 40, 7);
-  // door
-  R(NAVY, 22, 82, 12, 18); R("#7a4a24", 23, 84, 10, 16); R("#5e3818", 27, 84, 1, 16); R(NAVY, 23, 83, 10, 1); R("#ffd257", 30, 92, 2, 2);
-  // windows
-  windowPos(L).forEach(p => { R(NAVY, p.x - 1, p.y - 1, p.w + 2, p.h + 2); R("#2a2570", p.x, p.y, p.w, p.h); R("#4b45a0", p.x, p.y + p.h - 2, p.w, 2); });
-  // eaves and roof
-  R(NAVY, 7, 19, 42, 4); R("#c8323c", 8, 20, 40, 2);
-  for (let i = 0; i < 14; i++){
-    const hw = 1 + Math.floor(i * 1.15), y = 6 + i;
-    R(NAVY, 28 - hw - 1, y, 2 * hw + 2, 1); R("#c8323c", 28 - hw, y, 2 * hw, 1);
-    if (i > 2) R("#a5242d", 28 + Math.floor(hw / 2), y, Math.ceil(hw / 2), 1);
-  }
-  R(NAVY, 27, 0, 2, 7); R("#ffd257", 29, 0, 7, 4); R(NAVY, 29, 4, 7, 1);
-  return c.toDataURL();
-}
+// the towers are pictures (tower3/5/8.webp, 1294 x 616 px): one window for every ghost the tower can hold.
+// win = [x of the window's centre, y of its sill, width of the ghost] in the picture's own pixels; hit = where a word reaches the tower
+const ART_W = 1294, ART_H = 616;
+const TOWERS = {
+  8: { img: "tower8.webp", ghost: "ghost8.webp", gr: 30 / 34, hit: 290, win: [[168.5, 219, 38], [242, 219, 38], [168.5, 289, 38], [242, 289, 38], [168.5, 358, 38], [242, 358, 38], [168.5, 426, 38], [242, 426, 38]] },
+  5: { img: "tower5.webp", ghost: "ghost9.webp", gr: 38 / 53, hit: 286, win: [[206.5, 152, 58], [206.5, 216, 58], [206.5, 278, 58], [206.5, 341, 58], [206.5, 407, 58]] },
+  3: { img: "tower3.webp", ghost: "ghost10.webp", gr: 56 / 78, hit: 300, win: [[212.5, 223, 86], [213, 316, 64], [213, 405, 64]] }
+};
 
 /* ---------- settings ---------- */
 const STORE_KEY = "ghosts-vs-tower.v1";
@@ -338,15 +310,8 @@ function buildSetup(){
   $("optSay").onchange = e => { S.say = e.target.checked; store.s = S; saveStore(); };
   const pairs = [["GHOST", "FANTASMA"], ["TOWER", "TORRE"], ["WORD", "PALABRA"], ["HAUNTED", "EMBRUJADA"], ["SAFE", "A SALVO"], ["POP!", "¡PUM!"], ["FLY", "VOLAR"], ["CLOUD", "NUBE"]];
   $("marq").innerHTML = pairs.map(p => `<i>${p[0]} <b>→</b> ${p[1]}</i><i>·</i>`).join("").repeat(4);
-  // hero picture
-  const tw = drawTower(5);
-  const plates = [["blue", "#bfe0ff", "46%", "18%"], ["dog", "#ffe3a3", "62%", "46%"], ["pink", "#ffc2d6", "78%", "26%"]];
-  $("heroArt").insertAdjacentHTML("beforeend",
-    `<div class="ground"></div>` +
-    `<div style="position:absolute;left:8%;bottom:20%;height:74%;aspect-ratio:56/100"><img class="px" src="${tw}" style="width:100%;height:100%">` +
-    `<img class="px tg" src="${GHOST}" style="position:absolute;left:${16/56*100}%;top:${27/100*100}%;width:${12/56*100}%"></div>` +
-    plates.map((p, i) => `<div class="hplate" style="left:${p[2]};top:${p[3]};animation-delay:-${i * 2}s"><div class="ent" style="position:static;filter:drop-shadow(3px 3px 0 rgba(11,9,87,.35))"><div class="w" style="cursor:default"><span style="--p:${p[1]}">${p[0]}</span></div></div></div>`).join("") +
-    [["40%", "58%", 0], ["56%", "12%", .6], ["70%", "64%", 1.2]].map(g => `<img class="px hghost" src="${GHOST}" style="left:${g[0]};top:${g[1]};animation-delay:${g[2]}s">`).join(""));
+  // hero picture: the tower with its three windows and the ghosts flying in
+  $("heroArt").insertAdjacentHTML("beforeend", '<img class="cover" src="cover.webp" alt="Four ghosts flying towards a purple tower">');
 }
 
 /* ---------- screens ---------- */
@@ -375,11 +340,9 @@ function startGame(){
   clearInterval(G && G.timer);
   scene.querySelectorAll(".ent,.puff").forEach(e => e.remove());
   G = { topic, lv, N, seq: b.seq, nFam: b.nFam, idx: 0, ents: [], t: 0, nextSpawn: 1.3, score: 0, streak: 0, bestStreak: 0, popped: 0,
-        missed: [], wrong: [], ghosts: 0, L: S.limit, wave: 0, over: false, lanes: [], gEls: [], wp: windowPos(S.limit) };
+        missed: [], wrong: [], ghosts: 0, L: S.limit, wave: 0, over: false, lanes: [], gEls: [], wp: TOWERS[S.limit].win };
   paused = false; $("pauseOv").classList.add("hidden"); $("pauseBtn").textContent = "⏸ Pause";
-  tower.innerHTML = `<img class="px tb" src="${drawTower(G.L)}">`; tower.classList.remove("hit");
-  scene.querySelectorAll(".cl").forEach(e => e.remove());
-  for (let i = 0; i < 4; i++) scene.insertAdjacentHTML("afterbegin", `<img class="px cl" src="${SKYCLOUD}" style="left:${15 + i * 24}%;top:${6 + (i * 17) % 34}%;width:${70 + (i * 23) % 50}px;animation-duration:${150 + i * 40}s;animation-delay:-${i * 30}s">`);
+  tower.innerHTML = `<img class="tb" src="${TOWERS[G.L].img}" alt="">`; tower.classList.remove("hit");
   $("legend").innerHTML = `Pop the <b>${topic.icon} ${topic.name.toUpperCase()}</b> words`;
   show("game"); hud(); slots();
   banner("Get ready!");
@@ -427,8 +390,9 @@ function addGhost(){
   G.ghosts++;
   const p = G.wp[G.ghosts - 1];
   if (p){
-    const g = document.createElement("img"); g.className = "px tg"; g.src = GHOST;
-    g.style.cssText = `left:${(p.x - 1) / 56 * 100}%;top:${(p.y - 1) / 100 * 100}%;width:${12 / 56 * 100}%`;
+    const T = TOWERS[G.L], gw = p[2], gh = gw * T.gr;
+    const g = document.createElement("img"); g.className = "tg"; g.src = T.ghost; g.alt = "";
+    g.style.cssText = `left:${(p[0] - gw / 2) / ART_W * 100}%;top:${(p[1] + 3 - gh) / ART_H * 100}%;width:${gw / ART_W * 100}%`;
     tower.appendChild(g); G.gEls.push(g);
   }
   tower.classList.remove("hit"); void tower.offsetWidth; tower.classList.add("hit");
@@ -471,7 +435,7 @@ function loop(now){
   if (!G || G.over || paused) return;
   G.t += dt;
   const W = scene.clientWidth, H = scene.clientHeight, k = Math.max(.7, Math.min(1.3, W / 1000));
-  const hitX = tower.offsetLeft + tower.offsetWidth * .72;
+  const hitX = tower.offsetWidth * TOWERS[G.L].hit / ART_W;
   G.nextSpawn -= dt;
   if (G.idx < G.N && G.nextSpawn <= 0 && G.ents.length < 9){
     spawn(W, H, k);

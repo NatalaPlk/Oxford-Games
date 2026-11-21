@@ -79,6 +79,7 @@
   .team-pick input::placeholder{color:#8e8cae}
   .team-pick .swap{margin-top:6px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;background:transparent;color:var(--muted);text-decoration:underline}
   .opt{display:flex;align-items:center;gap:10px;font-weight:700}
+  .opt input[type=number]{font:inherit;font-size:16px;width:86px;padding:7px 12px;border-radius:999px;border:2px solid var(--navy);background:var(--paper);color:var(--navy);text-align:center}
   .opt select{font:inherit;font-size:16px;padding:7px 12px;border-radius:999px;border:2px solid var(--navy);background:var(--paper);color:var(--navy)}
   .start-row{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px}
   .btn{padding:14px 26px;border-radius:999px;font-weight:800;font-size:17px;border:2px solid var(--navy);transition:transform .1s,box-shadow .1s,background .15s}
@@ -145,6 +146,7 @@
   .timer{height:14px;background:#e9e6f4;border:2px solid var(--navy);border-radius:999px;overflow:hidden;margin:14px auto 4px;max-width:520px}
   .timer div{height:100%;width:100%;background:var(--mint);transition:width .25s linear}
   .timer.low div{background:var(--brand)}
+  .timer.boost{animation:pop .5s} .timer.boost div{background:var(--yellow)}
   .timeleft{font-family:var(--mono);font-weight:700;font-size:15px;color:var(--muted);margin-bottom:8px}
   .letters{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:14px 0 18px}
   .ltile{width:clamp(48px,7vw,70px);aspect-ratio:1;border-radius:14px;background:var(--yellow);border:3px solid var(--navy);box-shadow:4px 4px 0 var(--navy);font-family:var(--display);font-weight:900;font-size:clamp(28px,4.4vw,42px);text-transform:uppercase;color:var(--navy);display:grid;place-items:center;transition:transform .12s,opacity .12s,box-shadow .12s}
@@ -286,14 +288,14 @@
   <div class="panel">
     <p class="eyebrow">03 · Game options</p>
     <div class="row">
-      <label class="opt">Turns per team
-        <select id="turns"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select>
+      <label class="opt">🏁 Point limit
+        <input id="goalPts" type="number" inputmode="numeric" min="10" max="999" step="5" value="70">
       </label>
       <label class="opt">⏱️ Time per turn
         <select id="turnSecs"><option value="20">20 s</option><option value="30">30 s</option><option value="45">45 s</option><option value="60">60 s</option><option value="90">90 s</option><option value="120">2 min</option></select>
       </label>
     </div>
-    <div class="hint">Each turn the team gets new letters and makes as many words as possible before the time runs out. Each letter can be used once in a word. Every right word = 1 point and the train moves forward. Wrong words crumble into steam.</div>
+    <div class="hint">Each turn the team gets new letters and makes as many words as possible before the time runs out. Each letter can be used once in a word. Every right word scores <b>1 point per letter</b> (red = 3 points) and the train moves forward. Use <b>all</b> the letters in one word and you win a <b>+15 s</b> booster! The first train to reach the point limit wins (the round is always finished, so every team plays the same number of turns). Wrong words crumble into steam.</div>
   </div>
 
   <div class="start-row">
@@ -381,7 +383,7 @@ const $ = id => document.getElementById(id);
 function loadStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
 function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){} }
 const store = loadStore();
-const cfg = Object.assign({ letters: 7, teamCount: 2, names: ["","","",""], mons: ["gobo","blinky","plum","tango"], turns: 2, secs: 30 }, store.cfg || {});
+const cfg = Object.assign({ letters: 7, teamCount: 2, names: ["","","",""], mons: ["gobo","blinky","plum","tango"], goal: 70, secs: 30 }, store.cfg || {});
 cfg.mons = (cfg.mons || []).filter((t, i, a) => MONSTERS[t] && a.indexOf(t) === i);
 for (const t of MONSTER_ORDER) if (cfg.mons.length < 4 && !cfg.mons.includes(t)) cfg.mons.push(t);
 
@@ -497,7 +499,7 @@ function renderSetup(){
     d.querySelector(".mon").onclick = swap; d.querySelector(".swap").onclick = swap;
     tn.appendChild(d);
   }
-  $("turns").value = String(cfg.turns); $("turnSecs").value = String(cfg.secs);
+  $("goalPts").value = String(cfg.goal || 70); $("turnSecs").value = String(cfg.secs);
 }
 
 /* ---------- sounds ---------- */
@@ -539,7 +541,7 @@ function shuffle(a){ for (let i = a.length - 1; i > 0; i--) { const j = Math.flo
 const team = () => G.teams[G.turn];
 
 function startGame(){
-  cfg.turns = +$("turns").value; cfg.secs = +$("turnSecs").value;
+  cfg.goal = Math.max(10, Math.min(999, Math.round(+$("goalPts").value) || 70)); cfg.secs = +$("turnSecs").value;
   store.cfg = cfg; saveStore();
   const sets = shuffle(LETTER_SETS[cfg.letters].slice());
   G = {
@@ -547,12 +549,13 @@ function startGame(){
     sets, si: 0, round: 1, turn: 0, phase: "ready", set: null, tiles: [], pick: [], found: [], log: []
   };
   undoStack = [];
-  $("gameTag").textContent = `${cfg.letters} letters · ${cfg.secs} s per turn`;
+  $("gameTag").textContent = `${cfg.letters} letters · ${cfg.secs} s per turn · ${cfg.goal} points to win`;
   show("game"); buildTrack(); render();
 }
 function show(id){ ["setup","game","end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0, 0); }
 
-function goal(){ return Math.max(12, Math.ceil(Math.max(...G.teams.map(t => t.score)) * 1.15) + 2); }
+function goal(){ return cfg.goal; }
+const reached = () => G.teams.some(t => t.score >= cfg.goal);
 function buildTrack(){
   const tr = $("track");
   tr.innerHTML = '<div class="scorebar" id="scorebar"><span class="lab">THE RACE TO THE STATION</span></div><div class="line" id="line"><div class="sky"></div><div class="rail"></div><span class="station">🏁</span></div>';
@@ -589,14 +592,14 @@ function updateTrack(){
   });
   // the landscape travels with the leading train: on a narrow screen only part of the picture fits, so the camera slides from Bilbao to Oxford
   const lead = Math.max(...G.teams.map(t => Math.min(1, t.score / gl)));
-  $("track").style.backgroundPosition = (Math.min(1, lead / .85) * 100) + "% 100%";   // the goal always sits a bit above the leader, so scale to reach Oxford
+  $("track").style.backgroundPosition = (lead * 100) + "% 100%";
 }
 
 function render(){
   const t = team(), color = MONSTERS[t.mon].color;
   $("zone").style.setProperty("--c", color);
   $("turnline").innerHTML = "<span></span>'s turn"; $("turnline").querySelector("span").textContent = t.name;
-  $("counter").textContent = `Turn ${G.round} of ${cfg.turns}` + (G.teams.length > 1 ? ` · team ${G.turn + 1} of ${G.teams.length}` : "");
+  $("counter").textContent = `Turn ${G.round}` + (G.teams.length > 1 ? ` · team ${G.turn + 1} of ${G.teams.length}` : "");
   $("readyBox").classList.toggle("hidden", G.phase !== "ready");
   $("playBox").classList.toggle("hidden", G.phase !== "play");
   $("endTurnBox").classList.toggle("hidden", G.phase !== "turnEnd");
@@ -671,11 +674,13 @@ function addWord(){
 function accept(w, teacher = false){
   snapshot();
   const t = team(), i = G.turn;
-  G.found.push({ w, teacher }); t.score++;
+  const pts = w.length, boost = w.length >= G.tiles.length, was = t.score;
+  G.found.push({ w, teacher, pts }); t.score += pts;
   G.log.push({ team: i, round: G.round, w });
   const from = $("wordbox").getBoundingClientRect();
   G.pick = [];
-  renderLetters(); renderWord(); renderCargo(); setMsg(`✔ ${w}! +1`, "ok");
+  renderLetters(); renderWord(); renderCargo(); setMsg(`✔ ${w}! +${pts}` + (boost ? "  🚀 All the letters! +15 s" : "") + (was < cfg.goal && t.score >= cfg.goal ? `  🏁 ${t.name} reached the station!` : ""), "ok");
+  if (boost) giveTime(15);
   $("turnCount").textContent = G.found.length;
   $("ts" + i).querySelector("b").textContent = t.score;
   // the word jumps into the open furnace
@@ -747,13 +752,13 @@ function endTurn(){
   const got = new Set(G.found.map(f => f.w)), missed = G.set.w.filter(w => !got.has(w)).slice(0, 24);
   $("missed").innerHTML = missed.length ? `<h3>OTHER WORDS YOU COULD MAKE WITH ${G.set.l.toUpperCase().split("").sort().join(" ")}</h3>` + missed.map(w => `<span>${w}</span>`).join("") : "";
   const last = G.turn === G.teams.length - 1;
-  $("nextTurnBtn").textContent = last && G.round >= cfg.turns ? "Last stop: see the winners 🏆" : last ? `Start turn ${G.round + 1} ➜` : `Next team: ${G.teams[G.turn + 1].name} ➜`;
+  $("nextTurnBtn").textContent = last && reached() ? "Last stop: see the winners 🏆" : last ? `Start turn ${G.round + 1} ➜` : `Next team: ${G.teams[G.turn + 1].name} ➜`;
   driverMood(n ? "joy" : "sad", 2500);
 }
 function nextTurn(){
   if (G.phase !== "turnEnd") return;
   const last = G.turn === G.teams.length - 1;
-  if (last && G.round >= cfg.turns) { finish(); return; }
+  if (last && reached()) { finish(); return; }
   snapshot();
   if (last) { G.round++; G.turn = 0; } else G.turn++;
   G.phase = "ready"; G.found = []; G.pick = []; G.set = null;
@@ -776,12 +781,20 @@ function startTimer(secs){
   const tick = () => {
     const left = Math.max(0, (endsAt - Date.now()) / 1000);
     G.timeLeft = left;
-    $("timerBar").style.width = (left / cfg.secs * 100) + "%";
+    $("timerBar").style.width = Math.min(100, left / cfg.secs * 100) + "%";
     box.classList.toggle("low", left <= 5);
     lab.textContent = Math.ceil(left) + " s";
     if (left <= 0) { stopTimer(); sTime(); endTurn(); }
   };
   tick(); timerId = setInterval(tick, 250);
+}
+// the all-letters booster: +15 s on the clock
+function giveTime(sec){
+  if (!timerId) return;
+  endsAt += sec * 1000;
+  const box = $("timer"); box.classList.remove("boost"); void box.offsetWidth; box.classList.add("boost");
+  setTimeout(() => box.classList.remove("boost"), 900);
+  sGo();
 }
 function stopTimer(){ if (timerId) clearInterval(timerId); timerId = null; }
 
@@ -875,7 +888,7 @@ new MutationObserver(queueFit).observe(document.getElementById("game"), { attrib
     "steps": [
       [
         "⚙️",
-        "<b>Preparación:</b> elegid cuántas letras (6–9), los equipos y sus maquinistas, los turnos y el tiempo. Pulsad <b>All aboard!</b> (¡pasajeros al tren!)."
+        "<b>Preparación:</b> elegid cuántas letras (6–9), los equipos y sus maquinistas, el límite de puntos y el tiempo. Pulsad <b>All aboard!</b> (¡pasajeros al tren!)."
       ],
       [
         "▶️",
@@ -887,7 +900,7 @@ new MutationObserver(queueFit).observe(document.getElementById("game"), { attrib
       ],
       [
         "🔥",
-        "Palabra correcta: salta al horno y el tren del equipo avanza por la vía (1 punto). Palabra incorrecta: se deshace en vapor."
+        "Palabra correcta: salta al horno y el tren del equipo avanza por la vía (1 punto por letra: red = 3 puntos). Si usáis todas las letras, ¡+15 s de tiempo! Palabra incorrecta: se deshace en vapor."
       ],
       [
         "➜",
@@ -895,7 +908,7 @@ new MutationObserver(queueFit).observe(document.getElementById("game"), { attrib
       ],
       [
         "🏆",
-        "Todos los trenes van por la misma vía y se adelantan. ¡Después del último turno, gana el tren que va delante!"
+        "Todos los trenes van por la misma vía y se adelantan. ¡Gana el primer tren que llegue al límite de puntos (se termina la ronda para que todos jueguen los mismos turnos)!"
       ]
     ],
     "tips": [
@@ -907,12 +920,12 @@ new MutationObserver(queueFit).observe(document.getElementById("game"), { attrib
   title: "Word Express",
   intro: "Make as many English words as you can from the letters. Every right word is coal for your train!",
   steps: [
-    ["⚙️", "<b>Set up:</b> choose how many letters (6–9), the teams and their drivers, the turns and the time. Press <b>All aboard!</b>"],
+    ["⚙️", "<b>Set up:</b> choose how many letters (6–9), the teams and their drivers, the point limit (70 by default) and the time. Press <b>All aboard!</b>"],
     ["▶️", "When the team is ready, press <b>Go!</b> The letters appear and the clock starts."],
     ["🔤", "Make a word: <b>click the letters</b> (or type them). Each letter can be used <b>once</b> in a word. Press <b>✔ Add word</b> (or <kbd>Enter</kbd>)."],
-    ["🔥", "Right word → it jumps into the open furnace and the team's train moves forward on the track (1 point). Wrong word → it crumbles into steam."],
+    ["🔥", "Right word → it jumps into the open furnace and the team's train moves forward on the track (1 point per letter: red = 3 points). Use all the letters and you get a +15 s booster! Wrong word → it crumbles into steam."],
     ["➜", "When the time is up, see the other words you could make and press <b>Next team</b>."],
-    ["🏆", "All the trains share one track and overtake each other. After the last turn, the train in front wins!"]
+    ["🏆", "All the trains share one track and overtake each other. The first train to reach the point limit wins (the round is always finished, so every team plays the same number of turns)!"]
   ],
   tips: [
     "Keyboard: type letters, <kbd>Backspace</kbd> = delete, <kbd>Enter</kbd> = add word, <kbd>Space</kbd> = mix the letters, <kbd>Esc</kbd> = clear.",

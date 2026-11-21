@@ -376,6 +376,7 @@
 <script src="../monster-rush/monsters.js"></script>
 <script src="dict.js"></script>
 <script src="../shared/extra-words.js"></script>
+<script src="../shared/blocked-words.js"></script>
 <script src="sets.js"></script>
 <script>
 const STORE_KEY = "word-express-v1";
@@ -388,6 +389,8 @@ cfg.mons = (cfg.mons || []).filter((t, i, a) => MONSTERS[t] && a.indexOf(t) === 
 for (const t of MONSTER_ORDER) if (cfg.mons.length < 4 && !cfg.mons.includes(t)) cfg.mons.push(t);
 
 const DICT = new Set((DICT_WORDS + " " + EXTRA_WORDS).split(" "));
+BLOCKED_WORDS.forEach(w => DICT.delete(w));   // slurs and vulgar words are never accepted
+Object.values(LETTER_SETS).forEach(list => list.forEach(o => { o.w = o.w.filter(w => !BLOCKED_WORDS.includes(w)); }));
 const TWO = new Set("am an as at be by do go he hi if in is it me my no of oh on or so to up us we".split(" "));
 
 /* ---------- the locomotive (two layers so the driver sits inside the cab) ---------- */

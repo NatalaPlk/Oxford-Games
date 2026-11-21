@@ -12,6 +12,7 @@ const MONSTER_ORDER = ["gobo", "blinky", "plum", "tango", "sunny", "didi"];
 const MONSTER_DIR = new URL("monsters/", document.currentScript.src).href;
 // the same monsters dressed as train drivers (Word Express)
 const DRIVER_DIR = new URL("../word-express/drivers/", document.currentScript.src).href;
+const DRIVER_V = "?v=3";   // bump when the driver pictures change, so browsers drop their cached copies
 
 document.head.insertAdjacentHTML("beforeend", `<style>
   .mon-art{position:relative;display:block;width:100%}
@@ -33,5 +34,5 @@ function monsterSVG(type, mood = "happy", opts = {}){
   const m = MONSTERS[type] || MONSTERS.gobo;
   const extra = mood === "sad" ? `<i class="tear">💧</i>` : mood === "joy" ? `<i class="spark a">✨</i><i class="spark b">✨</i>` : "";
   // opts.hat: the train-driver picture (cap and all) instead of the plain monster; opts.dir: another folder of pictures
-  return `<span class="mon-art ${mood}"><span class="mbody"><img src="${opts.dir || (opts.hat ? DRIVER_DIR : MONSTER_DIR)}${m.img}.png" alt="${m.name}" draggable="false"></span>${extra}</span>`;
+  return `<span class="mon-art ${mood}"><span class="mbody"><img src="${opts.dir || (opts.hat ? DRIVER_DIR : MONSTER_DIR)}${m.img}.png${opts.hat ? DRIVER_V : ""}" alt="${m.name}" draggable="false"></span>${extra}</span>`;
 }

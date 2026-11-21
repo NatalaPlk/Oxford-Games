@@ -566,7 +566,7 @@ function buildTrack(){
   G.teams.forEach((t, i) => {
     const c = MONSTERS[t.mon].color;
     const ts = document.createElement("span"); ts.className = "ts"; ts.id = "ts" + i; ts.style.setProperty("--c", c);
-    ts.innerHTML = `<span class="face"><img src="${DRIVER_DIR}${MONSTERS[t.mon].img}.png" alt=""></span><span class="nm"></span><b></b>`;
+    ts.innerHTML = `<span class="face"><img src="${DRIVER_DIR}${MONSTERS[t.mon].img}.png${DRIVER_V}" alt=""></span><span class="nm"></span><b></b>`;
     ts.querySelector(".nm").textContent = t.name;
     $("scorebar").appendChild(ts);
     const run = document.createElement("div"); run.className = "runner"; run.id = "run" + i; run.style.setProperty("--c", c);

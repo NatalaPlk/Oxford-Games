@@ -769,8 +769,21 @@ function answer(v, btn){
     const ab = $("acceptBtn");
     if (ab) ab.onclick = () => { t.lives = Math.min(LIVES, t.lives + 1); t.out = false; render(); gob.className = "goblin happy"; fb.className = "fb ok"; fb.textContent = `✔ Accepted! ${gobAt(t.camp).name} lets you pass.`; sOk(); showFork(true); };
     if (t.out) { $("forkBox").innerHTML = `<div class="fork"><p>💔 No lives left. ${esc(t.name)} goes home…</p><button class="btn btn-red" id="outBtn">Continue ▶</button></div>`; $("outBtn").onclick = () => { $("layer").innerHTML = ""; nextTurn(`💔 ${esc(t.name)} is out of lives.`); }; }
-    else showFork(false);
+    else {
+      // a wrong answer: no path to choose, the hero slides straight back down to the start
+      $("forkBox").innerHTML = `<div class="fork"><p>🪨 The goblin pushes ${esc(t.name)} down the mountain!</p><button class="btn btn-red" id="fallBtn">Down you go! ⬇</button></div>`;
+      $("fallBtn").onclick = slideDown;
+      $("bubble").scrollTop = 1e4;
+    }
   }
+}
+function slideDown(){
+  if (G.phase !== "fork") return;
+  const t = team(), i = G.turn, from = campFr(t.camp);
+  G.phase = "moving";
+  sFall(); t.camp = 0; walkToken(i, from, campFr(0), 1500, "fall"); render();
+  $("layer").innerHTML = `<div class="toast">🪨 Wrong answer! ${esc(t.name)} slides back down to the start…</div>`;
+  later(() => { nextTurn(`🪨 ${esc(t.name)} fell back to the start.`); }, 1700);
 }
 // Left or right? It's a lottery: nothing says which path is safe (the heroes have to remember what they tried).
 function showFork(){
@@ -1022,8 +1035,8 @@ renderSetup();
   steps: [
     ["⚙️", "<b>Set up:</b> choose 1 or 2 heroes (players or teams), their monsters and the level (Super Minds Starter to 6)."],
     ["👺", "On your turn, a <b>goblin</b> asks you something: a word, a spelling puzzle, grammar, a riddle or maths (write the number in letters: <b>two</b>)."],
-    ["✔", "<b>Right?</b> The goblin lets you pass. <b>Wrong?</b> You lose a life ❤️."],
-    ["🪨", "Then choose <b>left</b> or <b>right</b>. Nobody knows which path is safe! The wrong one is a rockslide: you fall back to the start. Try to remember the paths…"],
+    ["✔", "<b>Right?</b> The goblin lets you pass. <b>Wrong?</b> You lose a life ❤️ and slide all the way back down to the start!"],
+    ["🪨", "If you were right, choose <b>left</b> or <b>right</b>. Nobody knows which path is safe! The wrong one is a rockslide: you fall back to the start. Try to remember the paths…"],
     ["🐉", "At the top, the <b>dragon</b> waits. A flashcard shows a picture: click its word, among the ten floating words, to throw the card at the dragon."],
     ["🔥", "Be quick: when the fire bar is full, the dragon burns you and you lose a life. Hit the dragon 8 times to win the treasure!"]
   ],

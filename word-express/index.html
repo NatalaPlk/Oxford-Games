@@ -243,11 +243,44 @@
     .hero .r{min-height:0;aspect-ratio:948/626}
     .runner{width:104px} .line{height:115px}
   }
+
+  /* ---------- intro: Tom calls the train, the monsters jump in (10 s, skippable) ---------- */
+  .intro{position:fixed;inset:0;z-index:50;overflow:hidden;background:linear-gradient(#9fd8ff 0 72%,#6cc48f 72% 100%)}
+  .intro.hidden{display:none!important}
+  .intro-skip{position:absolute;top:14px;right:14px;z-index:9;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.1em;background:#fff;color:var(--navy);border:2px solid var(--navy);border-radius:12px;padding:8px 14px;box-shadow:3px 3px 0 var(--navy);cursor:pointer}
+  .intro-tom{position:absolute;left:3vw;bottom:14vh;height:46vh;width:auto;opacity:0;transform:translateX(-40vw)}
+  .intro-bub{position:absolute;left:4vw;bottom:63vh;max-width:min(400px,42vw);background:#fff;color:var(--navy);border:3px solid var(--navy);border-radius:18px;padding:12px 16px;font-family:var(--display);font-weight:900;font-size:clamp(18px,2.6vw,28px);line-height:1.2;box-shadow:4px 4px 0 var(--navy);opacity:0;transform:scale(.4);transform-origin:15% 100%}
+  .intro-bub::after{content:"";position:absolute;left:30px;bottom:-17px;border:9px solid transparent;border-bottom:0;border-top:14px solid var(--navy)}
+  .intro-bub::before{content:"";position:absolute;left:33px;bottom:-12px;border:6px solid transparent;border-bottom:0;border-top:10px solid #fff;z-index:1}
+  .intro-m{position:absolute;bottom:14vh;height:15vh;width:auto;left:var(--l);opacity:1}
+  .intro-train{position:absolute;right:2vw;bottom:14vh;width:min(62vw,720px)}
+  .intro-train img{width:100%;display:block}
+  .intro.play .intro-tom{animation:introTom .7s cubic-bezier(.2,.9,.3,1) .1s forwards}
+  .intro.play .intro-bub{animation:introPop .4s ease-out .8s forwards}
+  .intro.play .intro-m{animation:introHop .9s ease-in-out forwards;animation-delay:calc(3.8s + var(--i) * .6s)}
+  .intro.play .intro-train{animation:introLeave 1.6s ease-in 8.2s forwards}
+  @keyframes introTom{to{opacity:1;transform:none}}
+  @keyframes introPop{0%{opacity:0;transform:scale(.4)}60%{opacity:1;transform:scale(1.08)}100%{opacity:1;transform:none}}
+  @keyframes introHop{0%{transform:none}50%{transform:translate(calc(var(--mx) / 2),-32vh)}100%{transform:translate(var(--mx),0) scale(.45);opacity:0}}
+  @keyframes introLeave{to{transform:translateX(120vw)}}
+  @media (prefers-reduced-motion:reduce){.intro.play *{animation-duration:.01s!important;animation-delay:0s!important}}
 </style>
 </head>
 <body>
 
 <!-- ================= SETUP ================= -->
+<div id="intro" class="intro hidden" aria-live="polite">
+  <button id="introSkip" class="intro-skip" type="button">Skip ▸</button>
+  <div class="intro-bub"><span id="introText"></span></div>
+  <img class="intro-tom" src="intro/tom.png" alt="Tom">
+  <img class="intro-m" src="intro/m-green.png" alt="" style="--i:0;--l:20vw;--mx:30vw">
+  <img class="intro-m" src="intro/m-purple.png" alt="" style="--i:1;--l:25vw;--mx:25vw">
+  <img class="intro-m" src="intro/m-blue.png" alt="" style="--i:2;--l:30vw;--mx:20vw">
+  <img class="intro-m" src="intro/m-yellow.png" alt="" style="--i:3;--l:35vw;--mx:15vw">
+  <img class="intro-m" src="intro/m-orange.png" alt="" style="--i:4;--l:40vw;--mx:10vw">
+  <img class="intro-m" src="intro/m-rainbow.png" alt="" style="--i:5;--l:45vw;--mx:5vw">
+  <div class="intro-train"><img src="loco.webp" alt=""></div>
+</div>
 <section id="setup" class="wrap">
   <a class="home-link" href="../">← All games</a>
   <div class="hero">
@@ -510,6 +543,25 @@ const sBad = () => tone([260, 190], .2, "sawtooth");
 const sClick = () => tone([700], .04, "triangle", 0, .08);
 const sGo = () => tone([523, 659, 784, 1047], .12, "square", 0, .14);
 const sTime = () => tone([880, 660, 440, 330], .16, "square");
+
+/* ---------- intro (10 s) ---------- */
+const sHop = () => tone([330, 660], .14, "triangle", 0, .16);
+function playIntro(done){
+  const ov = $("intro"), timers = [];
+  let chug = null;
+  const at = (ms, f) => timers.push(setTimeout(f, ms));
+  const finish = () => { timers.forEach(clearTimeout); clearInterval(chug); ov.classList.remove("play"); ov.classList.add("hidden"); done(); };
+  ov.classList.remove("hidden", "play"); void ov.offsetWidth; ov.classList.add("play");
+  $("introSkip").onclick = finish;
+  const line = "All aboard! Train to Oxford is ready for departure!", bub = $("introText");
+  bub.textContent = "";
+  at(1200, () => { let n = 0; const iv = setInterval(() => { bub.textContent = line.slice(0, ++n); if (n % 3 === 0) sClick(); if (n >= line.length) clearInterval(iv); }, 45); timers.push(iv); });
+  for (let i = 0; i < 6; i++) at(3800 + i * 600, sHop);      // the monsters jump in one by one
+  at(8000, sWhistle);                                          // whistle, then the train leaves
+  at(8200, () => { chug = setInterval(sChug, 260); });
+  at(9800, () => clearInterval(chug));
+  at(10000, finish);
+}
 
 /* ---------- game ---------- */
 let G = null, undoStack = [], timerId = null, endsAt = 0;
@@ -791,7 +843,7 @@ function confetti(n = 30){
 }
 
 /* ---------- events ---------- */
-$("startBtn").onclick = startGame;
+$("startBtn").onclick = () => playIntro(startGame);
 $("goBtn").onclick = go;
 $("addBtn").onclick = addWord;
 $("backBtn").onclick = backspace;

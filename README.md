@@ -51,6 +51,7 @@ A word-building race for all levels. Teams get a set of letters (6–9) and make
 - 1–4 teams, each driving a train with a monster driver in a train cap. Choose turns per team (default 2) and time per turn (default 30 s).
 - Right word: it turns into coal, flies into the furnace and the team's train moves forward. Wrong word: it crumbles into steam.
 - After each turn the game shows other words the team could have made. The train furthest along wins.
+- **The finish:** the winner's train rolls into Oxford station, Tom (the station guard) says *The winner is… (team name)!*, the monster driver jumps out of the cab and the confetti falls, and then the results appear. A tie is announced as *It's a tie!* and every tied monster jumps out. The **Skip** button goes straight to the results. The picture of the station is `word-express/station-oxford.webp` and Tom is `word-express/tom.webp`.
 
 Play: https://natalaplk.github.io/Oxford-Games/word-express/
 

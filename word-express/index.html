@@ -251,6 +251,36 @@
   .intro.hidden{display:none!important}
   .intro video{width:100%;height:100%;object-fit:contain;background:#fbf7ee}
   .intro-skip{position:absolute;top:14px;right:14px;z-index:9;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.1em;background:#fff;color:var(--navy);border:2px solid var(--navy);border-radius:12px;padding:8px 14px;box-shadow:3px 3px 0 var(--navy);cursor:pointer}
+
+  /* ---------- arrival at Oxford: the winner's train, Tom and the jump (plays before the results, skippable) ---------- */
+  .arrive{position:fixed;inset:0;z-index:50;background:#0b0957;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .arrive.hidden{display:none!important}
+  .astage{position:relative;width:min(100vw,calc(100vh * 1671 / 941));aspect-ratio:1671/941;container-type:inline-size;overflow:hidden;background:#cfe9ff}
+  .astage .bg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .aloco{position:absolute;left:47%;bottom:7.2%;width:38%;z-index:3}
+  .aloco.rolling{animation:arrive 2.5s cubic-bezier(.12,.7,.3,1) both}
+  .aloco.rolling .wheel{animation:spin .38s linear infinite}
+  .aloco.stopped{animation:none}
+  .aloco.stopped .wheel{animation:none}
+  .aloco.stopped .loco{animation:chug .5s ease-in-out 1}
+  @keyframes arrive{from{transform:translateX(-125cqw)}to{transform:none}}
+  .aloco .ajump{position:absolute;left:7.5%;top:21%;width:29%;transform-origin:50% 100%}
+  .atom{position:absolute;left:1.5%;bottom:-1.5%;height:60%;z-index:4;transform:translateX(-130%);transition:transform .55s cubic-bezier(.2,1.25,.4,1)}
+  .atom.in{transform:none}
+  .atom img{display:block;height:100%;width:auto;transform-origin:50% 100%}
+  .atom.talk img{animation:tomtalk .32s ease-in-out infinite alternate}
+  @keyframes tomtalk{from{transform:scale(1,1)}to{transform:scale(1.015,.985) rotate(-.6deg)}}
+  .abubble{position:absolute;left:21%;top:17%;max-width:44%;z-index:5;background:#fff;color:#0b0957;border:.45cqw solid #0b0957;border-radius:2.4cqw;padding:1.5cqw 2.6cqw 1.7cqw;font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:3.5cqw;line-height:1.05;letter-spacing:-.01em;box-shadow:.6cqw .6cqw 0 #0b0957;opacity:0;transform:scale(.5);transform-origin:0 100%;transition:opacity .25s,transform .35s cubic-bezier(.2,1.4,.4,1)}
+  .abubble.show{opacity:1;transform:none}
+  .abubble::after{content:"";position:absolute;left:-2.3cqw;bottom:2cqw;border:1.5cqw solid transparent;border-right:1.9cqw solid #0b0957;border-left:0}
+  .abubble::before{content:"";position:absolute;left:-1.6cqw;bottom:2.3cqw;border:1.15cqw solid transparent;border-right:1.5cqw solid #fff;border-left:0;z-index:1}
+  .abubble .dots i{font-style:normal;animation:dot 1s infinite}
+  .abubble .dots i:nth-child(2){animation-delay:.2s} .abubble .dots i:nth-child(3){animation-delay:.4s}
+  @keyframes dot{0%,60%,100%{opacity:.15}30%{opacity:1}}
+  .abubble .nm{display:block;margin-top:.6cqw;font-size:6cqw;line-height:.95;word-break:break-word;animation:nmpop .55s cubic-bezier(.2,1.6,.4,1) both}
+  @keyframes nmpop{from{transform:scale(.3) rotate(-8deg);opacity:0}to{transform:none;opacity:1}}
+  .arrive-skip{position:absolute;top:14px;right:14px;z-index:9;font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.1em;background:#fff;color:var(--navy);border:2px solid var(--navy);border-radius:12px;padding:8px 14px;box-shadow:3px 3px 0 var(--navy);cursor:pointer}
+  .paper{position:fixed;top:-30px;width:10px;height:16px;z-index:61;pointer-events:none;animation:fall linear forwards}
 </style>
 </head>
 <body>
@@ -259,6 +289,15 @@
 <div id="intro" class="intro hidden">
   <video id="introVid" src="intro.mp4" playsinline preload="auto"></video>
   <button id="introSkip" class="intro-skip" type="button">Skip ▸</button>
+</div>
+<div id="arrive" class="arrive hidden">
+  <div class="astage" id="astage">
+    <img class="bg" src="station-oxford.webp" alt="" draggable="false">
+    <div class="aloco" id="aloco"></div>
+    <div class="atom" id="atom"><img src="tom.webp" alt="Tom" draggable="false"></div>
+    <div class="abubble" id="abubble"></div>
+  </div>
+  <button id="arriveSkip" class="arrive-skip" type="button">Skip ▸</button>
 </div>
 <section id="setup" class="wrap">
   <a class="home-link" href="../">← All games</a>
@@ -537,6 +576,101 @@ function playIntro(done){
   v.currentTime = 0; v.muted = false;
   const p = v.play();
   if (p && p.catch) p.catch(() => { v.muted = true; v.play().catch(finish); });   // no sound allowed? play it silent
+}
+
+/* ---------- arrival at Oxford (before the results) ---------- */
+// the winner's train rolls in, Tom announces the winner, the monster jumps out of the cab and the confetti falls
+function sayLine(text){
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-GB"; u.rate = .92; u.pitch = .7; speechSynthesis.speak(u); } catch(e){}
+}
+function paper(n = 70){
+  const cols = ["#c8323c", "#ffd257", "#3ddc84", "#4aa8ff", "#ff8ad8", "#ffffff", "#8a5cff"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("div"); c.className = "paper";
+    c.style.left = Math.random() * 100 + "vw"; c.style.background = cols[i % cols.length];
+    c.style.width = (7 + Math.random() * 7) + "px"; c.style.height = (10 + Math.random() * 10) + "px";
+    c.style.animationDuration = 2.2 + Math.random() * 2.4 + "s"; c.style.animationDelay = Math.random() * 1.2 + "s";
+    document.body.appendChild(c); setTimeout(() => c.remove(), 6500);
+  }
+}
+function playArrival(winners, done){
+  const ov = $("arrive"), st = $("astage"), lo = $("aloco"), tom = $("atom"), bub = $("abubble");
+  const T = []; let over = false, chugId = 0;
+  const later = (ms, fn) => T.push(setTimeout(() => { if (!over) fn(); }, ms));
+  const finishAll = () => {
+    if (over) return; over = true;
+    T.forEach(clearTimeout); clearInterval(chugId);
+    try { speechSynthesis.cancel(); } catch(e){}
+    ov.classList.add("hidden"); lo.innerHTML = "";
+    done();
+  };
+  const names = winners.map(w => w.name).join(" & "), tie = winners.length > 1, solo = G.teams.length === 1;
+  const color = MONSTERS[winners[0].mon].color;
+  // reset
+  lo.className = "aloco"; lo.innerHTML = locoHTML(winners[0].mon, "happy");
+  tom.className = "atom"; bub.className = "abubble"; bub.innerHTML = "";
+  const first = tie ? "It's a tie" : solo ? "Great job" : "The winner is";
+  ov.classList.remove("hidden"); void lo.offsetWidth;
+  $("arriveSkip").onclick = finishAll;
+
+  // 1. the train rolls in and brakes
+  lo.classList.add("rolling"); sWhistle();
+  const loco = lo.firstElementChild;
+  puffs(loco, 10); chugId = setInterval(sChug, 300);
+  later(2500, () => { clearInterval(chugId); lo.classList.remove("rolling"); lo.classList.add("stopped"); tone([330, 220, 140], .2, "sawtooth", .6, .09); puffs(loco, 4, true, [.18, .42]); });
+  // 2. Tom walks in
+  later(2900, () => { tom.classList.add("in"); sClick(); });
+  // 3. "The winner is…" with a drum roll
+  later(3600, () => {
+    bub.innerHTML = first + '<span class="dots"><i>.</i><i>.</i><i>.</i></span>'; bub.classList.add("show"); tom.classList.add("talk");
+    sayLine(first);
+    tone(Array(14).fill(180), .07, "triangle", 0, .1);
+  });
+  // 4. the name
+  later(5300, () => {
+    bub.innerHTML = first + '…<span class="nm" style="color:' + color + '"></span>';
+    bub.querySelector(".nm").textContent = names + "!";
+    sGo(); sayLine(names);
+  });
+  // 5. the monster jumps out of the cab, confetti
+  later(6300, () => {
+    tom.classList.remove("talk");
+    const lc = lo.firstElementChild, drv = lc.querySelector(".driver"), sr = st.getBoundingClientRect();
+    const list = winners.slice(0, 4), spots = { 1: [.37], 2: [.31, .41], 3: [.26, .34, .42], 4: [.22, .29, .36, .43] }[list.length];
+    drv.style.visibility = "hidden";
+    list.forEach((t, k) => {
+      const j = document.createElement("div"); j.className = "ajump"; j.innerHTML = monsterSVG(t.mon, "joy", { hat: true });
+      lc.insertBefore(j, lc.querySelector(".front"));          // same place as the driver: it looks like it stands up inside the cab
+      if (k) j.style.opacity = "0";
+      const jr = j.getBoundingClientRect();
+      const dx = sr.left + spots[k] * sr.width - (jr.left + jr.width / 2);
+      const dy = sr.top + sr.height * .93 - jr.bottom;          // the feet land on the platform
+      const h = jr.height, lift = -h * 1.5, sc = list.length > 1 ? 1.35 : 1.65;
+      setTimeout(() => {
+        if (over) return;
+        j.style.opacity = "1"; j.style.zIndex = "6"; tone([392, 523, 659, 784, 1047], .09, "square", 0, .13);
+        const a = j.animate([
+          { transform: "translate(0,0) scale(1) rotate(0)" },
+          { transform: `translate(${dx * .35}px,${lift}px) scale(${sc * .9}) rotate(-14deg)`, offset: .4, easing: "ease-in" },
+          { transform: `translate(${dx * .8}px,${dy * .8 + lift * .35}px) scale(${sc * .95}) rotate(10deg)`, offset: .75, easing: "ease-in" },
+          { transform: `translate(${dx}px,${dy}px) scale(${sc}) rotate(0)` }
+        ], { duration: 1050, easing: "ease-out", fill: "forwards" });
+        a.onfinish = () => {
+          if (over) return;
+          const hop = j.animate([
+            { transform: `translate(${dx}px,${dy}px) scale(${sc},${sc * .93})` },
+            { transform: `translate(${dx}px,${dy - h * .5}px) scale(${sc},${sc * 1.02}) rotate(${k % 2 ? -8 : 8}deg)` }
+          ], { duration: 380 + k * 50, direction: "alternate", iterations: Infinity, easing: "ease-in-out", fill: "forwards" });
+          hop.currentTime = k * 120;
+        };
+      }, k * 380);
+    });
+    sWhistle(); confetti(50); paper(90);
+    puffs(lc, 3);
+  });
+  later(7500, () => { sGo(); paper(60); });
+  // 6. straight to the results
+  later(10300, finishAll);
 }
 
 /* ---------- game ---------- */
@@ -823,8 +957,11 @@ function finish(){
     d.querySelector(".n").textContent = t.name;
     pod.appendChild(d);
   });
-  show("end"); confetti(60); sWhistle();
-  setTimeout(() => document.querySelectorAll("#podium .loco").forEach(l => puffs(l, 3)), 300);
+  const reveal = () => {
+    show("end"); confetti(60); sWhistle();
+    setTimeout(() => document.querySelectorAll("#podium .loco").forEach(l => puffs(l, 3)), 300);
+  };
+  if (top > 0) playArrival(winners, reveal); else reveal();      // the train arrives at Oxford and Tom announces the winner
 }
 function confetti(n = 30){
   const items = ["⭐","✨","🎉","🚂","🎫","💨"];

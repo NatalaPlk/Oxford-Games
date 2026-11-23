@@ -257,14 +257,16 @@
   .arrive.hidden{display:none!important}
   .astage{position:relative;width:min(100vw,calc(100vh * 1671 / 941));aspect-ratio:1671/941;container-type:inline-size;overflow:hidden;background:#cfe9ff}
   .astage .bg{position:absolute;inset:0;width:100%;height:100%;display:block}
-  .aloco{position:absolute;left:47%;bottom:7.2%;width:38%;z-index:3}
+  .aloco{position:absolute;left:44.77%;bottom:7%;width:36.27%;aspect-ratio:606/393;z-index:3}
+  .aloco .trainimg{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}
+  .aloco .cab{position:absolute;left:12.3%;top:21.5%;width:22.6%;height:24.5%;overflow:hidden;z-index:1}
+  .aloco .cabmon{position:absolute;left:-8%;top:-1%;width:117%}
   .aloco.rolling{animation:arrive 2.5s cubic-bezier(.12,.7,.3,1) both}
-  .aloco.rolling .wheel{animation:spin .38s linear infinite}
-  .aloco.stopped{animation:none}
-  .aloco.stopped .wheel{animation:none}
-  .aloco.stopped .loco{animation:chug .5s ease-in-out 1}
-  @keyframes arrive{from{transform:translateX(-125cqw)}to{transform:none}}
-  .aloco .ajump{position:absolute;left:7.5%;top:21%;width:29%;transform-origin:50% 100%}
+  .aloco.rolling .trainimg,.aloco.rolling .cab{animation:rattle .16s linear infinite}
+  .aloco.stopped .trainimg{animation:chug .5s ease-in-out 1}
+  @keyframes arrive{from{transform:translateX(-95cqw)}to{transform:none}}
+  @keyframes rattle{50%{transform:translateY(-.5%)}}
+  .astage .ajump{position:absolute;z-index:6;transform-origin:50% 100%;aspect-ratio:1}
   .atom{position:absolute;left:1.5%;bottom:-1.5%;height:60%;z-index:4;transform:translateX(-130%);transition:transform .55s cubic-bezier(.2,1.25,.4,1)}
   .atom.in{transform:none}
   .atom img{display:block;height:100%;width:auto;transform-origin:50% 100%}
@@ -601,13 +603,15 @@ function playArrival(winners, done){
     if (over) return; over = true;
     T.forEach(clearTimeout); clearInterval(chugId);
     try { speechSynthesis.cancel(); } catch(e){}
-    ov.classList.add("hidden"); lo.innerHTML = "";
+    ov.classList.add("hidden"); lo.innerHTML = ""; st.querySelectorAll(".ajump").forEach(e => e.remove());
     done();
   };
   const names = winners.map(w => w.name).join(" & "), tie = winners.length > 1, solo = G.teams.length === 1;
   const color = MONSTERS[winners[0].mon].color;
   // reset
-  lo.className = "aloco"; lo.innerHTML = locoHTML(winners[0].mon, "happy");
+  st.querySelectorAll(".ajump").forEach(e => e.remove());
+  lo.className = "aloco";
+  lo.innerHTML = '<div class="cab"><div class="cabmon">' + monsterSVG(winners[0].mon, "happy", { hat: true }) + '</div></div><img class="trainimg" src="loco-oxford.webp" alt="" draggable="false">';
   tom.className = "atom"; bub.className = "abubble"; bub.innerHTML = "";
   const first = tie ? "It's a tie" : solo ? "Great job" : "The winner is";
   ov.classList.remove("hidden"); void lo.offsetWidth;
@@ -615,9 +619,8 @@ function playArrival(winners, done){
 
   // 1. the train rolls in and brakes
   lo.classList.add("rolling"); sWhistle();
-  const loco = lo.firstElementChild;
-  puffs(loco, 10); chugId = setInterval(sChug, 300);
-  later(2500, () => { clearInterval(chugId); lo.classList.remove("rolling"); lo.classList.add("stopped"); tone([330, 220, 140], .2, "sawtooth", .6, .09); puffs(loco, 4, true, [.18, .42]); });
+  puffs(lo, 10, false, [.78, .12]); chugId = setInterval(sChug, 300);
+  later(2500, () => { clearInterval(chugId); lo.classList.remove("rolling"); lo.classList.add("stopped"); tone([330, 220, 140], .2, "sawtooth", .6, .09); puffs(lo, 4, true, [.2, .9]); });
   // 2. Tom walks in
   later(2900, () => { tom.classList.add("in"); sClick(); });
   // 3. "The winner is…" with a drum roll
@@ -632,41 +635,42 @@ function playArrival(winners, done){
     bub.querySelector(".nm").textContent = names + "!";
     sGo(); sayLine(names);
   });
-  // 5. the monster jumps out of the cab, confetti
+  // 5. the monster jumps out of the cab window, confetti
   later(6300, () => {
     tom.classList.remove("talk");
-    const lc = lo.firstElementChild, drv = lc.querySelector(".driver"), sr = st.getBoundingClientRect();
-    const list = winners.slice(0, 4), spots = { 1: [.37], 2: [.31, .41], 3: [.26, .34, .42], 4: [.22, .29, .36, .43] }[list.length];
-    drv.style.visibility = "hidden";
+    const mon = lo.querySelector(".cabmon"), sr = st.getBoundingClientRect(), mr = mon.getBoundingClientRect();
+    const list = winners.slice(0, 4), n = list.length;
+    const spots = { 1: [.33], 2: [.27, .38], 3: [.22, .31, .4], 4: [.2, .27, .34, .41] }[n], sc = { 1: 2.1, 2: 1.6, 3: 1.4, 4: 1.3 }[n];
+    mon.style.visibility = "hidden";
     list.forEach((t, k) => {
       const j = document.createElement("div"); j.className = "ajump"; j.innerHTML = monsterSVG(t.mon, "joy", { hat: true });
-      lc.insertBefore(j, lc.querySelector(".front"));          // same place as the driver: it looks like it stands up inside the cab
-      if (k) j.style.opacity = "0";
-      const jr = j.getBoundingClientRect();
+      j.style.left = ((mr.left - sr.left) / sr.width * 100) + "%"; j.style.top = ((mr.top - sr.top) / sr.height * 100) + "%"; j.style.width = (mr.width / sr.width * 100) + "%";
+      j.style.opacity = "0"; st.appendChild(j);
+      const jr = j.getBoundingClientRect(), h = jr.height;
       const dx = sr.left + spots[k] * sr.width - (jr.left + jr.width / 2);
-      const dy = sr.top + sr.height * .93 - jr.bottom;          // the feet land on the platform
-      const h = jr.height, lift = -h * 1.5, sc = list.length > 1 ? 1.35 : 1.65;
+      const dy = sr.top + sr.height * .93 - jr.bottom;               // the feet land on the platform
+      const lift = -h * 1.4;
       setTimeout(() => {
         if (over) return;
-        j.style.opacity = "1"; j.style.zIndex = "6"; tone([392, 523, 659, 784, 1047], .09, "square", 0, .13);
+        j.style.opacity = "1"; tone([392, 523, 659, 784, 1047], .09, "square", 0, .13);
         const a = j.animate([
           { transform: "translate(0,0) scale(1) rotate(0)" },
-          { transform: `translate(${dx * .35}px,${lift}px) scale(${sc * .9}) rotate(-14deg)`, offset: .4, easing: "ease-in" },
-          { transform: `translate(${dx * .8}px,${dy * .8 + lift * .35}px) scale(${sc * .95}) rotate(10deg)`, offset: .75, easing: "ease-in" },
+          { transform: `translate(${dx * .3}px,${lift}px) scale(${sc * .7}) rotate(-14deg)`, offset: .4, easing: "ease-in" },
+          { transform: `translate(${dx * .8}px,${dy * .7 + lift * .3}px) scale(${sc * .92}) rotate(10deg)`, offset: .75, easing: "ease-in" },
           { transform: `translate(${dx}px,${dy}px) scale(${sc}) rotate(0)` }
-        ], { duration: 1050, easing: "ease-out", fill: "forwards" });
+        ], { duration: 1100, easing: "ease-out", fill: "forwards" });
         a.onfinish = () => {
           if (over) return;
           const hop = j.animate([
-            { transform: `translate(${dx}px,${dy}px) scale(${sc},${sc * .93})` },
-            { transform: `translate(${dx}px,${dy - h * .5}px) scale(${sc},${sc * 1.02}) rotate(${k % 2 ? -8 : 8}deg)` }
+            { transform: `translate(${dx}px,${dy}px) scale(${sc},${sc * .94})` },
+            { transform: `translate(${dx}px,${dy - h * sc * .22}px) scale(${sc},${sc * 1.02}) rotate(${k % 2 ? -7 : 7}deg)` }
           ], { duration: 380 + k * 50, direction: "alternate", iterations: Infinity, easing: "ease-in-out", fill: "forwards" });
           hop.currentTime = k * 120;
         };
       }, k * 380);
     });
     sWhistle(); confetti(50); paper(90);
-    puffs(lc, 3);
+    puffs(lo, 3, false, [.78, .12]);
   });
   later(7500, () => { sGo(); paper(60); });
   // 6. straight to the results

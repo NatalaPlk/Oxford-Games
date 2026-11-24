@@ -274,6 +274,7 @@
 <script src="staff.js"></script>
 <script src="book2.js"></script>
 <script src="book5.js"></script>
+<script src="book6.js"></script>
 <script src="../shared/howto.js"></script>
 <script>
 const LEVELS = { A1: "Beginner", A2: "Elementary", B1: "Intermediate", B2: "Upper-intermediate" };
@@ -291,10 +292,10 @@ let best = {};
 try { best = JSON.parse(localStorage.getItem("situationship-best") || "{}"); } catch (e) {}
 try { const p = JSON.parse(localStorage.getItem("situationship-setup") || "null"); if (p) Object.assign(S, p); } catch (e) {}
 // three sets of situations: everyday life (A1–B2), The Oxford Method Book 2 (A1+, one per unit, in book2.js) and Book 5 (B1, in book5.js)
-const BOOKS = { book: { list: BOOK, level: "A1+", label: "Book 2" }, book5: { list: BOOK5, level: "B1", label: "Book 5" } };
+const BOOKS = { book: { list: BOOK, level: "A1+", label: "Book 2" }, book5: { list: BOOK5, level: "B1", label: "Book 5" }, book6: { list: BOOK6, level: "B2", label: "Book 6" } };
 const isBook = () => !!BOOKS[S.source];
 const LIST = () => isBook() ? BOOKS[S.source].list : SCENES;
-const ALL = SCENES.concat(BOOK, BOOK5);
+const ALL = SCENES.concat(BOOK, BOOK5, BOOK6);
 const LV = () => isBook() ? BOOKS[S.source].level : S.level;   // the level of the conversation
 const bookLabel = sc => sc.label || "Book 2";
 if (!LIST().some(s => s.id === S.scene)) S.scene = LIST()[0].id;
@@ -306,7 +307,7 @@ $("marq").innerHTML = (SCENES.map(s => `<i>${s.icon} ${s.name} <b>→</b> ${SCEN
 function starsHtml(n){ return "★★★".split("").map((c, i) => i < n ? `<b>${c}</b>` : c).join(""); }
 const bestKey = id => id + LV() + (S.role === "staff" ? "-staff" : "");   // stars are kept per role
 function drawSetup(){
-  $("sources").innerHTML = [["life", "🌍 Everyday situations", "A1 → B2"], ["book", "📘 The Oxford Method · Book 2", "A1+ · 21 units"], ["book5", "📗 The Oxford Method · Book 5", "B1 · 17 units"]]
+  $("sources").innerHTML = [["life", "🌍 Everyday situations", "A1 → B2"], ["book", "📘 The Oxford Method · Book 2", "A1+ · 21 units"], ["book5", "📗 The Oxford Method · Book 5", "B1 · 17 units"], ["book6", "📙 The Oxford Method · Book 6", "B2 · " + BOOK6.length + " units"]]
     .map(([k, t, s]) => `<button class="chip big${k === S.source ? " on" : ""}" data-src="${k}">${t}<small>${s}</small></button>`).join("");
   $("scenes").innerHTML = LIST().map(s => `<button class="scene${s.id === S.scene ? " on" : ""}" style="--c:${s.color}" data-id="${s.id}">
     <span class="ic">${s.icon}</span><span class="nm">${s.book ? `<small>Unit ${s.unit}</small>` : ""}${s.name}</span><span class="st" title="Best at ${LV()}">${starsHtml(best[bestKey(s.id)] || 0)}</span></button>`).join("")
@@ -320,7 +321,7 @@ function drawSetup(){
   $("levelHint").textContent = { A1: "Short, simple sentences: ordering, saying yes / no, simple questions.",
     A2: "Everyday requests, questions with do / does, can / could.", B1: "Problems and explanations: allergies, delays, complaints.",
     B2: "Polite complaints, negotiating, softening what you say." }[S.level];
-  if (isBook()) $("levelHint").textContent = S.source === "book5" ? "The questions and topics of each unit of the book, as a conversation: a notice, an appointment, an invitation, a delay, a menu…" : "The conversations of the book: the dialogue and the partner task of each unit.";
+  if (isBook()) $("levelHint").textContent = S.source !== "book" ? "The questions and topics of each unit of the book, as a conversation: a notice, an appointment, an invitation, a delay, a menu…" : "The conversations of the book: the dialogue and the partner task of each unit.";
   const sc = ALL.find(s => s.id === S.scene), cl = STAFF[sc.id].client.toLowerCase(), wk = sc.who.toLowerCase();
   $("roles").innerHTML = [["client", "🙋 " + STAFF[sc.id].client, "You answer the " + wk], ["staff", sc.face + " " + sc.who, "You ask the questions"]]
     .map(([k, t, s]) => `<button class="chip big${k === S.role ? " on" : ""}" data-r="${k}">${t}<small>${s}</small></button>`).join("");

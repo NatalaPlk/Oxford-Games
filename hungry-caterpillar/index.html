@@ -243,7 +243,7 @@
   .istage{position:relative;container-type:size;width:min(100vw,calc(100vh*16/9));aspect-ratio:16/9;overflow:hidden;background:linear-gradient(#45b2f6,#7fd6fd 18%);animation:ifade .6s ease-out}
   @keyframes ifade{from{opacity:0}}
   .ibg{position:absolute;left:0;bottom:0;width:100%;display:block}
-  .iplant{position:absolute;left:50cqw;bottom:9cqh;width:24cqw;height:52cqh}
+  .iplant{position:absolute;left:34cqw;bottom:9cqh;width:44cqw;height:30cqh}
   .iplant svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
   .istem{fill:none;stroke:#3f8a14;stroke-width:3.4;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;animation:grow 1.3s ease-out .15s forwards}
   @keyframes grow{to{stroke-dashoffset:0}}
@@ -562,9 +562,9 @@ function playIntro(done){
   const add = html => { st.insertAdjacentHTML("beforeend", html); return st.lastElementChild; };
 
   // the plant: a stem and five leaves (A, P, P, L, E from the bottom up), each leaf on its own side of the stem
-  const LEAVES = [[28, 86, -30], [72, 68, 30], [26, 50, -30], [72, 32, 30], [48, 12, -8]];   // centre x%, centre y% (of the plant), tilt
+  const LEAVES = [[10, 75, -35], [30, 40, 30], [50, 70, -30], [70, 35, 30], [90, 60, -25]];   // centre x%, centre y% (of the plant), tilt
   const leafHTML = LEAVES.map(([x, y, r], i) => `<img class="ileaf" src="intro/leaf${i + 1}.webp" alt="" style="left:${x}%;top:${y}%;--r:${r}deg;--d:${(1.2 + i * .4).toFixed(2)}s">`).join("");
-  const plant = add(`<div class="iplant"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path class="istem" pathLength="100" d="M50 100 C46 80 56 70 50 52 C44 36 54 24 50 10"/></svg>${leafHTML}</div>`);
+  const plant = add(`<div class="iplant"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path class="istem" pathLength="100" d="M2 100 C30 92 42 70 60 58 C75 48 88 30 98 14"/></svg>${leafHTML}</div>`);
   const leaves = [...plant.querySelectorAll(".ileaf")];
 
   const wrap = add('<div class="icat"><div class="cat"><span class="seg" style="--i:0"></span><span class="seg" style="--i:1"></span><span class="head"><img class="himg" src="img/cat-head.png" alt=""></span></div></div>');
@@ -595,8 +595,8 @@ function playIntro(done){
     const t = FIRST + i * STEP;
     after(t, () => {   // the caterpillar moves so that its mouth meets this leaf
       const m = mouth(), l = stageCentre(leaf);
-      cur.x += l.x - m.x; cur.y += l.y - m.y;
-      moveTo(cur.x, cur.y, 350);
+      cur.x += l.x - m.x;   // walk along the ground, no climbing
+      moveTo(cur.x, 0, 350);
     });
     after(t + 380, () => {   // the bite: the leaf flies into the mouth
       const m = mouth(), p = stageCentre(leaf), r = LEAVES[i][2];

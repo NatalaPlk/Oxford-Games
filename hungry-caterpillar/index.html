@@ -34,7 +34,20 @@
   .hero h1 .w2{display:block;color:var(--brand);font-stretch:70%}
   .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:36ch}
   .hero .r{position:relative;background:linear-gradient(#bfe6ff 0 68%,#7fd6a6 68% 100%);display:flex;align-items:flex-end;justify-content:center;padding:24px 10px 30px;min-height:250px;overflow:hidden}
-  .hero .r img.cover{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 100%}
+  .hero .r{container-type:size;padding:0}
+  .scene{position:absolute;bottom:0;left:60%;transform:translateX(-60%);width:max(100cqw,calc(100cqh*824/769));aspect-ratio:824/769}
+  .scene img,.scene svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .scene svg{overflow:visible}
+  .wing{transform-origin:0 0;animation:flap .55s ease-in-out infinite alternate}
+  .fb .wing{animation-duration:.62s;animation-delay:-.2s}
+  .fly{animation:flyA 17s ease-in-out infinite}
+  .fly.fb{animation-name:flyB;animation-duration:21s}
+  .lid{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0);animation:blink 5.4s ease-in-out infinite}
+  @keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.16)}}
+  @keyframes flyA{0%,100%{transform:translate(0,0)}22%{transform:translate(-26px,-20px)}48%{transform:translate(-62px,6px)}74%{transform:translate(-24px,24px)}}
+  @keyframes flyB{0%,100%{transform:translate(0,0)}28%{transform:translate(40px,-26px)}55%{transform:translate(88px,-4px)}80%{transform:translate(34px,22px)}}
+  @keyframes blink{0%,88%,100%{transform:scaleY(0)}91%,95%{transform:scaleY(1)}}
+  @media (prefers-reduced-motion:reduce){.wing,.fly,.lid{animation:none}}
   .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
   .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
   .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
@@ -218,6 +231,7 @@
 
   @media (max-width:860px){
     .hero{grid-template-columns:1fr}
+    .hero .r{aspect-ratio:16/10;min-height:0}
     .garden{padding:18px 110px 24px 14px}
     .first{width:56px;height:56px;font-size:34px} .wordrow input{height:56px;font-size:28px}
     .key{height:44px;font-size:18px;border-radius:9px} .kb,.kb div{gap:4px}
@@ -235,7 +249,21 @@
       <h1>Hungry Hungry<span class="w2">Caterpillar</span></h1>
       <p>Feed the caterpillar words! Every word starts with the last letter of the word before. A wrong word makes it sick…</p>
     </div>
-    <div class="r" id="heroCat"><img class="cover" src="cover.webp" alt=""><span class="sticker">YUM YUM!</span></div>
+    <div class="r" id="heroCat"><div class="scene"><img src="cover2.webp" alt="" width="824" height="769">
+      <svg viewBox="0 0 824 769" aria-hidden="true" focusable="false">
+        <g class="fly fa"><g transform="translate(186 347) rotate(-10) scale(1.15)">
+<g transform="scale(-1 1)"><g class="wing"><path d="M1 -2 C4 -13 17 -17 19 -7 C20 0 9 3 1 1 Z" fill="#ffd21f" stroke="#e19b00" stroke-width="1.4" stroke-linejoin="round"/><path d="M1 1 C9 2 17 7 14 13 C11 18 4 15 1 8 Z" fill="#ffd21f" stroke="#e19b00" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="9" cy="-6" rx="4.5" ry="2.4" transform="rotate(-25 9 -6)" fill="#fff3a0" opacity=".7"/></g></g>
+<g class="wing"><path d="M1 -2 C4 -13 17 -17 19 -7 C20 0 9 3 1 1 Z" fill="#ffd21f" stroke="#e19b00" stroke-width="1.4" stroke-linejoin="round"/><path d="M1 1 C9 2 17 7 14 13 C11 18 4 15 1 8 Z" fill="#ffd21f" stroke="#e19b00" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="9" cy="-6" rx="4.5" ry="2.4" transform="rotate(-25 9 -6)" fill="#fff3a0" opacity=".7"/></g>
+<path d="M0 -9 Q-3 -15 -7 -17 M0 -9 Q3 -15 7 -17" fill="none" stroke="#2d4f63" stroke-width="1.1" stroke-linecap="round"/><circle cx="-7" cy="-17" r="1.5" fill="#1b2b36"/><circle cx="7" cy="-17" r="1.5" fill="#1b2b36"/>
+<rect x="-2" y="-10" width="4" height="22" rx="2" fill="#5a3515"/></g></g>
+        <g class="fly fb"><g transform="translate(256 381) rotate(8) scale(1.1)">
+<g transform="scale(-1 1)"><g class="wing"><path d="M1 -2 C4 -13 17 -17 19 -7 C20 0 9 3 1 1 Z" fill="#ff9a4d" stroke="#d9582a" stroke-width="1.4" stroke-linejoin="round"/><path d="M1 1 C9 2 17 7 14 13 C11 18 4 15 1 8 Z" fill="#ff9a4d" stroke="#d9582a" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="9" cy="-6" rx="4.5" ry="2.4" transform="rotate(-25 9 -6)" fill="#ffd2a8" opacity=".7"/></g></g>
+<g class="wing"><path d="M1 -2 C4 -13 17 -17 19 -7 C20 0 9 3 1 1 Z" fill="#ff9a4d" stroke="#d9582a" stroke-width="1.4" stroke-linejoin="round"/><path d="M1 1 C9 2 17 7 14 13 C11 18 4 15 1 8 Z" fill="#ff9a4d" stroke="#d9582a" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="9" cy="-6" rx="4.5" ry="2.4" transform="rotate(-25 9 -6)" fill="#ffd2a8" opacity=".7"/></g>
+<path d="M0 -9 Q-3 -15 -7 -17 M0 -9 Q3 -15 7 -17" fill="none" stroke="#2d4f63" stroke-width="1.1" stroke-linecap="round"/><circle cx="-7" cy="-17" r="1.5" fill="#1b2b36"/><circle cx="7" cy="-17" r="1.5" fill="#1b2b36"/>
+<rect x="-2" y="-10" width="4" height="22" rx="2" fill="#5a3515"/></g></g>
+        <defs><linearGradient id="lidg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b3ea3c"/><stop offset="1" stop-color="#93d92c"/></linearGradient></defs>
+        <g class="lid"><ellipse cx="580" cy="562" rx="27.5" ry="34" fill="url(#lidg)"/><path d="M556 568 Q580 592 604 568" fill="none" stroke="#17430c" stroke-width="3.6" stroke-linecap="round"/><path d="M560 575 L554 581 M580 582 L580 589 M600 575 L606 581" fill="none" stroke="#17430c" stroke-width="2.4" stroke-linecap="round"/></g>
+      </svg></div><span class="sticker">YUM YUM!</span></div>
   </div>
   <div class="marquee"><div><i>CATERPILLAR <b>→</b> ORUGA</i><i>HUNGRY <b>→</b> HAMBRIENTA</i><i>LEAF <b>→</b> HOJA</i><i>TO EAT <b>→</b> COMER</i><i>YUCK! <b>→</b> ¡PUAJ!</i><i>CATERPILLAR <b>→</b> ORUGA</i><i>HUNGRY <b>→</b> HAMBRIENTA</i><i>LEAF <b>→</b> HOJA</i><i>TO EAT <b>→</b> COMER</i><i>YUCK! <b>→</b> ¡PUAJ!</i></div></div>
 
@@ -410,7 +438,7 @@ function showKeyboard(){
 
 /* ---------- setup ---------- */
 function renderSetup(){
-  /* hero picture is static (cover.webp) */
+  /* hero picture: cover2.webp + animated butterflies and a blinking eye (SVG overlay) */
   const tc = $("teamCountChoices"); tc.innerHTML = "";
   [1, 2, 3, 4].forEach(n => {
     const el = document.createElement("button");

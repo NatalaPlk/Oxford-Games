@@ -11,8 +11,8 @@
  for(const [alias,key]of [['book','libro'],['unit','unidad']])if(!incoming.has(key)&&incoming.has(alias))source.searchParams.set(key,incoming.get(alias));
  fallback.href=source.href;
  if(location.origin!=='https://natalaplk.github.io'){
-  status.textContent='Vista previa local: abre el juego original con el botón. La integración en pantalla se activa en la web de Natalia.';
-  frame.hidden=true;return;
+  status.textContent='Opening the game…';
+  frame.hidden=true;location.replace(source.href);return;
  }
  let ready=false;
  const timeout=setTimeout(()=>{if(!ready)status.textContent='El juego está tardando en abrir. Puedes acceder al original con el botón.'},15000);

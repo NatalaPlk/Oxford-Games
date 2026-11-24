@@ -4,7 +4,7 @@ Entrega del 21/11/2026. Adaptación ligera a Oxford Games de Natalia.
 
 ## Qué contiene
 
-Los cuatro juegos originales: Grammar Derby, Maletas locas, El detective Viktor y Phrasal Regatta. Las tarjetas usan capturas de las ilustraciones originales. Solo se adapta el marco, los colores de controles y la preparación de partida; no se rediseñan ni se reimplementan los juegos.
+Los cuatro juegos originales: Grammar Derby, Maletas locas, El detective Owen y Phrasal Regatta. Las tarjetas usan capturas de las ilustraciones originales. Solo se adapta el marco, los colores de controles y la preparación de partida; no se rediseñan ni se reimplementan los juegos.
 
 Maletas conserva exactamente su pantalla de juego, maletas CSS 3D, arrastre, clic, vocabulario y corrección. También se conservan las mecánicas, imágenes, preguntas, selección de libro/unidad y multijugador de los otros juegos.
 

@@ -38,6 +38,8 @@
   .game:nth-child(11) .top{background:#cbbdf2}
   .icon.art span svg{filter:none}
   .icon{font-size:56px;line-height:1}
+  .icon.art.cover-art{width:84px;height:84px;margin:-6px 0}
+  .cover-art img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 45%;border:2px solid var(--navy);border-radius:18px;box-shadow:3px 3px 0 rgba(11,9,87,.85);background:#fff}
   .icon.art{width:72px;height:72px;display:grid;place-items:center}
   .icon.art svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(3px 3px 0 rgba(11,9,87,.85))}
   a.game:hover .icon.art svg{animation:wig .5s ease}
@@ -192,6 +194,46 @@
           <span class="go">Play →</span>
         </div>
       </a>
+
+      <a class="game" href="campus-games/grammar-derby/">
+        <div class="top" style="background:#bfe6ff"><span class="icon art cover-art"><img src="campus-games/assets/grammar-derby.png" alt="Grammar Derby" loading="lazy" width="670" height="674"></span><span class="num">12</span></div>
+        <div class="body">
+          <h3>Grammar Derby</h3>
+          <p>Pick your team. Answer grammar questions and race to the finish.</p>
+          <span class="tag">Grammar · Racing · Demo</span>
+          <span class="go">Play →</span>
+        </div>
+      </a>
+
+      <a class="game" href="campus-games/maletas-locas/">
+        <div class="top" style="background:#a8e6e1"><span class="icon art cover-art"><img src="campus-games/assets/maletas-locas.png" alt="Maletas Locas" loading="lazy" width="670" height="674"></span><span class="num">13</span></div>
+        <div class="body">
+          <h3>Maletas Locas</h3>
+          <p>Read the clue. Send the word to the right suitcase and fill your passport.</p>
+          <span class="tag">Vocabulary · Adventure · Demo</span>
+          <span class="go">Play →</span>
+        </div>
+      </a>
+
+      <a class="game" href="campus-games/el-detective-viktor/">
+        <div class="top" style="background:#d6e4c8"><span class="icon art cover-art"><img src="campus-games/assets/el-detective-viktor.png" alt="El Detective Viktor" loading="lazy" width="670" height="674"></span><span class="num">14</span></div>
+        <div class="body">
+          <h3>El Detective Viktor</h3>
+          <p>Join Viktor Pinkerton. Examine the evidence and solve a case in English.</p>
+          <span class="tag">Reading · Deduction · Demo</span>
+          <span class="go">Play →</span>
+        </div>
+      </a>
+
+      <a class="game" href="campus-games/phrasal-regatta/">
+        <div class="top" style="background:#bfc8f5"><span class="icon art cover-art"><img src="campus-games/assets/phrasal-regatta.png" alt="Phrasal Regatta" loading="lazy" width="670" height="674"></span><span class="num">15</span></div>
+        <div class="body">
+          <h3>Phrasal Regatta</h3>
+          <p>Oxford or Cambridge? Answer phrasal verbs and row your crew to victory.</p>
+          <span class="tag">Phrasal verbs · Racing · Demo</span>
+          <span class="go">Play →</span>
+        </div>
+      </a>
     </div>
   </div>
 <script>
@@ -215,12 +257,5 @@
   if (card) { card.addEventListener("pointerenter", hiss); card.addEventListener("focus", hiss); }
 })();
 </script>
-<!-- OXFORD CAMPUS ORIGINALS START -->
-<style>.campus-originals{padding-bottom:44px}.campus-originals .campus-original-cover{height:210px;padding:0;display:block;overflow:hidden;background:#f3ead9}.campus-original-cover img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 45%}.campus-original-card .body p{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;line-height:1.5;min-height:4.5em}.campus-original-card h3{overflow-wrap:anywhere}.campus-original-card .go{margin-top:auto}.campus-originals a:focus-visible{outline:3px solid #c8323c;outline-offset:6px}@media(max-width:620px){.campus-originals .campus-original-cover{height:190px}.campus-originals .grid{grid-template-columns:minmax(0,1fr)}}</style>
-<section class="wrap campus-originals" aria-labelledby="campus-originals-title"><div class="section"><div><p class="eyebrow">More Oxford adventures</p><h2 id="campus-originals-title">Keep playing</h2></div></div><div class="grid"><a class="game campus-original-card" href="campus-games/grammar-derby/"><div class="top campus-original-cover"><img src="campus-games/assets/grammar-derby.png" alt="Grammar Derby: original game artwork" loading="lazy" width="670" height="674"></div><div class="body"><h3>Grammar Derby</h3><p>Pick your team. Answer grammar questions and race to the finish.</p><span class="tag">Grammar · Racing · DEMO</span><span class="go">Play</span></div></a>
-<a class="game campus-original-card" href="campus-games/maletas-locas/"><div class="top campus-original-cover"><img src="campus-games/assets/maletas-locas.png" alt="Maletas locas: original game artwork" loading="lazy" width="670" height="674"></div><div class="body"><h3>Maletas locas</h3><p>Read the clue. Send the word to the right suitcase and fill your passport.</p><span class="tag">Vocabulary · Adventure · DEMO</span><span class="go">Play</span></div></a>
-<a class="game campus-original-card" href="campus-games/el-detective-viktor/"><div class="top campus-original-cover"><img src="campus-games/assets/el-detective-viktor.png" alt="El detective Viktor: original game artwork" loading="lazy" width="670" height="674"></div><div class="body"><h3>El detective Viktor</h3><p>Join Viktor Pinkerton. Examine the evidence and solve a case in English.</p><span class="tag">Reading · Deduction · DEMO</span><span class="go">Play</span></div></a>
-<a class="game campus-original-card" href="campus-games/phrasal-regatta/"><div class="top campus-original-cover"><img src="campus-games/assets/phrasal-regatta.png" alt="Phrasal Regatta: original game artwork" loading="lazy" width="670" height="674"></div><div class="body"><h3>Phrasal Regatta</h3><p>Oxford or Cambridge? Answer phrasal verbs and row your crew to victory.</p><span class="tag">Phrasal verbs · Racing · DEMO</span><span class="go">Play</span></div></a></div></section>
-<!-- OXFORD CAMPUS ORIGINALS END -->
 </body>
 </html>

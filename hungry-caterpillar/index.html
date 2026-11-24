@@ -81,16 +81,16 @@
 
   /* ---------- the caterpillar (cut out of one picture: a head and a body piece) ---------- */
   .cat{--s:56px;display:flex;flex-wrap:wrap;align-items:flex-end;row-gap:calc(var(--s)*.4);padding-left:calc(var(--s)*.4)}
-  .seg{position:relative;flex:none;width:var(--s);height:calc(var(--s)*1.434);margin-left:calc(var(--s)*-.3);background:url(img/cat-seg.png) center/100% 100% no-repeat;
+  .seg{position:relative;flex:none;width:var(--s);height:calc(var(--s)*1.434);margin-left:calc(var(--s)*-.12);background:url(img/cat-seg2.svg) center/100% 100% no-repeat;
        animation:bob 1.5s ease-in-out infinite;animation-delay:calc(var(--i)*-.14s);transition:filter .4s}
-  .seg b{position:absolute;left:36%;top:52%;width:60%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:var(--c,#fff);border:calc(var(--s)*.05) solid var(--navy);display:grid;place-items:center;
+  .seg b{position:absolute;left:50%;top:50%;width:72%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:var(--c,#fff);border:calc(var(--s)*.05) solid var(--navy);display:grid;place-items:center;
        font-family:var(--display);font-weight:900;font-size:calc(var(--s)*.42);line-height:1;color:#fff;text-transform:uppercase;box-shadow:0 0 0 calc(var(--s)*.035) #fff}
   .seg.wild b{color:var(--navy)}
   .seg.last b{background:var(--yellow);color:var(--navy);box-shadow:0 0 0 calc(var(--s)*.05) #fff,0 0 calc(var(--s)*.4) calc(var(--s)*.08) #ffb300}
   .seg.fresh{animation:segIn .32s cubic-bezier(.3,1.6,.6,1) backwards,bob 1.5s ease-in-out infinite;animation-delay:var(--d),calc(var(--i)*-.14s)}
   @keyframes bob{50%{transform:translateY(calc(var(--s)*-.12))}}
   @keyframes segIn{from{transform:scale(0)}}
-  .head{position:relative;flex:none;width:calc(var(--s)*2.555);height:calc(var(--s)*4.126);margin-left:calc(var(--s)*-.5);z-index:2;transform-origin:45% 92%;animation:nod 2.6s ease-in-out infinite}
+  .head{position:relative;flex:none;width:calc(var(--s)*2.44);height:calc(var(--s)*3.85);margin-left:calc(var(--s)*-.5);z-index:2;transform-origin:45% 92%;animation:nod 2.6s ease-in-out infinite}
   .head .himg{display:block;width:100%;height:100%;transition:filter .6s}
   .head.hop{animation:hop .55s ease-out,nod 2.6s ease-in-out .55s infinite}
   .head.chomp{animation:chomp .22s ease-in-out 2}
@@ -99,11 +99,11 @@
   @keyframes hop{0%{transform:translateY(0) scale(1.05,.95)}40%{transform:translateY(calc(var(--s)*-.7)) scale(.96,1.05)}75%{transform:translateY(0) scale(1.06,.94)}100%{transform:none}}
   @keyframes chomp{50%{transform:scale(1.12) rotate(-7deg)}}
   @keyframes queasy{25%{transform:rotate(-7deg) translateX(-3px)}75%{transform:rotate(7deg) translateX(3px)}}
-  .xe{display:none;position:absolute;top:52.9%;width:25%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#eef0c8;border:3px solid #1d4d0f}
+  .xe{display:none;position:absolute;top:51%;width:27%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:#eef0c8;border:3px solid #1d4d0f}
   .xe::before,.xe::after{content:"";position:absolute;left:50%;top:50%;width:72%;height:15%;border-radius:9px;background:#1d4d0f;transform:translate(-50%,-50%) rotate(45deg)}
   .xe::after{transform:translate(-50%,-50%) rotate(-45deg)}
   .sick .xe{display:block}
-  .bubble{position:absolute;left:93%;top:34%;background:#fff;border:3px solid var(--navy);border-radius:16px 16px 16px 4px;padding:2px 12px;font-family:var(--display);font-weight:900;font-size:calc(var(--s)*.5 + 8px);white-space:nowrap;box-shadow:3px 3px 0 var(--navy);text-transform:uppercase}
+  .bubble{position:absolute;left:96%;top:30%;background:#fff;border:3px solid var(--navy);border-radius:16px 16px 16px 4px;padding:2px 12px;font-family:var(--display);font-weight:900;font-size:calc(var(--s)*.5 + 8px);white-space:nowrap;box-shadow:3px 3px 0 var(--navy);text-transform:uppercase}
   .bubble small{font-family:var(--mono);font-size:.45em;letter-spacing:.08em;vertical-align:middle;color:var(--muted)}
   .head.sick .bubble{display:none}
   .cat.sick .seg{filter:hue-rotate(-36deg) saturate(.7) brightness(.9);transition-delay:calc((var(--n) - var(--i))*45ms);animation:rumbleSeg .3s ease-in-out infinite;animation-delay:calc(var(--i)*-.05s)}
@@ -163,7 +163,7 @@
   .yuck{position:fixed;inset:0;z-index:80;background:radial-gradient(circle at 50% 55%,#c9d95a 0,#7f9a2c 55%,#4c6417 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;overflow:hidden}
   .yuck .scene{position:relative;width:min(520px,88vw);margin-top:10px}
   .pooper{position:relative;width:60%;transform-origin:50% 100%;animation:strain 1.3s ease-in-out backwards,sway 1.2s ease-in-out 1.3s infinite}
-  .pooper img{display:block;width:100%;height:auto;filter:hue-rotate(-36deg) saturate(.7) brightness(.9)}
+  .pooper img{display:block;width:100%;height:auto}
   .pooper .xe{display:block;width:15%;top:52.5%}
   @keyframes strain{0%{transform:none}14%{transform:scale(1.07,.92)}28%{transform:none}42%{transform:scale(1.1,.89)}56%{transform:none}74%{transform:scale(1.16,.82)}88%{transform:scale(.93,1.1) translate(-14px,-10px)}100%{transform:none}}
   @keyframes sway{50%{transform:rotate(-3deg)}}
@@ -384,7 +384,7 @@
 <!-- ================= YUCK ================= -->
 <div id="yuck" class="yuck hidden">
   <div class="scene">
-    <div class="pooper"><img src="img/cat-full.png" alt="The sick caterpillar"><span class="xe" style="left:13.9%"></span><span class="xe" style="left:38.5%"></span></div>
+    <div class="pooper"><img src="img/cat-sick.png" alt="The sick caterpillar"></div>
     <div class="stinks">
       <svg class="stink" viewBox="0 0 30 80"><path d="M15 78 q-14 -10 0 -20 q14 -10 0 -20 q-14 -10 0 -20 q8 -8 0 -16" stroke="#e8ff8a" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
       <svg class="stink" viewBox="0 0 30 80"><path d="M15 78 q-14 -10 0 -20 q14 -10 0 -20 q-14 -10 0 -20 q8 -8 0 -16" stroke="#e8ff8a" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
@@ -451,7 +451,7 @@ function poopSVG(face = true){
   </svg>`;
 }
 // one body piece per letter; the last one (yellow) is the letter the next word must start with
-const XEYES = '<span class="xe" style="left:39.8%"></span><span class="xe" style="left:78.3%"></span>';
+const XEYES = '<span class="xe" style="left:38.3%"></span><span class="xe" style="left:79.6%"></span>';
 function catHTML(segs, { freshFrom = Infinity, mood = "", poop = false, bubble = true, teams = [] } = {}){
   const n = segs.length;
   const body = segs.map((sg, i) => {
@@ -460,7 +460,7 @@ function catHTML(segs, { freshFrom = Infinity, mood = "", poop = false, bubble =
     return `<span class="${cls}" style="${own ? `--c:${MONSTERS[teams[sg.team].mon].color};` : ""}--i:${i};--d:${Math.max(0, i - freshFrom) * .09}s"><b>${sg.ch}</b></span>`;
   }).join("");
   const last = n ? segs[n - 1].ch : "";
-  return `<div class="cat${mood === "sick" ? " sick" : ""}" style="--n:${n}">${poop ? `<span class="minipoop">${poopSVG(false)}</span>` : ""}${body}<span class="head ${mood}"><img class="himg" src="img/cat-head.png" alt="">${XEYES}${bubble ? `<span class="bubble">${last}… <small>?</small></span>` : ""}</span></div>`;
+  return `<div class="cat${mood === "sick" ? " sick" : ""}" style="--n:${n}">${poop ? `<span class="minipoop">${poopSVG(false)}</span>` : ""}${body}<span class="head ${mood}"><img class="himg" src="img/cat-head2.png" alt="">${XEYES}${bubble ? `<span class="bubble">${last}… <small>?</small></span>` : ""}</span></div>`;
 }
 function segSize(n){ return n <= 10 ? 64 : n <= 22 ? 56 : n <= 44 ? 48 : n <= 80 ? 40 : n <= 130 ? 33 : 27; }
 
@@ -567,7 +567,7 @@ function playIntro(done){
   const plant = add(`<div class="iplant"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path class="istem" pathLength="100" d="M2 100 C30 92 42 70 60 58 C75 48 88 30 98 14"/></svg>${leafHTML}</div>`);
   const leaves = [...plant.querySelectorAll(".ileaf")];
 
-  const wrap = add('<div class="icat"><div class="cat"><span class="seg" style="--i:0"></span><span class="seg" style="--i:1"></span><span class="head"><img class="himg" src="img/cat-head.png" alt=""></span></div></div>');
+  const wrap = add('<div class="icat"><div class="cat"><span class="seg" style="--i:0"></span><span class="seg" style="--i:1"></span><span class="head"><img class="himg" src="img/cat-head2.png" alt=""></span></div></div>');
   const cat = wrap.querySelector(".cat"), head = wrap.querySelector(".head");
   const say = add('<span class="isay"></span>');
   const cocoon = add('<span class="icocoon"></span>');

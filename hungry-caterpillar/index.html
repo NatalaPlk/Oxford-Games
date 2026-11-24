@@ -40,14 +40,14 @@
   .scene svg{overflow:visible}
   .wing{transform-origin:0 0;animation:flap 1.1s ease-in-out infinite alternate}
   .fb .wing{animation-duration:1.25s;animation-delay:-.4s}
-  .fly{animation:flyA 32s ease-in-out infinite}
-  .fly.fb{animation-name:flyB;animation-duration:40s}
+  .bf{animation:flyA 32s ease-in-out infinite}
+  .bf.fb{animation-name:flyB;animation-duration:40s}
   .lid{transform-box:fill-box;transform-origin:50% 0;transform:scaleY(0);animation:blink 5.4s ease-in-out infinite}
   @keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.16)}}
   @keyframes flyA{0%,100%{transform:translate(0,0)}22%{transform:translate(-26px,-20px)}48%{transform:translate(-62px,6px)}74%{transform:translate(-24px,24px)}}
   @keyframes flyB{0%,100%{transform:translate(0,0)}28%{transform:translate(40px,-26px)}55%{transform:translate(88px,-4px)}80%{transform:translate(34px,22px)}}
   @keyframes blink{0%,88%,100%{transform:scaleY(0)}91%,95%{transform:scaleY(1)}}
-  @media (prefers-reduced-motion:reduce){.wing,.fly,.lid{animation:none}}
+  @media (prefers-reduced-motion:reduce){.wing,.bf,.lid{animation:none}}
   .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:8px 14px;border-radius:10px;font-size:13px}
   .marquee{overflow:hidden;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);background:var(--cream);margin:0 -16px 22px;white-space:nowrap}
   .marquee div{display:inline-block;padding:12px 0;animation:scroll 40s linear infinite;font-family:var(--display);font-weight:900;font-size:24px;text-transform:uppercase}
@@ -251,12 +251,12 @@
     </div>
     <div class="r" id="heroCat"><div class="scene"><img src="cover2.webp" alt="" width="824" height="769">
       <svg viewBox="0 0 824 769" aria-hidden="true" focusable="false">
-        <g class="fly fa"><g transform="translate(186 347) rotate(-10) scale(1.15)">
+        <g class="bf fa"><g transform="translate(186 347) rotate(-10) scale(1.15)">
 <g transform="scale(-1 1)"><g class="wing"><path d="M1 -2 C4 -13 17 -17 19 -7 C20 0 9 3 1 1 Z" fill="#ffd21f" stroke="#e19b00" stroke-width="1.4" stroke-linejoin="round"/><path d="M1 1 C9 2 17 7 14 13 C11 18 4 15 1 8 Z" fill="#ffd21f" stroke="#e19b00" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="9" cy="-6" rx="4.5" ry="2.4" transform="rotate(-25 9 -6)" fill="#fff3a0" opacity=".7"/></g></g>
 <g class="wing"><path d="M1 -2 C4 -13 17 -17 19 -7 C20 0 9 3 1 1 Z" fill="#ffd21f" stroke="#e19b00" stroke-width="1.4" stroke-linejoin="round"/><path d="M1 1 C9 2 17 7 14 13 C11 18 4 15 1 8 Z" fill="#ffd21f" stroke="#e19b00" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="9" cy="-6" rx="4.5" ry="2.4" transform="rotate(-25 9 -6)" fill="#fff3a0" opacity=".7"/></g>
 <path d="M0 -9 Q-3 -15 -7 -17 M0 -9 Q3 -15 7 -17" fill="none" stroke="#2d4f63" stroke-width="1.1" stroke-linecap="round"/><circle cx="-7" cy="-17" r="1.5" fill="#1b2b36"/><circle cx="7" cy="-17" r="1.5" fill="#1b2b36"/>
 <rect x="-2" y="-10" width="4" height="22" rx="2" fill="#5a3515"/></g></g>
-        <g class="fly fb"><g transform="translate(256 381) rotate(8) scale(1.1)">
+        <g class="bf fb"><g transform="translate(256 381) rotate(8) scale(1.1)">
 <g transform="scale(-1 1)"><g class="wing"><path d="M1 -2 C4 -13 17 -17 19 -7 C20 0 9 3 1 1 Z" fill="#ff9a4d" stroke="#d9582a" stroke-width="1.4" stroke-linejoin="round"/><path d="M1 1 C9 2 17 7 14 13 C11 18 4 15 1 8 Z" fill="#ff9a4d" stroke="#d9582a" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="9" cy="-6" rx="4.5" ry="2.4" transform="rotate(-25 9 -6)" fill="#ffd2a8" opacity=".7"/></g></g>
 <g class="wing"><path d="M1 -2 C4 -13 17 -17 19 -7 C20 0 9 3 1 1 Z" fill="#ff9a4d" stroke="#d9582a" stroke-width="1.4" stroke-linejoin="round"/><path d="M1 1 C9 2 17 7 14 13 C11 18 4 15 1 8 Z" fill="#ff9a4d" stroke="#d9582a" stroke-width="1.4" stroke-linejoin="round"/><ellipse cx="9" cy="-6" rx="4.5" ry="2.4" transform="rotate(-25 9 -6)" fill="#ffd2a8" opacity=".7"/></g>
 <path d="M0 -9 Q-3 -15 -7 -17 M0 -9 Q3 -15 7 -17" fill="none" stroke="#2d4f63" stroke-width="1.1" stroke-linecap="round"/><circle cx="-7" cy="-17" r="1.5" fill="#1b2b36"/><circle cx="7" cy="-17" r="1.5" fill="#1b2b36"/>

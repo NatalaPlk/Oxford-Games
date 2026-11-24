@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exam Wizard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0b0957; --navy2:#1a1873; --brand:#c8323c; --brand2:#a5242d;
+    --cream:#f3ead9; --paper:#faf6ee; --card:#ffffff; --yellow:#ffd257; --mint:#3ddc84; --magic:#7a4be8;
+    --ink:#0b0957; --muted:#55537e; --ok:#14a35a; --bad:#c8323c;
+    --display:"Archivo","Arial Black",Impact,sans-serif; --mono:"Space Mono",Consolas,monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden}
+  button,input{font:inherit}
+  button{cursor:pointer;border:0;color:inherit}
+  .hidden{display:none!important}
+  .wrap{max-width:1100px;margin:0 auto;padding:22px 16px 48px}
+  .home-link{display:inline-flex;align-items:center;gap:6px;margin:0 0 14px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none;border:2px solid var(--navy);border-radius:999px;padding:7px 14px;background:#fff;cursor:pointer}
+  .home-link:hover{background:var(--cream)}
+  .eyebrow{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--brand);margin:0 0 12px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:2px solid var(--navy);border-radius:999px;padding:13px 26px;font-weight:800;font-size:18px;box-shadow:4px 4px 0 var(--navy);background:#fff;color:var(--navy)}
+  .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--navy)}
+  .btn-red{background:var(--brand);color:#fff}
+  .btn-magic{background:var(--magic);color:#fff}
+  .btn-sm{border:2px solid var(--navy);border-radius:999px;background:#fff;color:var(--navy);font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.08em;padding:7px 14px}
+  .btn-sm:hover{background:var(--cream)}
+
+  /* ---------- Setup ---------- */
+  .hero{display:grid;grid-template-columns:1.15fr 1fr;border:2px solid var(--navy);border-radius:26px;overflow:hidden;margin-bottom:22px;box-shadow:6px 6px 0 var(--navy)}
+  .hero .l{background:var(--navy);color:#fff;padding:30px 30px 34px}
+  .hero .l .eyebrow{color:#fff;margin:0} .hero .l .eyebrow b{color:#ff8a92}
+  .hero h1{margin:14px 0 6px;line-height:.88;font-family:var(--display);font-weight:900;font-size:clamp(50px,8.4vw,98px);letter-spacing:-.02em;text-transform:uppercase}
+  .hero h1 .w2{display:block;color:var(--yellow);font-stretch:70%}
+  .hero p{margin:16px 0 0;font-size:19px;line-height:1.5;color:#dcdaf5;max-width:36ch}
+  .hero .r{position:relative;background:var(--magic) repeating-linear-gradient(45deg,transparent 0 18px,rgba(0,0,0,.09) 18px 36px);display:flex;align-items:flex-end;justify-content:center;gap:2%;padding:34px 18px 18px;min-height:250px;overflow:hidden}
+  .hero .r .m{width:30%;max-width:150px}
+  .hero .r .m:nth-child(2){width:34%;max-width:170px;margin-bottom:10px}
+  .hero .r .star{position:absolute;font-size:26px;animation:twinkle 2.2s ease-in-out infinite}
+  @keyframes twinkle{0%,100%{transform:scale(.7) rotate(0);opacity:.5}50%{transform:scale(1.15) rotate(20deg);opacity:1}}
+  .sticker{position:absolute;z-index:3;top:18px;left:18px;transform:rotate(-4deg);background:var(--brand);color:#fff;border:2px solid #fff;box-shadow:4px 4px 0 var(--navy);font-family:var(--mono);font-weight:700;letter-spacing:.14em;padding:7px 13px;border-radius:10px;font-size:13px}
+  .panel{background:var(--card);border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px;margin:0 0 20px}
+  .choices{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{background:var(--card);border:2px solid var(--navy);color:var(--navy);padding:10px 18px;border-radius:999px;font-weight:700;font-size:16px}
+  .chip:hover{background:var(--cream)}
+  .chip.on{background:var(--navy);color:#fff}
+  .chip small{display:block;font-size:11px;font-weight:400;font-family:var(--mono);opacity:.8}
+  .hint{color:var(--muted);font-size:14px;margin-top:12px;line-height:1.5}
+  .opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+  .opts .lbl{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+  .teams-edit{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:16px}
+  .team-pick{display:flex;align-items:center;gap:12px;background:var(--paper);border:2px solid var(--navy);border-radius:20px;padding:10px 14px;border-top:10px solid var(--c)}
+  .team-pick .mon{width:74px;flex:none;cursor:pointer;transition:transform .15s}
+  .team-pick .mon:hover{transform:scale(1.08) rotate(-4deg)}
+  .team-pick .side{flex:1;min-width:0}
+  .team-pick input{width:100%;background:#fff;border:2px solid var(--navy);border-radius:999px;padding:7px 12px;font-size:17px;font-weight:700;color:var(--navy);outline:none}
+  .team-pick .swap{margin-top:6px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.06em;background:transparent;color:var(--muted);text-decoration:underline}
+  .start{display:flex;justify-content:center;margin-top:8px}
+  .start .btn{font-size:22px;padding:16px 38px}
+
+  /* ---------- Game ---------- */
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 12px}
+  .gtag{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:2px solid var(--navy);border-radius:999px;padding:7px 14px;background:#fff}
+  .board{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 16px}
+  .pl{display:flex;align-items:center;gap:10px;background:#fff;border:2px solid var(--navy);border-radius:16px;padding:6px 14px 6px 8px;border-left:10px solid var(--c);transition:transform .2s,box-shadow .2s}
+  .pl.on{transform:translateY(-3px);box-shadow:4px 4px 0 var(--navy);background:#fff6cf}
+  .pl .face{width:38px;height:38px;border-radius:50%;background:var(--c);overflow:hidden;display:grid;place-items:start center;flex:none}
+  .pl .face img{width:150%;margin-top:6%}
+  .pl .nm{font-weight:800;font-size:16px;line-height:1.1}
+  .pl .sc{font-family:var(--mono);font-weight:700;font-size:20px;line-height:1}
+  .pl .sc small{font-size:11px;opacity:.7}
+  .pl .hr{font-size:13px;letter-spacing:1px;line-height:1}
+  .pl .hr i{font-style:normal}
+  .pl .hr i.gone{filter:grayscale(1);opacity:.3}
+  .stage{display:grid;grid-template-columns:190px 1fr;gap:20px;align-items:start}
+  .wiz{position:relative;text-align:center}
+  .wiz .who{display:inline-block;margin-top:8px;background:var(--c,var(--navy));color:#fff;border:2px solid var(--navy);border-radius:999px;padding:5px 16px;font-weight:800;font-size:17px}
+  .wiz .mon-art{margin:0 auto;max-width:170px;filter:drop-shadow(4px 4px 0 rgba(11,9,87,.25))}
+  .wiz .glow{position:absolute;left:50%;top:44%;width:230px;height:230px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(122,75,232,.35),transparent 68%);z-index:-1}
+  .spell{background:#fff;border:2px solid var(--navy);border-radius:22px;box-shadow:6px 6px 0 var(--navy);padding:22px 24px 24px;position:relative;overflow:hidden}
+  .spell .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0 0 14px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--brand)}
+  .spell .hd span:last-child{color:var(--muted)}
+  .timer{height:12px;border:2px solid var(--navy);border-radius:999px;background:var(--cream);overflow:hidden;margin:0 0 16px}
+  .timer div{height:100%;width:100%;background:var(--magic);transition:width .25s linear}
+  .timer.low div{background:var(--brand)}
+  .s1{font-size:clamp(19px,2.6vw,26px);font-weight:700;line-height:1.35;margin:0 0 14px}
+  .key{display:inline-flex;align-items:center;gap:12px;background:var(--navy);color:#fff;border-radius:16px;padding:8px 20px 8px 14px;margin:0 0 14px;box-shadow:4px 4px 0 var(--magic)}
+  .key small{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#b9b6ee}
+  .key b{font-family:var(--display);font-weight:900;font-size:clamp(26px,4vw,38px);letter-spacing:.04em;text-transform:uppercase;color:var(--yellow);line-height:1}
+  .line{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 10px;font-size:clamp(19px,2.6vw,26px);font-weight:700;line-height:1.35;background:var(--paper);border:2px dashed var(--navy);border-radius:16px;padding:14px 16px}
+  .line input{flex:1 1 230px;min-width:200px;border:0;border-bottom:3px solid var(--magic);background:#fff;border-radius:8px 8px 0 0;padding:6px 10px;font-size:inherit;font-weight:700;color:var(--magic);outline:none}
+  .line input:focus{background:#f1ebff}
+  .line input:disabled{background:#eee;color:var(--muted)}
+  .rule{font-family:var(--mono);font-size:12px;color:var(--muted);margin:10px 2px 0}
+  .actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px}
+  .fb{margin-top:6px;border-radius:16px;padding:14px 16px;font-size:18px;line-height:1.4}
+  .fb.ok{background:#e3f8ec;border:2px solid var(--ok)}
+  .fb.bad{background:#ffe9eb;border:2px solid var(--bad)}
+  .fb h3{margin:0 0 6px;font-family:var(--display);font-weight:900;font-size:26px;text-transform:uppercase}
+  .fb.ok h3{color:var(--ok)} .fb.bad h3{color:var(--bad)}
+  .fb .full{font-weight:700;font-size:clamp(18px,2.4vw,23px)}
+  .fb .fill{background:var(--yellow);border-radius:6px;padding:1px 7px}
+  .fb .also,.fb .typed{font-size:14px;color:var(--muted);margin-top:6px}
+  .ready{text-align:center;padding:26px 8px}
+  .ready h2{font-family:var(--display);font-weight:900;font-size:clamp(30px,5vw,48px);text-transform:uppercase;margin:0 0 6px;line-height:1}
+  .ready p{color:var(--muted);font-size:18px;margin:0 0 22px}
+  .steal{margin-top:12px;background:#f1ebff;border:2px solid var(--magic);border-radius:16px;padding:14px 16px}
+  .steal b{color:var(--magic)}
+  .bonus{display:inline-block;margin-left:8px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+  @keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+  .shake{animation:shake .4s}
+  @keyframes pop{0%{transform:scale(.8)}60%{transform:scale(1.08)}100%{transform:scale(1)}}
+  .pop{animation:pop .35s}
+  .spark-burst{position:fixed;pointer-events:none;z-index:50;font-size:26px;animation:burst .9s ease-out forwards}
+  @keyframes burst{from{transform:translate(0,0) scale(.5);opacity:1}to{transform:translate(var(--dx),var(--dy)) scale(1.3) rotate(120deg);opacity:0}}
+
+  /* ---------- End ---------- */
+  .endhead{text-align:center;margin:10px 0 22px}
+  .endhead h2{font-family:var(--display);font-weight:900;font-size:clamp(40px,7vw,76px);text-transform:uppercase;margin:0;line-height:.95}
+  .endhead p{color:var(--muted);font-size:18px;margin:8px 0 0}
+  .rank{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin:0 0 22px}
+  .rk{background:#fff;border:2px solid var(--navy);border-radius:22px;box-shadow:5px 5px 0 var(--navy);padding:16px;text-align:center;border-top:12px solid var(--c)}
+  .rk .medal{font-size:34px;line-height:1}
+  .rk .mon-art{width:96px;margin:6px auto}
+  .rk .n{font-weight:900;font-size:22px}
+  .rk .s{font-family:var(--mono);font-weight:700;font-size:30px}
+  .rk .d{color:var(--muted);font-size:14px}
+  .missed h3{font-family:var(--display);font-weight:900;font-size:28px;text-transform:uppercase;margin:0 0 4px}
+  .missed .it{border-top:2px dashed #d8d3c4;padding:12px 0}
+  .missed .it:first-of-type{border-top:0}
+  .missed .it .q{font-weight:700} .missed .it .a{color:var(--ok);font-weight:700;margin-top:3px}
+  .missed .it .k{font-family:var(--mono);font-size:12px;background:var(--navy);color:var(--yellow);border-radius:6px;padding:1px 7px;letter-spacing:.1em;text-transform:uppercase}
+  .endbtns{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:8px}
+  .confetti{position:fixed;top:-30px;font-size:28px;z-index:60;pointer-events:none;animation:fall linear forwards}
+  @keyframes fall{to{transform:translateY(115vh) rotate(540deg)}}
+
+  @media (max-width:760px){
+    .hero{grid-template-columns:1fr}
+    .hero .r{min-height:200px}
+    .stage{grid-template-columns:1fr}
+    .wiz{display:flex;align-items:center;gap:12px;text-align:left}
+    .wiz .mon-art{margin:0;width:92px}
+    .wiz .who{margin:0}
+    .wiz .glow{display:none}
+    .spell{padding:18px 16px 20px}
+    .btn{font-size:17px;padding:12px 22px}
+  }
+  @media (prefers-reduced-motion:reduce){.hero .r .star,.confetti,.spark-burst{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="home-link" href="../">← All games</a>
+
+  <!-- ===== setup ===== -->
+  <section id="setup">
+    <div class="hero">
+      <div class="l">
+        <p class="eyebrow"><b>●</b> B2 First · Use of English</p>
+        <h1>Exam <span class="w2">Wizard</span></h1>
+        <p>Cast the right words, rewrite the sentence with the key word and climb the wizard's tower. Alone or in teams!</p>
+      </div>
+      <div class="r" id="heroArt"></div>
+    </div>
+
+    <div class="panel">
+      <p class="eyebrow">01 · Mode</p>
+      <div class="choices" id="modeChips">
+        <button class="chip" type="button" data-mode="single">🧙 Single player<small>one wizard, 3 lives</small></button>
+        <button class="chip" type="button" data-mode="team">👥 Team game<small>2–4 teams, take turns</small></button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="eyebrow">02 · Wizards</p>
+      <div class="choices" id="teamCountBox"><span style="font-weight:700;align-self:center">How many teams?</span><div class="choices" id="teamCountChips"></div></div>
+      <div class="teams-edit" id="teamsEdit"></div>
+      <div class="hint">Click a wizard to change it. If you don't type a name, the wizard's own name is used.</div>
+    </div>
+
+    <div class="panel">
+      <p class="eyebrow">03 · Game options</p>
+      <div class="opts">
+        <div><p class="lbl" id="spellsLbl">Spells</p><div class="choices" id="spellsChips"></div></div>
+        <div><p class="lbl">Time per spell</p><div class="choices" id="secsChips"></div></div>
+        <div id="livesBox"><p class="lbl">Lives ❤️</p><div class="choices" id="livesChips"></div></div>
+        <div id="stealBox"><p class="lbl">Stealing</p><div class="choices" id="stealChips"></div></div>
+      </div>
+      <div class="hint" id="optHint"></div>
+    </div>
+
+    <div class="start"><button class="btn btn-magic" id="startBtn" type="button">Open the spell book ✨</button></div>
+  </section>
+
+  <!-- ===== game ===== -->
+  <section id="game" class="hidden">
+    <div class="topbar"><span class="gtag" id="gameTag"></span><button class="btn-sm" id="endBtn" type="button">Finish</button></div>
+    <div class="board" id="board"></div>
+    <div class="stage">
+      <div class="wiz" id="wiz"></div>
+      <div class="spell" id="spell"></div>
+    </div>
+  </section>
+
+  <!-- ===== end ===== -->
+  <section id="end" class="hidden">
+    <div class="endhead"><p class="eyebrow">Exam Wizard · The spell book is closed</p><h2 id="endTitle"></h2><p id="endSub"></p></div>
+    <div class="rank" id="rank"></div>
+    <div class="panel missed" id="missed"></div>
+    <div class="endbtns"><button class="btn btn-magic" id="againBtn" type="button">Play again ✨</button><button class="btn" id="setupBtn" type="button">Change settings</button></div>
+  </section>
+</div>
+
+<script src="../monster-rush/monsters.js"></script>
+<script src="items.js"></script>
+<script src="../shared/howto.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+const STORE_KEY = "exam-wizard-v1";
+function loadStore(){ try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; } catch(e){ return {}; } }
+function saveStore(){ try { localStorage.setItem(STORE_KEY, JSON.stringify(store)); } catch(e){} }
+const store = loadStore();
+const cfg = Object.assign({ mode: "single", teamCount: 2, names: ["", "", "", ""], mons: ["gobo", "blinky", "plum", "tango"], spells: 10, per: 4, secs: 90, lives: 3, steal: true }, store.cfg || {});
+cfg.mons = (cfg.mons || []).filter((t, i, a) => MONSTERS[t] && a.indexOf(t) === i);
+for (const t of MONSTER_ORDER) if (cfg.mons.length < 4 && !cfg.mons.includes(t)) cfg.mons.push(t);
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+
+/* ---------- sounds ---------- */
+let AC = null;
+function tone(freqs, dur = .12, type = "sine", vol = .16){
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    freqs.forEach((f, i) => { const o = AC.createOscillator(), g = AC.createGain(), t = AC.currentTime + i * dur;
+      o.type = type; o.frequency.value = f; g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.001, t + dur * 1.6);
+      o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t + dur * 1.7); });
+  } catch(e){}
+}
+const sOk = () => tone([523, 659, 784, 1047], .1, "triangle");
+const sBad = () => tone([220, 165], .18, "sawtooth", .12);
+const sTime = () => tone([392, 330, 262], .16, "square", .1);
+const sGo = () => tone([660, 880], .09, "triangle");
+
+/* ---------- checking an answer ---------- */
+// contractions are written out, so "doesn't matter" and "does not matter" are the same answer
+function norm(s){
+  s = String(s).toLowerCase().replace(/[’‘`´]/g, "'").replace(/[.,;:!?"“”()]/g, " ");
+  s = s.replace(/\bcan't\b/g, "cannot").replace(/\bwon't\b/g, "will not").replace(/\bshan't\b/g, "shall not")
+       .replace(/n't\b/g, " not").replace(/'ll\b/g, " will").replace(/'ve\b/g, " have").replace(/'re\b/g, " are").replace(/'m\b/g, " am");
+  s = s.replace(/\s+/g, " ").trim().replace(/\bcan not\b/g, "cannot");
+  return s;
+}
+function isRight(item, typed){ const t = norm(typed); return !!t && item.a.some(v => norm(v) === t); }
+// the second sentence with an answer in the gap
+function sentenceHTML(item, ans, mark = true){
+  const sp = /^[,.;:!?]/.test(item.post) ? "" : " ";
+  return `${esc(item.pre)} ${mark ? `<span class="fill">${esc(ans)}</span>` : esc(ans)}${sp}${esc(item.post)}`;
+}
+
+/* ---------- setup ---------- */
+const MODES = { single: 1, team: 1 };
+function chips(boxId, opts, cur, onPick){
+  const box = $(boxId); box.innerHTML = "";
+  opts.forEach(([val, label, small]) => {
+    const b = document.createElement("button"); b.type = "button"; b.className = "chip" + (val === cur ? " on" : "");
+    b.innerHTML = label + (small ? `<small>${small}</small>` : ""); b.onclick = () => { onPick(val); renderSetup(); };
+    box.appendChild(b);
+  });
+}
+function renderSetup(){
+  const team = cfg.mode === "team";
+  document.querySelectorAll("#modeChips .chip").forEach(b => b.classList.toggle("on", b.dataset.mode === cfg.mode));
+  $("teamCountBox").classList.toggle("hidden", !team);
+  chips("teamCountChips", [[2, "2"], [3, "3"], [4, "4"]], cfg.teamCount, v => cfg.teamCount = v);
+  const n = team ? cfg.teamCount : 1;
+  const box = $("teamsEdit"); box.innerHTML = "";
+  for (let i = 0; i < n; i++) {
+    const type = cfg.mons[i], d = document.createElement("div");
+    d.className = "team-pick"; d.style.setProperty("--c", MONSTERS[type].color);
+    d.innerHTML = `<div class="mon">${monsterSVG(type, "happy")}</div><div class="side"><input maxlength="20"><button class="swap" type="button">change wizard ↻</button></div>`;
+    const inp = d.querySelector("input");
+    inp.placeholder = team ? MONSTERS[type].name : "Your name"; inp.value = cfg.names[i] || "";
+    inp.oninput = () => cfg.names[i] = inp.value;
+    const swap = () => {
+      const used = cfg.mons.slice(0, n), k = MONSTER_ORDER.indexOf(type);
+      for (let s = 1; s < MONSTER_ORDER.length; s++) {
+        const cand = MONSTER_ORDER[(k + s) % MONSTER_ORDER.length];
+        if (!used.includes(cand)) { const at = cfg.mons.indexOf(cand); if (at >= 0) cfg.mons[at] = type; cfg.mons[i] = cand; break; }
+      }
+      renderSetup();
+    };
+    d.querySelector(".mon").onclick = swap; d.querySelector(".swap").onclick = swap;
+    box.appendChild(d);
+  }
+  $("spellsLbl").textContent = team ? "Spells for each team" : "Number of spells";
+  if (team) chips("spellsChips", [[2, "2"], [3, "3"], [4, "4"], [6, "6"], [8, "8"]], cfg.per, v => cfg.per = v);
+  else chips("spellsChips", [[10, "10"], [15, "15"], [20, "20"], [30, "30"]], cfg.spells, v => cfg.spells = v);
+  chips("secsChips", [[60, "60 s"], [90, "90 s"], [120, "2 min"], [0, "No limit"]], cfg.secs, v => cfg.secs = v);
+  $("livesBox").classList.toggle("hidden", team);
+  chips("livesChips", [[3, "3"], [5, "5"], [0, "No limit"]], cfg.lives, v => cfg.lives = v);
+  $("stealBox").classList.toggle("hidden", !team);
+  chips("stealChips", [[true, "On", "wrong? the next team can steal"], [false, "Off"]], cfg.steal, v => cfg.steal = v);
+  $("optHint").innerHTML = team
+    ? `Each spell is worth <b>10 points</b> (+ up to 5 for speed). A steal is worth 6. The team with most points wins. In total: ${cfg.per * cfg.teamCount} spells.`
+    : `Each spell is worth <b>10 points</b> (+ up to 5 for speed). A wrong answer costs a life${cfg.lives ? "" : " (no limit: just play for points)"}.`;
+}
+document.querySelectorAll("#modeChips .chip").forEach(b => b.onclick = () => { cfg.mode = b.dataset.mode; renderSetup(); });
+$("heroArt").innerHTML = `<span class="sticker">B2 FIRST</span><span class="star" style="left:10%;top:16%">✨</span><span class="star" style="right:12%;top:12%;animation-delay:-1s">⭐</span><span class="star" style="right:28%;top:40%;animation-delay:-.5s;font-size:20px">✨</span>
+  <div class="m">${monsterSVG("blinky", "happy")}</div><div class="m">${monsterSVG("gobo", "joy")}</div><div class="m">${monsterSVG("plum", "happy")}</div>`;
+
+/* ---------- the game ---------- */
+let G = null, timerId = null, endsAt = 0, timeTotal = 0;
+const show = id => { ["setup", "game", "end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0, 0); };
+const team = () => G.players[G.turn];
+const actor = () => G.stealing ? G.players[G.stealer] : G.players[G.turn];
+
+function startGame(){
+  store.cfg = cfg; saveStore();
+  const team = cfg.mode === "team", n = team ? cfg.teamCount : 1;
+  const total = team ? cfg.per * n : cfg.spells;
+  G = {
+    team, total, taken: 0, turn: 0, stealing: false, stealer: -1, phase: "ready", item: null, solved: false, last: null,
+    deck: shuffle(EXAM_ITEMS.map((_, i) => i)), di: 0, missed: [],
+    players: Array.from({ length: n }, (_, i) => ({
+      name: (cfg.names[i] || "").trim() || (team ? MONSTERS[cfg.mons[i]].name : "Wizard"), mon: cfg.mons[i], score: 0, ok: 0, bad: 0,
+      lives: !team && cfg.lives ? cfg.lives : 0
+    }))
+  };
+  $("gameTag").textContent = team ? `Team game · ${cfg.per} spells each` : `Single player · ${cfg.spells} spells${cfg.lives ? " · " + cfg.lives + " lives" : ""}`;
+  show("game"); newSpell();
+}
+function newSpell(){
+  if (G.di >= G.deck.length) { G.deck = shuffle(EXAM_ITEMS.map((_, i) => i)); G.di = 0; }
+  G.item = EXAM_ITEMS[G.deck[G.di++]]; G.stealing = false; G.stealer = -1; G.solved = false; G.last = null;
+  if (G.team) { G.phase = "ready"; render(); } else openSpell();
+}
+function openSpell(){
+  G.phase = "play"; G.last = null; render(); sGo();
+  startTimer(G.stealing ? (cfg.secs ? Math.max(20, Math.round(cfg.secs / 2)) : 0) : cfg.secs);
+  const inp = $("ans"); if (inp) inp.focus({ preventScroll: true });
+}
+function startTimer(secs){
+  stopTimer(); timeTotal = secs;
+  const bar = $("timerBar"), box = $("timerBox");
+  if (!secs) { if (box) box.classList.add("hidden"); return; }
+  endsAt = Date.now() + secs * 1000;
+  const tick = () => {
+    const left = Math.max(0, (endsAt - Date.now()) / 1000); G.left = left;
+    if (bar) bar.style.width = Math.min(100, left / timeTotal * 100) + "%";
+    if (box) box.classList.toggle("low", left <= 10);
+    const lab = $("timeLab"); if (lab) lab.textContent = Math.ceil(left) + " s";
+    if (left <= 0) { stopTimer(); sTime(); resolve(false, "", true); }
+  };
+  tick(); timerId = setInterval(tick, 250);
+}
+function stopTimer(){ if (timerId) clearInterval(timerId); timerId = null; }
+
+function submit(){
+  if (G.phase !== "play") return;
+  const inp = $("ans"), v = inp ? inp.value : "";
+  if (!v.trim()) { if (inp) { inp.classList.remove("shake"); void inp.offsetWidth; inp.classList.add("shake"); inp.focus(); } return; }
+  stopTimer(); resolve(isRight(G.item, v), v, false);
+}
+function resolve(ok, typed, timeout){
+  const p = actor(); let pts = 0, bonus = 0;
+  if (ok) {
+    if (G.stealing) pts = 6;
+    else { bonus = cfg.secs && G.left != null ? Math.round(5 * Math.min(1, G.left / timeTotal)) : 0; pts = 10 + bonus; }
+    p.score += pts; p.ok++; G.solved = true; sOk(); burst();
+  } else sBad();
+  G.last = { ok, typed, timeout, pts, bonus };
+  if (!ok && !G.stealing) {
+    p.bad++;
+    if (!G.team && cfg.lives) p.lives = Math.max(0, p.lives - 1);
+    // a wrong answer in a team game: the next team may steal (the answer stays secret until then)
+    if (G.team && cfg.steal && G.players.length > 1) { G.phase = "stealOffer"; render(true); return; }
+  }
+  if (!ok) G.missed.push({ item: G.item, who: p.name });
+  G.phase = "result"; render(true);
+}
+function takeSteal(){
+  if (G.phase !== "stealOffer") return;
+  G.stealing = true; G.stealer = (G.turn + 1) % G.players.length; G.phase = "stealReady"; render();
+}
+function skipSteal(){
+  if (G.phase !== "stealOffer") return;
+  G.missed.push({ item: G.item, who: team().name }); G.phase = "result"; render();
+}
+function teacherAccept(){
+  if (G.phase !== "result" || !G.last || G.last.ok) return;
+  const p = actor();
+  if (G.stealing) { p.score += 6; p.ok++; G.last = { ok: true, pts: 6, bonus: 0, typed: G.last.typed }; }
+  else { p.score += 10; p.ok++; p.bad = Math.max(0, p.bad - 1); if (!G.team && cfg.lives) p.lives = Math.min(cfg.lives, p.lives + 1); G.last = { ok: true, pts: 10, bonus: 0, typed: G.last.typed }; }
+  G.missed = G.missed.filter(m => m.item !== G.item); G.solved = true; sOk(); burst(); render(true);
+}
+function next(){
+  if (G.phase !== "result") return;
+  G.taken++;
+  const out = !G.team && cfg.lives && G.players[0].lives === 0;
+  if (G.taken >= G.total || out) { finish(out); return; }
+  if (G.team) G.turn = (G.turn + 1) % G.players.length;
+  newSpell();
+}
+
+/* ---------- drawing ---------- */
+function board(){
+  const b = $("board"); b.innerHTML = "";
+  G.players.forEach((p, i) => {
+    const d = document.createElement("div"), on = i === (G.stealing ? G.stealer : G.turn);
+    d.className = "pl" + (on ? " on" : ""); d.style.setProperty("--c", MONSTERS[p.mon].color);
+    const hearts = !G.team && cfg.lives ? `<div class="hr">${Array.from({ length: cfg.lives }, (_, k) => `<i class="${k >= p.lives ? "gone" : ""}">❤️</i>`).join("")}</div>` : "";
+    d.innerHTML = `<span class="face"><img src="${MONSTER_DIR}${MONSTERS[p.mon].img}.png" alt=""></span><div><div class="nm"></div>${hearts}</div><div class="sc">${p.score}<small> pts</small></div>`;
+    d.querySelector(".nm").textContent = p.name; b.appendChild(d);
+  });
+}
+function wizard(mood){
+  const p = actor(), w = $("wiz");
+  w.style.setProperty("--c", MONSTERS[p.mon].color);
+  w.innerHTML = `<span class="glow"></span>${monsterSVG(p.mon, mood)}<span class="who"></span>`;
+  w.querySelector(".who").textContent = p.name;
+}
+function head(){
+  const n = Math.min(G.taken + 1, G.total);
+  return `<div class="hd"><span>${G.stealing ? "🪄 Steal! · " : ""}Spell ${n} of ${G.total}</span><span>Key word transformation</span></div>`;
+}
+function feedback(){
+  const L = G.last, it = G.item;
+  if (L.ok) return `<div class="fb ok pop"><h3>✔ Spell cast! +${L.pts}${L.bonus ? `<span class="bonus">(+${L.bonus} speed)</span>` : ""}</h3><div class="full">${sentenceHTML(it, L.typed || it.a[0])}</div></div>`;
+  const also = it.a.slice(1, 5);
+  return `<div class="fb bad shake"><h3>✘ ${L.timeout ? "Time's up!" : "Not quite…"}</h3><div class="full">${sentenceHTML(it, it.a[0])}</div>
+    ${also.length ? `<div class="also">Also correct: ${also.map(esc).join(" · ")}</div>` : ""}${L.typed ? `<div class="typed">You wrote: “${esc(L.typed)}”</div>` : ""}</div>`;
+}
+function render(fx){
+  board();
+  const S = $("spell"), it = G.item, p = actor(), t = team();
+  if (G.phase === "ready" || G.phase === "stealReady") {
+    wizard("happy");
+    const stealing = G.phase === "stealReady";
+    S.innerHTML = `${head()}<div class="ready"><h2>${stealing ? "🪄 " : ""}${esc(p.name)}, ${stealing ? "steal the spell!" : "your spell is ready!"}</h2>
+      <p>${stealing ? `${esc(t.name)} got it wrong. Get it right for <b>6 points</b>.` : "Agree on your answer together, then one of you types it."}</p>
+      <button class="btn btn-magic" id="openBtn" type="button">Open the spell 📜</button></div>`;
+    $("openBtn").onclick = openSpell; $("openBtn").focus({ preventScroll: true });
+    return;
+  }
+  if (G.phase === "play") {
+    wizard("happy");
+    S.innerHTML = `${head()}<div class="timer" id="timerBox"><div id="timerBar"></div></div>
+      <p class="s1">${esc(it.o)}</p>
+      <div class="key"><small>Key word</small><b>${esc(it.k)}</b></div>
+      <div class="line"><span>${esc(it.pre)}</span><input id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="60" placeholder="type the missing words…"><span>${esc(it.post)}</span></div>
+      <p class="rule">Use between 2 and 5 words, including the key word. Don't change the key word. <span id="timeLab"></span></p>
+      <div class="actions"><button class="btn btn-magic" id="castBtn" type="button">Cast the spell ✨</button></div>`;
+    const inp = $("ans");
+    inp.addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); submit(); } });
+    $("castBtn").onclick = submit;
+    if (!timeTotal) $("timerBox").classList.add("hidden");
+    return;
+  }
+  if (G.phase === "stealOffer") {
+    wizard("sad");
+    const nx = G.players[(G.turn + 1) % G.players.length];
+    S.innerHTML = `${head()}<div class="fb bad shake"><h3>✘ ${G.last.timeout ? "Time's up!" : "Not quite…"}</h3><div class="typed">${G.last.typed ? "You wrote: “" + esc(G.last.typed) + "”" : "Nothing was written."}</div></div>
+      <div class="steal"><b>${esc(nx.name)}</b>, do you want to steal this spell for <b>6 points</b>?<div class="actions"><button class="btn btn-magic" id="stealBtn" type="button">Steal it! 🪄</button><button class="btn" id="noStealBtn" type="button">No, show the answer</button></div></div>`;
+    $("stealBtn").onclick = takeSteal; $("noStealBtn").onclick = skipSteal;
+    return;
+  }
+  // result
+  wizard(G.last.ok ? "joy" : "sad");
+  const last = G.taken + 1 >= G.total || (!G.team && cfg.lives && G.players[0].lives === 0);
+  S.innerHTML = `${head()}<p class="s1">${esc(it.o)}</p><div class="key"><small>Key word</small><b>${esc(it.k)}</b></div>${feedback()}
+    <div class="actions"><button class="btn btn-red" id="nextBtn" type="button">${last ? "See the results 🏆" : (G.team ? "Next team ➜" : "Next spell ➜")}</button>
+    ${G.last.ok ? "" : `<button class="btn-sm" id="accBtn" type="button">Teacher: count it as right</button>`}</div>`;
+  $("nextBtn").onclick = next; $("nextBtn").focus({ preventScroll: true });
+  const acc = $("accBtn"); if (acc) acc.onclick = teacherAccept;
+}
+function burst(){
+  const src = $("wiz").getBoundingClientRect(); if (!src.width) return;
+  for (let i = 0; i < 9; i++) {
+    const s = document.createElement("span"); s.className = "spark-burst"; s.textContent = ["✨", "⭐", "🪄"][i % 3];
+    s.style.left = (src.left + src.width / 2) + "px"; s.style.top = (src.top + src.height / 3) + "px";
+    s.style.setProperty("--dx", ((Math.random() - .5) * 220) + "px"); s.style.setProperty("--dy", (-40 - Math.random() * 120) + "px");
+    document.body.appendChild(s); setTimeout(() => s.remove(), 1000);
+  }
+}
+
+/* ---------- the end ---------- */
+function finish(outOfLives){
+  stopTimer(); G.phase = "over";
+  const ranked = G.players.map((p, i) => ({ ...p, i })).sort((a, b) => b.score - a.score);
+  const top = ranked[0].score, winners = ranked.filter(p => p.score === top);
+  const single = !G.team;
+  $("endTitle").textContent = single ? (outOfLives ? "Out of lives!" : "Spell book complete!") : winners.length > 1 ? "It's a tie!" : `${winners[0].name} wins!`;
+  $("endSub").textContent = single ? `${ranked[0].name}: ${ranked[0].score} points · ${ranked[0].ok} of ${G.taken} spells right` : `${G.taken} spells cast`;
+  const medals = ["🥇", "🥈", "🥉", "🏅"], rank = $("rank"); rank.innerHTML = ""; let place = 0;
+  ranked.forEach((p, k) => {
+    if (k > 0 && p.score < ranked[k - 1].score) place = k;
+    const d = document.createElement("div"); d.className = "rk"; d.style.setProperty("--c", MONSTERS[p.mon].color);
+    d.innerHTML = `<div class="medal">${medals[Math.min(place, 3)]}</div>${monsterSVG(p.mon, place === 0 ? "joy" : "happy")}<div class="n"></div><div class="s">${p.score}</div><div class="d">${p.ok} right · ${p.bad} wrong</div>`;
+    d.querySelector(".n").textContent = p.name; rank.appendChild(d);
+  });
+  const m = $("missed");
+  if (!G.missed.length) m.innerHTML = `<h3>Perfect spell book! 🎉</h3><p class="hint">No spell was missed.</p>`;
+  else m.innerHTML = `<h3>Spells to review (${G.missed.length})</h3><p class="hint">Look at these again before the exam.</p>` +
+    G.missed.map(x => `<div class="it"><div class="q"><span class="k">${esc(x.item.k)}</span> ${esc(x.item.o)}</div><div class="a">${sentenceHTML(x.item, x.item.a[0], false)}</div></div>`).join("");
+  show("end"); confetti(single && outOfLives ? 0 : 50);
+}
+function confetti(n){
+  const items = ["⭐", "✨", "🎉", "🪄", "🧙", "📜"];
+  for (let i = 0; i < n; i++) {
+    const c = document.createElement("span"); c.className = "confetti"; c.textContent = items[i % items.length];
+    c.style.left = Math.random() * 100 + "vw"; c.style.animationDuration = (2 + Math.random() * 2.5) + "s"; c.style.animationDelay = (Math.random() * .8) + "s";
+    document.body.appendChild(c); setTimeout(() => c.remove(), 5500);
+  }
+}
+
+/* ---------- buttons ---------- */
+$("startBtn").onclick = startGame;
+$("againBtn").onclick = startGame;
+$("setupBtn").onclick = () => { stopTimer(); show("setup"); };
+$("endBtn").onclick = () => { if (G && G.phase !== "over" && confirm("Finish the game now?")) finish(false); };
+document.addEventListener("keydown", e => {
+  if (!G || $("game").classList.contains("hidden")) return;
+  if (e.key === " " && ["ready", "stealReady"].includes(G.phase) && document.activeElement && document.activeElement.tagName !== "BUTTON") { e.preventDefault(); openSpell(); }
+});
+renderSetup();
+</script>
+<script>setHowTo({
+  es: {
+    title: "Exam Wizard",
+    intro: "Practica las <i>Key word transformations</i> del B2 First (Cambridge): reescribe la frase con la palabra clave y sube por la torre del mago. En solitario o por equipos.",
+    steps: [
+      ["⚙️", "<b>Preparación:</b> elegid <b>un jugador</b> o <b>un juego por equipos</b> (2–4), los magos, cuántos hechizos (ejercicios) y el tiempo para cada uno."],
+      ["📜", "Aparece una <b>frase</b>, una <b>palabra clave</b> y una segunda frase con un hueco. Escribid las palabras que faltan para que la segunda frase signifique lo mismo."],
+      ["✍️", "Hay que usar entre <b>2 y 5 palabras</b>, <b>incluida la palabra clave</b>, y no se puede cambiar. Se aceptan contracciones (<i>don’t</i> = <i>do not</i>)."],
+      ["✨", "¿<b>Bien</b>? +10 puntos, y hasta +5 más si respondéis rápido. ¿<b>Mal</b>? Se pierde una vida (en solitario) y se enseña la respuesta."],
+      ["🪄", "En equipos, si un equipo falla, el <b>siguiente equipo puede robar</b> el hechizo por 6 puntos antes de ver la respuesta."],
+      ["🏆", "Al final se muestran los puntos y la lista de los hechizos que hay que repasar."]
+    ],
+    tips: [
+      "En equipos, poneos de acuerdo y que <b>una sola persona</b> escriba la respuesta.",
+      "¿Una respuesta correcta que el juego no conoce? El profesor pulsa <b>Teacher: count it as right</b>.",
+      "Para añadir ejercicios, editad <b>exam-wizard/items.js</b>: una línea por ejercicio."
+    ]
+  },
+  title: "Exam Wizard",
+  intro: "Practise the <i>Key word transformations</i> of B2 First (Cambridge): rewrite the sentence with the key word and climb the wizard's tower. Alone or in teams.",
+  steps: [
+    ["⚙️", "<b>Set up:</b> choose <b>single player</b> or a <b>team game</b> (2–4), the wizards, how many spells (exercises) and the time for each."],
+    ["📜", "You see a <b>sentence</b>, a <b>key word</b> and a second sentence with a gap. Type the missing words so the second sentence means the same."],
+    ["✍️", "Use between <b>2 and 5 words</b>, <b>including the key word</b>, and don't change it. Contractions are fine (<i>don’t</i> = <i>do not</i>)."],
+    ["✨", "<b>Right?</b> +10 points, plus up to +5 for speed. <b>Wrong?</b> You lose a life (single player) and see the answer."],
+    ["🪄", "In team games, if a team gets it wrong, the <b>next team can steal</b> the spell for 6 points before the answer is shown."],
+    ["🏆", "At the end you see the scores and a list of the spells to review."]
+  ],
+  tips: [
+    "In teams, agree on the answer and let <b>one person</b> type it.",
+    "A correct answer the game doesn't know? The teacher presses <b>Teacher: count it as right</b>.",
+    "To add exercises, edit <b>exam-wizard/items.js</b>: one line per exercise."
+  ]
+});</script>
+</body>
+</html>

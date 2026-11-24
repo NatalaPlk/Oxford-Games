@@ -237,21 +237,20 @@
     .key{height:44px;font-size:18px;border-radius:9px} .kb,.kb div{gap:4px}
   }
 
-  /* ---------- intro (about 10 s, skippable): pick a leaf-word, the caterpillar eats it, spins a cocoon and comes out as a butterfly ---------- */
+  /* ---------- intro (about 10 s, skippable): APPLE grows on a little plant, the caterpillar eats it, spins a cocoon and comes out as a butterfly ---------- */
   .intro{position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;overflow:hidden;background:linear-gradient(#45b2f6 0 50%,#7cc93c 50%)}
   .intro.hidden{display:none!important}
   .istage{position:relative;container-type:size;width:min(100vw,calc(100vh*16/9));aspect-ratio:16/9;overflow:hidden;background:linear-gradient(#45b2f6,#7fd6fd 18%);animation:ifade .6s ease-out}
   @keyframes ifade{from{opacity:0}}
   .ibg{position:absolute;left:0;bottom:0;width:100%;display:block}
-  .iword{position:absolute;display:flex;gap:.4cqw;background:none;border:0;padding:.5cqw .8cqw;cursor:pointer;border-radius:2cqw;-webkit-tap-highlight-color:transparent;transition:transform .2s cubic-bezier(.3,1.6,.6,1),opacity .4s,filter .2s}
-  .iword:hover,.iword:focus-visible{transform:scale(1.1) translateY(-.8cqh);filter:brightness(1.08);outline:none}
-  .iword.wait{pointer-events:none}
-  .iword.gone{opacity:0;transform:scale(.4) translateY(2cqh);pointer-events:none}
-  .iword.mine{pointer-events:none;transform:none;filter:none}
-  .ileaf{display:block;width:5.4cqw;transform-origin:50% 100%;filter:drop-shadow(0 .45cqw .25cqw rgba(20,60,0,.38));
-    animation:sprout .55s cubic-bezier(.3,1.7,.6,1) var(--d) backwards,sway 2.6s ease-in-out calc(var(--d) + .6s) infinite alternate}
-  @keyframes sprout{from{transform:scale(0) rotate(-25deg)}}
-  @keyframes sway{from{transform:rotate(calc(var(--r)*-1))}to{transform:rotate(var(--r))}}
+  .iplant{position:absolute;left:50cqw;bottom:9cqh;width:24cqw;height:52cqh}
+  .iplant svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  .istem{fill:none;stroke:#3f8a14;stroke-width:3.4;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;animation:grow 1.3s ease-out .15s forwards}
+  @keyframes grow{to{stroke-dashoffset:0}}
+  .ileaf{position:absolute;width:5.4cqw;margin:-2.7cqw 0 0 -2.7cqw;transform-origin:50% 90%;filter:drop-shadow(0 .45cqw .25cqw rgba(20,60,0,.38));
+    animation:sprout .55s cubic-bezier(.3,1.7,.6,1) var(--d) both,sway 2.8s ease-in-out calc(var(--d) + .6s) infinite alternate}
+  @keyframes sprout{from{transform:scale(0) rotate(var(--r))}to{transform:scale(1) rotate(var(--r))}}
+  @keyframes sway{from{transform:rotate(calc(var(--r) - 5deg))}to{transform:rotate(calc(var(--r) + 5deg))}}
   .icat{position:absolute;left:9cqw;bottom:14cqh;pointer-events:none}
   .icat .cat{--s:3.4cqw;flex-wrap:nowrap;padding-left:0}
   .icat.spin{animation:ispin .9s cubic-bezier(.5,0,.9,.6) forwards}
@@ -276,7 +275,7 @@
   @keyframes flyOut{from{transform:translate(var(--fx),var(--fy)) scale(.1)}to{transform:none}}
   @keyframes hover{50%{transform:translateY(-2.5cqh) rotate(2deg)}}
   @keyframes wingbeat{to{transform:scaleX(.88) scaleY(1.02)}}
-  /* speech bubble (no voice, text only) */
+  /* speech bubble (text only, no voice) */
   .isay{position:absolute;z-index:6;transform:translate(-50%,-100%) scale(0);transform-origin:50% 100%;margin-top:-1.6cqw;background:#fff;color:var(--navy);border:.3cqw solid var(--navy);border-radius:2.2cqw;
     padding:.8cqw 2cqw;font-family:var(--display);font-weight:900;font-size:2.7cqw;line-height:1.1;text-transform:uppercase;white-space:nowrap;box-shadow:.4cqw .4cqw 0 var(--navy);transition:transform .3s cubic-bezier(.3,1.7,.6,1)}
   .isay::after{content:"";position:absolute;left:50%;bottom:-1.25cqw;width:1.9cqw;height:1.9cqw;background:#fff;border-right:.3cqw solid var(--navy);border-bottom:.3cqw solid var(--navy);transform:translateX(-50%) rotate(45deg)}
@@ -552,7 +551,7 @@ const team = () => G.teams[G.turn];
 function show(id){ ["setup", "game", "end"].forEach(s => $(s).classList.toggle("hidden", s !== id)); $("yuck").classList.add("hidden"); window.scrollTo(0, 0); }
 function snapshot(){ undoStack.push(JSON.stringify(G)); if (undoStack.length > 200) undoStack.shift(); }
 
-/* ---------- intro (about 10 s): pick a leaf-word (APPLE / RED / TEN), the caterpillar eats it, "Yum yum!", cocoon, puff, butterfly: "Let's play!" (speech bubbles only, no voice) ---------- */
+/* ---------- intro (about 10 s): APPLE grows on a little plant, the caterpillar eats it letter by letter, "Yum yum!", cocoon, puff, butterfly: "Let's play!" (speech bubbles only, no voice) ---------- */
 function playIntro(done){
   const ov = $("intro"), st = $("iStage");
   const timers = [];
@@ -561,77 +560,81 @@ function playIntro(done){
   const finish = () => { if (over) return; over = true; timers.forEach(clearTimeout); ov.classList.add("hidden"); done(); };
   st.querySelectorAll(":scope > :not(.ibg)").forEach(e => e.remove());   // fresh stage, keep the background
   const add = html => { st.insertAdjacentHTML("beforeend", html); return st.lastElementChild; };
-  const WORDS = [{ w: "apple", n: 5, first: 1, b: 27 }, { w: "red", n: 3, first: 6, b: 15.5 }, { w: "ten", n: 3, first: 9, b: 4 }];
-  const groups = WORDS.map((o, wi) => add(`<button class="iword wait" type="button" aria-label="${o.w}" style="left:57cqw;bottom:${o.b}cqh">${
-    Array.from({ length: o.n }, (_, i) => `<img class="ileaf" src="intro/leaf${o.first + i}.webp" alt="" style="--d:${(.25 + wi * .22 + i * .09).toFixed(2)}s;--r:${(1.6 + ((wi + i) % 3) * .9).toFixed(1)}deg">`).join("")}</button>`));
+
+  // the plant: a stem and five leaves (A, P, P, L, E from the bottom up), each leaf on its own side of the stem
+  const LEAVES = [[28, 86, -30], [72, 68, 30], [26, 50, -30], [72, 32, 30], [48, 12, -8]];   // centre x%, centre y% (of the plant), tilt
+  const leafHTML = LEAVES.map(([x, y, r], i) => `<img class="ileaf" src="intro/leaf${i + 1}.webp" alt="" style="left:${x}%;top:${y}%;--r:${r}deg;--d:${(1.2 + i * .4).toFixed(2)}s">`).join("");
+  const plant = add(`<div class="iplant"><svg viewBox="0 0 100 100" preserveAspectRatio="none"><path class="istem" pathLength="100" d="M50 100 C46 80 56 70 50 52 C44 36 54 24 50 10"/></svg>${leafHTML}</div>`);
+  const leaves = [...plant.querySelectorAll(".ileaf")];
+
   const wrap = add('<div class="icat"><div class="cat"><span class="seg" style="--i:0"></span><span class="seg" style="--i:1"></span><span class="head"><img class="himg" src="img/cat-head.png" alt=""></span></div></div>');
-  const cat = wrap.firstElementChild, head = cat.querySelector(".head");
+  const cat = wrap.querySelector(".cat"), head = wrap.querySelector(".head");
   const say = add('<span class="isay"></span>');
   const cocoon = add('<span class="icocoon"></span>');
   const fly = add('<span class="ifly"><img src="intro/butterfly.webp" alt=""></span>');
-  const sr = () => st.getBoundingClientRect();
-  const pos = (el, fx = .5, fy = .5) => { const r = el.getBoundingClientRect(), s0 = sr(); return { x: r.left - s0.left + r.width * fx, y: r.top - s0.top + r.height * fy }; };
-  const pop = (text, p, big) => { p = { x: Math.max(p.x, sr().width * .13), y: p.y }; say.textContent = text; say.classList.toggle("big", !!big); say.style.left = p.x + "px"; say.style.top = p.y + "px"; say.classList.remove("on"); void say.offsetWidth; say.classList.add("on"); };
-  const crumbs = p => { for (let k = 0; k < 6; k++) { const c = add(`<i class="crumb" style="left:${p.x}px;top:${p.y}px;--x:${((Math.random() - .3) * 4).toFixed(2)}cqw;--y:${(1 + Math.random() * 3).toFixed(2)}cqw"></i>`); setTimeout(() => c.remove(), 650); } };
 
-  let chosen = -1, canPick = false, curX = 0, curY = 0;
+  // Positions come from layout (offsetLeft/offsetTop), which ignores transforms, so they stay right
+  // while the caterpillar and leaves are mid-animation. cur = the caterpillar's current translate.
+  const cur = { x: 0, y: 0 };
+  const stageCentre = el => ({ x: plant.offsetLeft + el.offsetLeft + el.offsetWidth / 2, y: plant.offsetTop + el.offsetTop + el.offsetHeight / 2 });
+  const mouth = () => ({ x: wrap.offsetLeft + cur.x + head.offsetLeft + head.offsetWidth * .55, y: wrap.offsetTop + cur.y + head.offsetTop + head.offsetHeight * .72 });
+  const headTop = () => ({ x: mouth().x, y: wrap.offsetTop + cur.y + head.offsetTop });
+  const catCentre = () => ({ x: wrap.offsetLeft + cur.x + cat.offsetLeft + cat.offsetWidth / 2, y: wrap.offsetTop + cur.y + cat.offsetTop + cat.offsetHeight / 2 });
+  const pop = (text, p, big) => { say.textContent = text; say.classList.toggle("big", !!big); say.style.left = Math.max(p.x, st.clientWidth * .13) + "px"; say.style.top = p.y + "px"; say.classList.remove("on"); void say.offsetWidth; say.classList.add("on"); };
+  const crumbs = p => { for (let k = 0; k < 6; k++) { const c = add(`<i class="crumb" style="left:${p.x}px;top:${p.y}px;--x:${((Math.random() - .3) * 4).toFixed(2)}cqw;--y:${(1 + Math.random() * 3).toFixed(2)}cqw"></i>`); setTimeout(() => c.remove(), 650); } };
+  const moveTo = (x, y, ms) => { wrap.style.transition = `transform ${ms}ms ease-out`; wrap.style.transform = `translate(${x}px,${y}px)`; };
+
   ov.classList.remove("hidden");
   $("introSkip").onclick = finish;
   wrap.style.transform = "translate(-60cqw,0)";
   after(250, () => { wrap.style.transition = "transform 2s cubic-bezier(.25,.7,.35,1)"; wrap.style.transform = "translate(0px,0px)"; });
-  after(1500, () => { canPick = true; groups.forEach(g => g.classList.remove("wait")); });
-  after(2300, () => pop("Pick a leaf!", pos(head, .5, .0)));
-  groups.forEach((g, wi) => { g.onclick = () => choose(wi); });
-  after(4300, () => choose(0));   // nobody picked? APPLE it is
 
-  function choose(wi){
-    if (chosen >= 0 || !canPick) return;
-    chosen = wi;
+  const FIRST = 3000, STEP = 600;
+  const letters = "APPLE";
+  leaves.forEach((leaf, i) => {
+    const t = FIRST + i * STEP;
+    after(t, () => {   // the caterpillar moves so that its mouth meets this leaf
+      const m = mouth(), l = stageCentre(leaf);
+      cur.x += l.x - m.x; cur.y += l.y - m.y;
+      moveTo(cur.x, cur.y, 350);
+    });
+    after(t + 380, () => {   // the bite: the leaf flies into the mouth
+      const m = mouth(), p = stageCentre(leaf), r = LEAVES[i][2];
+      leaf.style.animation = "none";
+      leaf.style.transform = `rotate(${r}deg)`;
+      leaf.animate([{ transform: `rotate(${r}deg)` }, { transform: `translate(${m.x - p.x}px,${m.y - p.y}px) scale(.15) rotate(-40deg)`, opacity: .3 }], { duration: 220, easing: "ease-in", fill: "forwards" });
+    });
+    after(t + 560, () => {
+      leaf.style.visibility = "hidden";
+      crumbs(mouth());
+      head.classList.remove("chomp"); void head.offsetWidth; head.classList.add("chomp");
+      head.insertAdjacentHTML("beforebegin", `<span class="seg wild fresh" style="--i:${i + 2};--d:0s"><b>${letters[i]}</b></span>`);
+    });
+  });
+
+  const T = FIRST + leaves.length * STEP;   // all five eaten
+  after(T, () => pop("Yum yum!", headTop()));
+  after(T + 1000, () => {   // spin
     say.classList.remove("on");
-    groups.forEach((g, k) => { g.classList.add(k === wi ? "mine" : "gone"); });
-    const leaves = [...groups[wi].querySelectorAll(".ileaf")], letters = WORDS[wi].w.toUpperCase();
-    leaves.forEach((leaf, i) => {
-      after(350 + i * 520, () => {   // crawl up to the next leaf
-        const h = head.getBoundingClientRect(), l = leaf.getBoundingClientRect();
-        curX += l.left - h.right + h.width * .2;
-        if (i === 0) curY += (l.top + l.height * .55) - (h.top + h.height * .72);
-        wrap.style.transition = "transform .22s ease-out";
-        wrap.style.transform = `translate(${curX}px,${curY}px)`;
-      });
-      after(350 + i * 520 + 240, () => {   // bite
-        const m = pos(head, .55, .72), p = pos(leaf);
-        leaf.style.animation = "none";
-        leaf.animate([{ transform: "none" }, { transform: `translate(${m.x - p.x}px,${m.y - p.y}px) scale(.15) rotate(-40deg)`, opacity: .3 }], { duration: 220, easing: "ease-in", fill: "forwards" });
-      });
-      after(350 + i * 520 + 460, () => {
-        leaf.style.visibility = "hidden";
-        crumbs(pos(head, .55, .72));
-        head.classList.remove("chomp"); void head.offsetWidth; head.classList.add("chomp");
-        head.insertAdjacentHTML("beforebegin", `<span class="seg wild fresh" style="--i:${i + 2};--d:0s"><b>${letters[i]}</b></span>`);
-      });
-    });
-    const t = 350 + (leaves.length - 1) * 520 + 560;   // the last leaf is gone
-    after(t, () => pop("Yum yum!", pos(head, .5, .0)));
-    after(t + 1000, () => {   // spin
-      say.classList.remove("on");
-      const c = pos(cat), w0 = pos(wrap, 0, 0);
-      cocoon.style.left = c.x + "px"; cocoon.style.top = (c.y - sr().height * .04) + "px";
-      wrap.style.transition = "none";
-      wrap.style.setProperty("--at", wrap.style.transform || "none");
-      wrap.style.transformOrigin = (c.x - w0.x) + "px 50%";
-      wrap.classList.add("spin");
-    });
-    after(t + 1200, () => cocoon.classList.add("on"));
-    after(t + 2150, () => {   // puff!
-      cocoon.classList.remove("on"); cocoon.classList.add("burst");
-      const c = pos(cocoon), puff = add(`<span class="ipuff" style="left:${c.x}px;top:${c.y}px"></span>`);
-      for (let k = 0; k < 12; k++) { const a = k / 12 * Math.PI * 2, d = 9 + (k % 3) * 3; puff.insertAdjacentHTML("beforeend", `<i style="--x:${(Math.cos(a) * d).toFixed(2)}cqw;--y:${(Math.sin(a) * d).toFixed(2)}cqw;animation-delay:${(k % 4) * 25}ms"></i>`); }
-      const f = pos(fly); fly.style.setProperty("--fx", (c.x - f.x) + "px"); fly.style.setProperty("--fy", (c.y - f.y) + "px");
-      fly.classList.add("on");
-    });
-    after(t + 2750, () => pop("Let's play!", pos(fly, .5, .02), true));
-    after(t + 4250, finish);
-  }
+    const c = catCentre(), w = { x: wrap.offsetLeft + cur.x, y: wrap.offsetTop + cur.y };
+    cocoon.style.left = c.x + "px"; cocoon.style.top = (c.y - st.clientHeight * .04) + "px";
+    wrap.style.transition = "none";
+    wrap.style.setProperty("--at", `translate(${cur.x}px,${cur.y}px)`);
+    wrap.style.transformOrigin = (cat.offsetLeft + cat.offsetWidth / 2) + "px " + (cat.offsetTop + cat.offsetHeight / 2) + "px";
+    wrap.classList.add("spin");
+  });
+  after(T + 1200, () => cocoon.classList.add("on"));
+  after(T + 2150, () => {   // puff!
+    cocoon.classList.remove("on"); cocoon.classList.add("burst");
+    const c = { x: parseFloat(cocoon.style.left), y: parseFloat(cocoon.style.top) + st.clientHeight * .04 };
+    const puff = add(`<span class="ipuff" style="left:${c.x}px;top:${c.y}px"></span>`);
+    for (let k = 0; k < 12; k++) { const a = k / 12 * Math.PI * 2, d = 9 + (k % 3) * 3; puff.insertAdjacentHTML("beforeend", `<i style="--x:${(Math.cos(a) * d).toFixed(2)}cqw;--y:${(Math.sin(a) * d).toFixed(2)}cqw;animation-delay:${(k % 4) * 25}ms"></i>`); }
+    fly.style.setProperty("--fx", (c.x - st.clientWidth * .5) + "px");
+    fly.style.setProperty("--fy", (c.y - st.clientHeight * .44) + "px");
+    fly.classList.add("on");
+  });
+  after(T + 2750, () => pop("Let's play!", { x: st.clientWidth * .5, y: st.clientHeight * .2 }, true));
+  after(T + 4250, finish);
 }
 
 function startGame(){

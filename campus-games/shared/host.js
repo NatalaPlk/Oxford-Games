@@ -49,7 +49,7 @@
  head.appendChild(hs);
 
  fetch('../shared/books.json').then(r=>r.json()).catch(()=>[]).then(books=>{
-  const st={mode:books.length?'book':'level',book:books[0]?.id,unit:books[0]?.u[0][0],level:books[0]?.l||'A1'};
+  const st={mode:books.length?'book':'level',book:books[0]?.id,unit:books[0]?.u[0][0],units:new Set(books[0]?[books[0].u[0][0]]:[]),level:books[0]?.l||'A1'};
   const bookOf=id=>books.find(b=>b.id===id);
   const series=[...new Set(books.map(b=>b.s))];
   const mq=INFO.marquee.map(([a,b])=>'<i>'+esc(a)+' <b>→</b> '+esc(b)+'</i>').join('');
@@ -61,22 +61,28 @@
    +'<div class="r"><span class="badge">A1 → C2</span><div class="art"><img src="'+esc(cover)+'" alt="" width="670" height="674"></div></div></div>'
    +'<div class="marquee"><div>'+mq+mq+mq+mq+'</div></div>'
    +'<div class="panel"><p class="eyebrow">01 · What do you want to practise?</p>'
-   +'<div class="choices" role="group" aria-label="Content"><button type="button" class="chip'+(st.mode==='book'?' on':'')+'" data-mode="book" aria-pressed="'+(st.mode==='book')+'">By book &amp; unit</button><button type="button" class="chip'+(st.mode==='level'?' on':'')+'" data-mode="level" aria-pressed="'+(st.mode==='level')+'">By level</button></div>'
+   +'<div class="choices" role="group" aria-label="Content"><button type="button" class="chip'+(st.mode==='book'?' on':'')+'" data-mode="book" aria-pressed="'+(st.mode==='book')+'">By book &amp; unit</button><button type="button" class="chip'+(st.mode==='level'?' on':'')+'" data-mode="level" aria-pressed="'+(st.mode==='level')+'">By level</button></div></div>'
    +(st.mode==='book'&&b
-     ?'<div class="selects"><label>Book<select data-book>'+series.map(s=>'<optgroup label="'+esc(s)+'">'+books.filter(x=>x.s===s).map(x=>'<option value="'+esc(x.id)+'"'+(x.id===st.book?' selected':'')+'>'+esc(x.t)+'</option>').join('')+'</optgroup>').join('')+'</select></label>'
-      +'<label>Unit<select data-unit>'+b.u.map(([id,l])=>'<option value="'+esc(id)+'"'+(id===st.unit?' selected':'')+'>'+esc(l)+'</option>').join('')+'</select></label></div>'
-     :'<div class="choices levels" role="group" aria-label="Level">'+LEVELS.map(([k,n])=>'<button type="button" class="chip'+(k===st.level?' on':'')+'" data-level="'+k+'" aria-pressed="'+(k===st.level)+'"><b>'+k+'</b><span>'+n+'</span></button>').join('')+'</div>')
-   +'</div>'
-   +'<div class="panel"><p class="eyebrow">02 · How it works</p><ol class="how">'+INFO.steps.map(([e,t])=>'<li><span class="e">'+e+'</span><span>'+t+'</span></li>').join('')+'</ol></div>'
+     ?'<div class="panel"><p class="eyebrow">02 · Book</p><div class="selects"><label class="one"><select data-book aria-label="Book">'+series.map(sr=>'<optgroup label="'+esc(sr)+'">'+books.filter(x=>x.s===sr).map(x=>'<option value="'+esc(x.id)+'"'+(x.id===st.book?' selected':'')+'>'+esc(x.t)+' ('+esc(x.l)+')</option>').join('')+'</optgroup>').join('')+'</select></label></div></div>'
+      +'<div class="panel"><p class="eyebrow">03 · Units</p><div class="choices units" role="group" aria-label="Units">'+b.u.map(([id,l])=>'<button type="button" class="chip y'+(st.units.has(id)?' on':'')+'" data-unitid="'+esc(id)+'" aria-pressed="'+st.units.has(id)+'">'+esc(l)+'</button>').join('')+'</div>'
+      +'<div class="choices tools"><button type="button" class="chip" data-all>All</button><button type="button" class="chip" data-none>None</button><span class="count">'+st.units.size+' OF '+b.u.length+' UNITS</span></div>'
+      +(st.units.size>1?'<p class="note">Tip: the game plays one unit at a time for now, so it will start with the first one you selected.</p>':'')+'</div>'
+     :'<div class="panel"><p class="eyebrow">02 · Level</p><div class="choices levels" role="group" aria-label="Level">'+LEVELS.map(([k,n])=>'<button type="button" class="chip y'+(k===st.level?' on':'')+'" data-level="'+k+'" aria-pressed="'+(k===st.level)+'"><b>'+k+'</b><span>'+n+'</span></button>').join('')+'</div></div>')
+   +'<div class="panel"><p class="eyebrow">'+(st.mode==='book'&&b?'04':'03')+' · How it works</p><ol class="how">'+INFO.steps.map(([e,t])=>'<li><span class="e">'+e+'</span><span>'+t+'</span></li>').join('')+'</ol></div>'
    +'<div class="start-row"><button type="button" class="btn btn-red btn-big" data-go>Start game ▸</button></div>'
    +'</section>';
    setup.querySelectorAll('[data-mode]').forEach(e=>e.onclick=()=>{st.mode=e.dataset.mode;render();});
    setup.querySelectorAll('[data-level]').forEach(e=>e.onclick=()=>{st.level=e.dataset.level;render();});
-   const sb=setup.querySelector('[data-book]'),su=setup.querySelector('[data-unit]');
-   if(sb)sb.onchange=()=>{const nb=bookOf(sb.value);st.book=nb.id;st.unit=nb.u[0][0];st.level=nb.l;render();};
-   if(su)su.onchange=()=>{st.unit=su.value;};
+   const sb=setup.querySelector('[data-book]');
+   if(sb)sb.onchange=()=>{const nb=bookOf(sb.value);st.book=nb.id;st.units=new Set([nb.u[0][0]]);st.level=nb.l;render();};
+   setup.querySelectorAll('[data-unitid]').forEach(e=>e.onclick=()=>{const id=e.dataset.unitid;st.units.has(id)?st.units.delete(id):st.units.add(id);render();});
+   const all=setup.querySelector('[data-all]'),none=setup.querySelector('[data-none]');
+   if(all)all.onclick=()=>{st.units=new Set(b.u.map(x=>x[0]));render();};
+   if(none)none.onclick=()=>{st.units=new Set();render();};
+   const go=setup.querySelector('[data-go]');
+   if(st.mode==='book'&&!st.units.size){go.disabled=true;}
    setup.querySelector('[data-go]').onclick=()=>{
-    if(st.mode==='book'&&b){source.searchParams.set('libro',st.book);source.searchParams.set('unidad',st.unit);source.searchParams.delete('nivel');}
+    if(st.mode==='book'&&b){source.searchParams.set('libro',st.book);source.searchParams.set('unidad',b.u.map(x=>x[0]).find(id=>st.units.has(id)));source.searchParams.delete('nivel');}
     else{source.searchParams.set('nivel',st.level);source.searchParams.delete('libro');source.searchParams.delete('unidad');}
     source.searchParams.set('repetir','1');   /* skip the game's own "how to play" page */
     fallback.href=source.href;

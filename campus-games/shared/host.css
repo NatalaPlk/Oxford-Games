@@ -42,3 +42,14 @@ html,body{height:auto;min-height:100%;overflow:auto}
 .gsetup .btn-big{font-size:22px;padding:18px 40px}
 .gsetup .chip:focus-visible,.gsetup select:focus-visible,.gsetup .btn:focus-visible,.gsetup .home-link:focus-visible{outline:3px solid #267da2;outline-offset:3px}
 @media(max-width:760px){.gsetup .hero{grid-template-columns:1fr}.gsetup .hero .r{min-height:200px}.gsetup .selects{grid-template-columns:1fr}}
+.gsetup .chip.y{background:var(--yellow)}
+.gsetup .chip.y.on{background:var(--navy);color:#fff}
+.gsetup .chip small{font-weight:700;opacity:.7;font-size:.8em}
+.gsetup .series{font:700 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:14px 0 8px}
+.gsetup .series:first-of-type{margin-top:0}
+.gsetup .units .chip{font-size:15px}
+.gsetup .selects{display:block;margin-top:0}.gsetup .selects .one{display:block}
+.gsetup .tools{margin-top:16px;align-items:center}
+.gsetup .count{font:700 13px var(--mono);letter-spacing:.14em;color:var(--muted)}
+.gsetup .note{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.gsetup .btn[disabled]{opacity:.4;cursor:default;box-shadow:none}
